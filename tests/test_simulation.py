@@ -17,8 +17,14 @@ def test_generate_and_split(tmp_path: Path):
         seed=1,
     )
     records, meta = generate_dataset(plan)
-    meta = assign_splits(meta)
+    meta = assign_splits(meta, records)
     save_dataset(tmp_path, records, meta)
     train = training_normal_records(records, meta)
     assert len(train) > 0
+    from anomaly_guard.evaluation.splits import validation_legitimate_records
+
+    val = validation_legitimate_records(records, meta)
+    train_routes = {f"{r.method} {r.route}" for r in train}
+    val_routes = {f"{r.method} {r.route}" for r in val}
+    assert train_routes & val_routes, "train and validation must share at least one route"
     assert (tmp_path / "requests.jsonl").exists()

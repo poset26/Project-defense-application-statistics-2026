@@ -1,1 +1,156 @@
-[]
+[
+  {
+    "kind": "false_positive",
+    "request_id": "bf0b3046-7694-4bb7-94d2-10603ddd9267",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' length unusual (empirical percentile 100.0): robust z vs median 15.0, MAD 2.0",
+    "evidence": [
+      "Field 'q' length unusual (empirical percentile 100.0): robust z vs median 15.0, MAD 2.0"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "784982b2-af62-4e18-bfec-9416427c6fde",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "decision": "review",
+    "likely_cause": "Field 'q' length unusual (empirical percentile 95.4): robust z vs median 15.0, MAD 2.0",
+    "evidence": [
+      "Field 'q' length unusual (empirical percentile 95.4): robust z vs median 15.0, MAD 2.0"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "2e18cd16-29ed-4c9e-926e-bc1f99d13c52",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "decision": "review",
+    "likely_cause": "Field 'q' length unusual (empirical percentile 95.4): robust z vs median 15.0, MAD 2.0",
+    "evidence": [
+      "Field 'q' length unusual (empirical percentile 95.4): robust z vs median 15.0, MAD 2.0"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "99c6b73a-e315-4d04-aede-c88fa4ac8d03",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' length unusual (empirical percentile 100.0): robust z vs median 15.0, MAD 2.0",
+    "evidence": [
+      "Field 'q' length unusual (empirical percentile 100.0): robust z vs median 15.0, MAD 2.0"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "a06edd6c-e22d-42cf-a345-6840d423f4a9",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "decision": "review",
+    "likely_cause": "Field 'q' length unusual (empirical percentile 95.4): robust z vs median 15.0, MAD 2.0",
+    "evidence": [
+      "Field 'q' length unusual (empirical percentile 95.4): robust z vs median 15.0, MAD 2.0"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "ff7e4d61-9594-441b-a2b5-8a4a1abcebfe",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' length unusual (empirical percentile 100.0): robust z vs median 15.0, MAD 2.0",
+    "evidence": [
+      "Field 'q' length unusual (empirical percentile 100.0): robust z vs median 15.0, MAD 2.0"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "c38f15f1-cfd4-4fbf-837d-e1cd709724e7",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' length unusual (empirical percentile 100.0): robust z vs median 15.0, MAD 2.0",
+    "evidence": [
+      "Field 'q' length unusual (empirical percentile 100.0): robust z vs median 15.0, MAD 2.0"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "69b2835c-b7ea-4d00-9a3b-e58cc40f82f6",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "decision": "review",
+    "likely_cause": "Field 'q' length unusual (empirical percentile 95.4): robust z vs median 15.0, MAD 2.0",
+    "evidence": [
+      "Field 'q' length unusual (empirical percentile 95.4): robust z vs median 15.0, MAD 2.0"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "1d8d891e-cf67-45a1-9d8a-94d8009a5fa0",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' length unusual (empirical percentile 100.0): robust z vs median 15.0, MAD 2.0",
+    "evidence": [
+      "Field 'q' length unusual (empirical percentile 100.0): robust z vs median 15.0, MAD 2.0"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "375b79bd-4117-44a9-9b18-146fb2760bca",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' length unusual (empirical percentile 100.0): robust z vs median 15.0, MAD 2.0",
+    "evidence": [
+      "Field 'q' length unusual (empirical percentile 100.0): robust z vs median 15.0, MAD 2.0"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "8fc62f47-f719-446b-ae41-21650a97ef39",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "decision": "review",
+    "likely_cause": "Field 'q' length unusual (empirical percentile 95.4): robust z vs median 15.0, MAD 2.0",
+    "evidence": [
+      "Field 'q' length unusual (empirical percentile 95.4): robust z vs median 15.0, MAD 2.0"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "aa615410-9fb9-4dbd-8b2b-993eb9c0c1d1",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' length unusual (empirical percentile 100.0): robust z vs median 15.0, MAD 2.0",
+    "evidence": [
+      "Field 'q' length unusual (empirical percentile 100.0): robust z vs median 15.0, MAD 2.0"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "5c5bf583-8653-4783-9327-ebb96c4b38b6",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' length unusual (empirical percentile 100.0): robust z vs median 15.0, MAD 2.0",
+    "evidence": [
+      "Field 'q' length unusual (empirical percentile 100.0): robust z vs median 15.0, MAD 2.0"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "6176f686-8389-4a67-8b9e-e1f928f38b97",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' length unusual (empirical percentile 100.0): robust z vs median 15.0, MAD 2.0",
+    "evidence": [
+      "Field 'q' length unusual (empirical percentile 100.0): robust z vs median 15.0, MAD 2.0"
+    ]
+  }
+]

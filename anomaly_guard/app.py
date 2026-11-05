@@ -176,12 +176,14 @@ def page_evaluation() -> None:
         rows = []
         for mode, m in modes.items():
             mm = m.get("metrics_malicious", {})
+            inv = m.get("metrics_benign_invalid", {})
             rows.append({
                 "mode": mode,
-                "precision": mm.get("precision"),
-                "recall": mm.get("recall"),
-                "f1": mm.get("f1"),
-                "fpr": mm.get("false_positive_rate"),
+                "precision (attack)": mm.get("precision"),
+                "recall (attack)": mm.get("recall"),
+                "f1 (attack)": mm.get("f1"),
+                "fpr (legit)": mm.get("false_positive_rate"),
+                "invalid rejection": inv.get("rejection_rate"),
                 "AP": m.get("average_precision"),
             })
         st.dataframe(pd.DataFrame(rows), use_container_width=True)

@@ -16,7 +16,9 @@ from anomaly_guard.core.schema import GroundTruthMeta, RequestRecord, read_jsonl
 from anomaly_guard.evaluation.metrics import (
     alert_predicted,
     average_precision,
+    compute_benign_invalid_metrics,
     compute_binary_metrics,
+    compute_malicious_attack_metrics,
     is_positive_any_anomaly,
     is_positive_malicious,
     per_family_recall,
@@ -43,6 +45,7 @@ MODES: list[DetectorMode] = [
 class ExperimentResult:
     mode: DetectorMode
     metrics_malicious: dict[str, Any]
+    metrics_benign_invalid: dict[str, Any]
     metrics_any_anomaly: dict[str, Any]
     fpr_on_legitimate_test: float
     average_precision: float
@@ -105,8 +108,10 @@ def run_mode_experiment(
         in ("legitimate", "difficult_legitimate", "distribution_shift")
         for r in test_recs
     ]
+    test_meta_ordered = [meta_by_id[r.request_id] for r in test_recs]
 
-    mal_metrics = compute_binary_metrics(y_mal, pred_alert, legit_mask)
+    mal_metrics = compute_malicious_attack_metrics(test_meta_ordered, pred_alert)
+    invalid_metrics = compute_benign_invalid_metrics(test_meta_ordered, pred_alert)
     any_metrics = compute_binary_metrics(y_any, pred_alert, legit_mask)
 
     scores = [
@@ -121,6 +126,7 @@ def run_mode_experiment(
     result = ExperimentResult(
         mode=mode,
         metrics_malicious=mal_metrics.to_dict(),
+        metrics_benign_invalid=invalid_metrics.to_dict(),
         metrics_any_anomaly=any_metrics.to_dict(),
         fpr_on_legitimate_test=mal_metrics.fpr,
         average_precision=ap,

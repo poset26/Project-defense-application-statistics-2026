@@ -31,6 +31,18 @@ def is_positive_any_anomaly(meta: GroundTruthMeta) -> bool:
     )
 
 
+def is_benign_invalid(meta: GroundTruthMeta) -> bool:
+    return meta.scenario_group == "benign_invalid"
+
+
+def is_legitimate_family(meta: GroundTruthMeta) -> bool:
+    return meta.scenario_group in (
+        "legitimate",
+        "difficult_legitimate",
+        "distribution_shift",
+    )
+
+
 @dataclass
 class BinaryMetrics:
     tp: int
@@ -58,6 +70,77 @@ class BinaryMetrics:
             "false_negative_rate": self.fnr,
             "wilson_fpr_ci": [self.wilson_fpr_low, self.wilson_fpr_high],
         }
+
+
+@dataclass
+class BenignInvalidMetrics:
+    """How often invalid-but-benign requests are flagged (rejecting them is desired)."""
+
+    total: int
+    flagged: int
+    rejection_rate: float
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "total": self.total,
+            "flagged": self.flagged,
+            "rejection_rate": self.rejection_rate,
+        }
+
+
+def compute_malicious_attack_metrics(
+    meta: list[GroundTruthMeta],
+    pred_alert: list[bool],
+) -> BinaryMetrics:
+    """Malicious-intent detection with precision excluding benign_invalid false alarms.
+
+    Recall: flagged / all malicious (unchanged).
+    Precision: TP / (TP + FP on legitimate-family traffic only).
+    FPR: flagged rate on legitimate-family traffic (benign_invalid excluded).
+    """
+    legit_mask = [is_legitimate_family(m) for m in meta]
+    y_mal = [is_positive_malicious(m) for m in meta]
+    yt = np.array(y_mal, dtype=int)
+    yp = np.array(pred_alert, dtype=int)
+    tp = int(((yt == 1) & (yp == 1)).sum())
+    fn = int(((yt == 1) & (yp == 0)).sum())
+    fp_leg = int(((yt == 0) & (yp == 1) & np.array(legit_mask)).sum())
+    tn = int(((yt == 0) & (yp == 0)).sum())
+    prec = tp / (tp + fp_leg) if (tp + fp_leg) else 0.0
+    rec = tp / (tp + fn) if (tp + fn) else 0.0
+    f1 = (2 * prec * rec / (prec + rec)) if (prec + rec) else 0.0
+    leg = np.array(legit_mask, dtype=bool)
+    fp_rate = float(np.mean(yp[leg])) if leg.any() else 0.0
+    n_leg = int(leg.sum())
+    fp_count = int(((yp == 1) & leg).sum())
+    low, high = proportion_confint(fp_count, n_leg, method="wilson") if n_leg else (0.0, 0.0)
+    fnr = fn / max(fn + tp, 1)
+    return BinaryMetrics(
+        tp=tp,
+        fp=fp_leg,
+        tn=tn,
+        fn=fn,
+        precision=float(prec),
+        recall=float(rec),
+        f1=float(f1),
+        fpr=float(fp_rate),
+        fnr=float(fnr),
+        wilson_fpr_low=float(low),
+        wilson_fpr_high=float(high),
+    )
+
+
+def compute_benign_invalid_metrics(
+    meta: list[GroundTruthMeta],
+    pred_alert: list[bool],
+) -> BenignInvalidMetrics:
+    invalid_mask = [is_benign_invalid(m) for m in meta]
+    yp = np.array(pred_alert, dtype=int)
+    inv = np.array(invalid_mask, dtype=bool)
+    total = int(inv.sum())
+    flagged = int((yp & inv).sum()) if total else 0
+    rate = float(flagged / total) if total else 0.0
+    return BenignInvalidMetrics(total=total, flagged=flagged, rejection_rate=rate)
 
 
 def compute_binary_metrics(

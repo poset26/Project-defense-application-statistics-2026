@@ -9,6 +9,14 @@ from anomaly_guard.core.schema import GroundTruthMeta, RequestRecord, ScenarioGr
 
 TRAIN_GROUPS: set[ScenarioGroup] = {"legitimate"}
 VALIDATION_GROUPS: set[ScenarioGroup] = {"legitimate", "difficult_legitimate", "distribution_shift"}
+
+# Per-request splits for these groups so each HTTP route appears in train and validation
+# (template-level hashing put entire routes in one partition and broke baseline calibration).
+_ROUTE_STRATIFIED_GROUPS: set[ScenarioGroup] = {
+    "legitimate",
+    "difficult_legitimate",
+    "distribution_shift",
+}
 TEST_GROUPS: set[ScenarioGroup] = set(
     [
         "legitimate",
@@ -34,13 +42,24 @@ def _bucket(key: str, train_ratio: float, val_ratio: float) -> str:
 
 def assign_splits(
     meta: list[GroundTruthMeta],
+    records: list[RequestRecord] | None = None,
     train_ratio: float = 0.6,
     val_ratio: float = 0.15,
 ) -> list[GroundTruthMeta]:
-    """Group-aware: template_id + scenario_id keep variants in one partition."""
+    """Assign train/validation/test splits.
+
+    Malicious and benign-invalid scenarios stay template-grouped so attack variants
+    do not leak across partitions. Normal-traffic groups are stratified per request
+    and route so statistical baselines can calibrate on the same endpoints seen in training.
+    """
+    record_by_id = {r.request_id: r for r in records} if records else {}
     out: list[GroundTruthMeta] = []
     for m in meta:
-        group_key = f"{m.scenario_id}:{m.template_id or 'na'}"
+        if m.scenario_group in _ROUTE_STRATIFIED_GROUPS and m.request_id in record_by_id:
+            rec = record_by_id[m.request_id]
+            group_key = f"{rec.method.upper()} {rec.route}:{m.request_id}"
+        else:
+            group_key = f"{m.scenario_id}:{m.template_id or 'na'}"
         split = _bucket(group_key, train_ratio, val_ratio)
         if m.scenario_group in TRAIN_GROUPS and split == "test" and m.scenario_group == "legitimate":
             split = _bucket(group_key + ":leg", 0.7, 0.15)

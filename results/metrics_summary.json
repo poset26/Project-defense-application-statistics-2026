@@ -4,23 +4,8 @@
       "mode": "rules_only",
       "metrics_malicious": {
         "tp": 37,
-        "fp": 80,
-        "tn": 207,
-        "fn": 0,
-        "precision": 0.3162393162393162,
-        "recall": 1.0,
-        "f1": 0.4805194805194805,
-        "false_positive_rate": 0.0,
-        "false_negative_rate": 0.0,
-        "wilson_fpr_ci": [
-          0.0,
-          0.01821965585981369
-        ]
-      },
-      "metrics_any_anomaly": {
-        "tp": 117,
         "fp": 0,
-        "tn": 207,
+        "tn": 69,
         "fn": 0,
         "precision": 1.0,
         "recall": 1.0,
@@ -29,7 +14,27 @@
         "false_negative_rate": 0.0,
         "wilson_fpr_ci": [
           0.0,
-          0.01821965585981369
+          0.05273725818905175
+        ]
+      },
+      "metrics_benign_invalid": {
+        "total": 80,
+        "flagged": 80,
+        "rejection_rate": 1.0
+      },
+      "metrics_any_anomaly": {
+        "tp": 117,
+        "fp": 0,
+        "tn": 69,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0,
+        "wilson_fpr_ci": [
+          0.0,
+          0.05273725818905175
         ]
       },
       "fpr_on_legitimate_test": 0.0,
@@ -37,8 +42,8 @@
       "per_family": {
         "oversized": 1.0
       },
-      "latency_ms_median": 0.018401500000209126,
-      "latency_ms_p95": 0.23495459997774998,
+      "latency_ms_median": 0.019311000869493,
+      "latency_ms_p95": 0.8439639996140613,
       "settings": {
         "alert_threshold_percentile": 95.0,
         "review_threshold_percentile": 85.0,
@@ -52,44 +57,49 @@
       "mode": "length_only",
       "metrics_malicious": {
         "tp": 37,
-        "fp": 80,
-        "tn": 207,
+        "fp": 14,
+        "tn": 55,
         "fn": 0,
-        "precision": 0.3162393162393162,
+        "precision": 0.7254901960784313,
         "recall": 1.0,
-        "f1": 0.4805194805194805,
-        "false_positive_rate": 0.0,
+        "f1": 0.8409090909090908,
+        "false_positive_rate": 0.2028985507246377,
         "false_negative_rate": 0.0,
         "wilson_fpr_ci": [
-          0.0,
-          0.01821965585981369
+          0.12489333067903491,
+          0.312240402447793
         ]
+      },
+      "metrics_benign_invalid": {
+        "total": 80,
+        "flagged": 80,
+        "rejection_rate": 1.0
       },
       "metrics_any_anomaly": {
         "tp": 117,
-        "fp": 0,
-        "tn": 207,
+        "fp": 14,
+        "tn": 55,
         "fn": 0,
-        "precision": 1.0,
+        "precision": 0.8931297709923665,
         "recall": 1.0,
-        "f1": 1.0,
-        "false_positive_rate": 0.0,
+        "f1": 0.9435483870967742,
+        "false_positive_rate": 0.2028985507246377,
         "false_negative_rate": 0.0,
         "wilson_fpr_ci": [
-          0.0,
-          0.01821965585981369
+          0.12489333067903491,
+          0.312240402447793
         ]
       },
-      "fpr_on_legitimate_test": 0.0,
-      "average_precision": 1.0,
+      "fpr_on_legitimate_test": 0.2028985507246377,
+      "average_precision": 0.8043478260869565,
       "per_family": {
         "oversized": 1.0
       },
-      "latency_ms_median": 0.051628499988964904,
-      "latency_ms_p95": 0.9803017499876884,
+      "latency_ms_median": 0.3607285016187234,
+      "latency_ms_p95": 4.2015584995169775,
       "settings": {
-        "alert_threshold_percentile": 95.0,
-        "review_threshold_percentile": 85.0,
+        "alert_threshold_percentile": 100.0,
+        "review_threshold_percentile": 95.41284403669725,
         "isolation_alert_threshold": -0.05,
         "isolation_review_threshold": -0.12,
         "max_false_positive_rate_target": 0.01,
@@ -100,44 +110,49 @@
       "mode": "composition_only",
       "metrics_malicious": {
         "tp": 37,
-        "fp": 80,
-        "tn": 207,
+        "fp": 31,
+        "tn": 38,
         "fn": 0,
-        "precision": 0.3162393162393162,
+        "precision": 0.5441176470588235,
         "recall": 1.0,
-        "f1": 0.4805194805194805,
-        "false_positive_rate": 0.0,
+        "f1": 0.7047619047619048,
+        "false_positive_rate": 0.4492753623188406,
         "false_negative_rate": 0.0,
         "wilson_fpr_ci": [
-          0.0,
-          0.01821965585981369
+          0.3376885562924371,
+          0.5662123249731189
         ]
+      },
+      "metrics_benign_invalid": {
+        "total": 80,
+        "flagged": 80,
+        "rejection_rate": 1.0
       },
       "metrics_any_anomaly": {
         "tp": 117,
-        "fp": 0,
-        "tn": 207,
+        "fp": 31,
+        "tn": 38,
         "fn": 0,
-        "precision": 1.0,
+        "precision": 0.7905405405405406,
         "recall": 1.0,
-        "f1": 1.0,
-        "false_positive_rate": 0.0,
+        "f1": 0.8830188679245283,
+        "false_positive_rate": 0.4492753623188406,
         "false_negative_rate": 0.0,
         "wilson_fpr_ci": [
-          0.0,
-          0.01821965585981369
+          0.3376885562924371,
+          0.5662123249731189
         ]
       },
-      "fpr_on_legitimate_test": 0.0,
-      "average_precision": 1.0,
+      "fpr_on_legitimate_test": 0.4492753623188406,
+      "average_precision": 0.44047619047619047,
       "per_family": {
         "oversized": 1.0
       },
-      "latency_ms_median": 0.051616500002182875,
-      "latency_ms_p95": 0.8997161500303683,
+      "latency_ms_median": 0.3712624984473223,
+      "latency_ms_p95": 4.1891610007951385,
       "settings": {
-        "alert_threshold_percentile": 95.0,
-        "review_threshold_percentile": 85.0,
+        "alert_threshold_percentile": 57.798165137614674,
+        "review_threshold_percentile": 57.798165137614674,
         "isolation_alert_threshold": -0.05,
         "isolation_review_threshold": -0.12,
         "max_false_positive_rate_target": 0.01,
@@ -148,44 +163,49 @@
       "mode": "combined_stats",
       "metrics_malicious": {
         "tp": 37,
-        "fp": 80,
-        "tn": 207,
+        "fp": 14,
+        "tn": 55,
         "fn": 0,
-        "precision": 0.3162393162393162,
+        "precision": 0.7254901960784313,
         "recall": 1.0,
-        "f1": 0.4805194805194805,
-        "false_positive_rate": 0.0,
+        "f1": 0.8409090909090908,
+        "false_positive_rate": 0.2028985507246377,
         "false_negative_rate": 0.0,
         "wilson_fpr_ci": [
-          0.0,
-          0.01821965585981369
+          0.12489333067903491,
+          0.312240402447793
         ]
+      },
+      "metrics_benign_invalid": {
+        "total": 80,
+        "flagged": 80,
+        "rejection_rate": 1.0
       },
       "metrics_any_anomaly": {
         "tp": 117,
-        "fp": 0,
-        "tn": 207,
+        "fp": 14,
+        "tn": 55,
         "fn": 0,
-        "precision": 1.0,
+        "precision": 0.8931297709923665,
         "recall": 1.0,
-        "f1": 1.0,
-        "false_positive_rate": 0.0,
+        "f1": 0.9435483870967742,
+        "false_positive_rate": 0.2028985507246377,
         "false_negative_rate": 0.0,
         "wilson_fpr_ci": [
-          0.0,
-          0.01821965585981369
+          0.12489333067903491,
+          0.312240402447793
         ]
       },
-      "fpr_on_legitimate_test": 0.0,
-      "average_precision": 1.0,
+      "fpr_on_legitimate_test": 0.2028985507246377,
+      "average_precision": 0.8043478260869565,
       "per_family": {
         "oversized": 1.0
       },
-      "latency_ms_median": 0.05164050003259035,
-      "latency_ms_p95": 0.8528889499956445,
+      "latency_ms_median": 0.36757100133399945,
+      "latency_ms_p95": 4.1867542486215825,
       "settings": {
-        "alert_threshold_percentile": 95.0,
-        "review_threshold_percentile": 85.0,
+        "alert_threshold_percentile": 100.0,
+        "review_threshold_percentile": 95.41284403669725,
         "isolation_alert_threshold": -0.05,
         "isolation_review_threshold": -0.12,
         "max_false_positive_rate_target": 0.01,
@@ -196,44 +216,49 @@
       "mode": "rules_plus_stats",
       "metrics_malicious": {
         "tp": 37,
-        "fp": 80,
-        "tn": 207,
+        "fp": 14,
+        "tn": 55,
         "fn": 0,
-        "precision": 0.3162393162393162,
+        "precision": 0.7254901960784313,
         "recall": 1.0,
-        "f1": 0.4805194805194805,
-        "false_positive_rate": 0.0,
+        "f1": 0.8409090909090908,
+        "false_positive_rate": 0.2028985507246377,
         "false_negative_rate": 0.0,
         "wilson_fpr_ci": [
-          0.0,
-          0.01821965585981369
+          0.12489333067903491,
+          0.312240402447793
         ]
+      },
+      "metrics_benign_invalid": {
+        "total": 80,
+        "flagged": 80,
+        "rejection_rate": 1.0
       },
       "metrics_any_anomaly": {
         "tp": 117,
-        "fp": 0,
-        "tn": 207,
+        "fp": 14,
+        "tn": 55,
         "fn": 0,
-        "precision": 1.0,
+        "precision": 0.8931297709923665,
         "recall": 1.0,
-        "f1": 1.0,
-        "false_positive_rate": 0.0,
+        "f1": 0.9435483870967742,
+        "false_positive_rate": 0.2028985507246377,
         "false_negative_rate": 0.0,
         "wilson_fpr_ci": [
-          0.0,
-          0.01821965585981369
+          0.12489333067903491,
+          0.312240402447793
         ]
       },
-      "fpr_on_legitimate_test": 0.0,
-      "average_precision": 1.0,
+      "fpr_on_legitimate_test": 0.2028985507246377,
+      "average_precision": 0.8043478260869565,
       "per_family": {
         "oversized": 1.0
       },
-      "latency_ms_median": 0.05163100001936982,
-      "latency_ms_p95": 0.8245843000082675,
+      "latency_ms_median": 0.3696544990816619,
+      "latency_ms_p95": 4.190117749203637,
       "settings": {
-        "alert_threshold_percentile": 95.0,
-        "review_threshold_percentile": 85.0,
+        "alert_threshold_percentile": 100.0,
+        "review_threshold_percentile": 95.41284403669725,
         "isolation_alert_threshold": -0.05,
         "isolation_review_threshold": -0.12,
         "max_false_positive_rate_target": 0.01,
@@ -244,23 +269,8 @@
       "mode": "isolation_forest",
       "metrics_malicious": {
         "tp": 37,
-        "fp": 80,
-        "tn": 207,
-        "fn": 0,
-        "precision": 0.3162393162393162,
-        "recall": 1.0,
-        "f1": 0.4805194805194805,
-        "false_positive_rate": 0.0,
-        "false_negative_rate": 0.0,
-        "wilson_fpr_ci": [
-          0.0,
-          0.01821965585981369
-        ]
-      },
-      "metrics_any_anomaly": {
-        "tp": 117,
         "fp": 0,
-        "tn": 207,
+        "tn": 69,
         "fn": 0,
         "precision": 1.0,
         "recall": 1.0,
@@ -269,19 +279,39 @@
         "false_negative_rate": 0.0,
         "wilson_fpr_ci": [
           0.0,
-          0.01821965585981369
+          0.05273725818905175
+        ]
+      },
+      "metrics_benign_invalid": {
+        "total": 80,
+        "flagged": 80,
+        "rejection_rate": 1.0
+      },
+      "metrics_any_anomaly": {
+        "tp": 117,
+        "fp": 0,
+        "tn": 69,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0,
+        "wilson_fpr_ci": [
+          0.0,
+          0.05273725818905175
         ]
       },
       "fpr_on_legitimate_test": 0.0,
-      "average_precision": 1.0,
+      "average_precision": 0.8043478260869565,
       "per_family": {
         "oversized": 1.0
       },
-      "latency_ms_median": 4.220648000000438,
-      "latency_ms_p95": 9.491094099970972,
+      "latency_ms_median": 5.31628699900466,
+      "latency_ms_p95": 11.030486499294057,
       "settings": {
-        "alert_threshold_percentile": 95.0,
-        "review_threshold_percentile": 85.0,
+        "alert_threshold_percentile": 100.0,
+        "review_threshold_percentile": 95.41284403669725,
         "isolation_alert_threshold": -0.05,
         "isolation_review_threshold": -0.12,
         "max_false_positive_rate_target": 0.01,
@@ -289,5 +319,5 @@
       }
     }
   },
-  "generated_at": 1793895279.7542539
+  "generated_at": 1793899622.6202044
 }

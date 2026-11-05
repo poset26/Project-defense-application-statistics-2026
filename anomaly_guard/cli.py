@@ -23,7 +23,7 @@ def cmd_generate(args: argparse.Namespace) -> None:
     if args.small:
         plan = type(plan)(legitimate=500, difficult_legitimate=100, benign_invalid=80, malicious_intent=150, hard_malicious_intent=30, distribution_shift=40, seed=args.seed)
     records, meta = generate_dataset(plan)
-    meta = assign_splits(meta)
+    meta = assign_splits(meta, records)
     out = Path(args.output)
     save_dataset(
         out,

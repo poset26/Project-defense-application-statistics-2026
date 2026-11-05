@@ -1,0 +1,133 @@
+# Architecture
+
+Anomaly Guard is a batch and replay-oriented detector: requests arrive as structured records, pass through shared core logic, and produce scored decisions stored for inspection in SQLite and Streamlit. There is no inline network proxy in the MVP; traffic is simulated or read from JSONL.
+
+## End-to-end pipeline
+
+```
+┌─────────────────┐     ┌──────────┐     ┌──────────┐     ┌─────────────┐
+│ Simulator or    │     │  Parser  │     │ Features │     │ Rule engine │
+│ requests.jsonl  │────▶│ (bounded)│────▶│ extract  │────▶│ rules.yaml  │
+└─────────────────┘     └──────────┘     └──────────┘     └──────┬──────┘
+                                                                    │
+┌─────────────────┐     ┌──────────┐     ┌──────────┐            │
+│ Train split     │────▶│ Baseline │────▶│ Statistics│◀───────────┘
+│ (legitimate)    │     │  fit     │     │ score     │
+└─────────────────┘     └──────────┘     └──────┬──────┘
+                                                │
+                     ┌──────────────────────────┴──────────────────────────┐
+                     │              Decision engine (AnomalyGuard)          │
+                     │  mode: rules_only | length_only | … | isolation_forest│
+                     └──────────────────────────┬──────────────────────────┘
+                                                │
+                     ┌──────────────────────────▼──────────────────────────┐
+                     │  ScoreResult: decision, rules, stats, explanations     │
+                     └──────────────┬─────────────────────┬──────────────────┘
+                                    │                     │
+                           ┌────────▼────────┐   ┌────────▼────────┐
+                           │ SQLite          │   │ Evaluation /    │
+                           │ EventStore      │   │ dashboard       │
+                           └─────────────────┘   └─────────────────┘
+```
+
+### Parser (`anomaly_guard/core/parser.py`)
+
+Parses each `RequestRecord` against `routes.yaml`: decodes query and body fields, enforces size limits from config, and sets flags (oversized payload, JSON parse errors, malformed encoding, unexpected fields). Output is a `ParsedRequest` used by rules and features.
+
+### Features (`anomaly_guard/core/features.py`)
+
+Per-field numeric summaries: character and byte length, entropy, repeat runs, percent-encoding counts, and **category fractions** over bins `letter`, `digit`, `whitespace`, `quote`, `bracket`, `slash`, `other`. Request-level aggregates feed an optional flat vector for Isolation Forest.
+
+### Rules (`anomaly_guard/core/rules.py`, `config/rules.yaml`)
+
+Two families:
+
+- **Schema rules** — missing required fields, wrong types, length out of contract, bad content-type.
+- **Suspicious patterns** — regex-style checks (SQL tautologies, script tags, path traversal fragments, etc.) with severities low / medium / high.
+
+Rules always run inside `AnomalyGuard.score()` for every detector mode; mode only changes **how rule outputs combine** with statistical scores (see Decision engine).
+
+### Statistical baseline (`anomaly_guard/core/statistics.py`)
+
+`StatisticalDetector.fit(normal_records)` builds per-endpoint, per-field profiles:
+
+- **Length profile** — median, MAD (scaled by 0.6745 for robust z), tolerance; optional discrete length set when variation is tiny.
+- **Composition profile** — merged category count distribution from training; at score time, observed counts are compared via `scipy.stats.chisquare`, and the raw score is `sqrt(chi2 / n)` (chi-square **p-value is not used** as an attack probability).
+
+Calibration stores sorted aggregate raw scores from **validation legitimate** traffic; each new request’s raw component scores map to **empirical percentiles** against that list. The aggregate percentile is the percentile of the **maximum** raw score among OK length/composition components.
+
+`StatisticalDetector.score()` and `AnomalyGuard.score()` **must not** read ground-truth metadata—only the request record and loaded baseline.
+
+### Decision engine (`anomaly_guard/core/decision.py`)
+
+`AnomalyGuard` is the shared entry point for CLI replay, evaluation, and dashboard.
+
+| Mode | Statistical components used | Decision logic (simplified) |
+|------|------------------------------|-----------------------------|
+| `rules_only` | None in decision | High-severity rules → alert; medium → review |
+| `length_only` | Length only; aggregate recomputed | Hybrid path with filtered stats |
+| `composition_only` | Composition only | Hybrid path |
+| `combined_stats` | Both length and composition | Hybrid path |
+| `rules_plus_stats` | Full statistics | High-severity **suspicious_pattern** → alert; else percentile thresholds; schema rules can force review |
+| `isolation_forest` | IF `decision_function` on feature vector | Rules can alert first; else IF thresholds |
+
+Decisions:
+
+- **`normal`** — within rules and baseline expectations for the mode.
+- **`review`** — elevated schema issues or statistical unusualness below alert cutoff.
+- **`alert`** — high-severity pattern match and/or statistical aggregate above calibrated alert percentile (or IF score below threshold).
+
+Explanations list triggered rules and, when present, field-level statistical messages with empirical percentiles.
+
+Optional **Isolation Forest** (`sklearn`, 100 trees, `contamination=0.02`) trains on legitimate train vectors when mode is `isolation_forest`.
+
+## Request data vs ground truth
+
+| File | Contents | Used at runtime scoring? |
+|------|----------|---------------------------|
+| `requests.jsonl` | `RequestRecord`: id, timestamp, client, method, route, raw query, headers, body | **Yes** — sole input to `score()` |
+| `ground_truth.jsonl` | `GroundTruthMeta`: scenario_group, scenario_id, attack_family, template_id, split | **No** for detection — only evaluation, replay `--with-labels`, dashboard experiment mode |
+
+Scenario groups: `legitimate`, `difficult_legitimate`, `benign_invalid`, `malicious_intent`, `hard_malicious_intent`, `distribution_shift`.
+
+The simulator (`anomaly_guard/simulation/`) writes both files with matching `request_id` keys. `manifest.json` records seed and plan counts.
+
+## Train / validation / test splits
+
+`evaluation/splits.py` assigns each request a split:
+
+- **Malicious** and **benign_invalid** rows: hashed by `scenario_id:template_id` so templates do not leak across partitions.
+- **Legitimate-family** rows (`legitimate`, `difficult_legitimate`, `distribution_shift`): **route-stratified per request** (`METHOD route:request_id`) so every endpoint appears in both train and validation—needed so baseline calibration sees the same routes as training.
+
+Training baseline: **train** split, **`legitimate`** group only.
+
+Calibration: **validation** split, groups `legitimate`, `difficult_legitimate`, `distribution_shift`.
+
+Evaluation (`evaluate`): scores **test** split only; metrics join predictions to ground truth by `request_id`.
+
+## Configuration artifacts
+
+| Artifact | Role |
+|----------|------|
+| `models/baseline.json` | Serialized endpoint profiles + `calibration_scores` |
+| `models/baseline.settings.json` | Written by CLI `train`: calibrated `DecisionSettings` |
+| `results/models/baseline_<mode>.json` | Per-mode baselines from full ablation run |
+| `data/events.db` | SQLite `events` table: request JSON, score JSON, optional ground truth |
+
+## Dashboard mapping
+
+Streamlit app (`anomaly_guard/app.py`):
+
+- **Traffic** — replay JSONL into the event store; filter stored rows.
+- **Alert inspector** — escaped request text, rules, statistical components, explanations; optional experiment labels.
+- **Normal vs unusual** — reads baseline JSON; **tables of median/MAD and category probabilities** (no request overlay chart).
+- **Evaluation** — loads saved `results/metrics_summary.json` or runs a single-mode experiment.
+- **Model settings** — retrain baseline from disk dataset.
+
+## Evaluation module
+
+`evaluation/experiments.py` trains each mode on the same splits, runs test predictions, writes `predictions_<mode>.jsonl`, `metrics_summary.json`, `detector_comparison.png`, and `error_analysis.json` (sample FN/FP for `rules_plus_stats`).
+
+Metrics (`evaluation/metrics.py`) include malicious-intent precision/recall/F1 with **Wilson confidence interval on false-positive rate** over the legitimate-family test mask, benign-invalid rejection rate, and per-attack-family recall. **`alert_predicted`** treats both `alert` and `review` as a positive detection for metric purposes.
+
+For known gaps between this design and what the small demo numbers can prove, see [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md) and [UPDATE_PLAN.md](UPDATE_PLAN.md).

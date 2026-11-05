@@ -1,0 +1,40 @@
+# Suspicious-pattern heuristics (small, explainable set)
+suspicious_patterns:
+  - id: SQL_UNION_SELECT
+    severity: high
+    explanation: "Query or body contains SQL UNION/SELECT-like token sequence"
+    pattern: "(?i)(union\\s+(all\\s+)?select|select\\s+.+\\s+from\\s+)"
+    fields: [q, username, password, text, author, raw_query, raw_body]
+
+  - id: SQL_OR_TAUTOLOGY
+    severity: high
+    explanation: "Classic OR-based tautology pattern (e.g. OR 1=1)"
+    pattern: "(?i)(['\"]\\s*or\\s+['\"]?\\d+['\"]?\\s*=\\s*['\"]?\\d+|or\\s+1\\s*=\\s*1)"
+    fields: [q, username, password, text, author, raw_query, raw_body]
+
+  - id: SCRIPT_TAG
+    severity: high
+    explanation: "HTML script tag or javascript: URI scheme detected"
+    pattern: "(?i)(<\\s*script\\b|javascript\\s*:)"
+    fields: [q, text, author, raw_body]
+
+  - id: EVENT_HANDLER
+    severity: medium
+    explanation: "Inline event handler attribute pattern"
+    pattern: "(?i)\\bon(load|error|click|mouse\\w+|focus)\\s*="
+    fields: [q, text, author, raw_body]
+
+  - id: PATH_TRAVERSAL
+    severity: high
+    explanation: "Directory traversal sequence in input"
+    pattern: "(\\.\\./|\\.\\.\\\\|%2e%2e%2f|%2e%2e/)"
+    fields: [q, username, text, author, raw_query, raw_body]
+
+  - id: CONTROL_CHARS
+    severity: medium
+    explanation: "Non-printable control characters in decoded field text"
+    pattern: "[\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f]"
+    fields: [q, username, password, text, author]
+    match_decoded: true
+
+schema_violation_severity: medium

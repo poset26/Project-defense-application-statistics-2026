@@ -1,0 +1,74 @@
+{
+  "version": "v1793895280",
+  "created_at": "2026-11-05T16:14:40.310755+00:00",
+  "config_hash": "6ec01485c41e94f1",
+  "training_count": 166,
+  "endpoints": {
+    "POST /comment": {
+      "method": "POST",
+      "route": "/comment",
+      "training_count": 166,
+      "fields": {
+        "text": {
+          "field_name": "text",
+          "training_count": 166,
+          "status": "ok",
+          "length": {
+            "median": 28.0,
+            "mad": 0.0,
+            "tolerance": 1.4000000000000001,
+            "discrete_values": [
+              28
+            ]
+          },
+          "composition": {
+            "category_probs": {
+              "letter": 0.7857142857142857,
+              "digit": 0.03571428571428571,
+              "whitespace": 0.14285714285714285,
+              "other": 0.03571428571428571
+            },
+            "merged_categories": [
+              "letter",
+              "digit",
+              "whitespace",
+              "other"
+            ],
+            "min_total_count": 5
+          }
+        },
+        "author": {
+          "field_name": "author",
+          "training_count": 166,
+          "status": "ok",
+          "length": {
+            "median": 6.0,
+            "mad": 0.0,
+            "tolerance": 1.0,
+            "discrete_values": [
+              5,
+              6
+            ]
+          },
+          "composition": {
+            "category_probs": {
+              "letter": 0.7026455026455026,
+              "digit": 0.29735449735449737
+            },
+            "merged_categories": [
+              "letter",
+              "digit"
+            ],
+            "min_total_count": 5
+          }
+        }
+      }
+    }
+  },
+  "feature_field_order": [
+    "author",
+    "text"
+  ],
+  "notes": "",
+  "calibration_scores": []
+}

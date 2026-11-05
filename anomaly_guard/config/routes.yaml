@@ -1,0 +1,61 @@
+# Application route contracts for Anomaly Guard MVP
+limits:
+  max_body_bytes: 65536
+  max_query_bytes: 8192
+  max_parameters: 64
+  max_field_length: 16384
+
+routes:
+  - method: GET
+    path: /search
+    content_types: []
+    fields:
+      - name: q
+        location: query
+        required: true
+        type: text
+        min_length: 1
+        max_length: 512
+      - name: page
+        location: query
+        required: false
+        type: integer
+        min_value: 1
+        max_value: 1000
+
+  - method: POST
+    path: /login
+    content_types:
+      - application/x-www-form-urlencoded
+    fields:
+      - name: username
+        location: form
+        required: true
+        type: text
+        min_length: 1
+        max_length: 64
+      - name: password
+        location: form
+        required: true
+        type: text
+        min_length: 1
+        max_length: 128
+
+  - method: POST
+    path: /comment
+    content_types:
+      - application/x-www-form-urlencoded
+      - application/json
+    fields:
+      - name: text
+        location: form_or_json
+        required: true
+        type: text
+        min_length: 1
+        max_length: 8000
+      - name: author
+        location: form_or_json
+        required: false
+        type: text
+        min_length: 0
+        max_length: 128

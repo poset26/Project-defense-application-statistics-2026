@@ -80,8 +80,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 0.02005099997859361,
-      "latency_ms_p95": 0.07732789998726729,
+      "latency_ms_median": 0.020694999875559006,
+      "latency_ms_p95": 0.082487100075923,
       "settings": {
         "alert_threshold_percentile": 99.0,
         "review_threshold_percentile": 95.0,
@@ -171,8 +171,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.2682209999184124,
-      "latency_ms_p95": 2.2079466999571196,
+      "latency_ms_median": 1.2878949999048928,
+      "latency_ms_p95": 2.2228712999549316,
       "settings": {
         "alert_threshold_percentile": 99.50124688279301,
         "review_threshold_percentile": 97.54185963662273,
@@ -262,8 +262,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.2793959999726212,
-      "latency_ms_p95": 2.2306368000499788,
+      "latency_ms_median": 1.278016000014759,
+      "latency_ms_p95": 2.1981949000291934,
       "settings": {
         "alert_threshold_percentile": 100.0,
         "review_threshold_percentile": 98.37083010085338,
@@ -353,8 +353,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.2635340001452278,
-      "latency_ms_p95": 2.1760082000355396,
+      "latency_ms_median": 1.294142999995529,
+      "latency_ms_p95": 2.3158791999321693,
       "settings": {
         "alert_threshold_percentile": 100.0,
         "review_threshold_percentile": 97.54185963662273,
@@ -444,8 +444,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.2758809998558718,
-      "latency_ms_p95": 2.223128200080282,
+      "latency_ms_median": 1.271072000008644,
+      "latency_ms_p95": 2.186358300014035,
       "settings": {
         "alert_threshold_percentile": 99.35185185185185,
         "review_threshold_percentile": 96.80555555555556,
@@ -535,8 +535,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.2721160001092358,
-      "latency_ms_p95": 2.2807501001352644,
+      "latency_ms_median": 1.2783439999566326,
+      "latency_ms_p95": 2.2331927999857726,
       "settings": {
         "alert_threshold_percentile": 100.0,
         "review_threshold_percentile": 97.54185963662273,
@@ -626,8 +626,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.268123999807358,
-      "latency_ms_p95": 2.1842296001295836,
+      "latency_ms_median": 1.2921980001010525,
+      "latency_ms_p95": 2.2367397999687455,
       "settings": {
         "alert_threshold_percentile": 100.0,
         "review_threshold_percentile": 96.41485275288092,
@@ -717,8 +717,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.2734739998450095,
-      "latency_ms_p95": 2.1885564999820417,
+      "latency_ms_median": 1.2949869999374641,
+      "latency_ms_p95": 2.2261204999722395,
       "settings": {
         "alert_threshold_percentile": 100.0,
         "review_threshold_percentile": 98.37083010085338,
@@ -808,8 +808,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.2662120000186405,
-      "latency_ms_p95": 2.19950040002459,
+      "latency_ms_median": 1.2988199998744676,
+      "latency_ms_p95": 2.251951899870619,
       "settings": {
         "alert_threshold_percentile": 100.0,
         "review_threshold_percentile": 100.0,
@@ -899,8 +899,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.2708540000403445,
-      "latency_ms_p95": 2.209559799894123,
+      "latency_ms_median": 1.3040819999332598,
+      "latency_ms_p95": 2.2404065001410345,
       "settings": {
         "alert_threshold_percentile": 100.0,
         "review_threshold_percentile": 98.37083010085338,
@@ -990,8 +990,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.2834629999360914,
-      "latency_ms_p95": 2.208693500051595,
+      "latency_ms_median": 1.3156039999557834,
+      "latency_ms_p95": 2.470108299939966,
       "settings": {
         "alert_threshold_percentile": 100.0,
         "review_threshold_percentile": 100.0,
@@ -1081,8 +1081,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 5.56526499985921,
-      "latency_ms_p95": 6.619566800054599,
+      "latency_ms_median": 5.617811000320216,
+      "latency_ms_p95": 6.663569200190977,
       "settings": {
         "alert_threshold_percentile": 100.0,
         "review_threshold_percentile": 100.0,
@@ -1093,7 +1093,7 @@
       }
     }
   },
-  "generated_at": 1794220244.9225998,
+  "generated_at": 1794223643.5397947,
   "primary_comparison": {
     "rules_only": {
       "mode": "rules_only",
@@ -1175,8 +1175,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 0.02005099997859361,
-      "latency_ms_p95": 0.07732789998726729,
+      "latency_ms_median": 0.020694999875559006,
+      "latency_ms_p95": 0.082487100075923,
       "settings": {
         "alert_threshold_percentile": 99.0,
         "review_threshold_percentile": 95.0,
@@ -1266,8 +1266,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.2734739998450095,
-      "latency_ms_p95": 2.1885564999820417,
+      "latency_ms_median": 1.2949869999374641,
+      "latency_ms_p95": 2.2261204999722395,
       "settings": {
         "alert_threshold_percentile": 100.0,
         "review_threshold_percentile": 98.37083010085338,
@@ -1357,8 +1357,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.2662120000186405,
-      "latency_ms_p95": 2.19950040002459,
+      "latency_ms_median": 1.2988199998744676,
+      "latency_ms_p95": 2.251951899870619,
       "settings": {
         "alert_threshold_percentile": 100.0,
         "review_threshold_percentile": 100.0,
@@ -1448,8 +1448,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.2708540000403445,
-      "latency_ms_p95": 2.209559799894123,
+      "latency_ms_median": 1.3040819999332598,
+      "latency_ms_p95": 2.2404065001410345,
       "settings": {
         "alert_threshold_percentile": 100.0,
         "review_threshold_percentile": 98.37083010085338,
@@ -1539,8 +1539,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.2834629999360914,
-      "latency_ms_p95": 2.208693500051595,
+      "latency_ms_median": 1.3156039999557834,
+      "latency_ms_p95": 2.470108299939966,
       "settings": {
         "alert_threshold_percentile": 100.0,
         "review_threshold_percentile": 100.0,

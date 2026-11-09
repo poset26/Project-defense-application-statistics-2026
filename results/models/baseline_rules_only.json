@@ -1,86 +1,28 @@
 {
-  "version": "v1794219382",
-  "created_at": "2026-11-09T10:16:22.294865+00:00",
+  "version": "v1794219662",
+  "created_at": "2026-11-09T10:21:02.805463+00:00",
   "config_hash": "6ec01485c41e94f1",
-  "training_count": 305,
+  "training_count": 5444,
   "endpoints": {
-    "POST /comment": {
-      "method": "POST",
-      "route": "/comment",
-      "training_count": 77,
-      "fields": {
-        "text": {
-          "field_name": "text",
-          "training_count": 77,
-          "status": "ok",
-          "length": {
-            "median": 28.0,
-            "mad": 6.0,
-            "tolerance": 1.4000000000000001,
-            "discrete_values": null
-          },
-          "composition": {
-            "category_probs": {
-              "letter": 0.8015441807263368,
-              "digit": 0.007434944237918215,
-              "whitespace": 0.14212181870174434,
-              "other": 0.048899056334000573
-            },
-            "merged_categories": [
-              "letter",
-              "digit",
-              "whitespace",
-              "other"
-            ],
-            "min_total_count": 5
-          }
-        },
-        "author": {
-          "field_name": "author",
-          "training_count": 50,
-          "status": "ok",
-          "length": {
-            "median": 6.0,
-            "mad": 0.0,
-            "tolerance": 1.0,
-            "discrete_values": [
-              5,
-              6
-            ]
-          },
-          "composition": {
-            "category_probs": {
-              "letter": 0.6779661016949152,
-              "digit": 0.3220338983050847
-            },
-            "merged_categories": [
-              "letter",
-              "digit"
-            ],
-            "min_total_count": 5
-          }
-        }
-      }
-    },
     "GET /search": {
       "method": "GET",
       "route": "/search",
-      "training_count": 155,
+      "training_count": 2705,
       "fields": {
         "q": {
           "field_name": "q",
-          "training_count": 155,
+          "training_count": 2705,
           "status": "ok",
           "length": {
-            "median": 29.0,
-            "mad": 17.0,
-            "tolerance": 1.4500000000000002,
+            "median": 30.0,
+            "mad": 18.0,
+            "tolerance": 1.5,
             "discrete_values": null
           },
           "composition": {
             "category_probs": {
-              "letter": 0.9624031976017986,
-              "whitespace": 0.03759680239820135
+              "letter": 0.9621157969978557,
+              "whitespace": 0.03788420300214439
             },
             "merged_categories": [
               "letter",
@@ -91,7 +33,7 @@
         },
         "page": {
           "field_name": "page",
-          "training_count": 155,
+          "training_count": 2705,
           "status": "ok",
           "length": {
             "median": 1.0,
@@ -116,11 +58,11 @@
     "POST /login": {
       "method": "POST",
       "route": "/login",
-      "training_count": 73,
+      "training_count": 1388,
       "fields": {
         "username": {
           "field_name": "username",
-          "training_count": 73,
+          "training_count": 1388,
           "status": "ok",
           "length": {
             "median": 10.0,
@@ -144,7 +86,7 @@
         },
         "password": {
           "field_name": "password",
-          "training_count": 73,
+          "training_count": 1388,
           "status": "ok",
           "length": {
             "median": 8.0,
@@ -157,14 +99,72 @@
           },
           "composition": {
             "category_probs": {
-              "letter": 0.6483126110124334,
-              "digit": 0.22202486678507993,
-              "other": 0.12966252220248667
+              "letter": 0.649812734082397,
+              "digit": 0.2202247191011236,
+              "other": 0.1299625468164794
             },
             "merged_categories": [
               "letter",
               "digit",
               "other"
+            ],
+            "min_total_count": 5
+          }
+        }
+      }
+    },
+    "POST /comment": {
+      "method": "POST",
+      "route": "/comment",
+      "training_count": 1351,
+      "fields": {
+        "text": {
+          "field_name": "text",
+          "training_count": 1351,
+          "status": "ok",
+          "length": {
+            "median": 28.0,
+            "mad": 6.0,
+            "tolerance": 1.4000000000000001,
+            "discrete_values": null
+          },
+          "composition": {
+            "category_probs": {
+              "letter": 0.8007410583047526,
+              "digit": 0.00692062714355708,
+              "whitespace": 0.14377143557079863,
+              "other": 0.04856687898089172
+            },
+            "merged_categories": [
+              "letter",
+              "digit",
+              "whitespace",
+              "other"
+            ],
+            "min_total_count": 5
+          }
+        },
+        "author": {
+          "field_name": "author",
+          "training_count": 910,
+          "status": "ok",
+          "length": {
+            "median": 6.0,
+            "mad": 0.0,
+            "tolerance": 1.0,
+            "discrete_values": [
+              5,
+              6
+            ]
+          },
+          "composition": {
+            "category_probs": {
+              "letter": 0.6785980611483967,
+              "digit": 0.3214019388516033
+            },
+            "merged_categories": [
+              "letter",
+              "digit"
             ],
             "min_total_count": 5
           }

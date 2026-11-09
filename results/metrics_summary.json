@@ -3,85 +3,85 @@
     "rules_only": {
       "mode": "rules_only",
       "metrics_malicious": {
-        "tp": 9,
+        "tp": 108,
         "fp": 0,
-        "tn": 43,
-        "fn": 30,
+        "tn": 785,
+        "fn": 342,
         "precision": 1.0,
-        "recall": 0.23076923076923078,
-        "f1": 0.375,
+        "recall": 0.24,
+        "f1": 0.3870967741935484,
         "false_positive_rate": 0.0,
-        "false_negative_rate": 0.7692307692307693,
+        "false_negative_rate": 0.76,
         "wilson_fpr_ci": [
-          0.0,
-          0.08200980322579121
+          4.336808689942018e-19,
+          0.004869747625127423
         ]
       },
       "metrics_benign_invalid": {
-        "total": 16,
-        "flagged": 2,
-        "rejection_rate": 0.125
+        "total": 200,
+        "flagged": 22,
+        "rejection_rate": 0.11
       },
       "metrics_any_anomaly": {
-        "tp": 11,
+        "tp": 130,
         "fp": 0,
-        "tn": 43,
-        "fn": 44,
+        "tn": 785,
+        "fn": 520,
         "precision": 1.0,
         "recall": 0.2,
         "f1": 0.3333333333333333,
         "false_positive_rate": 0.0,
         "false_negative_rate": 0.8,
         "wilson_fpr_ci": [
-          0.0,
-          0.08200980322579121
+          4.336808689942018e-19,
+          0.004869747625127423
         ]
       },
       "fpr_on_legitimate_test": 0.0,
       "review_rate_legitimate": 0.0,
-      "average_precision": 0.3979591836734694,
+      "average_precision": 0.313588850174216,
       "per_family": {
-        "oversized": {
-          "recall": 0.0,
-          "support": 3.0
-        },
-        "sqli": {
-          "recall": 0.42857142857142855,
-          "support": 7.0
-        },
         "traversal": {
           "recall": 1.0,
-          "support": 6.0
+          "support": 84.0
+        },
+        "sqli": {
+          "recall": 0.2857142857142857,
+          "support": 84.0
         },
         "evasive": {
           "recall": 0.0,
-          "support": 13.0
-        },
-        "xss": {
-          "recall": 0.0,
-          "support": 7.0
+          "support": 116.0
         },
         "repetitive": {
           "recall": 0.0,
-          "support": 3.0
+          "support": 41.0
+        },
+        "oversized": {
+          "recall": 0.0,
+          "support": 41.0
+        },
+        "xss": {
+          "recall": 0.0,
+          "support": 84.0
         }
       },
       "attack_slices": {
         "signature_easy": {
-          "recall": 0.6923076923076923,
-          "support": 13.0
+          "recall": 0.568,
+          "support": 125.0
         },
         "rule_evasive": {
-          "recall": 0.0,
-          "support": 20.0
+          "recall": 0.1522633744855967,
+          "support": 243.0
         },
         "size_distribution": {
           "recall": 0.0,
-          "support": 6.0
+          "support": 82.0
         }
       },
-      "latency_ms_median": 0.021299000010799318,
-      "latency_ms_p95": 0.1565384500025856,
+      "latency_ms_median": 0.01979799998252929,
+      "latency_ms_p95": 0.07719570002677754,
       "settings": {
         "alert_threshold_percentile": 99.0,
         "review_threshold_percentile": 95.0,
@@ -94,88 +94,88 @@
     "length_only": {
       "mode": "length_only",
       "metrics_malicious": {
-        "tp": 3,
-        "fp": 0,
-        "tn": 43,
-        "fn": 36,
-        "precision": 1.0,
-        "recall": 0.07692307692307693,
-        "f1": 0.14285714285714288,
-        "false_positive_rate": 0.0,
-        "false_negative_rate": 0.9230769230769231,
+        "tp": 41,
+        "fp": 31,
+        "tn": 754,
+        "fn": 409,
+        "precision": 0.5694444444444444,
+        "recall": 0.09111111111111111,
+        "f1": 0.15708812260536398,
+        "false_positive_rate": 0.03949044585987261,
+        "false_negative_rate": 0.9088888888888889,
         "wilson_fpr_ci": [
-          0.0,
-          0.08200980322579121
+          0.027958278665645438,
+          0.05550774366934453
         ]
       },
       "metrics_benign_invalid": {
-        "total": 16,
-        "flagged": 3,
-        "rejection_rate": 0.1875
+        "total": 200,
+        "flagged": 17,
+        "rejection_rate": 0.085
       },
       "metrics_any_anomaly": {
-        "tp": 6,
-        "fp": 0,
-        "tn": 43,
-        "fn": 49,
-        "precision": 1.0,
-        "recall": 0.10909090909090909,
-        "f1": 0.19672131147540983,
-        "false_positive_rate": 0.0,
-        "false_negative_rate": 0.8909090909090909,
+        "tp": 58,
+        "fp": 31,
+        "tn": 754,
+        "fn": 592,
+        "precision": 0.651685393258427,
+        "recall": 0.08923076923076922,
+        "f1": 0.15696887686062247,
+        "false_positive_rate": 0.03949044585987261,
+        "false_negative_rate": 0.9107692307692308,
         "wilson_fpr_ci": [
-          0.0,
-          0.08200980322579121
+          0.027958278665645438,
+          0.05550774366934453
         ]
       },
-      "fpr_on_legitimate_test": 0.0,
-      "review_rate_legitimate": 0.046511627906976744,
-      "average_precision": 0.46318137536532356,
+      "fpr_on_legitimate_test": 0.03949044585987261,
+      "review_rate_legitimate": 0.1070063694267516,
+      "average_precision": 0.41219192771560415,
       "per_family": {
-        "oversized": {
+        "traversal": {
           "recall": 0.0,
-          "support": 3.0
+          "support": 84.0
         },
         "sqli": {
           "recall": 0.0,
-          "support": 7.0
-        },
-        "traversal": {
-          "recall": 0.0,
-          "support": 6.0
+          "support": 84.0
         },
         "evasive": {
           "recall": 0.0,
-          "support": 13.0
-        },
-        "xss": {
-          "recall": 0.0,
-          "support": 7.0
+          "support": 116.0
         },
         "repetitive": {
           "recall": 1.0,
-          "support": 3.0
+          "support": 41.0
+        },
+        "oversized": {
+          "recall": 0.0,
+          "support": 41.0
+        },
+        "xss": {
+          "recall": 0.0,
+          "support": 84.0
         }
       },
       "attack_slices": {
         "signature_easy": {
           "recall": 0.0,
-          "support": 13.0
+          "support": 125.0
         },
         "rule_evasive": {
           "recall": 0.0,
-          "support": 20.0
+          "support": 243.0
         },
         "size_distribution": {
           "recall": 0.5,
-          "support": 6.0
+          "support": 82.0
         }
       },
-      "latency_ms_median": 0.32031750001237924,
-      "latency_ms_p95": 0.7985974500030572,
+      "latency_ms_median": 0.39641500001152963,
+      "latency_ms_p95": 0.9074690000261398,
       "settings": {
-        "alert_threshold_percentile": 100.0,
-        "review_threshold_percentile": 98.33333333333333,
+        "alert_threshold_percentile": 99.50124688279301,
+        "review_threshold_percentile": 97.54185963662273,
         "isolation_alert_threshold": 0.0,
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
@@ -185,88 +185,88 @@
     "composition_only": {
       "mode": "composition_only",
       "metrics_malicious": {
-        "tp": 3,
-        "fp": 3,
-        "tn": 40,
-        "fn": 36,
-        "precision": 0.5,
-        "recall": 0.07692307692307693,
-        "f1": 0.13333333333333336,
-        "false_positive_rate": 0.06976744186046512,
-        "false_negative_rate": 0.9230769230769231,
+        "tp": 41,
+        "fp": 42,
+        "tn": 743,
+        "fn": 409,
+        "precision": 0.4939759036144578,
+        "recall": 0.09111111111111111,
+        "f1": 0.15384615384615385,
+        "false_positive_rate": 0.0535031847133758,
+        "false_negative_rate": 0.9088888888888889,
         "wilson_fpr_ci": [
-          0.024011589577214484,
-          0.1860898690124198
+          0.03982397534816512,
+          0.07153104769032448
         ]
       },
       "metrics_benign_invalid": {
-        "total": 16,
+        "total": 200,
         "flagged": 0,
         "rejection_rate": 0.0
       },
       "metrics_any_anomaly": {
-        "tp": 3,
-        "fp": 3,
-        "tn": 40,
-        "fn": 52,
-        "precision": 0.5,
-        "recall": 0.05454545454545454,
-        "f1": 0.09836065573770492,
-        "false_positive_rate": 0.06976744186046512,
-        "false_negative_rate": 0.9454545454545454,
+        "tp": 41,
+        "fp": 42,
+        "tn": 743,
+        "fn": 609,
+        "precision": 0.4939759036144578,
+        "recall": 0.06307692307692307,
+        "f1": 0.11186903137789904,
+        "false_positive_rate": 0.0535031847133758,
+        "false_negative_rate": 0.936923076923077,
         "wilson_fpr_ci": [
-          0.024011589577214484,
-          0.1860898690124198
+          0.03982397534816512,
+          0.07153104769032448
         ]
       },
-      "fpr_on_legitimate_test": 0.06976744186046512,
-      "review_rate_legitimate": 0.13953488372093023,
-      "average_precision": 0.3852678997213217,
+      "fpr_on_legitimate_test": 0.0535031847133758,
+      "review_rate_legitimate": 0.14394904458598726,
+      "average_precision": 0.31343044197699577,
       "per_family": {
-        "oversized": {
+        "traversal": {
           "recall": 0.0,
-          "support": 3.0
+          "support": 84.0
         },
         "sqli": {
           "recall": 0.0,
-          "support": 7.0
-        },
-        "traversal": {
-          "recall": 0.0,
-          "support": 6.0
+          "support": 84.0
         },
         "evasive": {
           "recall": 0.0,
-          "support": 13.0
-        },
-        "xss": {
-          "recall": 0.0,
-          "support": 7.0
+          "support": 116.0
         },
         "repetitive": {
           "recall": 1.0,
-          "support": 3.0
+          "support": 41.0
+        },
+        "oversized": {
+          "recall": 0.0,
+          "support": 41.0
+        },
+        "xss": {
+          "recall": 0.0,
+          "support": 84.0
         }
       },
       "attack_slices": {
         "signature_easy": {
           "recall": 0.0,
-          "support": 13.0
+          "support": 125.0
         },
         "rule_evasive": {
           "recall": 0.0,
-          "support": 20.0
+          "support": 243.0
         },
         "size_distribution": {
           "recall": 0.5,
-          "support": 6.0
+          "support": 82.0
         }
       },
-      "latency_ms_median": 0.3148790000011559,
-      "latency_ms_p95": 0.783075950008083,
+      "latency_ms_median": 0.39466900000206806,
+      "latency_ms_p95": 0.9034427999949911,
       "settings": {
         "alert_threshold_percentile": 100.0,
-        "review_threshold_percentile": 98.85057471264368,
+        "review_threshold_percentile": 98.37083010085338,
         "isolation_alert_threshold": 0.0,
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
@@ -276,88 +276,88 @@
     "combined_stats": {
       "mode": "combined_stats",
       "metrics_malicious": {
-        "tp": 3,
-        "fp": 3,
-        "tn": 40,
-        "fn": 36,
-        "precision": 0.5,
-        "recall": 0.07692307692307693,
-        "f1": 0.13333333333333336,
-        "false_positive_rate": 0.06976744186046512,
-        "false_negative_rate": 0.9230769230769231,
+        "tp": 41,
+        "fp": 50,
+        "tn": 735,
+        "fn": 409,
+        "precision": 0.45054945054945056,
+        "recall": 0.09111111111111111,
+        "f1": 0.15157116451016636,
+        "false_positive_rate": 0.06369426751592357,
+        "false_negative_rate": 0.9088888888888889,
         "wilson_fpr_ci": [
-          0.024011589577214484,
-          0.1860898690124198
+          0.048645353332978813,
+          0.08299257930805595
         ]
       },
       "metrics_benign_invalid": {
-        "total": 16,
-        "flagged": 3,
-        "rejection_rate": 0.1875
+        "total": 200,
+        "flagged": 17,
+        "rejection_rate": 0.085
       },
       "metrics_any_anomaly": {
-        "tp": 6,
-        "fp": 3,
-        "tn": 40,
-        "fn": 49,
-        "precision": 0.6666666666666666,
-        "recall": 0.10909090909090909,
-        "f1": 0.1875,
-        "false_positive_rate": 0.06976744186046512,
-        "false_negative_rate": 0.8909090909090909,
+        "tp": 58,
+        "fp": 50,
+        "tn": 735,
+        "fn": 592,
+        "precision": 0.5370370370370371,
+        "recall": 0.08923076923076922,
+        "f1": 0.15303430079155672,
+        "false_positive_rate": 0.06369426751592357,
+        "false_negative_rate": 0.9107692307692308,
         "wilson_fpr_ci": [
-          0.024011589577214484,
-          0.1860898690124198
+          0.048645353332978813,
+          0.08299257930805595
         ]
       },
-      "fpr_on_legitimate_test": 0.06976744186046512,
-      "review_rate_legitimate": 0.023255813953488372,
-      "average_precision": 0.38483124965754967,
+      "fpr_on_legitimate_test": 0.06369426751592357,
+      "review_rate_legitimate": 0.1337579617834395,
+      "average_precision": 0.3184253192553188,
       "per_family": {
-        "oversized": {
+        "traversal": {
           "recall": 0.0,
-          "support": 3.0
+          "support": 84.0
         },
         "sqli": {
           "recall": 0.0,
-          "support": 7.0
-        },
-        "traversal": {
-          "recall": 0.0,
-          "support": 6.0
+          "support": 84.0
         },
         "evasive": {
           "recall": 0.0,
-          "support": 13.0
-        },
-        "xss": {
-          "recall": 0.0,
-          "support": 7.0
+          "support": 116.0
         },
         "repetitive": {
           "recall": 1.0,
-          "support": 3.0
+          "support": 41.0
+        },
+        "oversized": {
+          "recall": 0.0,
+          "support": 41.0
+        },
+        "xss": {
+          "recall": 0.0,
+          "support": 84.0
         }
       },
       "attack_slices": {
         "signature_easy": {
           "recall": 0.0,
-          "support": 13.0
+          "support": 125.0
         },
         "rule_evasive": {
           "recall": 0.0,
-          "support": 20.0
+          "support": 243.0
         },
         "size_distribution": {
           "recall": 0.5,
-          "support": 6.0
+          "support": 82.0
         }
       },
-      "latency_ms_median": 0.31262350000815786,
-      "latency_ms_p95": 0.7666124999914811,
+      "latency_ms_median": 0.4055840000205535,
+      "latency_ms_p95": 0.9204356000168444,
       "settings": {
         "alert_threshold_percentile": 100.0,
-        "review_threshold_percentile": 98.88888888888889,
+        "review_threshold_percentile": 98.37083010085338,
         "isolation_alert_threshold": 0.0,
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
@@ -367,88 +367,88 @@
     "rules_plus_stats": {
       "mode": "rules_plus_stats",
       "metrics_malicious": {
-        "tp": 12,
-        "fp": 3,
-        "tn": 40,
-        "fn": 27,
-        "precision": 0.8,
-        "recall": 0.3076923076923077,
-        "f1": 0.4444444444444444,
-        "false_positive_rate": 0.06976744186046512,
-        "false_negative_rate": 0.6923076923076923,
+        "tp": 149,
+        "fp": 50,
+        "tn": 735,
+        "fn": 301,
+        "precision": 0.7487437185929648,
+        "recall": 0.33111111111111113,
+        "f1": 0.45916795069337446,
+        "false_positive_rate": 0.06369426751592357,
+        "false_negative_rate": 0.6688888888888889,
         "wilson_fpr_ci": [
-          0.024011589577214484,
-          0.1860898690124198
+          0.048645353332978813,
+          0.08299257930805595
         ]
       },
       "metrics_benign_invalid": {
-        "total": 16,
-        "flagged": 5,
-        "rejection_rate": 0.3125
+        "total": 200,
+        "flagged": 39,
+        "rejection_rate": 0.195
       },
       "metrics_any_anomaly": {
-        "tp": 17,
-        "fp": 3,
-        "tn": 40,
-        "fn": 38,
-        "precision": 0.85,
-        "recall": 0.3090909090909091,
-        "f1": 0.4533333333333333,
-        "false_positive_rate": 0.06976744186046512,
-        "false_negative_rate": 0.6909090909090909,
+        "tp": 188,
+        "fp": 50,
+        "tn": 735,
+        "fn": 462,
+        "precision": 0.7899159663865546,
+        "recall": 0.28923076923076924,
+        "f1": 0.42342342342342343,
+        "false_positive_rate": 0.06369426751592357,
+        "false_negative_rate": 0.7107692307692308,
         "wilson_fpr_ci": [
-          0.024011589577214484,
-          0.1860898690124198
+          0.048645353332978813,
+          0.08299257930805595
         ]
       },
-      "fpr_on_legitimate_test": 0.06976744186046512,
-      "review_rate_legitimate": 0.023255813953488372,
-      "average_precision": 0.38483124965754967,
+      "fpr_on_legitimate_test": 0.06369426751592357,
+      "review_rate_legitimate": 0.1337579617834395,
+      "average_precision": 0.3184253192553188,
       "per_family": {
-        "oversized": {
-          "recall": 0.0,
-          "support": 3.0
-        },
-        "sqli": {
-          "recall": 0.42857142857142855,
-          "support": 7.0
-        },
         "traversal": {
           "recall": 1.0,
-          "support": 6.0
+          "support": 84.0
+        },
+        "sqli": {
+          "recall": 0.2857142857142857,
+          "support": 84.0
         },
         "evasive": {
           "recall": 0.0,
-          "support": 13.0
-        },
-        "xss": {
-          "recall": 0.0,
-          "support": 7.0
+          "support": 116.0
         },
         "repetitive": {
           "recall": 1.0,
-          "support": 3.0
+          "support": 41.0
+        },
+        "oversized": {
+          "recall": 0.0,
+          "support": 41.0
+        },
+        "xss": {
+          "recall": 0.0,
+          "support": 84.0
         }
       },
       "attack_slices": {
         "signature_easy": {
-          "recall": 0.6923076923076923,
-          "support": 13.0
+          "recall": 0.568,
+          "support": 125.0
         },
         "rule_evasive": {
-          "recall": 0.0,
-          "support": 20.0
+          "recall": 0.1522633744855967,
+          "support": 243.0
         },
         "size_distribution": {
           "recall": 0.5,
-          "support": 6.0
+          "support": 82.0
         }
       },
-      "latency_ms_median": 0.3158640000151536,
-      "latency_ms_p95": 0.794843799985756,
+      "latency_ms_median": 0.397605999978623,
+      "latency_ms_p95": 0.9204949000320537,
       "settings": {
         "alert_threshold_percentile": 100.0,
-        "review_threshold_percentile": 98.88888888888889,
+        "review_threshold_percentile": 98.37083010085338,
         "isolation_alert_threshold": 0.0,
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
@@ -458,179 +458,179 @@
     "isolation_forest": {
       "mode": "isolation_forest",
       "metrics_malicious": {
-        "tp": 0,
-        "fp": 0,
-        "tn": 43,
-        "fn": 39,
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
-        "false_positive_rate": 0.0,
-        "false_negative_rate": 1.0,
+        "tp": 41,
+        "fp": 44,
+        "tn": 741,
+        "fn": 409,
+        "precision": 0.4823529411764706,
+        "recall": 0.09111111111111111,
+        "f1": 0.15327102803738318,
+        "false_positive_rate": 0.05605095541401274,
+        "false_negative_rate": 0.9088888888888889,
         "wilson_fpr_ci": [
-          0.0,
-          0.08200980322579121
+          0.04201631473957364,
+          0.07440943569955225
         ]
       },
       "metrics_benign_invalid": {
-        "total": 16,
-        "flagged": 2,
-        "rejection_rate": 0.125
+        "total": 200,
+        "flagged": 34,
+        "rejection_rate": 0.17
       },
       "metrics_any_anomaly": {
-        "tp": 2,
-        "fp": 0,
-        "tn": 43,
-        "fn": 53,
-        "precision": 1.0,
-        "recall": 0.03636363636363636,
-        "f1": 0.07017543859649122,
-        "false_positive_rate": 0.0,
-        "false_negative_rate": 0.9636363636363636,
+        "tp": 75,
+        "fp": 44,
+        "tn": 741,
+        "fn": 575,
+        "precision": 0.6302521008403361,
+        "recall": 0.11538461538461539,
+        "f1": 0.19505851755526657,
+        "false_positive_rate": 0.05605095541401274,
+        "false_negative_rate": 0.8846153846153846,
         "wilson_fpr_ci": [
-          0.0,
-          0.08200980322579121
+          0.04201631473957364,
+          0.07440943569955225
         ]
       },
-      "fpr_on_legitimate_test": 0.0,
+      "fpr_on_legitimate_test": 0.05605095541401274,
       "review_rate_legitimate": 0.0,
-      "average_precision": 0.38483124965754967,
+      "average_precision": 0.31842531925531875,
       "per_family": {
-        "oversized": {
+        "traversal": {
           "recall": 0.0,
-          "support": 3.0
+          "support": 84.0
         },
         "sqli": {
           "recall": 0.0,
-          "support": 7.0
-        },
-        "traversal": {
-          "recall": 0.0,
-          "support": 6.0
+          "support": 84.0
         },
         "evasive": {
           "recall": 0.0,
-          "support": 13.0
+          "support": 116.0
+        },
+        "repetitive": {
+          "recall": 1.0,
+          "support": 41.0
+        },
+        "oversized": {
+          "recall": 0.0,
+          "support": 41.0
         },
         "xss": {
           "recall": 0.0,
-          "support": 7.0
-        },
-        "repetitive": {
-          "recall": 0.0,
-          "support": 3.0
+          "support": 84.0
         }
       },
       "attack_slices": {
         "signature_easy": {
           "recall": 0.0,
-          "support": 13.0
+          "support": 125.0
         },
         "rule_evasive": {
           "recall": 0.0,
-          "support": 20.0
+          "support": 243.0
         },
         "size_distribution": {
-          "recall": 0.0,
-          "support": 6.0
+          "recall": 0.5,
+          "support": 82.0
         }
       },
-      "latency_ms_median": 4.498324499991213,
-      "latency_ms_p95": 5.30611849998337,
+      "latency_ms_median": 4.600885999991533,
+      "latency_ms_p95": 5.341683399990416,
       "settings": {
         "alert_threshold_percentile": 100.0,
-        "review_threshold_percentile": 98.88888888888889,
-        "isolation_alert_threshold": -0.002537675836199793,
-        "isolation_review_threshold": -0.002537675836199793,
+        "review_threshold_percentile": 98.37083010085338,
+        "isolation_alert_threshold": 0.01722994302122116,
+        "isolation_review_threshold": 0.01722994302122116,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
       }
     }
   },
-  "generated_at": 1794219382.278045,
+  "generated_at": 1794219662.5408297,
   "primary_comparison": {
     "rules_only": {
       "mode": "rules_only",
       "metrics_malicious": {
-        "tp": 9,
+        "tp": 108,
         "fp": 0,
-        "tn": 43,
-        "fn": 30,
+        "tn": 785,
+        "fn": 342,
         "precision": 1.0,
-        "recall": 0.23076923076923078,
-        "f1": 0.375,
+        "recall": 0.24,
+        "f1": 0.3870967741935484,
         "false_positive_rate": 0.0,
-        "false_negative_rate": 0.7692307692307693,
+        "false_negative_rate": 0.76,
         "wilson_fpr_ci": [
-          0.0,
-          0.08200980322579121
+          4.336808689942018e-19,
+          0.004869747625127423
         ]
       },
       "metrics_benign_invalid": {
-        "total": 16,
-        "flagged": 2,
-        "rejection_rate": 0.125
+        "total": 200,
+        "flagged": 22,
+        "rejection_rate": 0.11
       },
       "metrics_any_anomaly": {
-        "tp": 11,
+        "tp": 130,
         "fp": 0,
-        "tn": 43,
-        "fn": 44,
+        "tn": 785,
+        "fn": 520,
         "precision": 1.0,
         "recall": 0.2,
         "f1": 0.3333333333333333,
         "false_positive_rate": 0.0,
         "false_negative_rate": 0.8,
         "wilson_fpr_ci": [
-          0.0,
-          0.08200980322579121
+          4.336808689942018e-19,
+          0.004869747625127423
         ]
       },
       "fpr_on_legitimate_test": 0.0,
       "review_rate_legitimate": 0.0,
-      "average_precision": 0.3979591836734694,
+      "average_precision": 0.313588850174216,
       "per_family": {
-        "oversized": {
-          "recall": 0.0,
-          "support": 3.0
-        },
-        "sqli": {
-          "recall": 0.42857142857142855,
-          "support": 7.0
-        },
         "traversal": {
           "recall": 1.0,
-          "support": 6.0
+          "support": 84.0
+        },
+        "sqli": {
+          "recall": 0.2857142857142857,
+          "support": 84.0
         },
         "evasive": {
           "recall": 0.0,
-          "support": 13.0
-        },
-        "xss": {
-          "recall": 0.0,
-          "support": 7.0
+          "support": 116.0
         },
         "repetitive": {
           "recall": 0.0,
-          "support": 3.0
+          "support": 41.0
+        },
+        "oversized": {
+          "recall": 0.0,
+          "support": 41.0
+        },
+        "xss": {
+          "recall": 0.0,
+          "support": 84.0
         }
       },
       "attack_slices": {
         "signature_easy": {
-          "recall": 0.6923076923076923,
-          "support": 13.0
+          "recall": 0.568,
+          "support": 125.0
         },
         "rule_evasive": {
-          "recall": 0.0,
-          "support": 20.0
+          "recall": 0.1522633744855967,
+          "support": 243.0
         },
         "size_distribution": {
           "recall": 0.0,
-          "support": 6.0
+          "support": 82.0
         }
       },
-      "latency_ms_median": 0.021299000010799318,
-      "latency_ms_p95": 0.1565384500025856,
+      "latency_ms_median": 0.01979799998252929,
+      "latency_ms_p95": 0.07719570002677754,
       "settings": {
         "alert_threshold_percentile": 99.0,
         "review_threshold_percentile": 95.0,
@@ -643,88 +643,88 @@
     "combined_stats": {
       "mode": "combined_stats",
       "metrics_malicious": {
-        "tp": 3,
-        "fp": 3,
-        "tn": 40,
-        "fn": 36,
-        "precision": 0.5,
-        "recall": 0.07692307692307693,
-        "f1": 0.13333333333333336,
-        "false_positive_rate": 0.06976744186046512,
-        "false_negative_rate": 0.9230769230769231,
+        "tp": 41,
+        "fp": 50,
+        "tn": 735,
+        "fn": 409,
+        "precision": 0.45054945054945056,
+        "recall": 0.09111111111111111,
+        "f1": 0.15157116451016636,
+        "false_positive_rate": 0.06369426751592357,
+        "false_negative_rate": 0.9088888888888889,
         "wilson_fpr_ci": [
-          0.024011589577214484,
-          0.1860898690124198
+          0.048645353332978813,
+          0.08299257930805595
         ]
       },
       "metrics_benign_invalid": {
-        "total": 16,
-        "flagged": 3,
-        "rejection_rate": 0.1875
+        "total": 200,
+        "flagged": 17,
+        "rejection_rate": 0.085
       },
       "metrics_any_anomaly": {
-        "tp": 6,
-        "fp": 3,
-        "tn": 40,
-        "fn": 49,
-        "precision": 0.6666666666666666,
-        "recall": 0.10909090909090909,
-        "f1": 0.1875,
-        "false_positive_rate": 0.06976744186046512,
-        "false_negative_rate": 0.8909090909090909,
+        "tp": 58,
+        "fp": 50,
+        "tn": 735,
+        "fn": 592,
+        "precision": 0.5370370370370371,
+        "recall": 0.08923076923076922,
+        "f1": 0.15303430079155672,
+        "false_positive_rate": 0.06369426751592357,
+        "false_negative_rate": 0.9107692307692308,
         "wilson_fpr_ci": [
-          0.024011589577214484,
-          0.1860898690124198
+          0.048645353332978813,
+          0.08299257930805595
         ]
       },
-      "fpr_on_legitimate_test": 0.06976744186046512,
-      "review_rate_legitimate": 0.023255813953488372,
-      "average_precision": 0.38483124965754967,
+      "fpr_on_legitimate_test": 0.06369426751592357,
+      "review_rate_legitimate": 0.1337579617834395,
+      "average_precision": 0.3184253192553188,
       "per_family": {
-        "oversized": {
+        "traversal": {
           "recall": 0.0,
-          "support": 3.0
+          "support": 84.0
         },
         "sqli": {
           "recall": 0.0,
-          "support": 7.0
-        },
-        "traversal": {
-          "recall": 0.0,
-          "support": 6.0
+          "support": 84.0
         },
         "evasive": {
           "recall": 0.0,
-          "support": 13.0
-        },
-        "xss": {
-          "recall": 0.0,
-          "support": 7.0
+          "support": 116.0
         },
         "repetitive": {
           "recall": 1.0,
-          "support": 3.0
+          "support": 41.0
+        },
+        "oversized": {
+          "recall": 0.0,
+          "support": 41.0
+        },
+        "xss": {
+          "recall": 0.0,
+          "support": 84.0
         }
       },
       "attack_slices": {
         "signature_easy": {
           "recall": 0.0,
-          "support": 13.0
+          "support": 125.0
         },
         "rule_evasive": {
           "recall": 0.0,
-          "support": 20.0
+          "support": 243.0
         },
         "size_distribution": {
           "recall": 0.5,
-          "support": 6.0
+          "support": 82.0
         }
       },
-      "latency_ms_median": 0.31262350000815786,
-      "latency_ms_p95": 0.7666124999914811,
+      "latency_ms_median": 0.4055840000205535,
+      "latency_ms_p95": 0.9204356000168444,
       "settings": {
         "alert_threshold_percentile": 100.0,
-        "review_threshold_percentile": 98.88888888888889,
+        "review_threshold_percentile": 98.37083010085338,
         "isolation_alert_threshold": 0.0,
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
@@ -734,88 +734,88 @@
     "rules_plus_stats": {
       "mode": "rules_plus_stats",
       "metrics_malicious": {
-        "tp": 12,
-        "fp": 3,
-        "tn": 40,
-        "fn": 27,
-        "precision": 0.8,
-        "recall": 0.3076923076923077,
-        "f1": 0.4444444444444444,
-        "false_positive_rate": 0.06976744186046512,
-        "false_negative_rate": 0.6923076923076923,
+        "tp": 149,
+        "fp": 50,
+        "tn": 735,
+        "fn": 301,
+        "precision": 0.7487437185929648,
+        "recall": 0.33111111111111113,
+        "f1": 0.45916795069337446,
+        "false_positive_rate": 0.06369426751592357,
+        "false_negative_rate": 0.6688888888888889,
         "wilson_fpr_ci": [
-          0.024011589577214484,
-          0.1860898690124198
+          0.048645353332978813,
+          0.08299257930805595
         ]
       },
       "metrics_benign_invalid": {
-        "total": 16,
-        "flagged": 5,
-        "rejection_rate": 0.3125
+        "total": 200,
+        "flagged": 39,
+        "rejection_rate": 0.195
       },
       "metrics_any_anomaly": {
-        "tp": 17,
-        "fp": 3,
-        "tn": 40,
-        "fn": 38,
-        "precision": 0.85,
-        "recall": 0.3090909090909091,
-        "f1": 0.4533333333333333,
-        "false_positive_rate": 0.06976744186046512,
-        "false_negative_rate": 0.6909090909090909,
+        "tp": 188,
+        "fp": 50,
+        "tn": 735,
+        "fn": 462,
+        "precision": 0.7899159663865546,
+        "recall": 0.28923076923076924,
+        "f1": 0.42342342342342343,
+        "false_positive_rate": 0.06369426751592357,
+        "false_negative_rate": 0.7107692307692308,
         "wilson_fpr_ci": [
-          0.024011589577214484,
-          0.1860898690124198
+          0.048645353332978813,
+          0.08299257930805595
         ]
       },
-      "fpr_on_legitimate_test": 0.06976744186046512,
-      "review_rate_legitimate": 0.023255813953488372,
-      "average_precision": 0.38483124965754967,
+      "fpr_on_legitimate_test": 0.06369426751592357,
+      "review_rate_legitimate": 0.1337579617834395,
+      "average_precision": 0.3184253192553188,
       "per_family": {
-        "oversized": {
-          "recall": 0.0,
-          "support": 3.0
-        },
-        "sqli": {
-          "recall": 0.42857142857142855,
-          "support": 7.0
-        },
         "traversal": {
           "recall": 1.0,
-          "support": 6.0
+          "support": 84.0
+        },
+        "sqli": {
+          "recall": 0.2857142857142857,
+          "support": 84.0
         },
         "evasive": {
           "recall": 0.0,
-          "support": 13.0
-        },
-        "xss": {
-          "recall": 0.0,
-          "support": 7.0
+          "support": 116.0
         },
         "repetitive": {
           "recall": 1.0,
-          "support": 3.0
+          "support": 41.0
+        },
+        "oversized": {
+          "recall": 0.0,
+          "support": 41.0
+        },
+        "xss": {
+          "recall": 0.0,
+          "support": 84.0
         }
       },
       "attack_slices": {
         "signature_easy": {
-          "recall": 0.6923076923076923,
-          "support": 13.0
+          "recall": 0.568,
+          "support": 125.0
         },
         "rule_evasive": {
-          "recall": 0.0,
-          "support": 20.0
+          "recall": 0.1522633744855967,
+          "support": 243.0
         },
         "size_distribution": {
           "recall": 0.5,
-          "support": 6.0
+          "support": 82.0
         }
       },
-      "latency_ms_median": 0.3158640000151536,
-      "latency_ms_p95": 0.794843799985756,
+      "latency_ms_median": 0.397605999978623,
+      "latency_ms_p95": 0.9204949000320537,
       "settings": {
         "alert_threshold_percentile": 100.0,
-        "review_threshold_percentile": 98.88888888888889,
+        "review_threshold_percentile": 98.37083010085338,
         "isolation_alert_threshold": 0.0,
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
@@ -828,7 +828,7 @@
     "modes": {
       "rules_only": {
         "recall": 1.0,
-        "alerts": 6
+        "alerts": 84
       },
       "combined_stats": {
         "recall": 0.0,
@@ -836,9 +836,9 @@
       },
       "rules_plus_stats": {
         "recall": 1.0,
-        "alerts": 6
+        "alerts": 84
       }
     },
-    "support": 6
+    "support": 84
   }
 }

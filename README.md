@@ -21,8 +21,11 @@ python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
 
-# Smaller dataset (~900 requests) for fast iteration
-anomaly-guard generate --output data/simulated --small
+# Full simulator (~11,500 requests; matches checked-in results/)
+anomaly-guard generate --output data/simulated
+
+# Smoke tests only (~740 requests)
+# anomaly-guard generate --output data/simulated --small
 anomaly-guard train --data data/simulated --output models/baseline.json
 anomaly-guard replay --data data/simulated --baseline models/baseline.json \
   --db data/events.db --with-labels --limit 300 --clear
@@ -65,7 +68,7 @@ anomaly_guard/
   evaluation/         # splits, metrics, experiment runner
   config/             # routes.yaml, rules.yaml
 data/
-  simulated/          # default small demo dataset (regenerate with generate)
+  simulated/          # full JSONL dataset (~11.5k requests; regenerate with generate)
   events.db           # SQLite event store (created by replay)
 models/
   baseline.json       # trained profiles + calibration scores

@@ -1,7 +1,51 @@
 [
   {
+    "kind": "false_positive",
+    "request_id": "00b9f2bf-f940-4c43-92f8-a093a605cc98",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "eb5e6d24-ddc3-4d81-be62-9bdc9fc00c04",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+    ]
+  },
+  {
     "kind": "false_negative",
-    "request_id": "caae35de-11cc-417c-bcfa-2137582d7b56",
+    "request_id": "e33d0424-9406-4df5-b731-791db3a38c88",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "f4050074-1b84-4294-ac1e-1a8afc5345d8",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "signature_easy",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "dd86ce3f-ce7c-48f7-98a0-ff7dcc577c12",
     "scenario_group": "malicious_intent",
     "attack_family": "oversized",
     "attack_slice": "size_distribution",
@@ -11,7 +55,39 @@
   },
   {
     "kind": "false_negative",
-    "request_id": "c23b99b8-d28a-4b6b-a0fa-63d315ae589b",
+    "request_id": "c77e753b-bef8-4335-bb31-ff7b61a74467",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "c7675dda-d65e-4f56-b343-a06c518f7366",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "c92b75c9-a8ea-4506-8d90-afef7bbfb2a7",
+    "scenario_group": "malicious_intent",
+    "attack_family": "oversized",
+    "attack_slice": "size_distribution",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "bee1aa63-ca7a-4923-ac01-12f2d0fa6d64",
     "scenario_group": "malicious_intent",
     "attack_family": "sqli",
     "attack_slice": "rule_evasive",
@@ -21,17 +97,19 @@
   },
   {
     "kind": "false_negative",
-    "request_id": "af0204f9-69c3-4f91-9a9a-64ffe8176a9e",
+    "request_id": "eaa45b0c-8fc7-4331-9a84-673d20ce2fce",
     "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "normal",
-    "likely_cause": "unknown",
-    "evidence": []
+    "attack_family": "xss",
+    "attack_slice": "signature_easy",
+    "decision": "review",
+    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
+    "evidence": [
+      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern"
+    ]
   },
   {
     "kind": "false_negative",
-    "request_id": "e7009a03-acb4-43d7-a18a-685d10533978",
+    "request_id": "d85e33e6-581e-47c1-85ff-8ccea91a5d7b",
     "scenario_group": "hard_malicious_intent",
     "attack_family": "evasive",
     "attack_slice": "rule_evasive",
@@ -41,17 +119,49 @@
   },
   {
     "kind": "false_negative",
-    "request_id": "e25c0268-a9c8-4835-b1a7-08c9615b47c9",
+    "request_id": "d2a6287f-4e6f-4272-9d03-5a9a018be474",
     "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
     "decision": "normal",
     "likely_cause": "unknown",
     "evidence": []
   },
   {
     "kind": "false_negative",
-    "request_id": "e21d05d2-38d8-49a2-9b5a-05c8176590a5",
+    "request_id": "ddbf497f-83dd-45ac-b280-06c960c189e7",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "signature_easy",
+    "decision": "review",
+    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
+    "evidence": [
+      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d674c72e-4c72-4ad2-92d5-a7962c27e3e1",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "cf17000b-482a-4e5c-9316-5f142aa3e58e",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "e02e6e72-1e0a-45a0-9457-0758fd73ba1c",
     "scenario_group": "hard_malicious_intent",
     "attack_family": "evasive",
     "attack_slice": "rule_evasive",
@@ -61,7 +171,712 @@
   },
   {
     "kind": "false_negative",
-    "request_id": "f1a6ac03-50a9-449c-a8e5-bd3665d68dc9",
+    "request_id": "e85401ba-9739-473f-b511-ee5c2321abf8",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "fd5b0940-a3b9-4077-b52e-0eb1a78e07c1",
+    "scenario_group": "malicious_intent",
+    "attack_family": "oversized",
+    "attack_slice": "size_distribution",
+    "decision": "review",
+    "likely_cause": "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
+    "evidence": [
+      "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "e56412ef-16ac-4241-900f-f043e0ec564b",
+    "scenario_group": "malicious_intent",
+    "attack_family": "oversized",
+    "attack_slice": "size_distribution",
+    "decision": "review",
+    "likely_cause": "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
+    "evidence": [
+      "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "f2509f96-cba8-4304-8ebb-a6538ea6a224",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "signature_easy",
+    "decision": "review",
+    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
+    "evidence": [
+      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "dfc6741b-bf5b-489c-b995-3c1dc5249891",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "fa6f2e72-9647-473d-af18-5b7dd1305883",
+    "scenario_group": "distribution_shift",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): robust z vs median 28.0, MAD 6.0",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 100.0): robust z vs median 28.0, MAD 6.0",
+      "Field 'author' composition unusual (empirical percentile 98.4): distribution discrepancy 0.4214 (n=15); baseline incompatibility p=0.01193 (not attack probability)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "da5ce630-4698-4d24-884b-4a671656e862",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "e0143a35-cf82-41f3-a41b-a2a4d7696991",
+    "scenario_group": "malicious_intent",
+    "attack_family": "oversized",
+    "attack_slice": "size_distribution",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "e419ec6f-5a1d-40ab-9378-198ffdae7fa0",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "f464cb80-33f1-4fce-a2f9-c21cb02e2315",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "c8c264ab-b7cf-4ffc-8344-58b570499e3c",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d3df2a31-d512-4b8b-ac2b-2019ba618135",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "1e7869e8-ca1a-4b00-b7f8-892bf70ed276",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "f70179b6-2caa-447b-94a0-b8856554b15f",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "ef5b931b-302e-4046-ab56-b7b480726df4",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "df076529-089d-4045-ad96-050000afe9a6",
+    "scenario_group": "malicious_intent",
+    "attack_family": "oversized",
+    "attack_slice": "size_distribution",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "c41e2bf9-7d49-4b35-8e14-7c6a068833bc",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d48d3376-8886-40fe-8ee6-8a7314c8cb0e",
+    "scenario_group": "malicious_intent",
+    "attack_family": "oversized",
+    "attack_slice": "size_distribution",
+    "decision": "review",
+    "likely_cause": "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
+    "evidence": [
+      "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "e5809ae6-adcc-4815-8380-eea837e2747a",
+    "scenario_group": "malicious_intent",
+    "attack_family": "oversized",
+    "attack_slice": "size_distribution",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d03c9376-59b3-4641-8738-98c8461097c8",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "f9717a2b-d29a-4204-a344-db527c2ccce6",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "7ca739d5-f8b0-455e-b403-b91c8fafd274",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "cadfe8f0-93da-4665-9dfa-cf76c3b4599a",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "signature_easy",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "f067c0b5-39f2-4786-9c46-79fa5d6a59ea",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "fc8bb0dd-470f-4204-a03f-772c1f600b79",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "ff91c521-7d9a-4c22-8bbf-91c90612678f",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "signature_easy",
+    "decision": "review",
+    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
+    "evidence": [
+      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d577742e-9da2-4393-ae19-0e628ad4c63f",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "ff005c75-9127-4753-a983-052724ae3a53",
+    "scenario_group": "malicious_intent",
+    "attack_family": "oversized",
+    "attack_slice": "size_distribution",
+    "decision": "review",
+    "likely_cause": "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
+    "evidence": [
+      "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "fa0801e6-b412-4f5f-b737-279b982ae00b",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d4eace84-74e4-41b1-96c8-70e68735fc4e",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "dd0f8b1e-896b-433d-b33a-2897c3da3bc9",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d6a48e68-0cdf-4dc3-bc64-3d22437a2ef5",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "signature_easy",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d3353363-110a-41ea-a002-80432e846462",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d9cdb1d3-5430-4d31-b399-793b993b6202",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "fde6f7c7-9163-4ee5-8eb2-9bc6b192cd43",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "ea0abd71-3cf0-4e7b-8605-3cb8f5a88df2",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "f19460b8-0cb4-45b4-b2cd-a870a64aa9c3",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "e43b9b14-2261-4d22-8f19-275c10e8ab40",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "2994c52b-583e-4431-b4f9-81595f618570",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "b64b8657-cc00-4f00-bf75-130dffef40ca",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d96df106-c2ff-40c8-8d43-2cc3c8898597",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "cb47428e-ba61-41c1-b164-39678e0f3bad",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "signature_easy",
+    "decision": "review",
+    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
+    "evidence": [
+      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "bb7b7a40-bd98-40ac-bc5f-9b869c874972",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "fffdb13a-9caf-4e8e-b6c7-54bec2ba1325",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "cf2fe8ab-1adf-432b-bc7e-7beef7bf0c38",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "fbfd4aa0-104f-42a2-8102-6789a8b9c775",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "fc6e32f7-c05b-4f2f-82b2-68b2ae95e347",
+    "scenario_group": "malicious_intent",
+    "attack_family": "oversized",
+    "attack_slice": "size_distribution",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "e7253f97-ca12-4ed4-87f2-f81caa5bff3b",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "ea1fb52b-526e-4ac7-a540-032ea8616095",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "signature_easy",
+    "decision": "review",
+    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
+    "evidence": [
+      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "df3ed7d0-e9b2-4787-a7c6-597bc61b102b",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "81ce1605-5b76-4ebd-9754-80f156b1587c",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "f1ffa14a-232b-4198-bb78-9ae5267d990f",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "e89ba224-68c5-41b6-8ccb-2f49d502d623",
+    "scenario_group": "malicious_intent",
+    "attack_family": "oversized",
+    "attack_slice": "size_distribution",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "f1f42aa7-5ad7-4cad-ba92-e5648821dc85",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "da51494d-ef37-45ec-842a-91b4d86292fe",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "c2e9e606-c0f5-415d-a15e-7949999f7885",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "signature_easy",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "f2cd21a4-23d5-4540-b48f-2989b282d951",
+    "scenario_group": "malicious_intent",
+    "attack_family": "oversized",
+    "attack_slice": "size_distribution",
+    "decision": "review",
+    "likely_cause": "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
+    "evidence": [
+      "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "fa8a28c6-d78b-43da-8b67-f267352fd13b",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "c989af60-a852-4610-aafb-711cbbbff873",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "c393ce6d-6cc3-48b2-9987-36283086787a",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "signature_easy",
+    "decision": "review",
+    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
+    "evidence": [
+      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "db4e3ad4-e787-43cd-909c-6a43b1979009",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "ea445142-af5d-4b30-aac7-4183947782f2",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "signature_easy",
+    "decision": "review",
+    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
+    "evidence": [
+      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "fda12c7a-eaa6-41b8-b724-4eec91fb7c4f",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "c6a17afd-bd50-4f9a-8ef3-d58aa6a70e68",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "edde02df-25fb-441c-865b-1d33f6b9ae40",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "signature_easy",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "f9fc7e6b-4270-43d4-a5ef-2ac6fbfa13d8",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "e5054e6d-4c7c-4114-bc98-3e4d5489ef42",
     "scenario_group": "malicious_intent",
     "attack_family": "xss",
     "attack_slice": "rule_evasive",
@@ -73,7 +888,39 @@
   },
   {
     "kind": "false_negative",
-    "request_id": "c654835d-c97c-4352-9ea5-70a5d69145bf",
+    "request_id": "dffe93a9-823c-4504-b904-10bee1ea3276",
+    "scenario_group": "malicious_intent",
+    "attack_family": "oversized",
+    "attack_slice": "size_distribution",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "cbc11aa0-08ee-4a26-aeeb-429fab5d4ecb",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "f2df9e08-84b1-42f3-9e8c-ffb26191413e",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "f928040b-31ee-41c9-a68e-85ac07fa0125",
     "scenario_group": "malicious_intent",
     "attack_family": "evasive",
     "attack_slice": "rule_evasive",
@@ -83,17 +930,7 @@
   },
   {
     "kind": "false_negative",
-    "request_id": "ea762a2d-ab56-4869-8205-2b3c4c39912d",
-    "scenario_group": "malicious_intent",
-    "attack_family": "sqli",
-    "attack_slice": "signature_easy",
-    "decision": "normal",
-    "likely_cause": "unknown",
-    "evidence": []
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "fdb1a94e-4275-467a-957a-45509dc7c9f8",
+    "request_id": "f5135038-7edc-43fd-8ccc-acfe9538d027",
     "scenario_group": "hard_malicious_intent",
     "attack_family": "evasive",
     "attack_slice": "rule_evasive",
@@ -103,7 +940,97 @@
   },
   {
     "kind": "false_negative",
-    "request_id": "e1b46cf9-dac4-4c62-8014-74d1a56bd416",
+    "request_id": "ed74d1ac-de0f-47c6-81af-25beb10d729f",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "f70f707c-10dc-424d-922c-dd5dcd4eb88a",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "f3fdfdfd-a3e2-42df-968c-1d9b821c0959",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "signature_easy",
+    "decision": "review",
+    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
+    "evidence": [
+      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "db337801-d138-4d44-b9a7-9c4340c9904d",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "dfb49d00-bd37-44f3-ab5c-1cc52c54b042",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "rule_evasive",
+    "decision": "review",
+    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
+    "evidence": [
+      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "f17885a0-fac4-4ace-96f8-60671633b5a7",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "edc867d7-205f-49a3-baa8-5053cbded6ed",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "207b7a35-333a-4dfa-b5ab-4b4e1c90c45c",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "f31317e7-e105-4215-a75d-53f0718cc0f9",
     "scenario_group": "malicious_intent",
     "attack_family": "evasive",
     "attack_slice": "rule_evasive",
@@ -113,9 +1040,39 @@
   },
   {
     "kind": "false_negative",
-    "request_id": "dbe83491-be05-4670-bdd3-4dc706a2612a",
+    "request_id": "ec6a015a-2848-426b-89b2-6c44cf53d331",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "f800d968-f8cf-46ef-9079-0df885ac39f7",
     "scenario_group": "malicious_intent",
     "attack_family": "sqli",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d9a671a8-48c5-46bc-961f-49593cea7c6a",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "ccdc0ca8-ab72-48db-adc6-1a83665d2cb6",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
     "attack_slice": "rule_evasive",
     "decision": "normal",
     "likely_cause": "unknown",
@@ -123,19 +1080,29 @@
   },
   {
     "kind": "false_positive",
-    "request_id": "02f90e50-0e5d-4506-a9d7-76b088e96020",
+    "request_id": "543a5b46-eae6-42dc-8336-506cdb63641d",
     "scenario_group": "difficult_legitimate",
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4490 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4490 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
     ]
   },
   {
     "kind": "false_negative",
-    "request_id": "f67a8523-68d5-4b73-8e3f-4440c17ac267",
+    "request_id": "f793e5e3-61d6-4092-bd01-7c3bb6c4ac26",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d22aaf84-c1db-4931-a838-b587584ccdfb",
     "scenario_group": "malicious_intent",
     "attack_family": "sqli",
     "attack_slice": "rule_evasive",
@@ -145,7 +1112,59 @@
   },
   {
     "kind": "false_negative",
-    "request_id": "e2f82cd7-06dc-46cf-94f8-71592564e411",
+    "request_id": "c932a2f8-127c-40ad-af47-4db4d7af6c60",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "f867a7e8-117a-4fa4-8069-df061641c973",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "cba6134b-d735-4855-b1ca-2641a69f409e",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "signature_easy",
+    "decision": "review",
+    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
+    "evidence": [
+      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "fb455933-cf5a-4733-9736-088b5c7745db",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "eb217300-7a34-43e4-84cd-0684603e1a4d",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "ca8c4c06-a61f-42d3-805d-5410e1bab00e",
     "scenario_group": "malicious_intent",
     "attack_family": "xss",
     "attack_slice": "rule_evasive",
@@ -159,37 +1178,7 @@
   },
   {
     "kind": "false_negative",
-    "request_id": "8d89f894-d6ec-4446-94b2-7d4150a01203",
-    "scenario_group": "malicious_intent",
-    "attack_family": "evasive",
-    "attack_slice": "rule_evasive",
-    "decision": "normal",
-    "likely_cause": "unknown",
-    "evidence": []
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "f675930a-c1ae-44e1-9dba-d4e69f01927b",
-    "scenario_group": "hard_malicious_intent",
-    "attack_family": "evasive",
-    "attack_slice": "rule_evasive",
-    "decision": "normal",
-    "likely_cause": "unknown",
-    "evidence": []
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "d92e08bb-c998-40e8-b388-e802dace20b2",
-    "scenario_group": "hard_malicious_intent",
-    "attack_family": "evasive",
-    "attack_slice": "rule_evasive",
-    "decision": "normal",
-    "likely_cause": "unknown",
-    "evidence": []
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "b77d5661-b01e-4af2-a22f-5c5d4cda88b1",
+    "request_id": "ed6aba95-5908-4f47-899b-a1e2f59772a4",
     "scenario_group": "malicious_intent",
     "attack_family": "xss",
     "attack_slice": "signature_easy",
@@ -201,7 +1190,7 @@
   },
   {
     "kind": "false_negative",
-    "request_id": "ef258fe4-5d1f-456b-a834-6509d78bf18b",
+    "request_id": "e52dc4d8-bedb-4598-9542-18c3f134d883",
     "scenario_group": "malicious_intent",
     "attack_family": "xss",
     "attack_slice": "signature_easy",
@@ -213,7 +1202,388 @@
   },
   {
     "kind": "false_negative",
-    "request_id": "c1660a1e-9f25-4ee8-806e-b16a1be7ca57",
+    "request_id": "d99d645c-7ae9-4621-b1f4-932ef58245c8",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "cb4b24b5-93c2-4f92-a744-5d4129dd424d",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "eb44a066-0ed2-4add-b10e-a2ce13bcbf96",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "signature_easy",
+    "decision": "review",
+    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
+    "evidence": [
+      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "e49d9590-0a5e-4718-b26d-af6dc81b70a7",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "f42c1eb0-f095-4110-b989-d3e4afcfa5ec",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "efb86339-2f07-4054-9b08-8984a693c7ca",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "bcf01364-a8e2-4aa3-bb56-38900b657015",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d2fe03cb-a68c-4de0-9b7a-9181b39d3ce9",
+    "scenario_group": "malicious_intent",
+    "attack_family": "oversized",
+    "attack_slice": "size_distribution",
+    "decision": "review",
+    "likely_cause": "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
+    "evidence": [
+      "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "ec5c0c12-8225-439d-a652-d8f2e11228d0",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "7953e17c-346f-4999-a7b8-886ef9ed2bad",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "27638cc1-e6f6-4240-adb2-b42f8e3d3935",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "c7b148bc-fd0b-4e50-bd7f-b246d6ea5777",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "c0083a18-0c7c-4d44-a618-873e991750a0",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "f8873f38-fed2-4c36-aaf3-e296bb0de10c",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "cca066e0-e4d8-40e3-979d-1cf9ac7c2c0d",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "e9258926-a5d7-4b6b-af7b-5010088c6dd3",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "fd9f62c4-79ab-427d-a610-62202c0fb9e5",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "fd31a01e-f243-4e6a-b24d-feb656d6d2b0",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "de8848a3-6629-46a9-8306-d7216ee0c7cf",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "signature_easy",
+    "decision": "review",
+    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
+    "evidence": [
+      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "fb41730f-e148-45e6-8e6c-441134632ecd",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "e5a4e009-ad6b-4dd9-b089-38d3ad29f85c",
+    "scenario_group": "distribution_shift",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): robust z vs median 28.0, MAD 6.0",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 100.0): robust z vs median 28.0, MAD 6.0",
+      "Field 'author' composition unusual (empirical percentile 98.4): distribution discrepancy 0.4214 (n=15); baseline incompatibility p=0.01193 (not attack probability)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "eacda44c-2253-473e-b34d-2bf47f85cc6d",
+    "scenario_group": "malicious_intent",
+    "attack_family": "oversized",
+    "attack_slice": "size_distribution",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "edcb315d-4153-4b97-9b27-df9bd0c828f3",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d44bf453-d0f2-45b4-b3dd-75b936062a71",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "329fa0b2-dc69-425d-ac9b-d6bebded7a8b",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "f2fcd4a0-dbf4-4df8-860b-178f7654c565",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "cd01b5fd-0482-42a7-b3a1-2371a46952f8",
+    "scenario_group": "malicious_intent",
+    "attack_family": "oversized",
+    "attack_slice": "size_distribution",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "ddd053fd-3b37-4539-99db-da63706a0472",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d678a1a4-3923-4868-a08d-b7bc7b47ae51",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "fb3debef-49e6-46e4-b9c0-fb6d143b6793",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "cd5f205b-77ac-4465-a36b-44738230d86f",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "c6276aed-4e99-4db1-b968-d603ed552f24",
+    "scenario_group": "malicious_intent",
+    "attack_family": "oversized",
+    "attack_slice": "size_distribution",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "dc1be9fd-221a-4627-a65b-6f65b72f8f71",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "e7f73a7b-e7a9-4759-b23e-49a1e4f6edaa",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "e774fd34-3193-46ed-8380-f306decec12d",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "db425740-7bae-4d9f-83dd-7d613c33761e",
+    "scenario_group": "malicious_intent",
+    "attack_family": "oversized",
+    "attack_slice": "size_distribution",
+    "decision": "review",
+    "likely_cause": "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
+    "evidence": [
+      "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "e42bb739-07ee-490a-bf5b-e7e42636f4a0",
     "scenario_group": "malicious_intent",
     "attack_family": "xss",
     "attack_slice": "rule_evasive",
@@ -227,7 +1597,7 @@
   },
   {
     "kind": "false_negative",
-    "request_id": "f4df816b-fb8c-4c11-8709-55e79a03e249",
+    "request_id": "c7f2fdf1-6f13-4506-92d9-0b495b5968f0",
     "scenario_group": "hard_malicious_intent",
     "attack_family": "evasive",
     "attack_slice": "rule_evasive",
@@ -237,7 +1607,7 @@
   },
   {
     "kind": "false_negative",
-    "request_id": "fd3417be-39e0-425b-93eb-5130ffa4b9f5",
+    "request_id": "e3d86c96-246f-43ef-8e06-424eb5aba374",
     "scenario_group": "hard_malicious_intent",
     "attack_family": "evasive",
     "attack_slice": "rule_evasive",
@@ -247,7 +1617,140 @@
   },
   {
     "kind": "false_negative",
-    "request_id": "e107818a-7a36-4e73-a07d-41a5ee7f36f4",
+    "request_id": "c573c8d0-6a8f-4184-b427-d8c628dc7749",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "faad3f4d-e908-436d-9e75-0596cfec56fb",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "signature_easy",
+    "decision": "review",
+    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
+    "evidence": [
+      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d7e63009-f26f-4f49-8ce2-853dd30096e1",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d7e242cf-425e-4263-9637-6cb6ff9288e5",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "signature_easy",
+    "decision": "review",
+    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
+    "evidence": [
+      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "e3e04fbc-3a27-49ac-95f6-a6cecb4c03a9",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "bff252b0-49c5-436b-8142-517bed2b75b3",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "rule_evasive",
+    "decision": "review",
+    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
+    "evidence": [
+      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "e0812523-b4d2-4ebd-93d5-297f03d3bcdb",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "62c594ce-a95f-49c4-8cbc-488bdade9488",
+    "scenario_group": "distribution_shift",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): robust z vs median 28.0, MAD 6.0",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 100.0): robust z vs median 28.0, MAD 6.0",
+      "Field 'author' composition unusual (empirical percentile 98.4): distribution discrepancy 0.4214 (n=15); baseline incompatibility p=0.01193 (not attack probability)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "f8c5c419-d797-444e-96b6-346c0a995180",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "signature_easy",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "c5efa5dd-5a36-4d1e-88d0-2338248cd697",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "ef78120e-e38c-43e6-9472-77c47efeebad",
+    "scenario_group": "malicious_intent",
+    "attack_family": "oversized",
+    "attack_slice": "size_distribution",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d3c211a7-f8d1-46c4-8e5b-3f52397e0920",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "signature_easy",
+    "decision": "review",
+    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
+    "evidence": [
+      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "c65ee46a-e9ed-4075-989e-233bdeef696a",
     "scenario_group": "hard_malicious_intent",
     "attack_family": "evasive",
     "attack_slice": "rule_evasive",
@@ -257,7 +1760,19 @@
   },
   {
     "kind": "false_negative",
-    "request_id": "b43e7ebf-2e1e-4bd2-b766-2f2fc3c1f0d2",
+    "request_id": "d93b283e-536e-4a03-9c43-8064bc72c520",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "rule_evasive",
+    "decision": "review",
+    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
+    "evidence": [
+      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "deb2d6d2-f09c-4dda-9b47-6a13ef91215f",
     "scenario_group": "malicious_intent",
     "attack_family": "xss",
     "attack_slice": "rule_evasive",
@@ -266,20 +1781,8 @@
     "evidence": []
   },
   {
-    "kind": "false_positive",
-    "request_id": "a50bb143-c4eb-4207-a3ce-5d30960bb80d",
-    "scenario_group": "difficult_legitimate",
-    "attack_family": null,
-    "attack_slice": null,
-    "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4490 (n=57)",
-    "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4490 (n=57)"
-    ]
-  },
-  {
     "kind": "false_negative",
-    "request_id": "f438f199-2c3b-4e4a-9622-0e865d8ca25c",
+    "request_id": "d043a97f-5dd4-451e-8653-1518f332daf6",
     "scenario_group": "hard_malicious_intent",
     "attack_family": "evasive",
     "attack_slice": "rule_evasive",
@@ -289,17 +1792,7 @@
   },
   {
     "kind": "false_negative",
-    "request_id": "d882008c-937b-427e-849c-701297e0de37",
-    "scenario_group": "hard_malicious_intent",
-    "attack_family": "evasive",
-    "attack_slice": "rule_evasive",
-    "decision": "normal",
-    "likely_cause": "unknown",
-    "evidence": []
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "de059b1a-e7c8-4fa0-b1f6-3cb9b150d3a9",
+    "request_id": "d484e388-afcf-4fad-82fb-6be853b16b8f",
     "scenario_group": "malicious_intent",
     "attack_family": "xss",
     "attack_slice": "signature_easy",
@@ -311,14 +1804,342 @@
   },
   {
     "kind": "false_positive",
-    "request_id": "3c8712c8-d836-46f5-9bdf-c287cf9bc0c0",
+    "request_id": "a305cc8b-7ec6-44ef-9a8b-3e858b5c26f8",
     "scenario_group": "difficult_legitimate",
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4490 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4490 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
     ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d490c82e-21cd-465e-815c-57a777550c8b",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d0d556c1-f4d1-414f-a4ee-132af764fc86",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "c4433a25-ef22-4f2f-a987-44d6e6518ff0",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d41b7aae-3eb1-4bd1-bde0-431dff0712ea",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "signature_easy",
+    "decision": "review",
+    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
+    "evidence": [
+      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "f5c6e344-ec7a-47d2-b4de-4eb858777a9d",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "cb1754b2-3aba-412f-b9a6-5e13887d6915",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "rule_evasive",
+    "decision": "review",
+    "likely_cause": "Rule UNEXPECTED_FIELD (medium): Field '#x3c;script' is not defined in the route contract",
+    "evidence": [
+      "Rule UNEXPECTED_FIELD (medium): Field '#x3c;script' is not defined in the route contract",
+      "Rule UNEXPECTED_FIELD (medium): Field '#x3e;' is not defined in the route contract",
+      "Rule MISSING_FIELD (medium): Required field 'text' is missing or empty"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "e552a9e2-7593-4c3f-9e4d-c8ae42244774",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "e0be3bdc-4041-4e18-9fe3-44ee4230316e",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "signature_easy",
+    "decision": "review",
+    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
+    "evidence": [
+      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d20deafc-8e7a-4708-8715-bbd996b44b27",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "e7d030e6-cf4f-44cc-acd2-b49ed99b2d1d",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "cb25e358-c78b-4dfe-9162-a76ed47ca771",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "e685809f-90ee-472c-91d1-2191a021aca8",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "e5f7f425-f2d3-4391-8633-f64b0775f021",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "signature_easy",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "c18d6921-b2fa-4709-808d-ff371054cf12",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "f82fa71f-8aca-4ccc-9f2f-f17c2e626893",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d3507b9d-e450-4878-8153-18f3b2c38f4d",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "f9d7aa71-292a-43c8-b399-7cdde15dca98",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "ca3e45de-f950-4a2e-b14c-dd691afbd864",
+    "scenario_group": "distribution_shift",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): robust z vs median 28.0, MAD 6.0",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 100.0): robust z vs median 28.0, MAD 6.0",
+      "Field 'author' composition unusual (empirical percentile 98.4): distribution discrepancy 0.4214 (n=15); baseline incompatibility p=0.01193 (not attack probability)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "e3628a06-d68c-4058-a83f-ef9e1355b5cc",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "dceabc05-03de-4752-9e48-d92223ddef2c",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "4f0e4058-b99d-4d9e-8933-118e41a395ab",
+    "scenario_group": "distribution_shift",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): robust z vs median 28.0, MAD 6.0",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 100.0): robust z vs median 28.0, MAD 6.0",
+      "Field 'author' composition unusual (empirical percentile 98.4): distribution discrepancy 0.4214 (n=15); baseline incompatibility p=0.01193 (not attack probability)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "fc7c5570-3835-46e9-8652-46610c1cab3c",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d6db8ddb-8736-4312-ab92-0bd1a8686a8f",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "e76d9dce-2561-4503-a8f5-17920095a2df",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "e9c03e52-dbfc-40a7-8d84-0ba56f07c5d7",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "de1fb312-d52e-423a-9e1b-f7de58c7d0c1",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "c62e4d67-c7df-4134-a689-94078a996f3c",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "c1d1c54a-7091-4f27-aa39-daa6feb454b4",
+    "scenario_group": "malicious_intent",
+    "attack_family": "oversized",
+    "attack_slice": "size_distribution",
+    "decision": "review",
+    "likely_cause": "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
+    "evidence": [
+      "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "ccfa415f-91a4-49b7-9adc-399862a9aff7",
+    "scenario_group": "malicious_intent",
+    "attack_family": "xss",
+    "attack_slice": "signature_easy",
+    "decision": "review",
+    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
+    "evidence": [
+      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "fb7dd6de-a955-4ee2-804a-9849c5a56022",
+    "scenario_group": "malicious_intent",
+    "attack_family": "sqli",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "d4d91481-ac8c-4b07-b206-72795c71a75d",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
   }
 ]

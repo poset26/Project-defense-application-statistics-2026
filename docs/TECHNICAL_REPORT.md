@@ -123,39 +123,38 @@ Latency: median and p95 of `processing_time_ms` per mode on the test run.
 
 ---
 
-## 5. Illustrative numbers (small demo only)
+## 5. Reported numbers (full simulator, checked in)
 
-The repository includes `results/metrics_summary.json` from **`bash scripts/demo.sh`** (`anomaly-guard generate --small` → ~900 requests). **Do not cite these figures as the outcome of a full study.** They demonstrate export format and tooling behavior.
+`results/metrics_summary.json` reflects **`anomaly-guard generate`** without `--small` (~11,500 requests). Primary comparison modes on the **test split** (malicious intent task, **alert** decisions only):
 
-From that file, on the **test split** of the small dataset:
+| Mode | Malicious recall | Malicious F1 | Legit FPR (alert) | Rule-evasive slice recall |
+|------|------------------|--------------|-------------------|---------------------------|
+| `rules_only` | 0.24 | 0.39 | 0.0 | 0.15 |
+| `combined_stats` | 0.09 | 0.15 | ~0.064 | 0.0 |
+| `rules_plus_stats` | 0.33 | 0.46 | ~0.064 | 0.15 |
 
-| Mode | Malicious F1 | Legitimate FPR | Wilson FPR CI (approx.) | Notes |
-|------|--------------|----------------|-------------------------|--------|
-| `rules_only` | 1.0 | 0.0 | [0.0, 0.053] | Precision/recall 1.0 on malicious |
-| `length_only` | ~0.84 | ~0.203 | [0.125, 0.312] | Same malicious row as several other modes |
-| `composition_only` | lower F1, higher FPR | ~0.45 | (see JSON) | More legitimate FPs |
-| `combined_stats` | matches `length_only` in this run | ~0.203 | — | Max aggregate dominated by length scale |
-| `rules_plus_stats` | ~0.84 | ~0.203 | [0.125, 0.312] | Same as length_only here |
-| `isolation_forest` | 1.0 | 0.0 | [0.0, 0.053] | Rules dominate before IF |
+**Signature-easy** slice: `rules_only` recall ~0.57; **`rules_plus_stats`** ~0.57. **Size-distribution** slice: statistics modes ~0.50 recall vs rules ~0.0.
 
-**Per-family recall** in that file lists only **`oversized`** (1.0)—other families did not appear in the evaluated test slice. **Benign-invalid rejection rate** is **1.0** for every mode (schema rules saturate). Calibrated **`alert_threshold_percentile`** in saved settings is **100.0** for statistical modes while **`review`** still flags traffic—so measured legitimate FPR reflects review+alert, not the nominal 1% validation target alone.
+**Benign-invalid** alert rate (not 100% saturated): `rules_only` ~11%; `rules_plus_stats` ~19.5%.
 
-Regenerate metrics after changing data or code:
+Validation targeted **1%** legitimate FPR; **test** legitimate FPR for statistical modes is higher (~6.4% alert)—report actual test rates as in the JSON.
+
+Regenerate:
 
 ```bash
-bash scripts/demo.sh
-# or the individual CLI steps in USAGE.md
+anomaly-guard generate --output data/simulated
+anomaly-guard evaluate --data data/simulated --output results
 ```
 
 ---
 
 ## 6. Current limitations (honest)
 
-The following are **observed properties of the present system and experiment**, not a roadmap. A detailed fix plan with implementation steps is in **[UPDATE_PLAN.md](UPDATE_PLAN.md)** (proposed; detector code unchanged).
+The following are **residual limitations** after the experiment-honesty update. Historical issues and the original fix plan are in **[UPDATE_PLAN.md](UPDATE_PLAN.md)** (status: applied).
 
-1. **Simulator–rule alignment:** Many generated attacks mirror patterns in `rules.yaml`, so **`rules_only` can saturate** recall on the small test slice; statistical modes cannot show incremental benefit on attacks already guaranteed to match signatures.
+1. **Partial simulator–rule overlap:** **Signature-easy** attacks still align with `rules.yaml`; use **`attack_slices.rule_evasive`** for the main statistical comparison.
 
-2. **Ablations still execute rules:** Modes named `length_only`, `composition_only`, etc. still evaluate rules and, in `_decision_hybrid`, can **alert or review on rule hits before or alongside** statistics—so exported “statistics-only” rows may not isolate statistical detection. See UPDATE_PLAN §2.
+2. **Calibration gap:** The **1% validation FPR budget** does not always hold on the **test** legitimate set (~6% alert FPR for combined/hybrid modes in the checked-in full run).
 
 3. **Splitting drops attack families:** Template-group hashing can place entire malicious templates in non-test partitions; the checked-in summary’s **single-family** recall is a symptom. `held_out_family_meta` exists but is not wired into `experiments.py`.
 

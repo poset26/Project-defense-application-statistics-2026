@@ -1,194 +1,111 @@
 # Anomaly Guard — Technical Report
 
-This document describes the **methodology implemented in code** as of commit `69708ba` (route-stratified splits and refined evaluation metrics). It is written for readers who may not open the repository. For operational commands, see [USAGE.md](USAGE.md); for module-level data flow, see [ARCHITECTURE.md](ARCHITECTURE.md).
+This report matches the code and the checked-in full-simulator run in `results/metrics_summary.json` (11,500 generated requests). An **alert** means a request looks suspicious or unusual relative to route rules and a legitimate baseline. It is not proof of a successful attack. Ground-truth labels record simulator intent.
 
-**Scope disclaimer:** Anomaly Guard is an academic MVP. **Alerts indicate suspicious or statistically unusual HTTP requests relative to YAML rules and a legitimate baseline—not successful attacks.** Ground-truth labels record **simulator scenario intent**, not penetration-test outcomes.
+## 1. Question
 
----
+Can statistical profiles of legitimate HTTP traffic flag simulated malicious requests that a small signature list misses, and what false-positive rate does that cost?
 
-## 1. Research question (as implemented)
+The comparison that answers this is not a single accuracy number. It is three slices, scored separately:
 
-The project asks whether **learned legitimate-traffic profiles** (robust field length and character-composition statistics), combined with **explicit rules**, can flag held-out **malicious-intent** simulated requests while keeping false positives low on legitimate-family traffic—compared with ablations that disable parts of the stack.
+- **Signature-easy** — textbook strings the rules are written to catch.
+- **Rule-evasive** — same families, payloads that miss `rules.yaml`.
+- **Size / distribution** — long or repetitive fields with no SQL or script token.
 
-The implementation answers that question only to the extent the **dataset, splits, and mode wiring** allow. Section 6 and [UPDATE_PLAN.md](UPDATE_PLAN.md) document why the **checked-in small-demo results must not be treated as a definitive answer**.
+Primary metrics count **`alert` only**. **`review`** is reported as its own rate. A Wilson interval is attached to the legitimate-family false-positive rate.
 
----
+## 2. What the system does
 
-## 2. Traffic and labels
+Three routes: `GET /search`, `POST /login`, `POST /comment`.
 
-### 2.1 Simulator
+Each request is parsed under byte and field limits, then scored by:
 
-`anomaly_guard/simulation/` generates paired JSONL files:
+1. **Rules** — schema, size limits, and a short list of suspicious patterns (`rules.yaml`). High severity alerts. Medium severity reviews.
+2. **Length** — median and MAD on `log1p(length)`.
+3. **Chi-square composition** — character-category counts against the training proportions. A teaching p-value is shown only when every expected count is at least 5, and it is labeled as incompatibility with the baseline, not as an attack probability.
+4. **Confidence intervals** (`ci_only`) — a 95% Student-t **prediction interval** for a new `log1p(length)`, and **Wilson intervals** for training character proportions. The score is how far the request sits outside the interval, in interval widths.
+5. **PAYL, bigram MAD, OLS residual, Mahalanobis, length-stratified chi-square, Isolation Forest** — ablations. OLS regresses `log1p(length)` on entropy and category fractions.
 
-- **`requests.jsonl`** — fields sufficient to replay HTTP-like requests (method, route, raw query, headers, body).
-- **`ground_truth.jsonl`** — `scenario_group`, `scenario_id`, optional `attack_family`, `template_id`, and assigned `split`.
+Statistics-only modes do not let rules change the decision. Hybrid modes (`rules_plus_stats`, `rules_plus_full_stats`) alert on a high-severity pattern or on the statistical score.
 
-Scenario groups:
+**Fusion.** Single-component modes and `combined_stats` use the maximum empirical percentile. `ci_only`, `full_stats`, and `rules_plus_full_stats` use the **mean of per-type percentiles** (the max across fields of that type, then the mean across types). One component can no longer force an alert by itself.
 
-| Group | Role |
-|-------|------|
-| `legitimate` | Ordinary traffic templates |
-| `difficult_legitimate` | Unicode, apostrophes, benign `<html>` mentions, etc. |
-| `distribution_shift` | Legitimate but off-template (e.g. longer comments) |
-| `benign_invalid` | Contract violations without attack payloads |
-| `malicious_intent` / `hard_malicious_intent` | Attack payloads aligned with rule categories |
+**Calibration.** Profiles are fit on legitimate training traffic only. Alert and review cutoffs are the empirical quantiles of validation legitimate scores at `max_false_positive_rate_target` (default 1% on validation). Test false-positive rates are reported as measured. They are not used to move the cutoff.
 
-Attack families in the generator include SQLi, XSS, path traversal, and oversized payloads (see scenarios and `rules.yaml`).
+`operating_point_1pct` in the metrics file is a **descriptive read of the test threshold sweep**: the sweep point with highest malicious recall whose test legitimate FPR is at most 1%, or the closest point if none qualify. Hybrid sweeps count a rule alert as a detection at every threshold. The deployed cutoff stays the validation cutoff.
 
-### 2.2 Application surface
+## 3. Deployed operating point (validation cutoff, test set)
 
-Three routes are in scope: **GET `/search`**, **POST `/login`**, **POST `/comment`**, defined in `anomaly_guard/config/routes.yaml`.
+| Mode | Malicious recall | Precision | Legit alert FPR | Signature-easy | Rule-evasive | Size / distribution |
+|------|------------------|-----------|-----------------|----------------|--------------|---------------------|
+| `rules_only` | 0.24 | 1.00 | 0.00 | 0.57 | 0.15 | 0.00 |
+| `length_only` / `composition_only` | 0.09 | ~0.5 | 0.04–0.05 | 0.00 | 0.00 | 0.50 |
+| `ci_only` | 0.28 | 0.71 | 0.066 | 0.38 | 0.15 | 0.50 |
+| `payl_only` | 0.64 | 0.72 | 0.144 | 0.65 | 0.51 | 1.00 |
+| `full_stats` (mean fusion) | 0.09 | 0.57 | 0.039 | 0.00 | 0.00 | 0.50 |
+| `rules_plus_stats` | 0.33 | 0.75 | 0.064 | 0.57 | 0.15 | 0.50 |
+| `rules_plus_full_stats` | 0.33 | 0.83 | 0.039 | 0.57 | 0.15 | 0.50 |
+| `regression_only` | 0.00 | 0.00 | 0.14 | 0.00 | 0.00 | 0.00 |
+| `isolation_forest` | 0.09 | 0.48 | 0.056 | 0.00 | 0.00 | 0.50 |
 
----
+Wilson 95% intervals on legitimate FPR are in `metrics_summary.json`. For `rules_plus_full_stats` the interval is about 2.8–5.6%.
 
-## 3. Detection methodology
+### Reading the 1% budget on the test sweep
 
-### 3.1 Parsing and features
+The validation cutoff does not always land at 1% FPR on test. The sweep says:
 
-Requests are parsed under configured byte and field limits. Features include per-field lengths, entropy, encoding indicators, and **category fractions** over eight mutually exclusive character bins (`letter`, `digit`, `whitespace`, `quote`, `bracket`, `slash`, `other`).
+| Mode | Recall at the sweep point nearest 1% test FPR | FPR at that point | Budget met? |
+|------|-----------------------------------------------|-------------------|-------------|
+| `length_only` | 0.09 | 0.010 | closest (just over 1%) |
+| `full_stats` | 0.09 | 0.010 | closest (just over 1%) |
+| `rules_plus_full_stats` | 0.33 | 0.010 | closest (just over 1%); rules supply the recall |
+| `ci_only` | 0.28 | 0.066 | no point at or under 1% |
+| `payl_only` | 0.64 | 0.144 | no point at or under 1% |
 
-### 3.2 Rule engine
+PAYL’s recall does not come down to a 1% false-positive budget. At every threshold in its sweep the legitimate FPR stays about 14%, because a large share of legitimate validation scores already sit at percentile 100, so the cutoff cannot move.
 
-Rules enforce route **schema** (types, required fields, lengths) and **suspicious patterns** (e.g. SQL tautology fragments, script tags, traversal sequences) with severities low / medium / high. Every `AnomalyGuard.score()` call evaluates rules; explanations always list firings.
+Mean fusion does the opposite. `full_stats` no longer copies PAYL. Its deployed recall matches length and chi-square (the repetitive size slice only), at 3.9% legitimate FPR, and the sweep can place that same 9% recall next to about 1% FPR. The extra models do not add attack recall once they have to agree.
 
-### 3.3 Statistical baseline
+## 4. What statistics add, and what they do not
 
-**Training data:** train-split rows with `scenario_group == legitimate` only.
+**They add the size slice.** Rules recall 0 there. Length, chi-square, confidence intervals, and the mean-fused stack recall 0.50 (the repetitive comments; the oversized search family does not alert). PAYL recalls 1.00 on that slice.
 
-For each endpoint and configured field with enough non-empty training examples (≥5):
+**Confidence intervals catch some signature-like oddity without a regex.** `ci_only` recalls 0.38 on signature-easy and 0.15 on rule-evasive, the same evasive recall as the rules, at 6.6% legitimate FPR. On the held-out traversal family its alert recall is 1.0, matching the rules. That is the interval detector doing the job the brief names.
 
-1. **Length:** median and MAD; scoring uses a robust z-style magnitude (`|x − median| / (0.6745 × MAD)`) or discrete-length logic when variation is negligible.
-2. **Composition:** training category counts are merged for rare bins; at score time observed counts are compared to expected counts derived from training proportions. **`scipy.stats.chisquare`** yields a statistic; the implementation uses **`sqrt(chi2 / n)`** as the raw score. The chi-square **p-value is discarded** (it is not interpreted as an attack probability).
+**They do not replace signatures on text attacks once scores are fused.** Mean-fused `full_stats` has 0 recall on signature-easy and rule-evasive. `rules_plus_full_stats` keeps the rules’ 0.33 overall recall and cuts legitimate FPR from 6.4% (`rules_plus_stats`) to 3.9%, with higher precision (0.83). The gain of the full stack, under mean fusion, is fewer false alerts, not more detections.
 
-**Calibration:** On validation-split legitimate-family traffic, the detector collects raw aggregate scores (max over OK components), sorts them, and maps new requests to **empirical percentiles**. CLI `train` and `AnomalyGuard.calibrate()` also set alert/review percentile cutoffs from validation scores toward `max_false_positive_rate_target` (default **1%** on validation).
+**OLS regression does not detect this simulator’s attacks** (recall 0, legitimate FPR 0.14). It remains in the ablation so that negative result is visible.
 
-**Cold start:** Unknown endpoints or insufficient field evidence yield `insufficient_baseline`; decisions fall back toward rules and explanations note missing coverage.
+## 5. XSS is a review problem, not a silent one
 
-### 3.4 Detector modes (ablations)
+Test XSS alert recall is 0 in every mode, including rules. That is not because `<script>` fails to match. On this split the test XSS rows are `onerror` image tags (rule `EVENT_HANDLER`, **medium** severity, so **review**) and evasive strings such as `<svg/onload=…>` and `script:alert(1)`.
 
-| Mode | Statistical use | Decision (high level) |
-|------|-----------------|------------------------|
-| `rules_only` | Ignored for decision | Rule severities only |
-| `length_only` | Length components only; aggregate recomputed | Hybrid decision path |
-| `composition_only` | Composition only | Hybrid |
-| `combined_stats` | Both; aggregate = max raw component scores | Hybrid |
-| `rules_plus_stats` | Full stats | Pattern short-circuit + percentiles + schema review |
-| `isolation_forest` | IF on feature vector + rules | Rules first, then IF thresholds |
+Held-out family counts (alert vs review), support 84 XSS and 41 oversized:
 
-**Isolation Forest** (100 estimators, `contamination=0.02`, fixed decision thresholds) is included as an optional **multivariate comparison**, not the primary explainable path.
+| Family | `rules_only` alert / review | `ci_only` alert | `full_stats` alert / review | `rules_plus_full_stats` review |
+|--------|----------------------------|-----------------|-----------------------------|-------------------------------|
+| traversal (84) | 1.00 / 0 | 1.00 | 0 / 0 | rules alert 1.00 |
+| xss (84) | 0 / 0.69 | 0 | 0 / 0.42 | review 1.00 |
+| oversized (41) | 0 / 0.39 | 0 | 0 / 1.00 | review 1.00 |
 
-### 3.5 Decisions and explanations
+Under `full_stats`, median empirical percentiles on test XSS sit in the 70s to mid-90s (`payl` about 95, `length_ci` about 90). They are unusual relative to the comment baseline and still below the alert cutoff, which is why they queue as review rather than alert. Raising them to alert would spend the false-positive budget.
 
-Outputs: **`normal`**, **`review`**, **`alert`**. Hybrid logic (`_decision_hybrid`) can elevate **high-severity suspicious patterns** to alert before statistics; statistical aggregate percentiles above calibrated thresholds elevate to alert/review; schema rule hits can force **review** in several statistical modes.
+## 6. Limits that remain
 
-The Streamlit **Normal vs unusual** page displays baseline **medians, MAD values, training counts, and composition `category_probs`** from saved JSON—it does **not** overlay a live request on those distributions.
+- The 1% validation budget is not a guarantee on test. Report the measured rate and the sweep point.
+- PAYL cannot be thresholded down to 1% FPR on this data.
+- Oversized searches (a long run of one letter) often miss the alert cutoff for length and chi-square; repetitive punctuation comments do not.
+- The dashboard compares a selected request with the baseline. It is a replay tool, not a live packet capture.
+- Alerts are not intrusions.
 
----
-
-## 4. Evaluation methodology
-
-### 4.1 Splits (post–69708ba)
-
-- Malicious and benign-invalid: split by **template group** hash to limit leakage.
-- Legitimate-family: **per-request, route-aware** hashing so each HTTP route appears in train and validation (fix for earlier template-only hashing that stranded entire routes in one partition).
-
-**Train:** legitimate train only → `fit`.  
-**Validation:** legitimate, difficult_legitimate, distribution_shift → `calibrate`.  
-**Test:** all groups present in test partition → reported metrics.
-
-### 4.2 Experiment runner
-
-`anomaly-guard evaluate` runs all six modes on the test split, exports predictions and `metrics_summary.json`, plots `detector_comparison.png`, and writes `error_analysis.json` for `rules_plus_stats`.
-
-### 4.3 Metrics (as coded)
-
-**Malicious-intent detection** (`compute_malicious_attack_metrics`):
-
-- **Recall:** flagged / all malicious-intent test rows.
-- **Precision:** TP / (TP + FP on **legitimate-family** rows only); benign-invalid FPs excluded from precision denominator.
-- **False-positive rate:** fraction of **legitimate-family** test rows with a positive prediction.
-- **Wilson score interval** (`statsmodels.stats.proportion.proportion_confint`, method `wilson`) on that legitimate-family FPR.
-
-**`alert_predicted`** counts both **`alert` and `review`** as detections for these metrics.
-
-**Benign-invalid:** rejection rate = flagged / all benign-invalid test rows.
-
-**Any-anomaly binary metrics** treat malicious + benign-invalid as positive class with a legitimate-family mask for FPR Wilson interval.
-
-**Ranking:** average precision on malicious intent uses `aggregate_percentile` when present; otherwise a fallback score derived from the decision label (see limitations).
-
-**Per-family recall:** computed for malicious rows by `attack_family` on the test set (families with no test rows are omitted).
-
-Latency: median and p95 of `processing_time_ms` per mode on the test run.
-
----
-
-## 5. Reported numbers (full simulator, checked in)
-
-`results/metrics_summary.json` reflects **`anomaly-guard generate`** without `--small` (~11,500 requests). Primary comparison modes on the **test split** (malicious intent task, **alert** decisions only):
-
-| Mode | Malicious recall | Malicious F1 | Legit FPR (alert) | Rule-evasive slice recall |
-|------|------------------|--------------|-------------------|---------------------------|
-| `rules_only` | 0.24 | 0.39 | 0.0 | 0.15 |
-| `combined_stats` | 0.09 | 0.15 | ~0.064 | 0.0 |
-| `rules_plus_stats` | 0.33 | 0.46 | ~0.064 | 0.15 |
-
-**Signature-easy** slice: `rules_only` recall ~0.57; **`rules_plus_stats`** ~0.57. **Size-distribution** slice: statistics modes ~0.50 recall vs rules ~0.0.
-
-**Benign-invalid** alert rate (not 100% saturated): `rules_only` ~11%; `rules_plus_stats` ~19.5%.
-
-Validation targeted **1%** legitimate FPR; **test** legitimate FPR for statistical modes is higher (~6.4% alert)—report actual test rates as in the JSON.
-
-Regenerate:
-
-```bash
-anomaly-guard generate --output data/simulated
-anomaly-guard evaluate --data data/simulated --output results
-```
-
----
-
-## 6. Current limitations (honest)
-
-The following are **residual limitations** after the experiment-honesty update. Historical issues and the original fix plan are in **[UPDATE_PLAN.md](UPDATE_PLAN.md)** (status: applied).
-
-1. **Partial simulator–rule overlap:** **Signature-easy** attacks still align with `rules.yaml`; use **`attack_slices.rule_evasive`** for the main statistical comparison.
-
-2. **Calibration gap:** The **1% validation FPR budget** does not always hold on the **test** legitimate set (~6% alert FPR for combined/hybrid modes in the checked-in full run).
-
-3. **Splitting drops attack families:** Template-group hashing can place entire malicious templates in non-test partitions; the checked-in summary’s **single-family** recall is a symptom. `held_out_family_meta` exists but is not wired into `experiments.py`.
-
-4. **Small legitimate stencil:** `--small` legitimate traffic cycles a handful of strings, so profiles are tight and **difficult legitimate / shift traffic** can look extreme— inflating statistical FPR (~20–45% on legitimate mask in the demo file) while rules stay at 0% FPR on that mask.
-
-5. **Aggregate scoring:** Length z-scores and composition `sqrt(chi2/n)` are **not calibrated to a common scale**; taking the **max** then one percentile differs from per-component percentile fusion described in design notes. `combined_stats` can duplicate `length_only` when length raw scores dominate numerically.
-
-6. **Calibration vs measured FPR:** Validation targets ~1% FP budget on percentiles, but **`review` counts as detection** in metrics and alert thresholds may sit at the validation maximum—operating point on test legitimate traffic can be much higher than 1%.
-
-7. **Isolation Forest assumptions:** Trained on purely legitimate train vectors with fixed contamination and thresholds; rules can preempt IF decisions.
-
-8. **Metrics presentation:** Malicious-intent `tn` counts do not partition the full test set cleanly when benign-invalid rows exist; Wilson interval applies to the legitimate-family FPR rate. AP fallback when percentiles are missing can inflate separation for rule-saturated modes. PR curve helpers exist but are not exported in the default evaluate plot.
-
-9. **Dashboard:** Baseline inspection is **tabular**, not a comparative visualization of a selected request against profiles.
-
-For **what to change first** (true ablations, decoupled attacks, larger legitimate corpus, metric definitions), follow the ordered plan in [UPDATE_PLAN.md](UPDATE_PLAN.md)—without duplicating that document here.
-
----
-
-## 7. Reproducibility
+## 7. Reproduce
 
 ```bash
 pip install -e ".[dev]"
-bash scripts/demo.sh
+anomaly-guard generate --output data/simulated
+anomaly-guard evaluate --data data/simulated --output results
 pytest
 streamlit run anomaly_guard/app.py --server.port 8765 --server.address 127.0.0.1
 ```
 
-Artifacts: `data/simulated/`, `models/baseline.json`, `data/events.db`, `results/metrics_summary.json`.
-
----
-
-## 8. Summary
-
-Anomaly Guard implements a **transparent pipeline**: contract parsing, explicit rules, median/MAD length outliers, chi-square-derived composition scores with empirical percentile calibration, optional Isolation Forest, SQLite logging, and Streamlit review. Evaluation exports multi-mode metrics with **Wilson intervals on legitimate false-positive rate** and route-stratified splits for baseline training.
-
-The **checked-in `results/` directory is a small-demo artifact**; overlapping rules and generator, non-isolated ablations, and split artifacts mean those numbers **must not** be read as proof that statistics beat rules in general. Use this report for what the code **does**; use [UPDATE_PLAN.md](UPDATE_PLAN.md) for how the experiment should be **fixed** before drawing strong conclusions.
+The Evaluation page shows the mode table, the three attack slices, the 1% sweep read, the XSS component profile, and held-out family alert and review rates.

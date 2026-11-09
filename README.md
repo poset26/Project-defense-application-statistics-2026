@@ -49,16 +49,17 @@ The CLI and library support ablation modes (default production-style mode: **`ru
 | Mode | Role |
 |------|------|
 | `rules_only` | Schema, size limits, and suspicious-pattern rules only |
-| `length_only` | Length outliers (median / MAD). Today the decision path still applies rules; see [docs/UPDATE_PLAN.md](docs/UPDATE_PLAN.md) |
-| `composition_only` | Chi-square-style character-composition discrepancy per field (same rule-path caveat) |
-| `combined_stats` | Length + global χ² composition (max empirical percentile) |
+| `length_only` | log1p length outliers (median / MAD). Rules are recorded and do not decide |
+| `composition_only` | Chi-square character-composition discrepancy per field. Rules do not decide |
+| `combined_stats` | Length + global χ² (max of the two type percentiles) |
+| `ci_only` | 95% prediction interval on log length, plus Wilson intervals on character proportions |
 | `payl_only` / `ngram_only` | PAYL byte histogram distance or bigram MAD profiling |
 | `regression_only` | OLS on `log1p(length)` ~ entropy + category fractions (standardized residual) |
 | `lda_only` | Endpoint Mahalanobis distance on the request feature vector |
-| `full_stats` | All interpretable stats: length (log1p MAD), composition, length-stratified χ², PAYL, n-grams, OLS, Mahalanobis |
+| `full_stats` | All statistical components. The decision score is the **mean** of per-type percentiles, so one noisy model cannot set the alert by itself |
 | `rules_plus_stats` | Hybrid: rules + `combined_stats` |
-| `rules_plus_full_stats` | Hybrid: rules + `full_stats` |
-| `isolation_forest` | Optional Isolation Forest comparison; rule alerts still short-circuit the decision |
+| `rules_plus_full_stats` | Hybrid: rules + the mean-fused full stack |
+| `isolation_forest` | Optional Isolation Forest comparison on its own score |
 
 Training uses **legitimate train-split** requests only. Percentile thresholds are calibrated on **held-out legitimate validation** traffic (including difficult legitimate and distribution-shift groups), targeting a configurable false-positive budget (`max_false_positive_rate_target`, default 1% on validation).
 

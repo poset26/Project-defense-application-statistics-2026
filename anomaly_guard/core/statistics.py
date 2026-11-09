@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Any, Literal
 
 import numpy as np
-from scipy.stats import chisquare
+from scipy.stats import chisquare, t as student_t
 
 import math
 
@@ -36,6 +36,11 @@ class LengthProfile:
     mad: float
     tolerance: float
     discrete_values: list[int] | None = None
+    log_mean: float | None = None
+    log_std: float | None = None
+    log_n: int = 0
+    ci_low: float | None = None
+    ci_high: float | None = None
 
 
 @dataclass
@@ -43,6 +48,7 @@ class CompositionProfile:
     category_probs: dict[str, float]
     merged_categories: list[str]
     min_total_count: int = 5
+    training_chars: int = 0
 
 
 @dataclass
@@ -131,6 +137,80 @@ def _robust_length_score_raw(observed: float, profile: LengthProfile) -> tuple[f
         return diff / max(profile.tolerance, 1.0), f"deviation from fixed median {profile.median}"
     z = abs(observed - profile.median) / (MAD_SCALE * profile.mad)
     return float(z), f"robust z vs median {profile.median:.1f}, MAD {profile.mad:.1f}"
+
+
+def _fit_log_length_interval(lengths: list[float], alpha: float = 0.05) -> tuple[float, float, float | None, float | None, int]:
+    """95% prediction interval for a new log1p(length), from the training sample."""
+    logs = np.log1p(np.maximum(np.array(lengths, dtype=float), 0.0))
+    n = int(logs.size)
+    mean = float(np.mean(logs)) if n else 0.0
+    std = float(np.std(logs, ddof=1)) if n > 1 else 0.0
+    if n < 8 or std <= 1e-8:
+        return mean, std, None, None, n
+    crit = float(student_t.ppf(1.0 - alpha / 2.0, n - 1))
+    half = crit * std * math.sqrt(1.0 + 1.0 / n)
+    return mean, std, mean - half, mean + half, n
+
+
+def _length_ci_score(observed: float, profile: LengthProfile) -> tuple[float | None, str]:
+    if profile.ci_low is None or profile.ci_high is None or not profile.log_std:
+        return None, "no prediction interval (short or constant training lengths)"
+    y = math.log1p(max(observed, 0.0))
+    lo, hi = profile.ci_low, profile.ci_high
+    if lo <= y <= hi:
+        return 0.0, f"log1p(length) {y:.3f} inside 95% prediction interval [{lo:.3f}, {hi:.3f}]"
+    if y > hi:
+        dist = (y - hi) / profile.log_std
+        side = "above"
+    else:
+        dist = (lo - y) / profile.log_std
+        side = "below"
+    return float(dist), (
+        f"log1p(length) {y:.3f} {side} 95% prediction interval [{lo:.3f}, {hi:.3f}] "
+        f"(n={profile.log_n})"
+    )
+
+
+def _wilson_interval(successes: float, n: float, z: float = 1.96) -> tuple[float, float]:
+    if n <= 0:
+        return 0.0, 1.0
+    p = min(max(successes / n, 0.0), 1.0)
+    den = 1.0 + z * z / n
+    center = (p + z * z / (2.0 * n)) / den
+    margin = z * math.sqrt(p * (1.0 - p) / n + z * z / (4.0 * n * n)) / den
+    return max(0.0, center - margin), min(1.0, center + margin)
+
+
+def _proportion_ci_score(text: str, profile: CompositionProfile) -> tuple[float | None, str]:
+    if profile.training_chars < 30 or len(text) < 8:
+        return None, "too little text for a proportion interval"
+    from anomaly_guard.core.features import _category_fractions
+
+    obs = _category_fractions(text)
+    worst = 0.0
+    worst_detail = "all category proportions inside training Wilson intervals"
+    for cat, p in profile.category_probs.items():
+        if cat == "other_merged":
+            continue
+        k = p * profile.training_chars
+        lo, hi = _wilson_interval(k, float(profile.training_chars))
+        p_obs = float(obs.get(cat, 0.0))
+        width = max(hi - lo, 1e-3)
+        if p_obs < lo:
+            dist = (lo - p_obs) / width
+            if dist > worst:
+                worst = dist
+                worst_detail = (
+                    f"{cat} proportion {p_obs:.3f} below Wilson interval [{lo:.3f}, {hi:.3f}]"
+                )
+        elif p_obs > hi:
+            dist = (p_obs - hi) / width
+            if dist > worst:
+                worst = dist
+                worst_detail = (
+                    f"{cat} proportion {p_obs:.3f} above Wilson interval [{lo:.3f}, {hi:.3f}]"
+                )
+    return float(worst), worst_detail
 
 
 def _merge_rare_categories(counts: dict[str, int], min_count: int = 3) -> tuple[dict[str, int], list[str]]:
@@ -251,8 +331,17 @@ class StatisticalDetector:
                     discrete = None
                     if mad <= 0 and len(set(int(x) for x in lengths)) <= 3:
                         discrete = sorted(set(int(x) for x in lengths))
+                    log_mean, log_std, ci_low, ci_high, log_n = _fit_log_length_interval(lengths)
                     fp.length = LengthProfile(
-                        median=med, mad=mad, tolerance=tol, discrete_values=discrete
+                        median=med,
+                        mad=mad,
+                        tolerance=tol,
+                        discrete_values=discrete,
+                        log_mean=log_mean,
+                        log_std=log_std,
+                        log_n=log_n,
+                        ci_low=ci_low,
+                        ci_high=ci_high,
                     )
                     merged_counts, merged_cats = _merge_rare_categories(cat_counts, min_count=3)
                     total = sum(merged_counts.values()) or 1
@@ -260,6 +349,7 @@ class StatisticalDetector:
                     fp.composition = CompositionProfile(
                         category_probs=probs,
                         merged_categories=merged_cats,
+                        training_chars=int(total),
                     )
                 ep.fields[spec.name] = fp
             endpoints[key] = ep
@@ -417,6 +507,37 @@ class StatisticalDetector:
                             status="ok",
                             detail=detail,
                             p_value=teaching_p,
+                        )
+                    )
+
+            if fp.length and fp.status == "ok":
+                ci_raw, ci_detail = _length_ci_score(float(ff.char_length), fp.length)
+                if ci_raw is not None:
+                    pct_ci = None if collect_for_calibration else self._empirical_percentile(ci_raw, "length_ci")
+                    components.append(
+                        ComponentScore(
+                            component="length_ci",
+                            field=fname,
+                            raw_score=ci_raw,
+                            percentile=pct_ci,
+                            status="ok",
+                            detail=ci_detail,
+                        )
+                    )
+            if fp.composition and fp.status == "ok":
+                prop_raw, prop_detail = _proportion_ci_score(parsed.field_text(fname), fp.composition)
+                if prop_raw is not None:
+                    pct_prop = None if collect_for_calibration else self._empirical_percentile(
+                        prop_raw, "proportion_ci"
+                    )
+                    components.append(
+                        ComponentScore(
+                            component="proportion_ci",
+                            field=fname,
+                            raw_score=prop_raw,
+                            percentile=pct_prop,
+                            status="ok",
+                            detail=prop_detail,
                         )
                     )
 

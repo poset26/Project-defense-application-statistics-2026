@@ -13,7 +13,7 @@ from anomaly_guard.core.features import extract_features
 from anomaly_guard.core.parser import parse_request
 from anomaly_guard.core.rules import TriggeredRule, evaluate_rules, max_severity
 from anomaly_guard.core.schema import AppConfig, DecisionLabel, RequestRecord, load_app_config
-from anomaly_guard.core.statistics import StatisticalDetector, StatisticalResult
+from anomaly_guard.core.statistics import ComponentScore, StatisticalDetector, StatisticalResult
 
 DetectorMode = Literal[
     "rules_only",
@@ -23,6 +23,7 @@ DetectorMode = Literal[
     "ngram_only",
     "regression_only",
     "lda_only",
+    "ci_only",
     "combined_stats",
     "full_stats",
     "rules_plus_stats",
@@ -38,10 +39,15 @@ STATISTICS_ONLY_MODES: frozenset[DetectorMode] = frozenset(
         "ngram_only",
         "regression_only",
         "lda_only",
+        "ci_only",
         "combined_stats",
         "full_stats",
         "isolation_forest",
     }
+)
+
+MEAN_AGGREGATE_MODES: frozenset[DetectorMode] = frozenset(
+    {"full_stats", "rules_plus_full_stats", "ci_only"}
 )
 
 MODE_ACTIVE_COMPONENTS: dict[DetectorMode, frozenset[str] | None] = {
@@ -52,13 +58,34 @@ MODE_ACTIVE_COMPONENTS: dict[DetectorMode, frozenset[str] | None] = {
     "ngram_only": frozenset({"ngram"}),
     "regression_only": frozenset({"regression"}),
     "lda_only": frozenset({"mahalanobis"}),
+    "ci_only": frozenset({"length_ci", "proportion_ci"}),
     "combined_stats": frozenset({"length", "composition"}),
     "full_stats": frozenset(
-        {"length", "composition", "length_stratified", "payl", "ngram", "regression", "mahalanobis"}
+        {
+            "length",
+            "composition",
+            "length_stratified",
+            "payl",
+            "ngram",
+            "regression",
+            "mahalanobis",
+            "length_ci",
+            "proportion_ci",
+        }
     ),
     "rules_plus_stats": frozenset({"length", "composition"}),
     "rules_plus_full_stats": frozenset(
-        {"length", "composition", "length_stratified", "payl", "ngram", "regression", "mahalanobis"}
+        {
+            "length",
+            "composition",
+            "length_stratified",
+            "payl",
+            "ngram",
+            "regression",
+            "mahalanobis",
+            "length_ci",
+            "proportion_ci",
+        }
     ),
     "isolation_forest": None,
 }
@@ -225,6 +252,11 @@ class AnomalyGuard:
                         component_scores[f"{key}_pct"] = c.percentile
             if stat.aggregate_percentile is not None:
                 component_scores["aggregate_percentile"] = stat.aggregate_percentile
+                if self.mode in MEAN_AGGREGATE_MODES:
+                    explanations.append(
+                        "Statistical aggregate is the mean of per-type empirical percentiles "
+                        "(one value per component, max across fields), not the max."
+                    )
             if stat.insufficient_baseline:
                 explanations.append(
                     "Insufficient baseline coverage for this endpoint; statistical score unavailable."
@@ -290,8 +322,9 @@ class AnomalyGuard:
         allowed = MODE_ACTIVE_COMPONENTS.get(self.mode)
         if allowed is not None:
             stat.components = [c for c in stat.components if c.component in allowed]
-        pcts = [c.percentile for c in stat.components if c.status == "ok" and c.percentile is not None]
-        stat.aggregate_percentile = max(pcts) if pcts else None
+        stat.aggregate_percentile = aggregate_component_percentiles(
+            stat.components, use_mean=self.mode in MEAN_AGGREGATE_MODES
+        )
         return stat
 
     def save_baseline(self, path) -> None:
@@ -299,6 +332,24 @@ class AnomalyGuard:
 
     def load_baseline(self, path) -> None:
         self.detector.load(path)
+
+
+def aggregate_component_percentiles(
+    components: list[ComponentScore], use_mean: bool
+) -> float | None:
+    """Collapse field scores to one percentile per component type, then max or mean."""
+    by_type: dict[str, float] = {}
+    for comp in components:
+        if comp.status != "ok" or comp.percentile is None:
+            continue
+        prev = by_type.get(comp.component)
+        by_type[comp.component] = comp.percentile if prev is None else max(prev, comp.percentile)
+    if not by_type:
+        return None
+    values = list(by_type.values())
+    if use_mean:
+        return float(sum(values) / len(values))
+    return float(max(values))
 
 
 def _decision_from_rules(rules: list[TriggeredRule], settings: DecisionSettings) -> DecisionLabel:

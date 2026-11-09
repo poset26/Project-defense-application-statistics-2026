@@ -13,7 +13,7 @@ import streamlit as st
 
 from anomaly_guard.core.decision import AnomalyGuard, DetectorMode
 from anomaly_guard.core.schema import GroundTruthMeta, RequestRecord, read_jsonl
-from anomaly_guard.evaluation.experiments import load_dataset, run_mode_experiment
+from anomaly_guard.evaluation.experiments import MODES, load_dataset, run_mode_experiment
 from anomaly_guard.evaluation.splits import training_normal_records, validation_legitimate_records
 from anomaly_guard.simulation.generator import replay_records
 from anomaly_guard.storage import EventStore
@@ -38,9 +38,7 @@ def page_traffic() -> None:
     st.header("Traffic")
     data_dir = Path(st.text_input("Data directory", str(DEFAULT_DATA)))
     baseline = Path(st.text_input("Baseline path", str(DEFAULT_BASELINE)))
-    mode = st.selectbox("Detector mode", [
-        "rules_plus_stats", "rules_only", "combined_stats", "length_only", "composition_only", "isolation_forest"
-    ])
+    mode = st.selectbox("Detector mode", list(MODES), index=list(MODES).index("rules_plus_stats"))
     shuffle = st.checkbox("Shuffle replay", value=False)
     limit = st.number_input("Limit (0 = all)", min_value=0, value=200)
     experiment_mode = st.checkbox("Experiment mode (store ground-truth labels)", value=True)
@@ -237,6 +235,48 @@ def page_evaluation() -> None:
                 "AP": m.get("average_precision"),
             })
         st.dataframe(pd.DataFrame(rows), use_container_width=True)
+        st.subheader("Attack slices and the 1% false-positive read")
+        st.caption(
+            "Slice numbers are alert recall. The 1% columns are a descriptive read of the "
+            "test threshold sweep. They do not replace the validation-fitted cutoff."
+        )
+        slice_rows = []
+        for mode, m in modes.items():
+            sl = m.get("attack_slices") or {}
+            op = m.get("operating_point_1pct") or {}
+            slice_rows.append(
+                {
+                    "mode": mode,
+                    "signature_easy": (sl.get("signature_easy") or {}).get("recall"),
+                    "rule_evasive": (sl.get("rule_evasive") or {}).get("recall"),
+                    "size_distribution": (sl.get("size_distribution") or {}).get("recall"),
+                    "recall at test FPR ≤ 1%": op.get("recall_malicious"),
+                    "FPR at that point": op.get("fpr_legitimate"),
+                    "sweep selection": op.get("selection"),
+                }
+            )
+        st.dataframe(pd.DataFrame(slice_rows), use_container_width=True)
+        xss = summary.get("xss_component_profile")
+        if xss:
+            st.subheader("XSS under full_stats")
+            st.json(xss)
+        held = summary.get("held_out_families")
+        if held:
+            st.subheader("Held-out families (alert recall)")
+            held_rows = []
+            for fam, block in (held.get("families") or {}).items():
+                for mode_name, stats in (block.get("modes") or {}).items():
+                    held_rows.append(
+                        {
+                            "family": fam,
+                            "support": block.get("support"),
+                            "mode": mode_name,
+                            "alert recall": stats.get("alert_recall"),
+                            "review rate": stats.get("review_rate"),
+                        }
+                    )
+            if held_rows:
+                st.dataframe(pd.DataFrame(held_rows), use_container_width=True)
         plot = RESULTS_DIR / "detector_comparison.png"
         if plot.exists():
             st.image(str(plot), caption="Detector comparison")
@@ -247,7 +287,9 @@ def page_evaluation() -> None:
 def page_model_settings() -> None:
     st.header("Model settings")
     data_dir = Path(st.text_input("Training data directory", str(DEFAULT_DATA)))
-    mode: DetectorMode = st.selectbox("Mode", ["rules_plus_stats", "rules_only", "combined_stats"])  # type: ignore
+    mode: DetectorMode = st.selectbox(
+        "Mode", list(MODES), index=list(MODES).index("rules_plus_stats")
+    )  # type: ignore
     out = Path(st.text_input("Baseline output", str(DEFAULT_BASELINE)))
     if st.button("Train baseline (explicit retrain)"):
         records = [RequestRecord.from_dict(r) for r in read_jsonl(data_dir / "requests.jsonl")]

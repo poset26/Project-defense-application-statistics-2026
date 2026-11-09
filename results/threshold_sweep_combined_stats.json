@@ -2,126 +2,151 @@
   {
     "threshold_percentile": 13.07445671535447,
     "recall_malicious": 0.8822222222222222,
-    "fpr_legitimate": 1.0
+    "fpr_legitimate": 1.0,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 16.6963543522147,
     "recall_malicious": 0.7777777777777778,
-    "fpr_legitimate": 0.9426751592356688
+    "fpr_legitimate": 0.9426751592356688,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 20.31825198907493,
     "recall_malicious": 0.7777777777777778,
-    "fpr_legitimate": 0.9095541401273886
+    "fpr_legitimate": 0.9095541401273886,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 23.940149625935163,
     "recall_malicious": 0.7666666666666667,
-    "fpr_legitimate": 0.9095541401273886
+    "fpr_legitimate": 0.9095541401273886,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 27.562047262795392,
     "recall_malicious": 0.6844444444444444,
-    "fpr_legitimate": 0.7732484076433122
+    "fpr_legitimate": 0.7732484076433122,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 31.18394489965562,
     "recall_malicious": 0.6844444444444444,
-    "fpr_legitimate": 0.7732484076433122
+    "fpr_legitimate": 0.7732484076433122,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 34.805842536515854,
     "recall_malicious": 0.6844444444444444,
-    "fpr_legitimate": 0.7171974522292993
+    "fpr_legitimate": 0.7171974522292993,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 38.42774017337609,
     "recall_malicious": 0.6844444444444444,
-    "fpr_legitimate": 0.7171974522292993
+    "fpr_legitimate": 0.7171974522292993,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 42.04963781023631,
     "recall_malicious": 0.6844444444444444,
-    "fpr_legitimate": 0.7171974522292993
+    "fpr_legitimate": 0.7171974522292993,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 45.671535447096545,
     "recall_malicious": 0.6844444444444444,
-    "fpr_legitimate": 0.7171974522292993
+    "fpr_legitimate": 0.7171974522292993,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 49.29343308395678,
     "recall_malicious": 0.6844444444444444,
-    "fpr_legitimate": 0.7171974522292993
+    "fpr_legitimate": 0.7171974522292993,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 52.91533072081701,
     "recall_malicious": 0.6844444444444444,
-    "fpr_legitimate": 0.7171974522292993
+    "fpr_legitimate": 0.7171974522292993,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 56.537228357677236,
     "recall_malicious": 0.6844444444444444,
-    "fpr_legitimate": 0.7171974522292993
+    "fpr_legitimate": 0.7171974522292993,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 60.15912599453747,
     "recall_malicious": 0.6844444444444444,
-    "fpr_legitimate": 0.7171974522292993
+    "fpr_legitimate": 0.7171974522292993,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 63.7810236313977,
     "recall_malicious": 0.6844444444444444,
-    "fpr_legitimate": 0.7171974522292993
+    "fpr_legitimate": 0.7171974522292993,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 67.40292126825793,
     "recall_malicious": 0.6844444444444444,
-    "fpr_legitimate": 0.7171974522292993
+    "fpr_legitimate": 0.7171974522292993,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 71.02481890511815,
     "recall_malicious": 0.6844444444444444,
-    "fpr_legitimate": 0.7171974522292993
+    "fpr_legitimate": 0.7171974522292993,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 74.64671654197839,
     "recall_malicious": 0.6844444444444444,
-    "fpr_legitimate": 0.7171974522292993
+    "fpr_legitimate": 0.7171974522292993,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 78.26861417883862,
     "recall_malicious": 0.6844444444444444,
-    "fpr_legitimate": 0.7171974522292993
+    "fpr_legitimate": 0.7171974522292993,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 81.89051181569886,
     "recall_malicious": 0.6844444444444444,
-    "fpr_legitimate": 0.7171974522292993
+    "fpr_legitimate": 0.7171974522292993,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 85.51240945255908,
     "recall_malicious": 0.6844444444444444,
-    "fpr_legitimate": 0.7171974522292993
+    "fpr_legitimate": 0.7171974522292993,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 89.13430708941931,
     "recall_malicious": 0.6844444444444444,
-    "fpr_legitimate": 0.6369426751592356
+    "fpr_legitimate": 0.6369426751592356,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 92.75620472627955,
     "recall_malicious": 0.32222222222222224,
-    "fpr_legitimate": 0.2802547770700637
+    "fpr_legitimate": 0.2802547770700637,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 96.37810236313977,
     "recall_malicious": 0.09111111111111111,
-    "fpr_legitimate": 0.20382165605095542
+    "fpr_legitimate": 0.20382165605095542,
+    "includes_rule_alerts": false
   },
   {
     "threshold_percentile": 100.0,
     "recall_malicious": 0.09111111111111111,
-    "fpr_legitimate": 0.06369426751592357
+    "fpr_legitimate": 0.06369426751592357,
+    "includes_rule_alerts": false
   }
 ]

@@ -80,8 +80,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 0.020694999875559006,
-      "latency_ms_p95": 0.082487100075923,
+      "latency_ms_median": 0.020013000266771996,
+      "latency_ms_p95": 0.07963070024743497,
       "settings": {
         "alert_threshold_percentile": 99.0,
         "review_threshold_percentile": 95.0,
@@ -89,7 +89,8 @@
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
-      }
+      },
+      "operating_point_1pct": null
     },
     "length_only": {
       "mode": "length_only",
@@ -171,8 +172,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.2878949999048928,
-      "latency_ms_p95": 2.2228712999549316,
+      "latency_ms_median": 1.3871559999643068,
+      "latency_ms_p95": 2.454821900164461,
       "settings": {
         "alert_threshold_percentile": 99.50124688279301,
         "review_threshold_percentile": 97.54185963662273,
@@ -180,6 +181,15 @@
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
+      },
+      "operating_point_1pct": {
+        "budget": 0.01,
+        "selection": "closest_test_fpr_budget_not_met",
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        "threshold_percentile": 100.0,
+        "recall_malicious": 0.09111111111111111,
+        "fpr_legitimate": 0.01019108280254777,
+        "includes_rule_alerts": false
       }
     },
     "composition_only": {
@@ -262,8 +272,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.278016000014759,
-      "latency_ms_p95": 2.1981949000291934,
+      "latency_ms_median": 1.3940560002083657,
+      "latency_ms_p95": 2.46264829984284,
       "settings": {
         "alert_threshold_percentile": 100.0,
         "review_threshold_percentile": 98.37083010085338,
@@ -271,6 +281,15 @@
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
+      },
+      "operating_point_1pct": {
+        "budget": 0.01,
+        "selection": "closest_test_fpr_budget_not_met",
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        "threshold_percentile": 100.0,
+        "recall_malicious": 0.09111111111111111,
+        "fpr_legitimate": 0.0535031847133758,
+        "includes_rule_alerts": false
       }
     },
     "payl_only": {
@@ -353,8 +372,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.294142999995529,
-      "latency_ms_p95": 2.3158791999321693,
+      "latency_ms_median": 1.4256010003919073,
+      "latency_ms_p95": 2.623053999741387,
       "settings": {
         "alert_threshold_percentile": 100.0,
         "review_threshold_percentile": 97.54185963662273,
@@ -362,6 +381,15 @@
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
+      },
+      "operating_point_1pct": {
+        "budget": 0.01,
+        "selection": "closest_test_fpr_budget_not_met",
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        "threshold_percentile": 100.0,
+        "recall_malicious": 0.64,
+        "fpr_legitimate": 0.14394904458598726,
+        "includes_rule_alerts": false
       }
     },
     "ngram_only": {
@@ -444,8 +472,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.271072000008644,
-      "latency_ms_p95": 2.186358300014035,
+      "latency_ms_median": 1.3837920000696613,
+      "latency_ms_p95": 2.4542740000924823,
       "settings": {
         "alert_threshold_percentile": 99.35185185185185,
         "review_threshold_percentile": 96.80555555555556,
@@ -453,6 +481,15 @@
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
+      },
+      "operating_point_1pct": {
+        "budget": 0.01,
+        "selection": "closest_test_fpr_budget_not_met",
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        "threshold_percentile": 100.0,
+        "recall_malicious": 0.09111111111111111,
+        "fpr_legitimate": 0.01019108280254777,
+        "includes_rule_alerts": false
       }
     },
     "regression_only": {
@@ -535,8 +572,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.2783439999566326,
-      "latency_ms_p95": 2.2331927999857726,
+      "latency_ms_median": 1.3870359998691129,
+      "latency_ms_p95": 2.4493036998592284,
       "settings": {
         "alert_threshold_percentile": 100.0,
         "review_threshold_percentile": 97.54185963662273,
@@ -544,6 +581,15 @@
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
+      },
+      "operating_point_1pct": {
+        "budget": 0.01,
+        "selection": "closest_test_fpr_budget_not_met",
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        "threshold_percentile": 100.0,
+        "recall_malicious": 0.0,
+        "fpr_legitimate": 0.14394904458598726,
+        "includes_rule_alerts": false
       }
     },
     "lda_only": {
@@ -626,8 +672,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.2921980001010525,
-      "latency_ms_p95": 2.2367397999687455,
+      "latency_ms_median": 1.3959210000393796,
+      "latency_ms_p95": 2.487122599950453,
       "settings": {
         "alert_threshold_percentile": 100.0,
         "review_threshold_percentile": 96.41485275288092,
@@ -635,6 +681,115 @@
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
+      },
+      "operating_point_1pct": {
+        "budget": 0.01,
+        "selection": "closest_test_fpr_budget_not_met",
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        "threshold_percentile": 100.0,
+        "recall_malicious": 0.44222222222222224,
+        "fpr_legitimate": 0.0535031847133758,
+        "includes_rule_alerts": false
+      }
+    },
+    "ci_only": {
+      "mode": "ci_only",
+      "metrics_malicious": {
+        "tp": 125,
+        "fp": 52,
+        "tn": 733,
+        "fn": 325,
+        "precision": 0.7062146892655368,
+        "recall": 0.2777777777777778,
+        "f1": 0.39872408293460926,
+        "false_positive_rate": 0.06624203821656051,
+        "false_negative_rate": 0.7222222222222222,
+        "wilson_fpr_ci": [
+          0.05087075786769508,
+          0.085837902173976
+        ]
+      },
+      "metrics_benign_invalid": {
+        "total": 200,
+        "flagged": 63,
+        "rejection_rate": 0.315
+      },
+      "metrics_any_anomaly": {
+        "tp": 188,
+        "fp": 52,
+        "tn": 733,
+        "fn": 462,
+        "precision": 0.7833333333333333,
+        "recall": 0.28923076923076924,
+        "f1": 0.42247191011235957,
+        "false_positive_rate": 0.06624203821656051,
+        "false_negative_rate": 0.7107692307692308,
+        "wilson_fpr_ci": [
+          0.05087075786769508,
+          0.085837902173976
+        ]
+      },
+      "fpr_on_legitimate_test": 0.06624203821656051,
+      "review_rate_legitimate": 0.13248407643312102,
+      "average_precision": 0.4394706072599127,
+      "per_family": {
+        "traversal": {
+          "recall": 1.0,
+          "support": 84.0
+        },
+        "sqli": {
+          "recall": 0.0,
+          "support": 84.0
+        },
+        "evasive": {
+          "recall": 0.0,
+          "support": 116.0
+        },
+        "repetitive": {
+          "recall": 1.0,
+          "support": 41.0
+        },
+        "oversized": {
+          "recall": 0.0,
+          "support": 41.0
+        },
+        "xss": {
+          "recall": 0.0,
+          "support": 84.0
+        }
+      },
+      "attack_slices": {
+        "signature_easy": {
+          "recall": 0.376,
+          "support": 125.0
+        },
+        "rule_evasive": {
+          "recall": 0.1522633744855967,
+          "support": 243.0
+        },
+        "size_distribution": {
+          "recall": 0.5,
+          "support": 82.0
+        }
+      },
+      "latency_ms_median": 1.3890139998693485,
+      "latency_ms_p95": 2.431513900091886,
+      "settings": {
+        "alert_threshold_percentile": 95.11602806260119,
+        "review_threshold_percentile": 93.49703184025904,
+        "isolation_alert_threshold": 0.0,
+        "isolation_review_threshold": 0.0,
+        "max_false_positive_rate_target": 0.01,
+        "enable_high_severity_rule_alert": true
+      },
+      "operating_point_1pct": {
+        "budget": 0.01,
+        "selection": "closest_test_fpr_budget_not_met",
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        "threshold_percentile": 95.11602806260119,
+        "recall_malicious": 0.2777777777777778,
+        "fpr_legitimate": 0.06624203821656051,
+        "includes_rule_alerts": false
       }
     },
     "combined_stats": {
@@ -717,8 +872,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.2949869999374641,
-      "latency_ms_p95": 2.2261204999722395,
+      "latency_ms_median": 1.3932879996900738,
+      "latency_ms_p95": 2.4626775998967787,
       "settings": {
         "alert_threshold_percentile": 100.0,
         "review_threshold_percentile": 98.37083010085338,
@@ -726,59 +881,68 @@
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
+      },
+      "operating_point_1pct": {
+        "budget": 0.01,
+        "selection": "closest_test_fpr_budget_not_met",
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        "threshold_percentile": 100.0,
+        "recall_malicious": 0.09111111111111111,
+        "fpr_legitimate": 0.06369426751592357,
+        "includes_rule_alerts": false
       }
     },
     "full_stats": {
       "mode": "full_stats",
       "metrics_malicious": {
-        "tp": 288,
-        "fp": 155,
-        "tn": 630,
-        "fn": 162,
-        "precision": 0.6501128668171557,
-        "recall": 0.64,
-        "f1": 0.64501679731243,
-        "false_positive_rate": 0.19745222929936307,
-        "false_negative_rate": 0.36,
+        "tp": 41,
+        "fp": 31,
+        "tn": 754,
+        "fn": 409,
+        "precision": 0.5694444444444444,
+        "recall": 0.09111111111111111,
+        "f1": 0.15708812260536398,
+        "false_positive_rate": 0.03949044585987261,
+        "false_negative_rate": 0.9088888888888889,
         "wilson_fpr_ci": [
-          0.17110731990379455,
-          0.22674380127064567
+          0.027958278665645438,
+          0.05550774366934453
         ]
       },
       "metrics_benign_invalid": {
         "total": 200,
-        "flagged": 176,
-        "rejection_rate": 0.88
+        "flagged": 41,
+        "rejection_rate": 0.205
       },
       "metrics_any_anomaly": {
-        "tp": 464,
-        "fp": 155,
-        "tn": 630,
-        "fn": 186,
-        "precision": 0.7495961227786753,
-        "recall": 0.7138461538461538,
-        "f1": 0.731284475965327,
-        "false_positive_rate": 0.19745222929936307,
-        "false_negative_rate": 0.28615384615384615,
+        "tp": 82,
+        "fp": 31,
+        "tn": 754,
+        "fn": 568,
+        "precision": 0.7256637168141593,
+        "recall": 0.12615384615384614,
+        "f1": 0.21494102228047182,
+        "false_positive_rate": 0.03949044585987261,
+        "false_negative_rate": 0.8738461538461538,
         "wilson_fpr_ci": [
-          0.17110731990379455,
-          0.22674380127064567
+          0.027958278665645438,
+          0.05550774366934453
         ]
       },
-      "fpr_on_legitimate_test": 0.19745222929936307,
-      "review_rate_legitimate": 0.0,
-      "average_precision": 0.4259869530268592,
+      "fpr_on_legitimate_test": 0.03949044585987261,
+      "review_rate_legitimate": 0.15796178343949044,
+      "average_precision": 0.47721629743588007,
       "per_family": {
         "traversal": {
-          "recall": 1.0,
+          "recall": 0.0,
           "support": 84.0
         },
         "sqli": {
-          "recall": 1.0,
+          "recall": 0.0,
           "support": 84.0
         },
         "evasive": {
-          "recall": 0.3275862068965517,
+          "recall": 0.0,
           "support": 116.0
         },
         "repetitive": {
@@ -786,7 +950,7 @@
           "support": 41.0
         },
         "oversized": {
-          "recall": 1.0,
+          "recall": 0.0,
           "support": 41.0
         },
         "xss": {
@@ -796,27 +960,36 @@
       },
       "attack_slices": {
         "signature_easy": {
-          "recall": 0.648,
+          "recall": 0.0,
           "support": 125.0
         },
         "rule_evasive": {
-          "recall": 0.51440329218107,
+          "recall": 0.0,
           "support": 243.0
         },
         "size_distribution": {
-          "recall": 1.0,
+          "recall": 0.5,
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.2988199998744676,
-      "latency_ms_p95": 2.251951899870619,
+      "latency_ms_median": 1.3899780001338513,
+      "latency_ms_p95": 2.4459006999222765,
       "settings": {
-        "alert_threshold_percentile": 100.0,
-        "review_threshold_percentile": 100.0,
+        "alert_threshold_percentile": 94.61539565436898,
+        "review_threshold_percentile": 84.60633304157028,
         "isolation_alert_threshold": 0.0,
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
+      },
+      "operating_point_1pct": {
+        "budget": 0.01,
+        "selection": "closest_test_fpr_budget_not_met",
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        "threshold_percentile": 94.84241655182842,
+        "recall_malicious": 0.09111111111111111,
+        "fpr_legitimate": 0.01019108280254777,
+        "includes_rule_alerts": false
       }
     },
     "rules_plus_stats": {
@@ -899,8 +1072,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.3040819999332598,
-      "latency_ms_p95": 2.2404065001410345,
+      "latency_ms_median": 1.389712999753101,
+      "latency_ms_p95": 2.4469022000175755,
       "settings": {
         "alert_threshold_percentile": 100.0,
         "review_threshold_percentile": 98.37083010085338,
@@ -908,59 +1081,68 @@
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
+      },
+      "operating_point_1pct": {
+        "budget": 0.01,
+        "selection": "closest_test_fpr_budget_not_met",
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        "threshold_percentile": 100.0,
+        "recall_malicious": 0.33111111111111113,
+        "fpr_legitimate": 0.06369426751592357,
+        "includes_rule_alerts": true
       }
     },
     "rules_plus_full_stats": {
       "mode": "rules_plus_full_stats",
       "metrics_malicious": {
-        "tp": 288,
-        "fp": 155,
-        "tn": 630,
-        "fn": 162,
-        "precision": 0.6501128668171557,
-        "recall": 0.64,
-        "f1": 0.64501679731243,
-        "false_positive_rate": 0.19745222929936307,
-        "false_negative_rate": 0.36,
+        "tp": 149,
+        "fp": 31,
+        "tn": 754,
+        "fn": 301,
+        "precision": 0.8277777777777777,
+        "recall": 0.33111111111111113,
+        "f1": 0.473015873015873,
+        "false_positive_rate": 0.03949044585987261,
+        "false_negative_rate": 0.6688888888888889,
         "wilson_fpr_ci": [
-          0.17110731990379455,
-          0.22674380127064567
+          0.027958278665645438,
+          0.05550774366934453
         ]
       },
       "metrics_benign_invalid": {
         "total": 200,
-        "flagged": 176,
-        "rejection_rate": 0.88
+        "flagged": 41,
+        "rejection_rate": 0.205
       },
       "metrics_any_anomaly": {
-        "tp": 464,
-        "fp": 155,
-        "tn": 630,
-        "fn": 186,
-        "precision": 0.7495961227786753,
-        "recall": 0.7138461538461538,
-        "f1": 0.731284475965327,
-        "false_positive_rate": 0.19745222929936307,
-        "false_negative_rate": 0.28615384615384615,
+        "tp": 190,
+        "fp": 31,
+        "tn": 754,
+        "fn": 460,
+        "precision": 0.8597285067873304,
+        "recall": 0.2923076923076923,
+        "f1": 0.4362801377726751,
+        "false_positive_rate": 0.03949044585987261,
+        "false_negative_rate": 0.7076923076923077,
         "wilson_fpr_ci": [
-          0.17110731990379455,
-          0.22674380127064567
+          0.027958278665645438,
+          0.05550774366934453
         ]
       },
-      "fpr_on_legitimate_test": 0.19745222929936307,
-      "review_rate_legitimate": 0.0,
-      "average_precision": 0.4259869530268592,
+      "fpr_on_legitimate_test": 0.03949044585987261,
+      "review_rate_legitimate": 0.15796178343949044,
+      "average_precision": 0.47721629743588007,
       "per_family": {
         "traversal": {
           "recall": 1.0,
           "support": 84.0
         },
         "sqli": {
-          "recall": 1.0,
+          "recall": 0.2857142857142857,
           "support": 84.0
         },
         "evasive": {
-          "recall": 0.3275862068965517,
+          "recall": 0.0,
           "support": 116.0
         },
         "repetitive": {
@@ -968,7 +1150,7 @@
           "support": 41.0
         },
         "oversized": {
-          "recall": 1.0,
+          "recall": 0.0,
           "support": 41.0
         },
         "xss": {
@@ -978,27 +1160,36 @@
       },
       "attack_slices": {
         "signature_easy": {
-          "recall": 0.648,
+          "recall": 0.568,
           "support": 125.0
         },
         "rule_evasive": {
-          "recall": 0.51440329218107,
+          "recall": 0.1522633744855967,
           "support": 243.0
         },
         "size_distribution": {
-          "recall": 1.0,
+          "recall": 0.5,
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.3156039999557834,
-      "latency_ms_p95": 2.470108299939966,
+      "latency_ms_median": 1.4106190001257346,
+      "latency_ms_p95": 2.583826499994757,
       "settings": {
-        "alert_threshold_percentile": 100.0,
-        "review_threshold_percentile": 100.0,
+        "alert_threshold_percentile": 94.61539565436898,
+        "review_threshold_percentile": 84.60633304157028,
         "isolation_alert_threshold": 0.0,
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
+      },
+      "operating_point_1pct": {
+        "budget": 0.01,
+        "selection": "closest_test_fpr_budget_not_met",
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        "threshold_percentile": 94.84241655182842,
+        "recall_malicious": 0.33111111111111113,
+        "fpr_legitimate": 0.01019108280254777,
+        "includes_rule_alerts": true
       }
     },
     "isolation_forest": {
@@ -1040,7 +1231,7 @@
       },
       "fpr_on_legitimate_test": 0.05605095541401274,
       "review_rate_legitimate": 0.0,
-      "average_precision": 0.4259869530268592,
+      "average_precision": 0.3971204088686691,
       "per_family": {
         "traversal": {
           "recall": 0.0,
@@ -1081,8 +1272,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 5.617811000320216,
-      "latency_ms_p95": 6.663569200190977,
+      "latency_ms_median": 5.696570000054635,
+      "latency_ms_p95": 6.906284699925891,
       "settings": {
         "alert_threshold_percentile": 100.0,
         "review_threshold_percentile": 100.0,
@@ -1090,10 +1281,19 @@
         "isolation_review_threshold": 0.01722994302122116,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
+      },
+      "operating_point_1pct": {
+        "budget": 0.01,
+        "selection": "closest_test_fpr_budget_not_met",
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        "threshold_percentile": 98.7790070156503,
+        "recall_malicious": 0.64,
+        "fpr_legitimate": 0.26369426751592356,
+        "includes_rule_alerts": false
       }
     }
   },
-  "generated_at": 1794223643.5397947,
+  "generated_at": 1794226052.9262114,
   "primary_comparison": {
     "rules_only": {
       "mode": "rules_only",
@@ -1175,8 +1375,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 0.020694999875559006,
-      "latency_ms_p95": 0.082487100075923,
+      "latency_ms_median": 0.020013000266771996,
+      "latency_ms_p95": 0.07963070024743497,
       "settings": {
         "alert_threshold_percentile": 99.0,
         "review_threshold_percentile": 95.0,
@@ -1184,7 +1384,8 @@
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
-      }
+      },
+      "operating_point_1pct": null
     },
     "combined_stats": {
       "mode": "combined_stats",
@@ -1266,8 +1467,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.2949869999374641,
-      "latency_ms_p95": 2.2261204999722395,
+      "latency_ms_median": 1.3932879996900738,
+      "latency_ms_p95": 2.4626775998967787,
       "settings": {
         "alert_threshold_percentile": 100.0,
         "review_threshold_percentile": 98.37083010085338,
@@ -1275,59 +1476,68 @@
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
+      },
+      "operating_point_1pct": {
+        "budget": 0.01,
+        "selection": "closest_test_fpr_budget_not_met",
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        "threshold_percentile": 100.0,
+        "recall_malicious": 0.09111111111111111,
+        "fpr_legitimate": 0.06369426751592357,
+        "includes_rule_alerts": false
       }
     },
-    "full_stats": {
-      "mode": "full_stats",
+    "ci_only": {
+      "mode": "ci_only",
       "metrics_malicious": {
-        "tp": 288,
-        "fp": 155,
-        "tn": 630,
-        "fn": 162,
-        "precision": 0.6501128668171557,
-        "recall": 0.64,
-        "f1": 0.64501679731243,
-        "false_positive_rate": 0.19745222929936307,
-        "false_negative_rate": 0.36,
+        "tp": 125,
+        "fp": 52,
+        "tn": 733,
+        "fn": 325,
+        "precision": 0.7062146892655368,
+        "recall": 0.2777777777777778,
+        "f1": 0.39872408293460926,
+        "false_positive_rate": 0.06624203821656051,
+        "false_negative_rate": 0.7222222222222222,
         "wilson_fpr_ci": [
-          0.17110731990379455,
-          0.22674380127064567
+          0.05087075786769508,
+          0.085837902173976
         ]
       },
       "metrics_benign_invalid": {
         "total": 200,
-        "flagged": 176,
-        "rejection_rate": 0.88
+        "flagged": 63,
+        "rejection_rate": 0.315
       },
       "metrics_any_anomaly": {
-        "tp": 464,
-        "fp": 155,
-        "tn": 630,
-        "fn": 186,
-        "precision": 0.7495961227786753,
-        "recall": 0.7138461538461538,
-        "f1": 0.731284475965327,
-        "false_positive_rate": 0.19745222929936307,
-        "false_negative_rate": 0.28615384615384615,
+        "tp": 188,
+        "fp": 52,
+        "tn": 733,
+        "fn": 462,
+        "precision": 0.7833333333333333,
+        "recall": 0.28923076923076924,
+        "f1": 0.42247191011235957,
+        "false_positive_rate": 0.06624203821656051,
+        "false_negative_rate": 0.7107692307692308,
         "wilson_fpr_ci": [
-          0.17110731990379455,
-          0.22674380127064567
+          0.05087075786769508,
+          0.085837902173976
         ]
       },
-      "fpr_on_legitimate_test": 0.19745222929936307,
-      "review_rate_legitimate": 0.0,
-      "average_precision": 0.4259869530268592,
+      "fpr_on_legitimate_test": 0.06624203821656051,
+      "review_rate_legitimate": 0.13248407643312102,
+      "average_precision": 0.4394706072599127,
       "per_family": {
         "traversal": {
           "recall": 1.0,
           "support": 84.0
         },
         "sqli": {
-          "recall": 1.0,
+          "recall": 0.0,
           "support": 84.0
         },
         "evasive": {
-          "recall": 0.3275862068965517,
+          "recall": 0.0,
           "support": 116.0
         },
         "repetitive": {
@@ -1335,7 +1545,7 @@
           "support": 41.0
         },
         "oversized": {
-          "recall": 1.0,
+          "recall": 0.0,
           "support": 41.0
         },
         "xss": {
@@ -1345,27 +1555,136 @@
       },
       "attack_slices": {
         "signature_easy": {
-          "recall": 0.648,
+          "recall": 0.376,
           "support": 125.0
         },
         "rule_evasive": {
-          "recall": 0.51440329218107,
+          "recall": 0.1522633744855967,
           "support": 243.0
         },
         "size_distribution": {
-          "recall": 1.0,
+          "recall": 0.5,
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.2988199998744676,
-      "latency_ms_p95": 2.251951899870619,
+      "latency_ms_median": 1.3890139998693485,
+      "latency_ms_p95": 2.431513900091886,
       "settings": {
-        "alert_threshold_percentile": 100.0,
-        "review_threshold_percentile": 100.0,
+        "alert_threshold_percentile": 95.11602806260119,
+        "review_threshold_percentile": 93.49703184025904,
         "isolation_alert_threshold": 0.0,
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
+      },
+      "operating_point_1pct": {
+        "budget": 0.01,
+        "selection": "closest_test_fpr_budget_not_met",
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        "threshold_percentile": 95.11602806260119,
+        "recall_malicious": 0.2777777777777778,
+        "fpr_legitimate": 0.06624203821656051,
+        "includes_rule_alerts": false
+      }
+    },
+    "full_stats": {
+      "mode": "full_stats",
+      "metrics_malicious": {
+        "tp": 41,
+        "fp": 31,
+        "tn": 754,
+        "fn": 409,
+        "precision": 0.5694444444444444,
+        "recall": 0.09111111111111111,
+        "f1": 0.15708812260536398,
+        "false_positive_rate": 0.03949044585987261,
+        "false_negative_rate": 0.9088888888888889,
+        "wilson_fpr_ci": [
+          0.027958278665645438,
+          0.05550774366934453
+        ]
+      },
+      "metrics_benign_invalid": {
+        "total": 200,
+        "flagged": 41,
+        "rejection_rate": 0.205
+      },
+      "metrics_any_anomaly": {
+        "tp": 82,
+        "fp": 31,
+        "tn": 754,
+        "fn": 568,
+        "precision": 0.7256637168141593,
+        "recall": 0.12615384615384614,
+        "f1": 0.21494102228047182,
+        "false_positive_rate": 0.03949044585987261,
+        "false_negative_rate": 0.8738461538461538,
+        "wilson_fpr_ci": [
+          0.027958278665645438,
+          0.05550774366934453
+        ]
+      },
+      "fpr_on_legitimate_test": 0.03949044585987261,
+      "review_rate_legitimate": 0.15796178343949044,
+      "average_precision": 0.47721629743588007,
+      "per_family": {
+        "traversal": {
+          "recall": 0.0,
+          "support": 84.0
+        },
+        "sqli": {
+          "recall": 0.0,
+          "support": 84.0
+        },
+        "evasive": {
+          "recall": 0.0,
+          "support": 116.0
+        },
+        "repetitive": {
+          "recall": 1.0,
+          "support": 41.0
+        },
+        "oversized": {
+          "recall": 0.0,
+          "support": 41.0
+        },
+        "xss": {
+          "recall": 0.0,
+          "support": 84.0
+        }
+      },
+      "attack_slices": {
+        "signature_easy": {
+          "recall": 0.0,
+          "support": 125.0
+        },
+        "rule_evasive": {
+          "recall": 0.0,
+          "support": 243.0
+        },
+        "size_distribution": {
+          "recall": 0.5,
+          "support": 82.0
+        }
+      },
+      "latency_ms_median": 1.3899780001338513,
+      "latency_ms_p95": 2.4459006999222765,
+      "settings": {
+        "alert_threshold_percentile": 94.61539565436898,
+        "review_threshold_percentile": 84.60633304157028,
+        "isolation_alert_threshold": 0.0,
+        "isolation_review_threshold": 0.0,
+        "max_false_positive_rate_target": 0.01,
+        "enable_high_severity_rule_alert": true
+      },
+      "operating_point_1pct": {
+        "budget": 0.01,
+        "selection": "closest_test_fpr_budget_not_met",
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        "threshold_percentile": 94.84241655182842,
+        "recall_malicious": 0.09111111111111111,
+        "fpr_legitimate": 0.01019108280254777,
+        "includes_rule_alerts": false
       }
     },
     "rules_plus_stats": {
@@ -1448,8 +1767,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.3040819999332598,
-      "latency_ms_p95": 2.2404065001410345,
+      "latency_ms_median": 1.389712999753101,
+      "latency_ms_p95": 2.4469022000175755,
       "settings": {
         "alert_threshold_percentile": 100.0,
         "review_threshold_percentile": 98.37083010085338,
@@ -1457,59 +1776,68 @@
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
+      },
+      "operating_point_1pct": {
+        "budget": 0.01,
+        "selection": "closest_test_fpr_budget_not_met",
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        "threshold_percentile": 100.0,
+        "recall_malicious": 0.33111111111111113,
+        "fpr_legitimate": 0.06369426751592357,
+        "includes_rule_alerts": true
       }
     },
     "rules_plus_full_stats": {
       "mode": "rules_plus_full_stats",
       "metrics_malicious": {
-        "tp": 288,
-        "fp": 155,
-        "tn": 630,
-        "fn": 162,
-        "precision": 0.6501128668171557,
-        "recall": 0.64,
-        "f1": 0.64501679731243,
-        "false_positive_rate": 0.19745222929936307,
-        "false_negative_rate": 0.36,
+        "tp": 149,
+        "fp": 31,
+        "tn": 754,
+        "fn": 301,
+        "precision": 0.8277777777777777,
+        "recall": 0.33111111111111113,
+        "f1": 0.473015873015873,
+        "false_positive_rate": 0.03949044585987261,
+        "false_negative_rate": 0.6688888888888889,
         "wilson_fpr_ci": [
-          0.17110731990379455,
-          0.22674380127064567
+          0.027958278665645438,
+          0.05550774366934453
         ]
       },
       "metrics_benign_invalid": {
         "total": 200,
-        "flagged": 176,
-        "rejection_rate": 0.88
+        "flagged": 41,
+        "rejection_rate": 0.205
       },
       "metrics_any_anomaly": {
-        "tp": 464,
-        "fp": 155,
-        "tn": 630,
-        "fn": 186,
-        "precision": 0.7495961227786753,
-        "recall": 0.7138461538461538,
-        "f1": 0.731284475965327,
-        "false_positive_rate": 0.19745222929936307,
-        "false_negative_rate": 0.28615384615384615,
+        "tp": 190,
+        "fp": 31,
+        "tn": 754,
+        "fn": 460,
+        "precision": 0.8597285067873304,
+        "recall": 0.2923076923076923,
+        "f1": 0.4362801377726751,
+        "false_positive_rate": 0.03949044585987261,
+        "false_negative_rate": 0.7076923076923077,
         "wilson_fpr_ci": [
-          0.17110731990379455,
-          0.22674380127064567
+          0.027958278665645438,
+          0.05550774366934453
         ]
       },
-      "fpr_on_legitimate_test": 0.19745222929936307,
-      "review_rate_legitimate": 0.0,
-      "average_precision": 0.4259869530268592,
+      "fpr_on_legitimate_test": 0.03949044585987261,
+      "review_rate_legitimate": 0.15796178343949044,
+      "average_precision": 0.47721629743588007,
       "per_family": {
         "traversal": {
           "recall": 1.0,
           "support": 84.0
         },
         "sqli": {
-          "recall": 1.0,
+          "recall": 0.2857142857142857,
           "support": 84.0
         },
         "evasive": {
-          "recall": 0.3275862068965517,
+          "recall": 0.0,
           "support": 116.0
         },
         "repetitive": {
@@ -1517,7 +1845,7 @@
           "support": 41.0
         },
         "oversized": {
-          "recall": 1.0,
+          "recall": 0.0,
           "support": 41.0
         },
         "xss": {
@@ -1527,54 +1855,193 @@
       },
       "attack_slices": {
         "signature_easy": {
-          "recall": 0.648,
+          "recall": 0.568,
           "support": 125.0
         },
         "rule_evasive": {
-          "recall": 0.51440329218107,
+          "recall": 0.1522633744855967,
           "support": 243.0
         },
         "size_distribution": {
-          "recall": 1.0,
+          "recall": 0.5,
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.3156039999557834,
-      "latency_ms_p95": 2.470108299939966,
+      "latency_ms_median": 1.4106190001257346,
+      "latency_ms_p95": 2.583826499994757,
       "settings": {
-        "alert_threshold_percentile": 100.0,
-        "review_threshold_percentile": 100.0,
+        "alert_threshold_percentile": 94.61539565436898,
+        "review_threshold_percentile": 84.60633304157028,
         "isolation_alert_threshold": 0.0,
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
+      },
+      "operating_point_1pct": {
+        "budget": 0.01,
+        "selection": "closest_test_fpr_budget_not_met",
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        "threshold_percentile": 94.84241655182842,
+        "recall_malicious": 0.33111111111111113,
+        "fpr_legitimate": 0.01019108280254777,
+        "includes_rule_alerts": true
       }
     }
   },
-  "held_out_traversal": {
-    "family": "traversal",
-    "modes": {
-      "rules_only": {
-        "recall": 1.0,
-        "alerts": 84
+  "held_out_families": {
+    "families": {
+      "traversal": {
+        "family": "traversal",
+        "support": 84,
+        "modes": {
+          "rules_only": {
+            "alert_recall": 1.0,
+            "alerts": 84,
+            "reviews": 0,
+            "review_rate": 0.0
+          },
+          "combined_stats": {
+            "alert_recall": 0.0,
+            "alerts": 0,
+            "reviews": 0,
+            "review_rate": 0.0
+          },
+          "ci_only": {
+            "alert_recall": 1.0,
+            "alerts": 84,
+            "reviews": 0,
+            "review_rate": 0.0
+          },
+          "full_stats": {
+            "alert_recall": 0.0,
+            "alerts": 0,
+            "reviews": 0,
+            "review_rate": 0.0
+          },
+          "rules_plus_stats": {
+            "alert_recall": 1.0,
+            "alerts": 84,
+            "reviews": 0,
+            "review_rate": 0.0
+          },
+          "rules_plus_full_stats": {
+            "alert_recall": 1.0,
+            "alerts": 84,
+            "reviews": 0,
+            "review_rate": 0.0
+          }
+        }
       },
-      "combined_stats": {
-        "recall": 0.0,
-        "alerts": 0
+      "xss": {
+        "family": "xss",
+        "support": 84,
+        "modes": {
+          "rules_only": {
+            "alert_recall": 0.0,
+            "alerts": 0,
+            "reviews": 58,
+            "review_rate": 0.6904761904761905
+          },
+          "combined_stats": {
+            "alert_recall": 0.0,
+            "alerts": 0,
+            "reviews": 0,
+            "review_rate": 0.0
+          },
+          "ci_only": {
+            "alert_recall": 0.0,
+            "alerts": 0,
+            "reviews": 0,
+            "review_rate": 0.0
+          },
+          "full_stats": {
+            "alert_recall": 0.0,
+            "alerts": 0,
+            "reviews": 35,
+            "review_rate": 0.4166666666666667
+          },
+          "rules_plus_stats": {
+            "alert_recall": 0.0,
+            "alerts": 0,
+            "reviews": 58,
+            "review_rate": 0.6904761904761905
+          },
+          "rules_plus_full_stats": {
+            "alert_recall": 0.0,
+            "alerts": 0,
+            "reviews": 84,
+            "review_rate": 1.0
+          }
+        }
       },
-      "full_stats": {
-        "recall": 1.0,
-        "alerts": 84
-      },
-      "rules_plus_stats": {
-        "recall": 1.0,
-        "alerts": 84
-      },
-      "rules_plus_full_stats": {
-        "recall": 1.0,
-        "alerts": 84
+      "oversized": {
+        "family": "oversized",
+        "support": 41,
+        "modes": {
+          "rules_only": {
+            "alert_recall": 0.0,
+            "alerts": 0,
+            "reviews": 16,
+            "review_rate": 0.3902439024390244
+          },
+          "combined_stats": {
+            "alert_recall": 0.0,
+            "alerts": 0,
+            "reviews": 0,
+            "review_rate": 0.0
+          },
+          "ci_only": {
+            "alert_recall": 0.0,
+            "alerts": 0,
+            "reviews": 0,
+            "review_rate": 0.0
+          },
+          "full_stats": {
+            "alert_recall": 0.0,
+            "alerts": 0,
+            "reviews": 41,
+            "review_rate": 1.0
+          },
+          "rules_plus_stats": {
+            "alert_recall": 0.0,
+            "alerts": 0,
+            "reviews": 16,
+            "review_rate": 0.3902439024390244
+          },
+          "rules_plus_full_stats": {
+            "alert_recall": 0.0,
+            "alerts": 0,
+            "reviews": 41,
+            "review_rate": 1.0
+          }
+        }
       }
     },
-    "support": 84
+    "modes_fit": [
+      "rules_only",
+      "combined_stats",
+      "ci_only",
+      "full_stats",
+      "rules_plus_stats",
+      "rules_plus_full_stats"
+    ]
+  },
+  "xss_component_profile": {
+    "support": 84,
+    "decisions": {
+      "normal": 49,
+      "review": 35
+    },
+    "median_percentile_by_component": {
+      "length": 3.4912718204488775,
+      "length_ci": 90.23205612520238,
+      "length_stratified": 90.76154806491886,
+      "mahalanobis": 82.33034571062741,
+      "ngram": 72.17592592592592,
+      "payl": 94.90559315995725,
+      "proportion_ci": 83.54020507285483,
+      "regression": 76.73672960456003
+    },
+    "note": "Alert recall can be zero while medium-severity rules still queue review. Component percentiles here are elevated but sit under the calibrated alert cutoff, so XSS is unusual without becoming an alert."
   }
 }

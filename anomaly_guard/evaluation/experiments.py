@@ -11,7 +11,9 @@ from typing import Any
 import matplotlib.pyplot as plt
 import numpy as np
 
-from anomaly_guard.core.decision import AnomalyGuard, DetectorMode
+from anomaly_guard.core.decision import AnomalyGuard, DetectorMode, _decision_from_rules
+from anomaly_guard.core.parser import parse_request
+from anomaly_guard.core.rules import evaluate_rules
 from anomaly_guard.core.schema import GroundTruthMeta, RequestRecord, read_jsonl
 from anomaly_guard.evaluation.metrics import (
     alert_predicted,
@@ -41,6 +43,7 @@ MODES: list[DetectorMode] = [
     "ngram_only",
     "regression_only",
     "lda_only",
+    "ci_only",
     "combined_stats",
     "full_stats",
     "rules_plus_stats",
@@ -51,10 +54,13 @@ MODES: list[DetectorMode] = [
 PRIMARY_MODES: list[DetectorMode] = [
     "rules_only",
     "combined_stats",
+    "ci_only",
     "full_stats",
     "rules_plus_stats",
     "rules_plus_full_stats",
 ]
+
+HELD_OUT_FAMILIES: tuple[str, ...] = ("traversal", "xss", "oversized")
 
 ATTACK_SLICES = ("signature_easy", "rule_evasive", "size_distribution")
 
@@ -73,6 +79,7 @@ class ExperimentResult:
     latency_ms_median: float
     latency_ms_p95: float
     settings: dict[str, Any]
+    operating_point_1pct: dict[str, Any] | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -162,7 +169,10 @@ def run_mode_experiment(
         settings=asdict(guard.settings),
     )
     _plot_mode_pr(y_mal, scores, mode, model_dir.parent)
-    _threshold_sweep_percentile(guard, val_recs, test_meta_ordered, test_recs, mode, model_dir.parent)
+    sweep = _threshold_sweep_percentile(
+        guard, val_recs, test_meta_ordered, test_recs, mode, model_dir.parent
+    )
+    result.operating_point_1pct = operating_point_at_fpr(sweep, budget=0.01)
     return result, predictions
 
 
@@ -189,11 +199,11 @@ def _threshold_sweep_percentile(
     out: Path,
 ) -> None:
     if mode == "rules_only":
-        return
+        return None
     val_pcts = [guard._aggregate_percentile_for_record(r) for r in val_recs]
     val_pcts = [p for p in val_pcts if p is not None]
     if not val_pcts:
-        return
+        return None
     test_pcts: list[float | None] = []
     meta_by_id = {m.request_id: m for m in test_meta}
     for rec in test_recs:
@@ -204,51 +214,162 @@ def _threshold_sweep_percentile(
         in ("legitimate", "difficult_legitimate", "distribution_shift")
         for r in test_recs
     ]
+    hybrid = mode in ("rules_plus_stats", "rules_plus_full_stats")
+    rule_alerts = []
+    if hybrid:
+        for rec in test_recs:
+            parsed = parse_request(rec, guard.config)
+            rules = evaluate_rules(parsed, guard.config)
+            rule_alerts.append(_decision_from_rules(rules, guard.settings) == "alert")
     thresholds = np.linspace(min(val_pcts), max(val_pcts), 25)
     rows = []
     for t in thresholds:
-        pred = [p is not None and p >= t for p in test_pcts]
+        pred = []
+        for i, p in enumerate(test_pcts):
+            stat_hit = p is not None and p >= t
+            pred.append(stat_hit or (hybrid and rule_alerts[i]))
         tp = sum(pred[i] and y_mal[i] for i in range(len(pred)))
         fn = sum((not pred[i]) and y_mal[i] for i in range(len(pred)))
         fp = sum(pred[i] and leg[i] for i in range(len(pred)))
         rec = tp / (tp + fn) if (tp + fn) else 0.0
         fpr = fp / sum(leg) if sum(leg) else 0.0
-        rows.append({"threshold_percentile": float(t), "recall_malicious": rec, "fpr_legitimate": fpr})
+        rows.append({
+            "threshold_percentile": float(t),
+            "recall_malicious": rec,
+            "fpr_legitimate": fpr,
+            "includes_rule_alerts": hybrid,
+        })
     with (out / f"threshold_sweep_{mode}.json").open("w", encoding="utf-8") as f:
         json.dump(rows, f, indent=2)
+    return rows
+
+
+def operating_point_at_fpr(rows: list[dict[str, Any]] | None, budget: float = 0.01) -> dict[str, Any] | None:
+    """Read the sweep. Does not change the validation-fitted threshold.
+
+    Prefer the point with the highest malicious recall whose test legitimate
+    FPR is at most `budget`. If every point exceeds the budget, use the
+    closest FPR and mark the selection.
+    """
+    if not rows:
+        return None
+    under = [r for r in rows if r["fpr_legitimate"] <= budget + 1e-12]
+    if under:
+        best = max(under, key=lambda r: (r["recall_malicious"], -r["fpr_legitimate"]))
+        selection = "highest_recall_with_test_fpr_at_most_budget"
+    else:
+        best = min(rows, key=lambda r: (abs(r["fpr_legitimate"] - budget), -r["recall_malicious"]))
+        selection = "closest_test_fpr_budget_not_met"
+    return {
+        "budget": budget,
+        "selection": selection,
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        **best,
+    }
+
+
+def _xss_component_profile(predictions: list[dict[str, Any]]) -> dict[str, Any]:
+    """Median per-type percentile of full_stats on test XSS rows.
+
+    Explains a zero alert recall when scores sit near the legitimate bulk.
+    """
+    rows = [
+        p
+        for p in predictions
+        if p.get("experiment_mode") == "full_stats" and p.get("attack_family") == "xss"
+    ]
+    if not rows:
+        return {"support": 0}
+    by_type: dict[str, list[float]] = {}
+    decisions: dict[str, int] = {}
+    for row in rows:
+        decisions[row["decision"]] = decisions.get(row["decision"], 0) + 1
+        components = ((row.get("score") or {}).get("statistical") or {}).get("components") or []
+        seen: dict[str, float] = {}
+        for comp in components:
+            if comp.get("status") != "ok" or comp.get("percentile") is None:
+                continue
+            name = str(comp.get("component"))
+            seen[name] = max(seen.get(name, 0.0), float(comp["percentile"]))
+        for name, pct in seen.items():
+            by_type.setdefault(name, []).append(pct)
+    medians = {
+        name: float(np.median(vals)) for name, vals in sorted(by_type.items())
+    }
+    return {
+        "support": len(rows),
+        "decisions": decisions,
+        "median_percentile_by_component": medians,
+        "note": (
+            "Alert recall can be zero while medium-severity rules still queue review. "
+            "Component percentiles here are elevated but sit under the calibrated alert cutoff, "
+            "so XSS is unusual without becoming an alert."
+        ),
+    }
 
 
 def run_held_out_family_evaluation(
     data_dir: Path,
     results_dir: Path,
     family: str = "traversal",
+    families: list[str] | None = None,
 ) -> dict[str, Any]:
+    """Fit each primary mode once and score every requested attack family on test.
+
+    `family` is kept so older callers still request traversal. Pass `families`
+    to score several families without refitting.
+    """
+    wanted = list(families) if families is not None else [family]
     records, meta = load_dataset(data_dir)
     parts = partition_records(records, meta)
-    test_recs, test_meta = parts["test"]
+    test_recs, _test_meta = parts["test"]
     meta_by_id = {m.request_id: m for m in meta}
-    test_filtered = [
-        (r, meta_by_id[r.request_id])
-        for r in test_recs
-        if meta_by_id[r.request_id].attack_family == family
-    ]
-    if not test_filtered:
-        return {"family": family, "error": "no test rows for family"}
+    by_family: dict[str, list[RequestRecord]] = {name: [] for name in wanted}
+    for rec in test_recs:
+        fam = meta_by_id[rec.request_id].attack_family
+        if fam in by_family:
+            by_family[fam].append(rec)
 
     train_recs = training_normal_records(records, meta)
     val_recs = validation_legitimate_records(records, meta)
-    summary: dict[str, Any] = {"family": family, "modes": {}, "support": len(test_filtered)}
+    summary: dict[str, Any] = {"families": {}, "modes_fit": list(PRIMARY_MODES)}
+    for name in wanted:
+        summary["families"][name] = {
+            "family": name,
+            "support": len(by_family[name]),
+            "modes": {},
+        }
+        if not by_family[name]:
+            summary["families"][name]["error"] = "no test rows for family"
+
     for mode in PRIMARY_MODES:
         guard = AnomalyGuard(mode=mode)
         guard.fit(train_recs)
         guard.calibrate(val_recs)
-        hits = 0
-        for rec, _m in test_filtered:
-            if alert_predicted(guard.score(rec).decision):
-                hits += 1
-        summary["modes"][mode] = {"recall": hits / len(test_filtered), "alerts": hits}
-    path = results_dir / "held_out_family.json"
-    path.write_text(json.dumps(summary, indent=2), encoding="utf-8")
+        for name, rows in by_family.items():
+            if not rows:
+                continue
+            hits = 0
+            reviews = 0
+            for rec in rows:
+                decision = guard.score(rec).decision
+                if alert_predicted(decision):
+                    hits += 1
+                elif decision == "review":
+                    reviews += 1
+            summary["families"][name]["modes"][mode] = {
+                "alert_recall": hits / len(rows),
+                "alerts": hits,
+                "reviews": reviews,
+                "review_rate": reviews / len(rows),
+            }
+
+    results_dir.mkdir(parents=True, exist_ok=True)
+    (results_dir / "held_out_families.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
+    traversal = summary["families"].get("traversal", {"family": "traversal", "error": "not requested"})
+    (results_dir / "held_out_family.json").write_text(json.dumps(traversal, indent=2), encoding="utf-8")
+    if family in summary["families"] and families is None:
+        return summary["families"][family]
     return summary
 
 
@@ -280,7 +401,10 @@ def run_full_experiment(
         for mode in PRIMARY_MODES
         if mode in summary["modes"]
     }
-    summary["held_out_traversal"] = run_held_out_family_evaluation(data_dir, results_dir, "traversal")
+    summary["held_out_families"] = run_held_out_family_evaluation(
+        data_dir, results_dir, families=list(HELD_OUT_FAMILIES)
+    )
+    summary["xss_component_profile"] = _xss_component_profile(all_preds)
 
     with (results_dir / "metrics_summary.json").open("w", encoding="utf-8") as f:
         json.dump(summary, f, indent=2)

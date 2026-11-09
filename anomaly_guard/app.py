@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 import streamlit as st
 
@@ -142,11 +143,60 @@ def page_alert_inspector() -> None:
 def page_normal_vs_unusual() -> None:
     st.header("Normal versus unusual")
     baseline_path = Path(st.text_input("Baseline JSON", str(DEFAULT_BASELINE)))
+    store = _store()
+    events = store.search(limit=200)
+    req_ids = [e["request_id"] for e in events] if events else []
+    selected = st.selectbox("Compare request (from event store)", [""] + req_ids) if req_ids else ""
     if not baseline_path.exists():
         st.warning("Train a baseline first (CLI or Model settings page).")
         return
     data = json.loads(baseline_path.read_text(encoding="utf-8"))
     st.write(f"Version **{data.get('version')}**, training count **{data.get('training_count')}**")
+
+    if selected:
+        row = store.get(selected)
+        if row:
+            from anomaly_guard.core.decision import AnomalyGuard
+            from anomaly_guard.core.features import CATEGORY_BINS, _category_fractions
+            from anomaly_guard.core.parser import parse_request
+            from anomaly_guard.core.schema import RequestRecord, load_app_config
+
+            req = RequestRecord.from_dict(json.loads(row["request_json"]))
+            config = load_app_config()
+            parsed = parse_request(req, config)
+            guard = AnomalyGuard()
+            if baseline_path.exists():
+                guard.load_baseline(baseline_path)
+            st.subheader("Selected request vs baseline")
+            key = f"{req.method.upper()} {req.route}"
+            ep = data.get("endpoints", {}).get(key, {})
+            for fname, fp in ep.get("fields", {}).items():
+                text = parsed.field_text(fname)
+                length = fp.get("length") or {}
+                obs_len = len(text)
+                med = length.get("median", 0)
+                mad = length.get("mad", 0)
+                st.write(
+                    f"**{fname}** length: observed={obs_len}, baseline median={med:.1f}, MAD={mad:.1f}"
+                )
+                comp = fp.get("composition") or {}
+                base_probs = comp.get("category_probs") or {}
+                if text:
+                    obs_frac = _category_fractions(text)
+                    labels = sorted(set(base_probs) | set(CATEGORY_BINS))
+                    import matplotlib.pyplot as plt
+
+                    fig, ax = plt.subplots(figsize=(6, 3))
+                    xpos = np.arange(len(labels))
+                    ax.bar(xpos - 0.2, [base_probs.get(c, 0) for c in labels], 0.4, label="baseline")
+                    ax.bar(xpos + 0.2, [obs_frac.get(c, 0) for c in labels], 0.4, label="observed")
+                    ax.set_xticks(xpos)
+                    ax.set_xticklabels(labels, rotation=45, ha="right")
+                    ax.legend()
+                    ax.set_title(f"{fname} character composition")
+                    st.pyplot(fig)
+                    plt.close(fig)
+
     for ep_key, ep in data.get("endpoints", {}).items():
         with st.expander(ep_key):
             for fname, fp in ep.get("fields", {}).items():

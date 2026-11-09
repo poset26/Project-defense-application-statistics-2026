@@ -4,8 +4,8 @@ cd "$(dirname "$0")/.."
 
 pip install -e ".[dev]" -q
 
-echo "== Generate dataset (small) =="
-anomaly-guard generate --output data/simulated --small
+echo "== Generate dataset (reported: full plan; use --small only for smoke tests) =="
+anomaly-guard generate --output data/simulated
 
 echo "== Train hybrid baseline =="
 anomaly-guard train --data data/simulated --output models/baseline.json

@@ -114,9 +114,9 @@ def _merge_rare_categories(counts: dict[str, int], min_count: int = 3) -> tuple[
     return merged, kept
 
 
-def _composition_score(text: str, profile: CompositionProfile) -> tuple[float | None, str, str]:
-    if len(text) < 4:
-        return None, "insufficient_evidence", "string too short for composition test"
+def _composition_score(text: str, profile: CompositionProfile) -> tuple[float | None, str, str, float | None]:
+    if len(text) < 8:
+        return None, "insufficient_evidence", "string too short for composition test", None
     from anomaly_guard.core.features import _category_fractions
 
     obs_frac = _category_fractions(text)
@@ -133,22 +133,25 @@ def _composition_score(text: str, profile: CompositionProfile) -> tuple[float | 
     observed: list[float] = []
     for cat in profile.merged_categories:
         p = profile.category_probs.get(cat, 0.0)
-        expected.append(max(p * n, 0.5))
+        expected.append(p * n + 0.25)
         observed.append(float(obs_merged.get(cat, 0)))
 
-    if sum(expected) < profile.min_total_count:
-        return None, "insufficient_evidence", "expected counts too small"
+    if min(expected) < 1.0 or n < profile.min_total_count:
+        return None, "insufficient_evidence", "expected counts too small for composition test", None
 
     obs_arr = np.array(observed, dtype=float)
     exp_arr = np.array(expected, dtype=float)
-    obs_sum = obs_arr.sum()
-    exp_sum = exp_arr.sum()
-    if exp_sum > 0 and abs(obs_sum - exp_sum) > 1e-6:
-        exp_arr = exp_arr * (obs_sum / exp_sum)
+    exp_arr = exp_arr * (obs_arr.sum() / exp_arr.sum())
 
-    stat, _p = chisquare(f_obs=obs_arr, f_exp=exp_arr)
-    score = float(np.sqrt(max(stat, 0.0) / max(n, 1)))
-    return score, "ok", f"chi-style discrepancy score {score:.3f} (n={n})"
+    stat, p_value = chisquare(f_obs=obs_arr, f_exp=exp_arr)
+    score = float(stat / max(n, 1))
+    teaching_p: float | None = None
+    if all(e >= 5 for e in expected) and all(o >= 0 for o in observed):
+        teaching_p = float(p_value)
+    detail = f"distribution discrepancy {score:.4f} (n={n})"
+    if teaching_p is not None:
+        detail += f"; baseline incompatibility p={teaching_p:.4g} (not attack probability)"
+    return score, "ok", detail, teaching_p
 
 
 class StatisticalDetector:
@@ -157,7 +160,9 @@ class StatisticalDetector:
     def __init__(self, config: AppConfig | None = None):
         self.config = config or load_app_config()
         self.baseline: BaselineArtifact | None = None
-        self._calibration_scores: list[float] = []
+        self._calibration_length: list[float] = []
+        self._calibration_composition: list[float] = []
+        self._calibration_aggregate: list[float] = []
 
     def fit(self, normal_records: list[RequestRecord]) -> BaselineArtifact:
         endpoints: dict[str, EndpointProfile] = {}
@@ -231,26 +236,44 @@ class StatisticalDetector:
         )
         return self.baseline
 
-    def calibrate_percentiles(self, validation_records: list[RequestRecord]) -> list[float]:
-        """Collect aggregate statistical scores from legitimate validation traffic."""
-        scores: list[float] = []
+    def calibrate_percentiles(self, validation_records: list[RequestRecord]) -> dict[str, list[float]]:
+        """Collect per-component raw scores from legitimate validation traffic."""
+        self._calibration_length = []
+        self._calibration_composition = []
         for rec in validation_records:
             res = self._score_internal(rec, collect_for_calibration=True)
-            if res.aggregate_percentile is None and res.components:
-                raw_vals = [c.raw_score for c in res.components if c.status == "ok"]
-                if raw_vals:
-                    scores.append(max(raw_vals))
-            elif res.components:
-                raw_vals = [c.raw_score for c in res.components if c.status == "ok"]
-                if raw_vals:
-                    scores.append(max(raw_vals))
-        self._calibration_scores = sorted(scores)
-        return self._calibration_scores
+            for c in res.components:
+                if c.status != "ok":
+                    continue
+                if c.component == "length":
+                    self._calibration_length.append(c.raw_score)
+                elif c.component == "composition":
+                    self._calibration_composition.append(c.raw_score)
+        self._calibration_length.sort()
+        self._calibration_composition.sort()
+        agg: list[float] = []
+        for rec in validation_records:
+            res = self._score_internal(rec, collect_for_calibration=False)
+            if res.aggregate_percentile is not None:
+                agg.append(res.aggregate_percentile)
+        self._calibration_aggregate = sorted(agg)
+        return {
+            "length": self._calibration_length,
+            "composition": self._calibration_composition,
+            "aggregate": self._calibration_aggregate,
+        }
 
-    def _empirical_percentile(self, raw: float) -> float | None:
-        if not self._calibration_scores:
+    def _empirical_percentile(self, raw: float, component: str) -> float | None:
+        pool = (
+            self._calibration_length
+            if component == "length"
+            else self._calibration_composition
+            if component == "composition"
+            else self._calibration_aggregate
+        )
+        if not pool:
             return None
-        arr = np.array(self._calibration_scores)
+        arr = np.array(pool)
         return float(np.mean(arr <= raw) * 100.0)
 
     def _score_internal(
@@ -300,7 +323,7 @@ class StatisticalDetector:
                 continue
             if fp.length and fp.status == "ok":
                 raw, detail = _robust_length_score(float(ff.char_length), fp.length)
-                pct = None if collect_for_calibration else self._empirical_percentile(raw)
+                pct = None if collect_for_calibration else self._empirical_percentile(raw, "length")
                 components.append(
                     ComponentScore(
                         component="length",
@@ -313,7 +336,7 @@ class StatisticalDetector:
                 )
             if fp.composition and fp.status == "ok":
                 text = parsed.field_text(fname)
-                comp_raw, st, detail = _composition_score(text, fp.composition)
+                comp_raw, st, detail, _tp = _composition_score(text, fp.composition)
                 if comp_raw is None:
                     components.append(
                         ComponentScore(
@@ -326,7 +349,7 @@ class StatisticalDetector:
                         )
                     )
                 else:
-                    pct = None if collect_for_calibration else self._empirical_percentile(comp_raw)
+                    pct = None if collect_for_calibration else self._empirical_percentile(comp_raw, "composition")
                     components.append(
                         ComponentScore(
                             component="composition",
@@ -338,11 +361,8 @@ class StatisticalDetector:
                         )
                     )
 
-        ok_scores = [c.raw_score for c in components if c.status == "ok"]
-        agg_raw = max(ok_scores) if ok_scores else None
-        agg_pct = None
-        if agg_raw is not None and not collect_for_calibration:
-            agg_pct = self._empirical_percentile(agg_raw)
+        pcts = [c.percentile for c in components if c.status == "ok" and c.percentile is not None]
+        agg_pct = max(pcts) if pcts and not collect_for_calibration else None
 
         ms = (time.perf_counter() - t0) * 1000
         return StatisticalResult(
@@ -361,13 +381,17 @@ class StatisticalDetector:
             raise ValueError("No baseline to save")
         path.parent.mkdir(parents=True, exist_ok=True)
         payload = _baseline_to_dict(self.baseline)
-        payload["calibration_scores"] = self._calibration_scores
+        payload["calibration_length"] = self._calibration_length
+        payload["calibration_composition"] = self._calibration_composition
+        payload["calibration_aggregate"] = self._calibration_aggregate
         path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
     def load(self, path: Path) -> None:
         payload = json.loads(path.read_text(encoding="utf-8"))
         self.baseline = _baseline_from_dict(payload)
-        self._calibration_scores = list(payload.get("calibration_scores") or [])
+        self._calibration_length = list(payload.get("calibration_length") or payload.get("calibration_scores") or [])
+        self._calibration_composition = list(payload.get("calibration_composition") or [])
+        self._calibration_aggregate = list(payload.get("calibration_aggregate") or [])
 
 
 def _baseline_to_dict(b: BaselineArtifact) -> dict[str, Any]:

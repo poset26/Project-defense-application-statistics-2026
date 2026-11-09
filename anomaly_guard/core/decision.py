@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import time
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass
 from typing import Any, Literal
 
 import numpy as np
@@ -24,6 +24,10 @@ DetectorMode = Literal[
     "isolation_forest",
 ]
 
+STATISTICS_ONLY_MODES: frozenset[DetectorMode] = frozenset(
+    {"length_only", "composition_only", "combined_stats", "isolation_forest"}
+)
+
 
 @dataclass
 class ScoreResult:
@@ -39,6 +43,8 @@ class ScoreResult:
     processing_time_ms: float
     mode: DetectorMode
     isolation_score: float | None = None
+    schema_rule_count: int = 0
+    pattern_rule_count: int = 0
 
     def to_dict(self) -> dict[str, Any]:
         d = asdict(self)
@@ -56,10 +62,10 @@ class ScoreResult:
 
 @dataclass
 class DecisionSettings:
-    alert_threshold_percentile: float = 95.0
-    review_threshold_percentile: float = 85.0
-    isolation_alert_threshold: float = -0.05
-    isolation_review_threshold: float = -0.12
+    alert_threshold_percentile: float = 99.0
+    review_threshold_percentile: float = 95.0
+    isolation_alert_threshold: float = 0.0
+    isolation_review_threshold: float = 0.0
     max_false_positive_rate_target: float = 0.01
     enable_high_severity_rule_alert: bool = True
 
@@ -78,7 +84,6 @@ class AnomalyGuard:
         self.settings = settings or DecisionSettings()
         self.detector = StatisticalDetector(self.config)
         self._isolation: IsolationForest | None = None
-        self._feature_order: list[str] = []
 
     def fit(self, normal_records: list[RequestRecord]) -> None:
         self.detector.fit(normal_records)
@@ -99,30 +104,66 @@ class AnomalyGuard:
         X = np.array(vectors, dtype=float)
         self._isolation = IsolationForest(
             n_estimators=100,
-            contamination=0.02,
+            contamination=0.001,
             random_state=42,
         )
         self._isolation.fit(X)
 
     def calibrate(self, validation_records: list[RequestRecord]) -> DecisionSettings:
-        """Tune percentile thresholds to approximate FP budget on validation legitimate traffic."""
-        self.detector.calibrate_percentiles(validation_records)
-        scores: list[float] = []
+        """Tune thresholds on held-out legitimate validation traffic."""
+        if self.mode != "rules_only":
+            self.detector.calibrate_percentiles(validation_records)
+
+        if self.mode in STATISTICS_ONLY_MODES or self.mode == "rules_plus_stats":
+            self._calibrate_percentile_thresholds(validation_records)
+
+        if self.mode == "isolation_forest":
+            self._calibrate_isolation(validation_records)
+
+        return self.settings
+
+    def _calibrate_percentile_thresholds(self, validation_records: list[RequestRecord]) -> None:
+        percentiles: list[float] = []
         for rec in validation_records:
-            res = self.score(rec)
-            pct = res.component_scores.get("aggregate_percentile")
+            pct = self._aggregate_percentile_for_record(rec)
             if pct is not None:
-                scores.append(pct)
-        if not scores:
-            return self.settings
-        scores_arr = np.array(sorted(scores))
+                percentiles.append(pct)
+        if not percentiles:
+            return
+        scores_arr = np.array(sorted(percentiles))
         target = self.settings.max_false_positive_rate_target
         alert_idx = int(np.ceil((1.0 - target) * len(scores_arr))) - 1
         alert_idx = max(0, min(alert_idx, len(scores_arr) - 1))
         self.settings.alert_threshold_percentile = float(scores_arr[alert_idx])
-        review_idx = max(0, alert_idx - max(1, len(scores_arr) // 20))
+        review_idx = max(0, alert_idx - max(1, len(scores_arr) // 25))
         self.settings.review_threshold_percentile = float(scores_arr[review_idx])
-        return self.settings
+
+    def _calibrate_isolation(self, validation_records: list[RequestRecord]) -> None:
+        if self._isolation is None:
+            return
+        scores: list[float] = []
+        order = self.detector.baseline.feature_field_order if self.detector.baseline else None
+        for rec in validation_records:
+            parsed = parse_request(rec, self.config)
+            feats = extract_features(parsed)
+            vec = np.array([feats.to_vector(order)], dtype=float)
+            scores.append(float(self._isolation.decision_function(vec)[0]))
+        if not scores:
+            return
+        scores_arr = np.array(sorted(scores))
+        target = self.settings.max_false_positive_rate_target
+        alert_idx = int(np.floor(target * len(scores_arr)))
+        alert_idx = max(0, min(alert_idx, len(scores_arr) - 1))
+        review_idx = int(np.floor(target * 2 * len(scores_arr)))
+        review_idx = max(0, min(review_idx, len(scores_arr) - 1))
+        self.settings.isolation_alert_threshold = float(scores_arr[alert_idx])
+        self.settings.isolation_review_threshold = float(scores_arr[review_idx])
+
+    def _aggregate_percentile_for_record(self, record: RequestRecord) -> float | None:
+        if self.mode == "rules_only":
+            return None
+        stat = self._filtered_statistics(record)
+        return stat.aggregate_percentile
 
     def score(self, record: RequestRecord) -> ScoreResult:
         t0 = time.perf_counter()
@@ -130,6 +171,10 @@ class AnomalyGuard:
         rules = evaluate_rules(parsed, self.config)
         explanations: list[str] = []
         component_scores: dict[str, float] = {}
+        schema_count = sum(1 for r in rules if r.kind == "schema" or r.kind == "size_limit")
+        pattern_count = sum(1 for r in rules if r.kind == "suspicious_pattern")
+        component_scores["schema_rule_count"] = float(schema_count)
+        component_scores["pattern_rule_count"] = float(pattern_count)
 
         stat: StatisticalResult | None = None
         if self.mode != "rules_only":
@@ -146,7 +191,7 @@ class AnomalyGuard:
                 component_scores["aggregate_percentile"] = stat.aggregate_percentile
             if stat.insufficient_baseline:
                 explanations.append(
-                    "Insufficient baseline coverage for this endpoint; schema rules and fallback apply."
+                    "Insufficient baseline coverage for this endpoint; statistical score unavailable."
                 )
 
         isolation_score = None
@@ -157,21 +202,31 @@ class AnomalyGuard:
             isolation_score = float(self._isolation.decision_function(vec)[0])
             component_scores["isolation_score"] = isolation_score
 
-        decision: DecisionLabel = "normal"
-        rule_sev = max_severity(rules)
-
         if self.mode == "rules_only":
             decision = _decision_from_rules(rules, self.settings)
+        elif self.mode == "rules_plus_stats":
+            decision = _decision_rules_plus_stats(stat, rules, self.settings)
         elif self.mode == "isolation_forest":
-            decision = _decision_from_isolation(isolation_score, rules, self.settings)
+            decision = _decision_from_isolation_only(isolation_score, self.settings)
+        elif self.mode in STATISTICS_ONLY_MODES:
+            decision = _decision_from_statistics(stat, self.settings)
         else:
-            decision = _decision_hybrid(stat, rules, rule_sev, self.settings, self.mode)
+            decision = _decision_from_statistics(stat, self.settings)
 
         for r in rules:
-            explanations.append(f"Rule {r.rule_id} ({r.severity}): {r.explanation}")
+            if self.mode in STATISTICS_ONLY_MODES:
+                tag = " (informational; not used in this mode's decision)" if r.kind == "suspicious_pattern" else " (schema note only)"
+                explanations.append(f"Rule {r.rule_id} ({r.severity}){tag}: {r.explanation}")
+            else:
+                explanations.append(f"Rule {r.rule_id} ({r.severity}): {r.explanation}")
+
         if stat:
             for c in stat.components:
-                if c.status == "ok" and c.percentile is not None and c.percentile >= self.settings.review_threshold_percentile:
+                if (
+                    c.status == "ok"
+                    and c.percentile is not None
+                    and c.percentile >= self.settings.review_threshold_percentile
+                ):
                     explanations.append(
                         f"Field '{c.field}' {c.component} unusual (empirical percentile {c.percentile:.1f}): {c.detail}"
                     )
@@ -190,6 +245,8 @@ class AnomalyGuard:
             processing_time_ms=ms,
             mode=self.mode,
             isolation_score=isolation_score,
+            schema_rule_count=schema_count,
+            pattern_rule_count=pattern_count,
         )
 
     def _filtered_statistics(self, record: RequestRecord) -> StatisticalResult:
@@ -198,12 +255,8 @@ class AnomalyGuard:
             stat.components = [c for c in stat.components if c.component == "length"]
         elif self.mode == "composition_only":
             stat.components = [c for c in stat.components if c.component == "composition"]
-        ok = [c.raw_score for c in stat.components if c.status == "ok"]
-        if ok:
-            agg = max(ok)
-            stat.aggregate_percentile = self.detector._empirical_percentile(agg)
-        else:
-            stat.aggregate_percentile = None
+        pcts = [c.percentile for c in stat.components if c.status == "ok" and c.percentile is not None]
+        stat.aggregate_percentile = max(pcts) if pcts else None
         return stat
 
     def save_baseline(self, path) -> None:
@@ -220,32 +273,42 @@ def _decision_from_rules(rules: list[TriggeredRule], settings: DecisionSettings)
         return "alert"
     if any(r.severity == "medium" for r in rules):
         return "review"
-    return "review"
+    if any(r.severity == "low" for r in rules):
+        return "review"
+    return "normal"
 
 
-def _decision_hybrid(
+def _decision_from_statistics(
+    stat: StatisticalResult | None,
+    settings: DecisionSettings,
+) -> DecisionLabel:
+    pct = stat.aggregate_percentile if stat else None
+    if pct is None:
+        return "normal"
+    if pct >= settings.alert_threshold_percentile:
+        return "alert"
+    if pct >= settings.review_threshold_percentile:
+        return "review"
+    return "normal"
+
+
+def _decision_rules_plus_stats(
     stat: StatisticalResult | None,
     rules: list[TriggeredRule],
-    rule_sev: str | None,
     settings: DecisionSettings,
-    mode: DetectorMode,
 ) -> DecisionLabel:
     if settings.enable_high_severity_rule_alert:
         for r in rules:
             if r.severity == "high" and r.kind == "suspicious_pattern":
                 return "alert"
-
-    pct = stat.aggregate_percentile if stat else None
-    if pct is not None:
-        if pct >= settings.alert_threshold_percentile:
-            return "alert"
-        if pct >= settings.review_threshold_percentile:
-            return "review"
-
-    if mode in ("combined_stats", "rules_plus_stats", "length_only", "composition_only"):
-        if any(r.kind == "schema" for r in rules):
-            return "review"
-
+    stat_decision = _decision_from_statistics(stat, settings)
+    if stat_decision == "alert":
+        return "alert"
+    if stat_decision == "review":
+        return "review"
+    if any(r.kind == "schema" or r.kind == "size_limit" for r in rules):
+        return "review"
+    rule_sev = max_severity(rules)
     if rule_sev == "high":
         return "alert"
     if rule_sev == "medium":
@@ -253,18 +316,14 @@ def _decision_hybrid(
     return "normal"
 
 
-def _decision_from_isolation(
+def _decision_from_isolation_only(
     score: float | None,
-    rules: list[TriggeredRule],
     settings: DecisionSettings,
 ) -> DecisionLabel:
-    dr = _decision_from_rules(rules, settings)
-    if dr == "alert":
-        return "alert"
     if score is None:
-        return dr
+        return "normal"
     if score <= settings.isolation_alert_threshold:
         return "alert"
     if score <= settings.isolation_review_threshold:
         return "review"
-    return dr if dr != "normal" else "normal"
+    return "normal"

@@ -1,8 +1,8 @@
 {
   "alert_threshold_percentile": 100.0,
-  "review_threshold_percentile": 95.41284403669725,
-  "isolation_alert_threshold": -0.05,
-  "isolation_review_threshold": -0.12,
+  "review_threshold_percentile": 98.88888888888889,
+  "isolation_alert_threshold": 0.0,
+  "isolation_review_threshold": 0.0,
   "max_false_positive_rate_target": 0.01,
   "enable_high_severity_rule_alert": true
 }

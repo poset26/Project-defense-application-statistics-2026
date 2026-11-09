@@ -24,18 +24,26 @@ class GenerationPlan:
     seed: int = 42
 
 
-DEFAULT_PLAN = GenerationPlan(
-    legitimate=7000,
-    difficult_legitimate=1500,
-    benign_invalid=800,
-    malicious_intent=1500,
-    hard_malicious_intent=300,
-    distribution_shift=400,
-)
+DEFAULT_PLAN = GenerationPlan()
+
+# Weighted distribution within each scenario group (cycles by index % len(templates))
+_GROUP_WEIGHTS: dict[str, list[ScenarioTemplate]] = {}
 
 
-def _group_templates(group: str) -> list[ScenarioTemplate]:
-    return [t for t in ALL_TEMPLATES if t.group == group]
+def _init_weights() -> None:
+    global _GROUP_WEIGHTS
+    if _GROUP_WEIGHTS:
+        return
+    for t in ALL_TEMPLATES:
+        _GROUP_WEIGHTS.setdefault(t.group, []).append(t)
+
+
+def _pick_template(group: str, seq: int) -> ScenarioTemplate:
+    _init_weights()
+    templates = _GROUP_WEIGHTS.get(group, [])
+    if not templates:
+        raise ValueError(f"No templates for group {group}")
+    return templates[seq % len(templates)]
 
 
 def generate_dataset(
@@ -61,11 +69,8 @@ def generate_dataset(
     t_offset = 0
 
     for group, n in counts.items():
-        templates = _group_templates(group)
-        if not templates:
-            continue
         for i in range(n):
-            tmpl = templates[i % len(templates)]
+            tmpl = _pick_template(group, i)
             rid = str(uuid.uuid4())
             ts = (base + timedelta(milliseconds=t_offset)).isoformat()
             t_offset += rng.randint(1, 50)

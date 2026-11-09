@@ -1,0 +1,18 @@
+{
+  "family": "traversal",
+  "modes": {
+    "rules_only": {
+      "recall": 1.0,
+      "alerts": 6
+    },
+    "combined_stats": {
+      "recall": 0.0,
+      "alerts": 0
+    },
+    "rules_plus_stats": {
+      "recall": 1.0,
+      "alerts": 6
+    }
+  },
+  "support": 6
+}

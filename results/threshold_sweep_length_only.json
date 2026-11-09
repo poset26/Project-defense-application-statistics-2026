@@ -1,0 +1,127 @@
+[
+  {
+    "threshold_percentile": 57.77777777777777,
+    "recall_malicious": 0.9487179487179487,
+    "fpr_legitimate": 1.0
+  },
+  {
+    "threshold_percentile": 59.53703703703703,
+    "recall_malicious": 0.8717948717948718,
+    "fpr_legitimate": 0.813953488372093
+  },
+  {
+    "threshold_percentile": 61.29629629629629,
+    "recall_malicious": 0.8717948717948718,
+    "fpr_legitimate": 0.6976744186046512
+  },
+  {
+    "threshold_percentile": 63.05555555555555,
+    "recall_malicious": 0.8717948717948718,
+    "fpr_legitimate": 0.6976744186046512
+  },
+  {
+    "threshold_percentile": 64.81481481481481,
+    "recall_malicious": 0.8717948717948718,
+    "fpr_legitimate": 0.6976744186046512
+  },
+  {
+    "threshold_percentile": 66.57407407407408,
+    "recall_malicious": 0.8717948717948718,
+    "fpr_legitimate": 0.6976744186046512
+  },
+  {
+    "threshold_percentile": 68.33333333333333,
+    "recall_malicious": 0.8717948717948718,
+    "fpr_legitimate": 0.6511627906976745
+  },
+  {
+    "threshold_percentile": 70.09259259259258,
+    "recall_malicious": 0.717948717948718,
+    "fpr_legitimate": 0.5813953488372093
+  },
+  {
+    "threshold_percentile": 71.85185185185185,
+    "recall_malicious": 0.717948717948718,
+    "fpr_legitimate": 0.5348837209302325
+  },
+  {
+    "threshold_percentile": 73.61111111111111,
+    "recall_malicious": 0.717948717948718,
+    "fpr_legitimate": 0.5348837209302325
+  },
+  {
+    "threshold_percentile": 75.37037037037037,
+    "recall_malicious": 0.717948717948718,
+    "fpr_legitimate": 0.4418604651162791
+  },
+  {
+    "threshold_percentile": 77.12962962962962,
+    "recall_malicious": 0.5641025641025641,
+    "fpr_legitimate": 0.20930232558139536
+  },
+  {
+    "threshold_percentile": 78.88888888888889,
+    "recall_malicious": 0.5641025641025641,
+    "fpr_legitimate": 0.20930232558139536
+  },
+  {
+    "threshold_percentile": 80.64814814814815,
+    "recall_malicious": 0.23076923076923078,
+    "fpr_legitimate": 0.20930232558139536
+  },
+  {
+    "threshold_percentile": 82.4074074074074,
+    "recall_malicious": 0.23076923076923078,
+    "fpr_legitimate": 0.20930232558139536
+  },
+  {
+    "threshold_percentile": 84.16666666666666,
+    "recall_malicious": 0.23076923076923078,
+    "fpr_legitimate": 0.13953488372093023
+  },
+  {
+    "threshold_percentile": 85.92592592592592,
+    "recall_malicious": 0.23076923076923078,
+    "fpr_legitimate": 0.13953488372093023
+  },
+  {
+    "threshold_percentile": 87.68518518518519,
+    "recall_malicious": 0.20512820512820512,
+    "fpr_legitimate": 0.13953488372093023
+  },
+  {
+    "threshold_percentile": 89.44444444444444,
+    "recall_malicious": 0.20512820512820512,
+    "fpr_legitimate": 0.13953488372093023
+  },
+  {
+    "threshold_percentile": 91.2037037037037,
+    "recall_malicious": 0.20512820512820512,
+    "fpr_legitimate": 0.13953488372093023
+  },
+  {
+    "threshold_percentile": 92.96296296296296,
+    "recall_malicious": 0.15384615384615385,
+    "fpr_legitimate": 0.13953488372093023
+  },
+  {
+    "threshold_percentile": 94.72222222222223,
+    "recall_malicious": 0.15384615384615385,
+    "fpr_legitimate": 0.13953488372093023
+  },
+  {
+    "threshold_percentile": 96.48148148148148,
+    "recall_malicious": 0.15384615384615385,
+    "fpr_legitimate": 0.13953488372093023
+  },
+  {
+    "threshold_percentile": 98.24074074074073,
+    "recall_malicious": 0.07692307692307693,
+    "fpr_legitimate": 0.046511627906976744
+  },
+  {
+    "threshold_percentile": 100.0,
+    "recall_malicious": 0.07692307692307693,
+    "fpr_legitimate": 0.0
+  }
+]

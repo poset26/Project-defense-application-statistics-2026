@@ -62,6 +62,8 @@ class GroundTruthMeta:
     attack_family: str | None = None
     template_id: str | None = None
     split: Literal["train", "validation", "test"] | None = None
+    attack_slice: str | None = None
+    invalid_slice: str | None = None
     notes: str = ""
 
     def to_dict(self) -> dict[str, Any]:
@@ -76,6 +78,8 @@ class GroundTruthMeta:
             attack_family=data.get("attack_family"),
             template_id=data.get("template_id"),
             split=data.get("split"),
+            attack_slice=data.get("attack_slice"),
+            invalid_slice=data.get("invalid_slice"),
             notes=str(data.get("notes", "")),
         )
 

@@ -3,52 +3,90 @@
     "rules_only": {
       "mode": "rules_only",
       "metrics_malicious": {
-        "tp": 37,
+        "tp": 9,
         "fp": 0,
-        "tn": 69,
-        "fn": 0,
+        "tn": 43,
+        "fn": 30,
         "precision": 1.0,
-        "recall": 1.0,
-        "f1": 1.0,
+        "recall": 0.23076923076923078,
+        "f1": 0.375,
         "false_positive_rate": 0.0,
-        "false_negative_rate": 0.0,
+        "false_negative_rate": 0.7692307692307693,
         "wilson_fpr_ci": [
           0.0,
-          0.05273725818905175
+          0.08200980322579121
         ]
       },
       "metrics_benign_invalid": {
-        "total": 80,
-        "flagged": 80,
-        "rejection_rate": 1.0
+        "total": 16,
+        "flagged": 2,
+        "rejection_rate": 0.125
       },
       "metrics_any_anomaly": {
-        "tp": 117,
+        "tp": 11,
         "fp": 0,
-        "tn": 69,
-        "fn": 0,
+        "tn": 43,
+        "fn": 44,
         "precision": 1.0,
-        "recall": 1.0,
-        "f1": 1.0,
+        "recall": 0.2,
+        "f1": 0.3333333333333333,
         "false_positive_rate": 0.0,
-        "false_negative_rate": 0.0,
+        "false_negative_rate": 0.8,
         "wilson_fpr_ci": [
           0.0,
-          0.05273725818905175
+          0.08200980322579121
         ]
       },
       "fpr_on_legitimate_test": 0.0,
-      "average_precision": 1.0,
+      "review_rate_legitimate": 0.0,
+      "average_precision": 0.3979591836734694,
       "per_family": {
-        "oversized": 1.0
+        "oversized": {
+          "recall": 0.0,
+          "support": 3.0
+        },
+        "sqli": {
+          "recall": 0.42857142857142855,
+          "support": 7.0
+        },
+        "traversal": {
+          "recall": 1.0,
+          "support": 6.0
+        },
+        "evasive": {
+          "recall": 0.0,
+          "support": 13.0
+        },
+        "xss": {
+          "recall": 0.0,
+          "support": 7.0
+        },
+        "repetitive": {
+          "recall": 0.0,
+          "support": 3.0
+        }
       },
-      "latency_ms_median": 0.019311000869493,
-      "latency_ms_p95": 0.8439639996140613,
+      "attack_slices": {
+        "signature_easy": {
+          "recall": 0.6923076923076923,
+          "support": 13.0
+        },
+        "rule_evasive": {
+          "recall": 0.0,
+          "support": 20.0
+        },
+        "size_distribution": {
+          "recall": 0.0,
+          "support": 6.0
+        }
+      },
+      "latency_ms_median": 0.021299000010799318,
+      "latency_ms_p95": 0.1565384500025856,
       "settings": {
-        "alert_threshold_percentile": 95.0,
-        "review_threshold_percentile": 85.0,
-        "isolation_alert_threshold": -0.05,
-        "isolation_review_threshold": -0.12,
+        "alert_threshold_percentile": 99.0,
+        "review_threshold_percentile": 95.0,
+        "isolation_alert_threshold": 0.0,
+        "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
       }
@@ -56,52 +94,90 @@
     "length_only": {
       "mode": "length_only",
       "metrics_malicious": {
-        "tp": 37,
-        "fp": 14,
-        "tn": 55,
-        "fn": 0,
-        "precision": 0.7254901960784313,
-        "recall": 1.0,
-        "f1": 0.8409090909090908,
-        "false_positive_rate": 0.2028985507246377,
-        "false_negative_rate": 0.0,
+        "tp": 3,
+        "fp": 0,
+        "tn": 43,
+        "fn": 36,
+        "precision": 1.0,
+        "recall": 0.07692307692307693,
+        "f1": 0.14285714285714288,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.9230769230769231,
         "wilson_fpr_ci": [
-          0.12489333067903491,
-          0.312240402447793
+          0.0,
+          0.08200980322579121
         ]
       },
       "metrics_benign_invalid": {
-        "total": 80,
-        "flagged": 80,
-        "rejection_rate": 1.0
+        "total": 16,
+        "flagged": 3,
+        "rejection_rate": 0.1875
       },
       "metrics_any_anomaly": {
-        "tp": 117,
-        "fp": 14,
-        "tn": 55,
-        "fn": 0,
-        "precision": 0.8931297709923665,
-        "recall": 1.0,
-        "f1": 0.9435483870967742,
-        "false_positive_rate": 0.2028985507246377,
-        "false_negative_rate": 0.0,
+        "tp": 6,
+        "fp": 0,
+        "tn": 43,
+        "fn": 49,
+        "precision": 1.0,
+        "recall": 0.10909090909090909,
+        "f1": 0.19672131147540983,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.8909090909090909,
         "wilson_fpr_ci": [
-          0.12489333067903491,
-          0.312240402447793
+          0.0,
+          0.08200980322579121
         ]
       },
-      "fpr_on_legitimate_test": 0.2028985507246377,
-      "average_precision": 0.8043478260869565,
+      "fpr_on_legitimate_test": 0.0,
+      "review_rate_legitimate": 0.046511627906976744,
+      "average_precision": 0.46318137536532356,
       "per_family": {
-        "oversized": 1.0
+        "oversized": {
+          "recall": 0.0,
+          "support": 3.0
+        },
+        "sqli": {
+          "recall": 0.0,
+          "support": 7.0
+        },
+        "traversal": {
+          "recall": 0.0,
+          "support": 6.0
+        },
+        "evasive": {
+          "recall": 0.0,
+          "support": 13.0
+        },
+        "xss": {
+          "recall": 0.0,
+          "support": 7.0
+        },
+        "repetitive": {
+          "recall": 1.0,
+          "support": 3.0
+        }
       },
-      "latency_ms_median": 0.3607285016187234,
-      "latency_ms_p95": 4.2015584995169775,
+      "attack_slices": {
+        "signature_easy": {
+          "recall": 0.0,
+          "support": 13.0
+        },
+        "rule_evasive": {
+          "recall": 0.0,
+          "support": 20.0
+        },
+        "size_distribution": {
+          "recall": 0.5,
+          "support": 6.0
+        }
+      },
+      "latency_ms_median": 0.32031750001237924,
+      "latency_ms_p95": 0.7985974500030572,
       "settings": {
         "alert_threshold_percentile": 100.0,
-        "review_threshold_percentile": 95.41284403669725,
-        "isolation_alert_threshold": -0.05,
-        "isolation_review_threshold": -0.12,
+        "review_threshold_percentile": 98.33333333333333,
+        "isolation_alert_threshold": 0.0,
+        "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
       }
@@ -109,52 +185,90 @@
     "composition_only": {
       "mode": "composition_only",
       "metrics_malicious": {
-        "tp": 37,
-        "fp": 31,
-        "tn": 38,
-        "fn": 0,
-        "precision": 0.5441176470588235,
-        "recall": 1.0,
-        "f1": 0.7047619047619048,
-        "false_positive_rate": 0.4492753623188406,
-        "false_negative_rate": 0.0,
+        "tp": 3,
+        "fp": 3,
+        "tn": 40,
+        "fn": 36,
+        "precision": 0.5,
+        "recall": 0.07692307692307693,
+        "f1": 0.13333333333333336,
+        "false_positive_rate": 0.06976744186046512,
+        "false_negative_rate": 0.9230769230769231,
         "wilson_fpr_ci": [
-          0.3376885562924371,
-          0.5662123249731189
+          0.024011589577214484,
+          0.1860898690124198
         ]
       },
       "metrics_benign_invalid": {
-        "total": 80,
-        "flagged": 80,
-        "rejection_rate": 1.0
+        "total": 16,
+        "flagged": 0,
+        "rejection_rate": 0.0
       },
       "metrics_any_anomaly": {
-        "tp": 117,
-        "fp": 31,
-        "tn": 38,
-        "fn": 0,
-        "precision": 0.7905405405405406,
-        "recall": 1.0,
-        "f1": 0.8830188679245283,
-        "false_positive_rate": 0.4492753623188406,
-        "false_negative_rate": 0.0,
+        "tp": 3,
+        "fp": 3,
+        "tn": 40,
+        "fn": 52,
+        "precision": 0.5,
+        "recall": 0.05454545454545454,
+        "f1": 0.09836065573770492,
+        "false_positive_rate": 0.06976744186046512,
+        "false_negative_rate": 0.9454545454545454,
         "wilson_fpr_ci": [
-          0.3376885562924371,
-          0.5662123249731189
+          0.024011589577214484,
+          0.1860898690124198
         ]
       },
-      "fpr_on_legitimate_test": 0.4492753623188406,
-      "average_precision": 0.44047619047619047,
+      "fpr_on_legitimate_test": 0.06976744186046512,
+      "review_rate_legitimate": 0.13953488372093023,
+      "average_precision": 0.3852678997213217,
       "per_family": {
-        "oversized": 1.0
+        "oversized": {
+          "recall": 0.0,
+          "support": 3.0
+        },
+        "sqli": {
+          "recall": 0.0,
+          "support": 7.0
+        },
+        "traversal": {
+          "recall": 0.0,
+          "support": 6.0
+        },
+        "evasive": {
+          "recall": 0.0,
+          "support": 13.0
+        },
+        "xss": {
+          "recall": 0.0,
+          "support": 7.0
+        },
+        "repetitive": {
+          "recall": 1.0,
+          "support": 3.0
+        }
       },
-      "latency_ms_median": 0.3712624984473223,
-      "latency_ms_p95": 4.1891610007951385,
+      "attack_slices": {
+        "signature_easy": {
+          "recall": 0.0,
+          "support": 13.0
+        },
+        "rule_evasive": {
+          "recall": 0.0,
+          "support": 20.0
+        },
+        "size_distribution": {
+          "recall": 0.5,
+          "support": 6.0
+        }
+      },
+      "latency_ms_median": 0.3148790000011559,
+      "latency_ms_p95": 0.783075950008083,
       "settings": {
-        "alert_threshold_percentile": 57.798165137614674,
-        "review_threshold_percentile": 57.798165137614674,
-        "isolation_alert_threshold": -0.05,
-        "isolation_review_threshold": -0.12,
+        "alert_threshold_percentile": 100.0,
+        "review_threshold_percentile": 98.85057471264368,
+        "isolation_alert_threshold": 0.0,
+        "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
       }
@@ -162,52 +276,90 @@
     "combined_stats": {
       "mode": "combined_stats",
       "metrics_malicious": {
-        "tp": 37,
-        "fp": 14,
-        "tn": 55,
-        "fn": 0,
-        "precision": 0.7254901960784313,
-        "recall": 1.0,
-        "f1": 0.8409090909090908,
-        "false_positive_rate": 0.2028985507246377,
-        "false_negative_rate": 0.0,
+        "tp": 3,
+        "fp": 3,
+        "tn": 40,
+        "fn": 36,
+        "precision": 0.5,
+        "recall": 0.07692307692307693,
+        "f1": 0.13333333333333336,
+        "false_positive_rate": 0.06976744186046512,
+        "false_negative_rate": 0.9230769230769231,
         "wilson_fpr_ci": [
-          0.12489333067903491,
-          0.312240402447793
+          0.024011589577214484,
+          0.1860898690124198
         ]
       },
       "metrics_benign_invalid": {
-        "total": 80,
-        "flagged": 80,
-        "rejection_rate": 1.0
+        "total": 16,
+        "flagged": 3,
+        "rejection_rate": 0.1875
       },
       "metrics_any_anomaly": {
-        "tp": 117,
-        "fp": 14,
-        "tn": 55,
-        "fn": 0,
-        "precision": 0.8931297709923665,
-        "recall": 1.0,
-        "f1": 0.9435483870967742,
-        "false_positive_rate": 0.2028985507246377,
-        "false_negative_rate": 0.0,
+        "tp": 6,
+        "fp": 3,
+        "tn": 40,
+        "fn": 49,
+        "precision": 0.6666666666666666,
+        "recall": 0.10909090909090909,
+        "f1": 0.1875,
+        "false_positive_rate": 0.06976744186046512,
+        "false_negative_rate": 0.8909090909090909,
         "wilson_fpr_ci": [
-          0.12489333067903491,
-          0.312240402447793
+          0.024011589577214484,
+          0.1860898690124198
         ]
       },
-      "fpr_on_legitimate_test": 0.2028985507246377,
-      "average_precision": 0.8043478260869565,
+      "fpr_on_legitimate_test": 0.06976744186046512,
+      "review_rate_legitimate": 0.023255813953488372,
+      "average_precision": 0.38483124965754967,
       "per_family": {
-        "oversized": 1.0
+        "oversized": {
+          "recall": 0.0,
+          "support": 3.0
+        },
+        "sqli": {
+          "recall": 0.0,
+          "support": 7.0
+        },
+        "traversal": {
+          "recall": 0.0,
+          "support": 6.0
+        },
+        "evasive": {
+          "recall": 0.0,
+          "support": 13.0
+        },
+        "xss": {
+          "recall": 0.0,
+          "support": 7.0
+        },
+        "repetitive": {
+          "recall": 1.0,
+          "support": 3.0
+        }
       },
-      "latency_ms_median": 0.36757100133399945,
-      "latency_ms_p95": 4.1867542486215825,
+      "attack_slices": {
+        "signature_easy": {
+          "recall": 0.0,
+          "support": 13.0
+        },
+        "rule_evasive": {
+          "recall": 0.0,
+          "support": 20.0
+        },
+        "size_distribution": {
+          "recall": 0.5,
+          "support": 6.0
+        }
+      },
+      "latency_ms_median": 0.31262350000815786,
+      "latency_ms_p95": 0.7666124999914811,
       "settings": {
         "alert_threshold_percentile": 100.0,
-        "review_threshold_percentile": 95.41284403669725,
-        "isolation_alert_threshold": -0.05,
-        "isolation_review_threshold": -0.12,
+        "review_threshold_percentile": 98.88888888888889,
+        "isolation_alert_threshold": 0.0,
+        "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
       }
@@ -215,52 +367,90 @@
     "rules_plus_stats": {
       "mode": "rules_plus_stats",
       "metrics_malicious": {
-        "tp": 37,
-        "fp": 14,
-        "tn": 55,
-        "fn": 0,
-        "precision": 0.7254901960784313,
-        "recall": 1.0,
-        "f1": 0.8409090909090908,
-        "false_positive_rate": 0.2028985507246377,
-        "false_negative_rate": 0.0,
+        "tp": 12,
+        "fp": 3,
+        "tn": 40,
+        "fn": 27,
+        "precision": 0.8,
+        "recall": 0.3076923076923077,
+        "f1": 0.4444444444444444,
+        "false_positive_rate": 0.06976744186046512,
+        "false_negative_rate": 0.6923076923076923,
         "wilson_fpr_ci": [
-          0.12489333067903491,
-          0.312240402447793
+          0.024011589577214484,
+          0.1860898690124198
         ]
       },
       "metrics_benign_invalid": {
-        "total": 80,
-        "flagged": 80,
-        "rejection_rate": 1.0
+        "total": 16,
+        "flagged": 5,
+        "rejection_rate": 0.3125
       },
       "metrics_any_anomaly": {
-        "tp": 117,
-        "fp": 14,
-        "tn": 55,
-        "fn": 0,
-        "precision": 0.8931297709923665,
-        "recall": 1.0,
-        "f1": 0.9435483870967742,
-        "false_positive_rate": 0.2028985507246377,
-        "false_negative_rate": 0.0,
+        "tp": 17,
+        "fp": 3,
+        "tn": 40,
+        "fn": 38,
+        "precision": 0.85,
+        "recall": 0.3090909090909091,
+        "f1": 0.4533333333333333,
+        "false_positive_rate": 0.06976744186046512,
+        "false_negative_rate": 0.6909090909090909,
         "wilson_fpr_ci": [
-          0.12489333067903491,
-          0.312240402447793
+          0.024011589577214484,
+          0.1860898690124198
         ]
       },
-      "fpr_on_legitimate_test": 0.2028985507246377,
-      "average_precision": 0.8043478260869565,
+      "fpr_on_legitimate_test": 0.06976744186046512,
+      "review_rate_legitimate": 0.023255813953488372,
+      "average_precision": 0.38483124965754967,
       "per_family": {
-        "oversized": 1.0
+        "oversized": {
+          "recall": 0.0,
+          "support": 3.0
+        },
+        "sqli": {
+          "recall": 0.42857142857142855,
+          "support": 7.0
+        },
+        "traversal": {
+          "recall": 1.0,
+          "support": 6.0
+        },
+        "evasive": {
+          "recall": 0.0,
+          "support": 13.0
+        },
+        "xss": {
+          "recall": 0.0,
+          "support": 7.0
+        },
+        "repetitive": {
+          "recall": 1.0,
+          "support": 3.0
+        }
       },
-      "latency_ms_median": 0.3696544990816619,
-      "latency_ms_p95": 4.190117749203637,
+      "attack_slices": {
+        "signature_easy": {
+          "recall": 0.6923076923076923,
+          "support": 13.0
+        },
+        "rule_evasive": {
+          "recall": 0.0,
+          "support": 20.0
+        },
+        "size_distribution": {
+          "recall": 0.5,
+          "support": 6.0
+        }
+      },
+      "latency_ms_median": 0.3158640000151536,
+      "latency_ms_p95": 0.794843799985756,
       "settings": {
         "alert_threshold_percentile": 100.0,
-        "review_threshold_percentile": 95.41284403669725,
-        "isolation_alert_threshold": -0.05,
-        "isolation_review_threshold": -0.12,
+        "review_threshold_percentile": 98.88888888888889,
+        "isolation_alert_threshold": 0.0,
+        "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
       }
@@ -268,56 +458,387 @@
     "isolation_forest": {
       "mode": "isolation_forest",
       "metrics_malicious": {
-        "tp": 37,
+        "tp": 0,
         "fp": 0,
-        "tn": 69,
-        "fn": 0,
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1": 1.0,
+        "tn": 43,
+        "fn": 39,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
         "false_positive_rate": 0.0,
-        "false_negative_rate": 0.0,
+        "false_negative_rate": 1.0,
         "wilson_fpr_ci": [
           0.0,
-          0.05273725818905175
+          0.08200980322579121
         ]
       },
       "metrics_benign_invalid": {
-        "total": 80,
-        "flagged": 80,
-        "rejection_rate": 1.0
+        "total": 16,
+        "flagged": 2,
+        "rejection_rate": 0.125
       },
       "metrics_any_anomaly": {
-        "tp": 117,
+        "tp": 2,
         "fp": 0,
-        "tn": 69,
-        "fn": 0,
+        "tn": 43,
+        "fn": 53,
         "precision": 1.0,
-        "recall": 1.0,
-        "f1": 1.0,
+        "recall": 0.03636363636363636,
+        "f1": 0.07017543859649122,
         "false_positive_rate": 0.0,
-        "false_negative_rate": 0.0,
+        "false_negative_rate": 0.9636363636363636,
         "wilson_fpr_ci": [
           0.0,
-          0.05273725818905175
+          0.08200980322579121
         ]
       },
       "fpr_on_legitimate_test": 0.0,
-      "average_precision": 0.8043478260869565,
+      "review_rate_legitimate": 0.0,
+      "average_precision": 0.38483124965754967,
       "per_family": {
-        "oversized": 1.0
+        "oversized": {
+          "recall": 0.0,
+          "support": 3.0
+        },
+        "sqli": {
+          "recall": 0.0,
+          "support": 7.0
+        },
+        "traversal": {
+          "recall": 0.0,
+          "support": 6.0
+        },
+        "evasive": {
+          "recall": 0.0,
+          "support": 13.0
+        },
+        "xss": {
+          "recall": 0.0,
+          "support": 7.0
+        },
+        "repetitive": {
+          "recall": 0.0,
+          "support": 3.0
+        }
       },
-      "latency_ms_median": 5.31628699900466,
-      "latency_ms_p95": 11.030486499294057,
+      "attack_slices": {
+        "signature_easy": {
+          "recall": 0.0,
+          "support": 13.0
+        },
+        "rule_evasive": {
+          "recall": 0.0,
+          "support": 20.0
+        },
+        "size_distribution": {
+          "recall": 0.0,
+          "support": 6.0
+        }
+      },
+      "latency_ms_median": 4.498324499991213,
+      "latency_ms_p95": 5.30611849998337,
       "settings": {
         "alert_threshold_percentile": 100.0,
-        "review_threshold_percentile": 95.41284403669725,
-        "isolation_alert_threshold": -0.05,
-        "isolation_review_threshold": -0.12,
+        "review_threshold_percentile": 98.88888888888889,
+        "isolation_alert_threshold": -0.002537675836199793,
+        "isolation_review_threshold": -0.002537675836199793,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true
       }
     }
   },
-  "generated_at": 1793899622.6202044
+  "generated_at": 1794219382.278045,
+  "primary_comparison": {
+    "rules_only": {
+      "mode": "rules_only",
+      "metrics_malicious": {
+        "tp": 9,
+        "fp": 0,
+        "tn": 43,
+        "fn": 30,
+        "precision": 1.0,
+        "recall": 0.23076923076923078,
+        "f1": 0.375,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.7692307692307693,
+        "wilson_fpr_ci": [
+          0.0,
+          0.08200980322579121
+        ]
+      },
+      "metrics_benign_invalid": {
+        "total": 16,
+        "flagged": 2,
+        "rejection_rate": 0.125
+      },
+      "metrics_any_anomaly": {
+        "tp": 11,
+        "fp": 0,
+        "tn": 43,
+        "fn": 44,
+        "precision": 1.0,
+        "recall": 0.2,
+        "f1": 0.3333333333333333,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.8,
+        "wilson_fpr_ci": [
+          0.0,
+          0.08200980322579121
+        ]
+      },
+      "fpr_on_legitimate_test": 0.0,
+      "review_rate_legitimate": 0.0,
+      "average_precision": 0.3979591836734694,
+      "per_family": {
+        "oversized": {
+          "recall": 0.0,
+          "support": 3.0
+        },
+        "sqli": {
+          "recall": 0.42857142857142855,
+          "support": 7.0
+        },
+        "traversal": {
+          "recall": 1.0,
+          "support": 6.0
+        },
+        "evasive": {
+          "recall": 0.0,
+          "support": 13.0
+        },
+        "xss": {
+          "recall": 0.0,
+          "support": 7.0
+        },
+        "repetitive": {
+          "recall": 0.0,
+          "support": 3.0
+        }
+      },
+      "attack_slices": {
+        "signature_easy": {
+          "recall": 0.6923076923076923,
+          "support": 13.0
+        },
+        "rule_evasive": {
+          "recall": 0.0,
+          "support": 20.0
+        },
+        "size_distribution": {
+          "recall": 0.0,
+          "support": 6.0
+        }
+      },
+      "latency_ms_median": 0.021299000010799318,
+      "latency_ms_p95": 0.1565384500025856,
+      "settings": {
+        "alert_threshold_percentile": 99.0,
+        "review_threshold_percentile": 95.0,
+        "isolation_alert_threshold": 0.0,
+        "isolation_review_threshold": 0.0,
+        "max_false_positive_rate_target": 0.01,
+        "enable_high_severity_rule_alert": true
+      }
+    },
+    "combined_stats": {
+      "mode": "combined_stats",
+      "metrics_malicious": {
+        "tp": 3,
+        "fp": 3,
+        "tn": 40,
+        "fn": 36,
+        "precision": 0.5,
+        "recall": 0.07692307692307693,
+        "f1": 0.13333333333333336,
+        "false_positive_rate": 0.06976744186046512,
+        "false_negative_rate": 0.9230769230769231,
+        "wilson_fpr_ci": [
+          0.024011589577214484,
+          0.1860898690124198
+        ]
+      },
+      "metrics_benign_invalid": {
+        "total": 16,
+        "flagged": 3,
+        "rejection_rate": 0.1875
+      },
+      "metrics_any_anomaly": {
+        "tp": 6,
+        "fp": 3,
+        "tn": 40,
+        "fn": 49,
+        "precision": 0.6666666666666666,
+        "recall": 0.10909090909090909,
+        "f1": 0.1875,
+        "false_positive_rate": 0.06976744186046512,
+        "false_negative_rate": 0.8909090909090909,
+        "wilson_fpr_ci": [
+          0.024011589577214484,
+          0.1860898690124198
+        ]
+      },
+      "fpr_on_legitimate_test": 0.06976744186046512,
+      "review_rate_legitimate": 0.023255813953488372,
+      "average_precision": 0.38483124965754967,
+      "per_family": {
+        "oversized": {
+          "recall": 0.0,
+          "support": 3.0
+        },
+        "sqli": {
+          "recall": 0.0,
+          "support": 7.0
+        },
+        "traversal": {
+          "recall": 0.0,
+          "support": 6.0
+        },
+        "evasive": {
+          "recall": 0.0,
+          "support": 13.0
+        },
+        "xss": {
+          "recall": 0.0,
+          "support": 7.0
+        },
+        "repetitive": {
+          "recall": 1.0,
+          "support": 3.0
+        }
+      },
+      "attack_slices": {
+        "signature_easy": {
+          "recall": 0.0,
+          "support": 13.0
+        },
+        "rule_evasive": {
+          "recall": 0.0,
+          "support": 20.0
+        },
+        "size_distribution": {
+          "recall": 0.5,
+          "support": 6.0
+        }
+      },
+      "latency_ms_median": 0.31262350000815786,
+      "latency_ms_p95": 0.7666124999914811,
+      "settings": {
+        "alert_threshold_percentile": 100.0,
+        "review_threshold_percentile": 98.88888888888889,
+        "isolation_alert_threshold": 0.0,
+        "isolation_review_threshold": 0.0,
+        "max_false_positive_rate_target": 0.01,
+        "enable_high_severity_rule_alert": true
+      }
+    },
+    "rules_plus_stats": {
+      "mode": "rules_plus_stats",
+      "metrics_malicious": {
+        "tp": 12,
+        "fp": 3,
+        "tn": 40,
+        "fn": 27,
+        "precision": 0.8,
+        "recall": 0.3076923076923077,
+        "f1": 0.4444444444444444,
+        "false_positive_rate": 0.06976744186046512,
+        "false_negative_rate": 0.6923076923076923,
+        "wilson_fpr_ci": [
+          0.024011589577214484,
+          0.1860898690124198
+        ]
+      },
+      "metrics_benign_invalid": {
+        "total": 16,
+        "flagged": 5,
+        "rejection_rate": 0.3125
+      },
+      "metrics_any_anomaly": {
+        "tp": 17,
+        "fp": 3,
+        "tn": 40,
+        "fn": 38,
+        "precision": 0.85,
+        "recall": 0.3090909090909091,
+        "f1": 0.4533333333333333,
+        "false_positive_rate": 0.06976744186046512,
+        "false_negative_rate": 0.6909090909090909,
+        "wilson_fpr_ci": [
+          0.024011589577214484,
+          0.1860898690124198
+        ]
+      },
+      "fpr_on_legitimate_test": 0.06976744186046512,
+      "review_rate_legitimate": 0.023255813953488372,
+      "average_precision": 0.38483124965754967,
+      "per_family": {
+        "oversized": {
+          "recall": 0.0,
+          "support": 3.0
+        },
+        "sqli": {
+          "recall": 0.42857142857142855,
+          "support": 7.0
+        },
+        "traversal": {
+          "recall": 1.0,
+          "support": 6.0
+        },
+        "evasive": {
+          "recall": 0.0,
+          "support": 13.0
+        },
+        "xss": {
+          "recall": 0.0,
+          "support": 7.0
+        },
+        "repetitive": {
+          "recall": 1.0,
+          "support": 3.0
+        }
+      },
+      "attack_slices": {
+        "signature_easy": {
+          "recall": 0.6923076923076923,
+          "support": 13.0
+        },
+        "rule_evasive": {
+          "recall": 0.0,
+          "support": 20.0
+        },
+        "size_distribution": {
+          "recall": 0.5,
+          "support": 6.0
+        }
+      },
+      "latency_ms_median": 0.3158640000151536,
+      "latency_ms_p95": 0.794843799985756,
+      "settings": {
+        "alert_threshold_percentile": 100.0,
+        "review_threshold_percentile": 98.88888888888889,
+        "isolation_alert_threshold": 0.0,
+        "isolation_review_threshold": 0.0,
+        "max_false_positive_rate_target": 0.01,
+        "enable_high_severity_rule_alert": true
+      }
+    }
+  },
+  "held_out_traversal": {
+    "family": "traversal",
+    "modes": {
+      "rules_only": {
+        "recall": 1.0,
+        "alerts": 6
+      },
+      "combined_stats": {
+        "recall": 0.0,
+        "alerts": 0
+      },
+      "rules_plus_stats": {
+        "recall": 1.0,
+        "alerts": 6
+      }
+    },
+    "support": 6
+  }
 }

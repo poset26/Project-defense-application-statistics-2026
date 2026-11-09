@@ -1,6 +1,6 @@
 # Update plan: make the experiment able to fail
 
-Status: proposed. This document does not change detector behavior. It records shortcomings of the same kind as “rules already catch every evaluated attack, so the statistical comparison cannot show anything,” and the work required to fix them.
+Status: **applied** (see `main` after the experiment-honesty update). This document records the original shortcomings and the implementation plan; behavior and evaluation now follow the fixes below unless noted as residual.
 
 Pulled baseline: `69708ba` (evaluation metric refinements on `main`). Numbers below are from `results/metrics_summary.json` produced by `scripts/demo.sh` on the small simulator (`data/simulated`, 900 requests).
 

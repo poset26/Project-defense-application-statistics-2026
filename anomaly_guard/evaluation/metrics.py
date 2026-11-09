@@ -104,12 +104,12 @@ def compute_malicious_attack_metrics(
     yp = np.array(pred_alert, dtype=int)
     tp = int(((yt == 1) & (yp == 1)).sum())
     fn = int(((yt == 1) & (yp == 0)).sum())
-    fp_leg = int(((yt == 0) & (yp == 1) & np.array(legit_mask)).sum())
-    tn = int(((yt == 0) & (yp == 0)).sum())
+    leg = np.array(legit_mask, dtype=bool)
+    fp_leg = int(((yp == 1) & leg).sum())
+    tn = int(((yp == 0) & leg).sum())
     prec = tp / (tp + fp_leg) if (tp + fp_leg) else 0.0
     rec = tp / (tp + fn) if (tp + fn) else 0.0
     f1 = (2 * prec * rec / (prec + rec)) if (prec + rec) else 0.0
-    leg = np.array(legit_mask, dtype=bool)
     fp_rate = float(np.mean(yp[leg])) if leg.any() else 0.0
     n_leg = int(leg.sum())
     fp_count = int(((yp == 1) & leg).sum())
@@ -181,7 +181,21 @@ def compute_binary_metrics(
 
 
 def alert_predicted(decision: str) -> bool:
-    return decision in ("alert", "review")
+    return decision == "alert"
+
+
+def review_predicted(decision: str) -> bool:
+    return decision == "review"
+
+
+def review_rate_on_legitimate(meta: list[GroundTruthMeta], decisions: list[str]) -> float:
+    leg = [is_legitimate_family(m) for m in meta]
+    if not any(leg):
+        return 0.0
+    rev = [review_predicted(d) for d in decisions]
+    leg_arr = np.array(leg, dtype=bool)
+    rev_arr = np.array(rev, dtype=bool)
+    return float(np.mean(rev_arr[leg_arr]))
 
 
 def score_to_rank(values: list[float]) -> list[float]:
@@ -206,15 +220,42 @@ def precision_recall_points(y_true: list[bool], scores: list[float]) -> tuple[li
 def per_family_recall(
     meta: list[GroundTruthMeta],
     preds: dict[str, str],
-) -> dict[str, float]:
-    by_family: dict[str, list[bool]] = {}
+) -> dict[str, dict[str, float]]:
     hits: dict[str, list[bool]] = {}
     for m in meta:
         if not is_positive_malicious(m):
             continue
         fam = m.attack_family or "unknown"
-        by_family.setdefault(fam, []).append(True)
         hits.setdefault(fam, []).append(alert_predicted(preds.get(m.request_id, "normal")))
     return {
-        fam: float(np.mean(hits[fam])) if hits[fam] else 0.0 for fam in by_family
+        fam: {
+            "recall": float(np.mean(hits[fam])) if hits[fam] else 0.0,
+            "support": float(len(hits[fam])),
+        }
+        for fam in hits
     }
+
+
+def slice_attack_recall(
+    meta: list[GroundTruthMeta],
+    pred_alert: list[bool],
+    attack_slice: str,
+) -> dict[str, float] | None:
+    indices = [
+        i
+        for i, m in enumerate(meta)
+        if is_positive_malicious(m) and m.attack_slice == attack_slice
+    ]
+    if not indices:
+        return None
+    hits = [pred_alert[i] for i in indices]
+    return {"recall": float(np.mean(hits)), "support": float(len(indices))}
+
+
+def ranking_score_from_prediction(score_dict: dict[str, Any]) -> float:
+    comp = score_dict.get("component_scores") or {}
+    if comp.get("aggregate_percentile") is not None:
+        return float(comp["aggregate_percentile"])
+    if comp.get("isolation_score") is not None:
+        return float(-comp["isolation_score"])
+    return 0.0

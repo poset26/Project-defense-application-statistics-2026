@@ -21,7 +21,15 @@ def _project_root() -> Path:
 def cmd_generate(args: argparse.Namespace) -> None:
     plan = DEFAULT_PLAN
     if args.small:
-        plan = type(plan)(legitimate=500, difficult_legitimate=100, benign_invalid=80, malicious_intent=150, hard_malicious_intent=30, distribution_shift=40, seed=args.seed)
+        plan = type(plan)(
+            legitimate=400,
+            difficult_legitimate=80,
+            benign_invalid=60,
+            malicious_intent=120,
+            hard_malicious_intent=40,
+            distribution_shift=40,
+            seed=args.seed,
+        )
     records, meta = generate_dataset(plan)
     meta = assign_splits(meta, records)
     out = Path(args.output)

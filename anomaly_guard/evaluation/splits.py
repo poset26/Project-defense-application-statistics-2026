@@ -10,13 +10,18 @@ from anomaly_guard.core.schema import GroundTruthMeta, RequestRecord, ScenarioGr
 TRAIN_GROUPS: set[ScenarioGroup] = {"legitimate"}
 VALIDATION_GROUPS: set[ScenarioGroup] = {"legitimate", "difficult_legitimate", "distribution_shift"}
 
-# Per-request splits for these groups so each HTTP route appears in train and validation
-# (template-level hashing put entire routes in one partition and broke baseline calibration).
 _ROUTE_STRATIFIED_GROUPS: set[ScenarioGroup] = {
     "legitimate",
     "difficult_legitimate",
     "distribution_shift",
 }
+
+_ATTACK_SPLITTABLE: set[ScenarioGroup] = {
+    "malicious_intent",
+    "hard_malicious_intent",
+    "benign_invalid",
+}
+
 TEST_GROUPS: set[ScenarioGroup] = set(
     [
         "legitimate",
@@ -40,6 +45,24 @@ def _bucket(key: str, train_ratio: float, val_ratio: float) -> str:
     return "test"
 
 
+def _split_indices(n: int, train_ratio: float, val_ratio: float) -> list[str]:
+    """Round-robin style splits so every bucket gets rows when n is large enough."""
+    if n == 0:
+        return []
+    test_ratio = 1.0 - train_ratio - val_ratio
+    n_train = max(0, int(round(n * train_ratio)))
+    n_val = max(0, int(round(n * val_ratio)))
+    n_test = n - n_train - n_val
+    if n >= 3:
+        n_test = max(1, n_test)
+        if n_train + n_val + n_test > n:
+            n_train = max(0, n - n_val - n_test)
+    out = ["train"] * n_train + ["validation"] * n_val + ["test"] * n_test
+    while len(out) < n:
+        out.append("test")
+    return out[:n]
+
+
 def assign_splits(
     meta: list[GroundTruthMeta],
     records: list[RequestRecord] | None = None,
@@ -48,21 +71,39 @@ def assign_splits(
 ) -> list[GroundTruthMeta]:
     """Assign train/validation/test splits.
 
-    Malicious and benign-invalid scenarios stay template-grouped so attack variants
-    do not leak across partitions. Normal-traffic groups are stratified per request
-    and route so statistical baselines can calibrate on the same endpoints seen in training.
+    Normal-traffic groups are stratified per request and route.
+    Attack and benign-invalid families are split within each family so every
+    family contributes test rows when enough samples exist.
     """
     record_by_id = {r.request_id: r for r in records} if records else {}
+    family_idxs: dict[str, list[int]] = defaultdict(list)
+
+    for i, m in enumerate(meta):
+        if m.scenario_group in _ATTACK_SPLITTABLE:
+            fam = m.attack_family or m.scenario_id
+            family_idxs[f"{m.scenario_group}:{fam}"].append(i)
+
+    family_split: dict[int, str] = {}
+    for _key, indices in family_idxs.items():
+        indices_sorted = sorted(indices, key=lambda j: meta[j].request_id)
+        splits = _split_indices(len(indices_sorted), train_ratio, val_ratio)
+        for j, idx in enumerate(indices_sorted):
+            family_split[idx] = splits[j]
+
     out: list[GroundTruthMeta] = []
-    for m in meta:
-        if m.scenario_group in _ROUTE_STRATIFIED_GROUPS and m.request_id in record_by_id:
+    for i, m in enumerate(meta):
+        if i in family_split:
+            split = family_split[i]
+        elif m.scenario_group in _ROUTE_STRATIFIED_GROUPS and m.request_id in record_by_id:
             rec = record_by_id[m.request_id]
             group_key = f"{rec.method.upper()} {rec.route}:{m.request_id}"
+            split = _bucket(group_key, train_ratio, val_ratio)
+            if m.scenario_group == "legitimate" and split == "test":
+                split = _bucket(group_key + ":leg", 0.7, 0.15)
         else:
-            group_key = f"{m.scenario_id}:{m.template_id or 'na'}"
-        split = _bucket(group_key, train_ratio, val_ratio)
-        if m.scenario_group in TRAIN_GROUPS and split == "test" and m.scenario_group == "legitimate":
-            split = _bucket(group_key + ":leg", 0.7, 0.15)
+            group_key = f"{m.scenario_id}:{m.template_id or 'na'}:{m.request_id}"
+            split = _bucket(group_key, train_ratio, val_ratio)
+
         updated = GroundTruthMeta(
             request_id=m.request_id,
             scenario_group=m.scenario_group,
@@ -70,6 +111,8 @@ def assign_splits(
             attack_family=m.attack_family,
             template_id=m.template_id,
             split=split,  # type: ignore
+            attack_slice=m.attack_slice,
+            invalid_slice=m.invalid_slice,
             notes=m.notes,
         )
         out.append(updated)
@@ -93,7 +136,11 @@ def partition_records(
         if m.scenario_group == "legitimate" and m.split == "train":
             parts["train"][0].append(rec)
             parts["train"][1].append(m)
-        elif m.split == "validation" and m.scenario_group in ("legitimate", "difficult_legitimate", "distribution_shift"):
+        elif m.split == "validation" and m.scenario_group in (
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift",
+        ):
             parts["validation"][0].append(rec)
             parts["validation"][1].append(m)
         elif m.split == "test":
@@ -128,8 +175,12 @@ def validation_legitimate_records(
     ]
 
 
-def held_out_family_meta(meta: list[GroundTruthMeta], family: str = "traversal") -> list[GroundTruthMeta]:
-    """Mark test records whose attack family was absent from train/validation development."""
+def held_out_family_indices(
+    meta: list[GroundTruthMeta],
+    family: str = "traversal",
+    held_out_split: str = "test",
+) -> list[int]:
+    """Indices of test rows for a family absent from train/validation development."""
     dev_families = {
         m.attack_family
         for m in meta
@@ -137,4 +188,30 @@ def held_out_family_meta(meta: list[GroundTruthMeta], family: str = "traversal")
     }
     if family in dev_families:
         return []
-    return [m for m in meta if m.split == "test" and m.attack_family == family]
+    return [
+        i
+        for i, m in enumerate(meta)
+        if m.split == held_out_split and m.attack_family == family
+    ]
+
+
+def exclude_families_from_development(
+    records: list[RequestRecord],
+    meta: list[GroundTruthMeta],
+    exclude_families: set[str],
+) -> tuple[list[RequestRecord], list[GroundTruthMeta]]:
+    """Drop malicious rows whose family is in exclude_families from train/val use."""
+    meta_by_id = {m.request_id: m for m in meta}
+    kept_recs = []
+    kept_meta = []
+    for r in records:
+        m = meta_by_id[r.request_id]
+        if (
+            m.attack_family in exclude_families
+            and m.scenario_group in ("malicious_intent", "hard_malicious_intent")
+            and m.split in ("train", "validation")
+        ):
+            continue
+        kept_recs.append(r)
+        kept_meta.append(m)
+    return kept_recs, kept_meta

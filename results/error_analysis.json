@@ -6,9 +6,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -18,9 +18,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -70,9 +70,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -232,10 +232,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): robust z vs median 28.0, MAD 6.0",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): log1p(length): robust z vs median 3.4, MAD 0.2",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 100.0): robust z vs median 28.0, MAD 6.0",
-      "Field 'author' composition unusual (empirical percentile 98.4): distribution discrepancy 0.4214 (n=15); baseline incompatibility p=0.01193 (not attack probability)"
+      "Field 'text' length unusual (empirical percentile 100.0): log1p(length): robust z vs median 3.4, MAD 0.2",
+      "Field 'author' composition unusual (empirical percentile 98.4): distribution discrepancy 0.4214 (n=15); top cells [('digit', 4.25312116619759), ('letter', 2.068056503132597)]; p=0.01193 (baseline incompatibility, not attack probability)"
     ]
   },
   {
@@ -265,9 +265,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -307,9 +307,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -401,9 +401,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -567,9 +567,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -579,9 +579,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -591,9 +591,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -635,9 +635,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -677,9 +677,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -711,9 +711,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -785,9 +785,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -913,9 +913,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -955,9 +955,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -1001,9 +1001,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -1023,9 +1023,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -1085,9 +1085,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -1301,9 +1301,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -1313,9 +1313,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -1417,10 +1417,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): robust z vs median 28.0, MAD 6.0",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): log1p(length): robust z vs median 3.4, MAD 0.2",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 100.0): robust z vs median 28.0, MAD 6.0",
-      "Field 'author' composition unusual (empirical percentile 98.4): distribution discrepancy 0.4214 (n=15); baseline incompatibility p=0.01193 (not attack probability)"
+      "Field 'text' length unusual (empirical percentile 100.0): log1p(length): robust z vs median 3.4, MAD 0.2",
+      "Field 'author' composition unusual (empirical percentile 98.4): distribution discrepancy 0.4214 (n=15); top cells [('digit', 4.25312116619759), ('letter', 2.068056503132597)]; p=0.01193 (baseline incompatibility, not attack probability)"
     ]
   },
   {
@@ -1460,9 +1460,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -1472,9 +1472,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -1524,9 +1524,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -1698,10 +1698,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): robust z vs median 28.0, MAD 6.0",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): log1p(length): robust z vs median 3.4, MAD 0.2",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 100.0): robust z vs median 28.0, MAD 6.0",
-      "Field 'author' composition unusual (empirical percentile 98.4): distribution discrepancy 0.4214 (n=15); baseline incompatibility p=0.01193 (not attack probability)"
+      "Field 'text' length unusual (empirical percentile 100.0): log1p(length): robust z vs median 3.4, MAD 0.2",
+      "Field 'author' composition unusual (empirical percentile 98.4): distribution discrepancy 0.4214 (n=15); top cells [('digit', 4.25312116619759), ('letter', 2.068056503132597)]; p=0.01193 (baseline incompatibility, not attack probability)"
     ]
   },
   {
@@ -1721,9 +1721,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -1809,9 +1809,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57)"
+      "Field 'q' composition unusual (empirical percentile 100.0): distribution discrepancy 0.4442 (n=57); top cells [('whitespace', 24.25663576066357), ('letter', 1.0608693196956966)]"
     ]
   },
   {
@@ -1999,10 +1999,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): robust z vs median 28.0, MAD 6.0",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): log1p(length): robust z vs median 3.4, MAD 0.2",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 100.0): robust z vs median 28.0, MAD 6.0",
-      "Field 'author' composition unusual (empirical percentile 98.4): distribution discrepancy 0.4214 (n=15); baseline incompatibility p=0.01193 (not attack probability)"
+      "Field 'text' length unusual (empirical percentile 100.0): log1p(length): robust z vs median 3.4, MAD 0.2",
+      "Field 'author' composition unusual (empirical percentile 98.4): distribution discrepancy 0.4214 (n=15); top cells [('digit', 4.25312116619759), ('letter', 2.068056503132597)]; p=0.01193 (baseline incompatibility, not attack probability)"
     ]
   },
   {
@@ -2032,10 +2032,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): robust z vs median 28.0, MAD 6.0",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): log1p(length): robust z vs median 3.4, MAD 0.2",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 100.0): robust z vs median 28.0, MAD 6.0",
-      "Field 'author' composition unusual (empirical percentile 98.4): distribution discrepancy 0.4214 (n=15); baseline incompatibility p=0.01193 (not attack probability)"
+      "Field 'text' length unusual (empirical percentile 100.0): log1p(length): robust z vs median 3.4, MAD 0.2",
+      "Field 'author' composition unusual (empirical percentile 98.4): distribution discrepancy 0.4214 (n=15); top cells [('digit', 4.25312116619759), ('letter', 2.068056503132597)]; p=0.01193 (baseline incompatibility, not attack probability)"
     ]
   },
   {

@@ -11,6 +11,18 @@ from typing import Any, Literal
 import numpy as np
 from scipy.stats import chisquare
 
+import math
+
+from anomaly_guard.core.advanced_stats import (
+    extended_from_dict,
+    extended_to_dict,
+    fit_endpoint_extended,
+    score_mahalanobis,
+    score_ngram,
+    score_ols_residual,
+    score_payl,
+    score_stratified_composition,
+)
 from anomaly_guard.core.features import CATEGORY_BINS, RequestFeatures, extract_features
 from anomaly_guard.core.parser import ParsedRequest, parse_request
 from anomaly_guard.core.schema import AppConfig, RequestRecord, load_app_config, utc_now_iso
@@ -72,6 +84,7 @@ class ComponentScore:
     percentile: float | None
     status: str
     detail: str
+    p_value: float | None = None
 
 
 @dataclass
@@ -83,7 +96,30 @@ class StatisticalResult:
     processing_time_ms: float
 
 
-def _robust_length_score(observed: float, profile: LengthProfile) -> tuple[float, str]:
+def _robust_length_score(observed: float, profile: LengthProfile, use_log: bool = True) -> tuple[float, str]:
+    if not use_log:
+        return _robust_length_score_raw(observed, profile)
+    obs = math.log1p(max(observed, 0.0))
+    med = math.log1p(max(profile.median, 0.0))
+    if profile.mad > 0:
+        mad = max(profile.mad / max(profile.median, 1.0), 1e-3)
+    else:
+        mad = profile.mad
+    log_profile = LengthProfile(
+        median=med,
+        mad=mad,
+        tolerance=max(0.05, med * 0.05),
+        discrete_values=(
+            [math.log1p(max(x, 0)) for x in profile.discrete_values]
+            if profile.discrete_values is not None and len(profile.discrete_values) <= 3
+            else None
+        ),
+    )
+    raw, detail = _robust_length_score_raw(obs, log_profile)
+    return raw, f"log1p(length): {detail}"
+
+
+def _robust_length_score_raw(observed: float, profile: LengthProfile) -> tuple[float, str]:
     if profile.discrete_values is not None and len(profile.discrete_values) <= 3:
         if int(round(observed)) in profile.discrete_values:
             return 0.0, "matches discrete training values"
@@ -148,9 +184,11 @@ def _composition_score(text: str, profile: CompositionProfile) -> tuple[float | 
     teaching_p: float | None = None
     if all(e >= 5 for e in expected) and all(o >= 0 for o in observed):
         teaching_p = float(p_value)
-    detail = f"distribution discrepancy {score:.4f} (n={n})"
+    contribs = ((obs_arr - exp_arr) ** 2 / np.maximum(exp_arr, 0.25)).tolist()
+    top = sorted(zip(profile.merged_categories, contribs), key=lambda x: -x[1])[:2]
+    detail = f"distribution discrepancy {score:.4f} (n={n}); top cells {top}"
     if teaching_p is not None:
-        detail += f"; baseline incompatibility p={teaching_p:.4g} (not attack probability)"
+        detail += f"; p={teaching_p:.4g} (baseline incompatibility, not attack probability)"
     return score, "ok", detail, teaching_p
 
 
@@ -160,9 +198,9 @@ class StatisticalDetector:
     def __init__(self, config: AppConfig | None = None):
         self.config = config or load_app_config()
         self.baseline: BaselineArtifact | None = None
-        self._calibration_length: list[float] = []
-        self._calibration_composition: list[float] = []
+        self._calibration_pools: dict[str, list[float]] = {}
         self._calibration_aggregate: list[float] = []
+        self._extended_endpoints: dict[str, dict[str, Any]] = {}
 
     def fit(self, normal_records: list[RequestRecord]) -> BaselineArtifact:
         endpoints: dict[str, EndpointProfile] = {}
@@ -226,6 +264,18 @@ class StatisticalDetector:
                 ep.fields[spec.name] = fp
             endpoints[key] = ep
 
+        forder = sorted(field_order)
+        self._extended_endpoints = {}
+        for key, items in grouped.items():
+            method, route = key.split(" ", 1)
+            route_spec = self.config.route_key[(method, route)]
+            fnames = [spec.name for spec in route_spec.fields]
+            vectors = [feats.to_vector(forder) for feats, _ in items]
+            ext = fit_endpoint_extended(items, fnames, vectors)
+            ext.method = method
+            ext.route = route
+            self._extended_endpoints[key] = extended_to_dict(ext)
+
         self.baseline = BaselineArtifact(
             version=f"v{int(time.time())}",
             created_at=utc_now_iso(),
@@ -238,39 +288,27 @@ class StatisticalDetector:
 
     def calibrate_percentiles(self, validation_records: list[RequestRecord]) -> dict[str, list[float]]:
         """Collect per-component raw scores from legitimate validation traffic."""
-        self._calibration_length = []
-        self._calibration_composition = []
+        self._calibration_pools = {}
         for rec in validation_records:
             res = self._score_internal(rec, collect_for_calibration=True)
             for c in res.components:
                 if c.status != "ok":
                     continue
-                if c.component == "length":
-                    self._calibration_length.append(c.raw_score)
-                elif c.component == "composition":
-                    self._calibration_composition.append(c.raw_score)
-        self._calibration_length.sort()
-        self._calibration_composition.sort()
+                self._calibration_pools.setdefault(c.component, []).append(c.raw_score)
+        for comp, pool in self._calibration_pools.items():
+            pool.sort()
         agg: list[float] = []
         for rec in validation_records:
             res = self._score_internal(rec, collect_for_calibration=False)
             if res.aggregate_percentile is not None:
                 agg.append(res.aggregate_percentile)
         self._calibration_aggregate = sorted(agg)
-        return {
-            "length": self._calibration_length,
-            "composition": self._calibration_composition,
-            "aggregate": self._calibration_aggregate,
-        }
+        out = dict(self._calibration_pools)
+        out["aggregate"] = self._calibration_aggregate
+        return out
 
     def _empirical_percentile(self, raw: float, component: str) -> float | None:
-        pool = (
-            self._calibration_length
-            if component == "length"
-            else self._calibration_composition
-            if component == "composition"
-            else self._calibration_aggregate
-        )
+        pool = self._calibration_pools.get(component, [])
         if not pool:
             return None
         arr = np.array(pool)
@@ -305,6 +343,25 @@ class StatisticalDetector:
                 processing_time_ms=ms,
             )
 
+        ext_data = self._extended_endpoints.get(key)
+        ext_prof = extended_from_dict(ext_data) if ext_data else None
+        field_order = self.baseline.feature_field_order
+        if ext_prof and ext_prof.feature_mean is not None:
+            vec = feats.to_vector(field_order)
+            raw_m, detail_m = score_mahalanobis(vec, ext_prof)
+            if raw_m is not None:
+                pct_m = None if collect_for_calibration else self._empirical_percentile(raw_m, "mahalanobis")
+                components.append(
+                    ComponentScore(
+                        component="mahalanobis",
+                        field=None,
+                        raw_score=raw_m,
+                        percentile=pct_m,
+                        status="ok",
+                        detail=detail_m,
+                    )
+                )
+
         for fname, ff in feats.field_features.items():
             fp = ep.fields.get(fname)
             if fp is None:
@@ -336,7 +393,7 @@ class StatisticalDetector:
                 )
             if fp.composition and fp.status == "ok":
                 text = parsed.field_text(fname)
-                comp_raw, st, detail, _tp = _composition_score(text, fp.composition)
+                comp_raw, st, detail, teaching_p = _composition_score(text, fp.composition)
                 if comp_raw is None:
                     components.append(
                         ComponentScore(
@@ -346,6 +403,7 @@ class StatisticalDetector:
                             percentile=None,
                             status=st,
                             detail=detail,
+                            p_value=teaching_p,
                         )
                     )
                 else:
@@ -358,6 +416,67 @@ class StatisticalDetector:
                             percentile=pct,
                             status="ok",
                             detail=detail,
+                            p_value=teaching_p,
+                        )
+                    )
+
+            if ext_prof:
+                fep = ext_prof.fields.get(fname)
+                if fep is None:
+                    continue
+                text = parsed.field_text(fname)
+                strat_raw, strat_detail = score_stratified_composition(text, fep, float(ff.char_length))
+                if strat_raw is not None:
+                    pct_s = None if collect_for_calibration else self._empirical_percentile(
+                        strat_raw, "length_stratified"
+                    )
+                    components.append(
+                        ComponentScore(
+                            component="length_stratified",
+                            field=fname,
+                            raw_score=strat_raw,
+                            percentile=pct_s,
+                            status="ok",
+                            detail=strat_detail,
+                        )
+                    )
+                if fep.payl:
+                    payl_raw, payl_detail = score_payl(text, fep.payl)
+                    pct_p = None if collect_for_calibration else self._empirical_percentile(payl_raw, "payl")
+                    components.append(
+                        ComponentScore(
+                            component="payl",
+                            field=fname,
+                            raw_score=payl_raw,
+                            percentile=pct_p,
+                            status="ok",
+                            detail=payl_detail,
+                        )
+                    )
+                ngram_raw, ngram_detail = score_ngram(text, fep)
+                if ngram_raw > 0 or fep.ngram_median:
+                    pct_n = None if collect_for_calibration else self._empirical_percentile(ngram_raw, "ngram")
+                    components.append(
+                        ComponentScore(
+                            component="ngram",
+                            field=fname,
+                            raw_score=ngram_raw,
+                            percentile=pct_n,
+                            status="ok",
+                            detail=ngram_detail,
+                        )
+                    )
+                reg_raw, reg_detail = score_ols_residual(ff, fep)
+                if reg_raw is not None:
+                    pct_r = None if collect_for_calibration else self._empirical_percentile(reg_raw, "regression")
+                    components.append(
+                        ComponentScore(
+                            component="regression",
+                            field=fname,
+                            raw_score=reg_raw,
+                            percentile=pct_r,
+                            status="ok",
+                            detail=reg_detail,
                         )
                     )
 
@@ -381,17 +500,30 @@ class StatisticalDetector:
             raise ValueError("No baseline to save")
         path.parent.mkdir(parents=True, exist_ok=True)
         payload = _baseline_to_dict(self.baseline)
-        payload["calibration_length"] = self._calibration_length
-        payload["calibration_composition"] = self._calibration_composition
+        payload["calibration_pools"] = self._calibration_pools
         payload["calibration_aggregate"] = self._calibration_aggregate
+        payload["extended_endpoints"] = self._extended_endpoints
+        # Legacy keys for older baselines
+        payload["calibration_length"] = self._calibration_pools.get("length", [])
+        payload["calibration_composition"] = self._calibration_pools.get("composition", [])
         path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
     def load(self, path: Path) -> None:
         payload = json.loads(path.read_text(encoding="utf-8"))
         self.baseline = _baseline_from_dict(payload)
-        self._calibration_length = list(payload.get("calibration_length") or payload.get("calibration_scores") or [])
-        self._calibration_composition = list(payload.get("calibration_composition") or [])
+        pools = payload.get("calibration_pools")
+        if pools:
+            self._calibration_pools = {k: list(v) for k, v in pools.items()}
+        else:
+            self._calibration_pools = {}
+            if payload.get("calibration_length") or payload.get("calibration_scores"):
+                self._calibration_pools["length"] = list(
+                    payload.get("calibration_length") or payload.get("calibration_scores") or []
+                )
+            if payload.get("calibration_composition"):
+                self._calibration_pools["composition"] = list(payload["calibration_composition"])
         self._calibration_aggregate = list(payload.get("calibration_aggregate") or [])
+        self._extended_endpoints = dict(payload.get("extended_endpoints") or {})
 
 
 def _baseline_to_dict(b: BaselineArtifact) -> dict[str, Any]:

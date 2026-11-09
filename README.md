@@ -51,8 +51,13 @@ The CLI and library support ablation modes (default production-style mode: **`ru
 | `rules_only` | Schema, size limits, and suspicious-pattern rules only |
 | `length_only` | Length outliers (median / MAD). Today the decision path still applies rules; see [docs/UPDATE_PLAN.md](docs/UPDATE_PLAN.md) |
 | `composition_only` | Chi-square-style character-composition discrepancy per field (same rule-path caveat) |
-| `combined_stats` | Max of length and composition raw scores, then one empirical percentile |
-| `rules_plus_stats` | Hybrid: high-severity patterns plus calibrated statistical percentiles |
+| `combined_stats` | Length + global χ² composition (max empirical percentile) |
+| `payl_only` / `ngram_only` | PAYL byte histogram distance or bigram MAD profiling |
+| `regression_only` | OLS on `log1p(length)` ~ entropy + category fractions (standardized residual) |
+| `lda_only` | Endpoint Mahalanobis distance on the request feature vector |
+| `full_stats` | All interpretable stats: length (log1p MAD), composition, length-stratified χ², PAYL, n-grams, OLS, Mahalanobis |
+| `rules_plus_stats` | Hybrid: rules + `combined_stats` |
+| `rules_plus_full_stats` | Hybrid: rules + `full_stats` |
 | `isolation_forest` | Optional Isolation Forest comparison; rule alerts still short-circuit the decision |
 
 Training uses **legitimate train-split** requests only. Percentile thresholds are calibrated on **held-out legitimate validation** traffic (including difficult legitimate and distribution-shift groups), targeting a configurable false-positive budget (`max_false_positive_rate_target`, default 1% on validation).

@@ -8,7 +8,7 @@ from pathlib import Path
 
 from anomaly_guard.core.decision import AnomalyGuard, DetectorMode
 from anomaly_guard.core.schema import GroundTruthMeta, RequestRecord, read_jsonl
-from anomaly_guard.evaluation.experiments import run_full_experiment
+from anomaly_guard.evaluation.experiments import MODES, run_full_experiment
 from anomaly_guard.evaluation.splits import assign_splits, training_normal_records, validation_legitimate_records
 from anomaly_guard.simulation.generator import DEFAULT_PLAN, generate_dataset, replay_records, save_dataset
 from anomaly_guard.storage import EventStore
@@ -97,9 +97,7 @@ def build_parser() -> argparse.ArgumentParser:
     t = sub.add_parser("train", help="Train baseline on legitimate training split")
     t.add_argument("--data", default=str(_project_root() / "data" / "simulated"))
     t.add_argument("--output", default=str(_project_root() / "models" / "baseline.json"))
-    t.add_argument("--mode", default="rules_plus_stats", choices=[
-        "rules_only", "length_only", "composition_only", "combined_stats", "rules_plus_stats", "isolation_forest"
-    ])
+    t.add_argument("--mode", default="rules_plus_stats", choices=list(MODES))
     t.set_defaults(func=cmd_train)
 
     r = sub.add_parser("replay", help="Score requests and store events")

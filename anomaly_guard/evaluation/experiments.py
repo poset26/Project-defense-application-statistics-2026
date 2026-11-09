@@ -37,12 +37,24 @@ MODES: list[DetectorMode] = [
     "rules_only",
     "length_only",
     "composition_only",
+    "payl_only",
+    "ngram_only",
+    "regression_only",
+    "lda_only",
     "combined_stats",
+    "full_stats",
     "rules_plus_stats",
+    "rules_plus_full_stats",
     "isolation_forest",
 ]
 
-PRIMARY_MODES: list[DetectorMode] = ["rules_only", "combined_stats", "rules_plus_stats"]
+PRIMARY_MODES: list[DetectorMode] = [
+    "rules_only",
+    "combined_stats",
+    "full_stats",
+    "rules_plus_stats",
+    "rules_plus_full_stats",
+]
 
 ATTACK_SLICES = ("signature_easy", "rule_evasive", "size_distribution")
 

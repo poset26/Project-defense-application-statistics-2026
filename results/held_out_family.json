@@ -9,7 +9,15 @@
       "recall": 0.0,
       "alerts": 0
     },
+    "full_stats": {
+      "recall": 1.0,
+      "alerts": 84
+    },
     "rules_plus_stats": {
+      "recall": 1.0,
+      "alerts": 84
+    },
+    "rules_plus_full_stats": {
       "recall": 1.0,
       "alerts": 84
     }

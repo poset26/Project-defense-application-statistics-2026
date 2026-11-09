@@ -19,14 +19,49 @@ DetectorMode = Literal[
     "rules_only",
     "length_only",
     "composition_only",
+    "payl_only",
+    "ngram_only",
+    "regression_only",
+    "lda_only",
     "combined_stats",
+    "full_stats",
     "rules_plus_stats",
+    "rules_plus_full_stats",
     "isolation_forest",
 ]
 
 STATISTICS_ONLY_MODES: frozenset[DetectorMode] = frozenset(
-    {"length_only", "composition_only", "combined_stats", "isolation_forest"}
+    {
+        "length_only",
+        "composition_only",
+        "payl_only",
+        "ngram_only",
+        "regression_only",
+        "lda_only",
+        "combined_stats",
+        "full_stats",
+        "isolation_forest",
+    }
 )
+
+MODE_ACTIVE_COMPONENTS: dict[DetectorMode, frozenset[str] | None] = {
+    "rules_only": frozenset(),
+    "length_only": frozenset({"length"}),
+    "composition_only": frozenset({"composition"}),
+    "payl_only": frozenset({"payl"}),
+    "ngram_only": frozenset({"ngram"}),
+    "regression_only": frozenset({"regression"}),
+    "lda_only": frozenset({"mahalanobis"}),
+    "combined_stats": frozenset({"length", "composition"}),
+    "full_stats": frozenset(
+        {"length", "composition", "length_stratified", "payl", "ngram", "regression", "mahalanobis"}
+    ),
+    "rules_plus_stats": frozenset({"length", "composition"}),
+    "rules_plus_full_stats": frozenset(
+        {"length", "composition", "length_stratified", "payl", "ngram", "regression", "mahalanobis"}
+    ),
+    "isolation_forest": None,
+}
 
 
 @dataclass
@@ -114,7 +149,8 @@ class AnomalyGuard:
         if self.mode != "rules_only":
             self.detector.calibrate_percentiles(validation_records)
 
-        if self.mode in STATISTICS_ONLY_MODES or self.mode == "rules_plus_stats":
+        hybrid_modes: frozenset[DetectorMode] = frozenset({"rules_plus_stats", "rules_plus_full_stats"})
+        if self.mode in STATISTICS_ONLY_MODES or self.mode in hybrid_modes:
             self._calibrate_percentile_thresholds(validation_records)
 
         if self.mode == "isolation_forest":
@@ -204,7 +240,7 @@ class AnomalyGuard:
 
         if self.mode == "rules_only":
             decision = _decision_from_rules(rules, self.settings)
-        elif self.mode == "rules_plus_stats":
+        elif self.mode in ("rules_plus_stats", "rules_plus_full_stats"):
             decision = _decision_rules_plus_stats(stat, rules, self.settings)
         elif self.mode == "isolation_forest":
             decision = _decision_from_isolation_only(isolation_score, self.settings)
@@ -251,10 +287,9 @@ class AnomalyGuard:
 
     def _filtered_statistics(self, record: RequestRecord) -> StatisticalResult:
         stat = self.detector.score(record)
-        if self.mode == "length_only":
-            stat.components = [c for c in stat.components if c.component == "length"]
-        elif self.mode == "composition_only":
-            stat.components = [c for c in stat.components if c.component == "composition"]
+        allowed = MODE_ACTIVE_COMPONENTS.get(self.mode)
+        if allowed is not None:
+            stat.components = [c for c in stat.components if c.component in allowed]
         pcts = [c.percentile for c in stat.components if c.status == "ok" and c.percentile is not None]
         stat.aggregate_percentile = max(pcts) if pcts else None
         return stat

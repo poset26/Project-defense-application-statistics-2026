@@ -1,0 +1,9 @@
+[server]
+headless = true
+address = "127.0.0.1"
+port = 8765
+
+[browser]
+gatherUsageStats = false
+serverAddress = "127.0.0.1"
+serverPort = 8765

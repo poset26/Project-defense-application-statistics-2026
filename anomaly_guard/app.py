@@ -256,6 +256,59 @@ def page_evaluation() -> None:
                 }
             )
         st.dataframe(pd.DataFrame(slice_rows), use_container_width=True)
+        st.subheader("False positives by legitimate group")
+        st.caption(
+            "Ordinary traffic is the group the baseline was fit on. "
+            "Difficult and distribution-shift rows are inside the legitimate false-positive rate "
+            "and are not the same population."
+        )
+        group_rows = []
+        for mode, m in modes.items():
+            groups = m.get("fpr_by_legitimate_group") or {}
+            if not groups:
+                continue
+            group_rows.append(
+                {
+                    "mode": mode,
+                    "ordinary": (groups.get("legitimate") or {}).get("alert_rate"),
+                    "difficult": (groups.get("difficult_legitimate") or {}).get("alert_rate"),
+                    "distribution shift": (groups.get("distribution_shift") or {}).get("alert_rate"),
+                }
+            )
+        if group_rows:
+            st.dataframe(pd.DataFrame(group_rows), use_container_width=True)
+        st.subheader("P(attack | alert) at three priors")
+        st.caption(
+            "The file mixture is malicious divided by malicious plus legitimate-family test rows. "
+            "A 0.1% prior is the operational base rate this simulator does not have. "
+            "The Wilson column uses the upper end of the legitimate false-positive interval."
+        )
+        posterior_rows = []
+        for mode, m in modes.items():
+            for row in (m.get("base_rate") or {}).get("rows") or []:
+                posterior_rows.append(
+                    {
+                        "mode": mode,
+                        "prior": row.get("name"),
+                        "P(attack|alert)": row.get("posterior_at_observed_fpr"),
+                        "using Wilson FPR upper": row.get("posterior_at_wilson_fpr_upper"),
+                    }
+                )
+        if posterior_rows:
+            st.dataframe(pd.DataFrame(posterior_rows), use_container_width=True)
+        contam = summary.get("contamination_combined_stats")
+        if contam and "clean" in contam:
+            st.subheader("Contamination refit (combined_stats, 1% of train)")
+            st.write(contam.get("note"))
+            st.json(
+                {
+                    "clean_recall": contam["clean"].get("recall"),
+                    "clean_fpr": contam["clean"].get("false_positive_rate"),
+                    "contaminated_recall": contam["contaminated"].get("recall"),
+                    "contaminated_fpr": contam["contaminated"].get("false_positive_rate"),
+                    "n_replaced": contam.get("n_replaced"),
+                }
+            )
         xss = summary.get("xss_component_profile")
         if xss:
             st.subheader("XSS under full_stats")

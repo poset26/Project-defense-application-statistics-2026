@@ -4,6 +4,14 @@ from anomaly_guard.core.schema import RequestRecord
 from anomaly_guard.core.statistics import LengthProfile, StatisticalDetector, _robust_length_score
 
 
+def test_robust_z_constant_is_in_the_numerator():
+    from anomaly_guard.core.statistics import MAD_SCALE, _robust_z
+
+    z, detail = _robust_z(10.0 + 2.0 / MAD_SCALE, 10.0, 2.0)
+    assert abs(z - 1.0) < 1e-9
+    assert "0.6745" in detail
+
+
 def test_zero_mad_tolerance():
     lp = LengthProfile(median=10.0, mad=0.0, tolerance=1.0)
     score, _ = _robust_length_score(10.5, lp)

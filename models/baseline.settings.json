@@ -4,5 +4,6 @@
   "isolation_alert_threshold": 0.0,
   "isolation_review_threshold": 0.0,
   "max_false_positive_rate_target": 0.01,
-  "enable_high_severity_rule_alert": true
+  "enable_high_severity_rule_alert": true,
+  "threshold_scale": "percentile"
 }

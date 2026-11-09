@@ -51,10 +51,12 @@ Rules always run inside `AnomalyGuard.score()` for every detector mode; mode onl
 
 `StatisticalDetector.fit(normal_records)` builds per-endpoint, per-field profiles:
 
-- **Length profile** — median, MAD (scaled by 0.6745 for robust z), tolerance; optional discrete length set when variation is tiny.
-- **Composition profile** — merged category count distribution from training; at score time, observed counts are compared via `scipy.stats.chisquare`, and the raw score is `sqrt(chi2 / n)` (chi-square **p-value is not used** as an attack probability).
+- **Length profile** — median and MAD. The robust z is `0.6745 * |x − median| / MAD` on `log1p(length)`, using the MAD of the log sample. A Student-t 95% prediction interval is stored on the same log lengths.
+- **Composition profile** — character-category proportions. The score is χ²/n from `scipy.stats.chisquare` after a small continuity adjustment. A p-value is attached only when every expected count is at least 5, and the text calls it baseline incompatibility, not P(attack). Characters in one string are not independent trials, so that p-value is not a Type I error.
+- **Entropy profile** — median and MAD of Shannon entropy. It is its own ablation (`entropy_only`) and is not folded into mean fusion.
+- **Extended profiles** — length-band χ², PAYL byte distance, bigrams, OLS residual, Mahalanobis distance (`lda_only` is that distance, not linear discriminant analysis).
 
-Calibration stores sorted aggregate raw scores from **validation legitimate** traffic; each new request’s raw component scores map to **empirical percentiles** against that list. The aggregate percentile is the percentile of the **maximum** raw score among OK length/composition components.
+Each raw component is mapped to an empirical percentile on validation traffic. `combined_stats` takes the **max** of the length and composition percentiles. `full_stats` takes the **mean** across component types. `vote2_stats` takes the **second-highest** type percentile. `payl_only` thresholds the **raw** PAYL distance, because percentile 100 is tied too often to meet a 1% budget.
 
 `StatisticalDetector.score()` and `AnomalyGuard.score()` **must not** read ground-truth metadata—only the request record and loaded baseline.
 
@@ -65,11 +67,10 @@ Calibration stores sorted aggregate raw scores from **validation legitimate** tr
 | Mode | Statistical components used | Decision logic (simplified) |
 |------|------------------------------|-----------------------------|
 | `rules_only` | None in decision | High-severity rules → alert; medium → review |
-| `length_only` | Length only; aggregate recomputed | Hybrid path with filtered stats |
-| `composition_only` | Composition only | Hybrid path |
-| `combined_stats` | Both length and composition | Hybrid path |
-| `rules_plus_stats` | Full statistics | High-severity **suspicious_pattern** → alert; else percentile thresholds; schema rules can force review |
-| `isolation_forest` | IF `decision_function` on feature vector | Rules can alert first; else IF thresholds |
+| `length_only`, `composition_only`, `entropy_only`, `payl_only`, `ci_only`, `vote2_stats`, `full_stats` | The named components only | Statistics decide. Rules are recorded and do not change the label |
+| `combined_stats` | Length and composition, max percentile | Statistics only |
+| `rules_plus_stats` / `rules_plus_full_stats` | Length+composition, or the mean of the full stack | High-severity pattern → alert; else the statistical cutoff |
+| `isolation_forest` | IF `decision_function` on the feature vector | The forest score alone. `contamination=0.001` |
 
 Decisions:
 
@@ -79,7 +80,7 @@ Decisions:
 
 Explanations list triggered rules and, when present, field-level statistical messages with empirical percentiles.
 
-Optional **Isolation Forest** (`sklearn`, 100 trees, `contamination=0.02`) trains on legitimate train vectors when mode is `isolation_forest`.
+Optional **Isolation Forest** (`sklearn`, 100 trees, `contamination=0.001`) trains on legitimate train vectors when mode is `isolation_forest`. The alert cutoff is fit on validation scores.
 
 ## Request data vs ground truth
 
@@ -96,7 +97,7 @@ The simulator (`anomaly_guard/simulation/`) writes both files with matching `req
 
 `evaluation/splits.py` assigns each request a split:
 
-- **Malicious** and **benign_invalid** rows: hashed by `scenario_id:template_id` so templates do not leak across partitions.
+- **Malicious** and **benign_invalid** rows: split inside each attack family so every family contributes test rows.
 - **Legitimate-family** rows (`legitimate`, `difficult_legitimate`, `distribution_shift`): **route-stratified per request** (`METHOD route:request_id`) so every endpoint appears in both train and validation—needed so baseline calibration sees the same routes as training.
 
 Training baseline: **train** split, **`legitimate`** group only.
@@ -120,7 +121,7 @@ Streamlit app (`anomaly_guard/app.py`):
 
 - **Traffic** — replay JSONL into the event store; filter stored rows.
 - **Alert inspector** — escaped request text, rules, statistical components, explanations; optional experiment labels.
-- **Normal vs unusual** — reads baseline JSON; **tables of median/MAD and category probabilities** (no request overlay chart).
+- **Normal vs unusual** — baseline medians and a bar chart of observed vs baseline character fractions for a selected request.
 - **Evaluation** — loads saved `results/metrics_summary.json` or runs a single-mode experiment.
 - **Model settings** — retrain baseline from disk dataset.
 
@@ -128,6 +129,6 @@ Streamlit app (`anomaly_guard/app.py`):
 
 `evaluation/experiments.py` trains each mode on the same splits, runs test predictions, writes `predictions_<mode>.jsonl`, `metrics_summary.json`, `detector_comparison.png`, and `error_analysis.json` (sample FN/FP for `rules_plus_stats`).
 
-Metrics (`evaluation/metrics.py`) include malicious-intent precision/recall/F1 with **Wilson confidence interval on false-positive rate** over the legitimate-family test mask, benign-invalid rejection rate, and per-attack-family recall. **`alert_predicted`** treats both `alert` and `review` as a positive detection for metric purposes.
+Metrics (`evaluation/metrics.py`) use **`decision == alert` only**. Review rate is separate. The legitimate false-positive rate has a Wilson interval and is also broken out by ordinary, difficult, and distribution-shift traffic. `base_rate` rows convert recall and that false-positive rate into P(attack | alert) at the file’s prevalence and at 1% and 0.1% priors. `contamination_combined_stats.json` is one refit of length and chi-square after replacing 1% of legitimate training rows with train-split attacks.
 
-For known gaps between this design and what the small demo numbers can prove, see [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md) and [UPDATE_PLAN.md](UPDATE_PLAN.md).
+Checked-in `results/` come from the full 11,500-request simulator. See [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md).

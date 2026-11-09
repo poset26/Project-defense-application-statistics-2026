@@ -53,9 +53,12 @@ The CLI and library support ablation modes (default production-style mode: **`ru
 | `composition_only` | Chi-square character-composition discrepancy per field. Rules do not decide |
 | `combined_stats` | Length + global χ² (max of the two type percentiles) |
 | `ci_only` | 95% prediction interval on log length, plus Wilson intervals on character proportions |
-| `payl_only` / `ngram_only` | PAYL byte histogram distance or bigram MAD profiling |
+| `ngram_only` | Bigram median/MAD profile |
 | `regression_only` | OLS on `log1p(length)` ~ entropy + category fractions (standardized residual) |
-| `lda_only` | Endpoint Mahalanobis distance on the request feature vector |
+| `lda_only` | Mahalanobis distance to the legitimate feature mean. The mode id is historical; this is not linear discriminant analysis |
+| `entropy_only` | Robust z of Shannon entropy. Kept out of mean fusion so the ablation stays readable |
+| `vote2_stats` | Middle fusion: the second-highest component percentile, so two component types must be unusual |
+| `payl_only` | PAYL byte distance. The alert cutoff is a quantile of the **raw** distance |
 | `full_stats` | All statistical components. The decision score is the **mean** of per-type percentiles, so one noisy model cannot set the alert by itself |
 | `rules_plus_stats` | Hybrid: rules + `combined_stats` |
 | `rules_plus_full_stats` | Hybrid: rules + the mean-fused full stack |
@@ -97,7 +100,7 @@ scripts/demo.sh       # end-to-end small demo
 
 ## Checked-in results
 
-Files under `results/` (including `metrics_summary.json` and `detector_comparison.png`) were produced by **`scripts/demo.sh`** on the **small** simulator output in `data/simulated`. They illustrate the tooling and ablation export format; **they should not be cited as the conclusion of a full-scale study.** See the technical report and [docs/UPDATE_PLAN.md](docs/UPDATE_PLAN.md) for why (rule/simulator overlap, ablation modes still applying rules, most attack families dropped from the test split, and related issues).
+Files under `results/` match **`anomaly-guard evaluate`** on the full simulator in `data/simulated` (11,500 requests, seed 42). `scripts/demo.sh` is only a small smoke run and is not the source of those numbers. The interpretation, including the base-rate posterior and the limits of this generator, is in [docs/TECHNICAL_REPORT.md](docs/TECHNICAL_REPORT.md).
 
 ## Tests
 

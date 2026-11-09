@@ -180,6 +180,67 @@ def compute_binary_metrics(
     )
 
 
+def posterior_attack_given_alert(recall: float, fpr: float, prior: float) -> float | None:
+    """Bayes P(attack | alert) from recall, legitimate FPR, and a prior.
+
+    Returns None when the denominator is zero (the rates never alert).
+    A zero false-positive rate makes the posterior 1 whenever recall and the
+    prior are positive. That is the point estimate, not an operational claim.
+    """
+    if prior < 0.0 or prior > 1.0:
+        return None
+    numerator = recall * prior
+    denominator = numerator + fpr * (1.0 - prior)
+    if denominator <= 0.0:
+        return None
+    return float(numerator / denominator)
+
+
+def base_rate_posteriors(
+    recall: float,
+    fpr: float,
+    wilson_fpr_high: float,
+    n_malicious: int,
+    n_legitimate: int,
+) -> dict[str, Any]:
+    """Posteriors at the file mixture and at rare-event priors.
+
+    The file mixture is malicious / (malicious + legitimate-family). Benign-invalid
+    rows are left out of that prevalence, matching the precision denominator.
+    """
+    mixture = (
+        n_malicious / (n_malicious + n_legitimate) if (n_malicious + n_legitimate) else None
+    )
+    priors = {
+        "file_legitimate_mixture": mixture,
+        "prior_1pct": 0.01,
+        "prior_0_1pct": 0.001,
+    }
+    rows = []
+    for name, prior in priors.items():
+        if prior is None:
+            continue
+        rows.append(
+            {
+                "name": name,
+                "prior": prior,
+                "posterior_at_observed_fpr": posterior_attack_given_alert(recall, fpr, prior),
+                "posterior_at_wilson_fpr_upper": posterior_attack_given_alert(
+                    recall, wilson_fpr_high, prior
+                ),
+            }
+        )
+    return {
+        "n_malicious": n_malicious,
+        "n_legitimate_family": n_legitimate,
+        "note": (
+            "Precision on this file is not an operational detection rate. "
+            "The Wilson-upper column replaces a zero observed FPR with the interval's upper end."
+        ),
+        "rows": rows,
+    }
+
+
 def alert_predicted(decision: str) -> bool:
     return decision == "alert"
 

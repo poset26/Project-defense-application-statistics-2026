@@ -24,6 +24,8 @@ DetectorMode = Literal[
     "regression_only",
     "lda_only",
     "ci_only",
+    "entropy_only",
+    "vote2_stats",
     "combined_stats",
     "full_stats",
     "rules_plus_stats",
@@ -40,6 +42,8 @@ STATISTICS_ONLY_MODES: frozenset[DetectorMode] = frozenset(
         "regression_only",
         "lda_only",
         "ci_only",
+        "entropy_only",
+        "vote2_stats",
         "combined_stats",
         "full_stats",
         "isolation_forest",
@@ -49,6 +53,8 @@ STATISTICS_ONLY_MODES: frozenset[DetectorMode] = frozenset(
 MEAN_AGGREGATE_MODES: frozenset[DetectorMode] = frozenset(
     {"full_stats", "rules_plus_full_stats", "ci_only"}
 )
+SECOND_AGGREGATE_MODES: frozenset[DetectorMode] = frozenset({"vote2_stats"})
+RAW_DISTANCE_MODES: frozenset[DetectorMode] = frozenset({"payl_only"})
 
 MODE_ACTIVE_COMPONENTS: dict[DetectorMode, frozenset[str] | None] = {
     "rules_only": frozenset(),
@@ -59,6 +65,20 @@ MODE_ACTIVE_COMPONENTS: dict[DetectorMode, frozenset[str] | None] = {
     "regression_only": frozenset({"regression"}),
     "lda_only": frozenset({"mahalanobis"}),
     "ci_only": frozenset({"length_ci", "proportion_ci"}),
+    "entropy_only": frozenset({"entropy"}),
+    "vote2_stats": frozenset(
+        {
+            "length",
+            "composition",
+            "length_stratified",
+            "payl",
+            "ngram",
+            "regression",
+            "mahalanobis",
+            "length_ci",
+            "proportion_ci",
+        }
+    ),
     "combined_stats": frozenset({"length", "composition"}),
     "full_stats": frozenset(
         {
@@ -130,6 +150,7 @@ class DecisionSettings:
     isolation_review_threshold: float = 0.0
     max_false_positive_rate_target: float = 0.01
     enable_high_severity_rule_alert: bool = True
+    threshold_scale: str = "percentile"
 
 
 class AnomalyGuard:
@@ -200,6 +221,12 @@ class AnomalyGuard:
         self.settings.alert_threshold_percentile = float(scores_arr[alert_idx])
         review_idx = max(0, alert_idx - max(1, len(scores_arr) // 25))
         self.settings.review_threshold_percentile = float(scores_arr[review_idx])
+        if self.mode in RAW_DISTANCE_MODES:
+            self.settings.threshold_scale = "raw_distance"
+        elif self.mode in SECOND_AGGREGATE_MODES:
+            self.settings.threshold_scale = "second_percentile"
+        else:
+            self.settings.threshold_scale = "percentile"
 
     def _calibrate_isolation(self, validation_records: list[RequestRecord]) -> None:
         if self._isolation is None:
@@ -256,6 +283,16 @@ class AnomalyGuard:
                     explanations.append(
                         "Statistical aggregate is the mean of per-type empirical percentiles "
                         "(one value per component, max across fields), not the max."
+                    )
+                elif self.mode in SECOND_AGGREGATE_MODES:
+                    explanations.append(
+                        "Statistical aggregate is the second-highest component-type percentile: "
+                        "at least two component types must be unusual."
+                    )
+                elif self.mode in RAW_DISTANCE_MODES:
+                    explanations.append(
+                        "PAYL alert cutoff is a quantile of the raw byte-histogram distance, "
+                        "not an empirical percentile. Percentile 100 was tied too often to meet a 1% budget."
                     )
             if stat.insufficient_baseline:
                 explanations.append(
@@ -322,9 +359,20 @@ class AnomalyGuard:
         allowed = MODE_ACTIVE_COMPONENTS.get(self.mode)
         if allowed is not None:
             stat.components = [c for c in stat.components if c.component in allowed]
-        stat.aggregate_percentile = aggregate_component_percentiles(
-            stat.components, use_mean=self.mode in MEAN_AGGREGATE_MODES
-        )
+        if self.mode in RAW_DISTANCE_MODES:
+            raws = [c.raw_score for c in stat.components if c.status == "ok"]
+            stat.aggregate_percentile = max(raws) if raws else None
+            stat.aggregate_kind = "raw_distance"
+        else:
+            how = (
+                "mean"
+                if self.mode in MEAN_AGGREGATE_MODES
+                else "second"
+                if self.mode in SECOND_AGGREGATE_MODES
+                else "max"
+            )
+            stat.aggregate_percentile = aggregate_component_percentiles(stat.components, how=how)
+            stat.aggregate_kind = how
         return stat
 
     def save_baseline(self, path) -> None:
@@ -335,9 +383,13 @@ class AnomalyGuard:
 
 
 def aggregate_component_percentiles(
-    components: list[ComponentScore], use_mean: bool
+    components: list[ComponentScore], how: str = "max"
 ) -> float | None:
-    """Collapse field scores to one percentile per component type, then max or mean."""
+    """Collapse field scores to one percentile per component type.
+
+    `how` is `max`, `mean`, or `second` (the second-highest type, so two types
+    must clear a threshold).
+    """
     by_type: dict[str, float] = {}
     for comp in components:
         if comp.status != "ok" or comp.percentile is None:
@@ -346,10 +398,12 @@ def aggregate_component_percentiles(
         by_type[comp.component] = comp.percentile if prev is None else max(prev, comp.percentile)
     if not by_type:
         return None
-    values = list(by_type.values())
-    if use_mean:
+    values = sorted(by_type.values(), reverse=True)
+    if how == "mean":
         return float(sum(values) / len(values))
-    return float(max(values))
+    if how == "second":
+        return float(values[1]) if len(values) >= 2 else 0.0
+    return float(values[0])
 
 
 def _decision_from_rules(rules: list[TriggeredRule], settings: DecisionSettings) -> DecisionLabel:

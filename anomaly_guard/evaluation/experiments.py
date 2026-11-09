@@ -18,6 +18,7 @@ from anomaly_guard.core.schema import GroundTruthMeta, RequestRecord, read_jsonl
 from anomaly_guard.evaluation.metrics import (
     alert_predicted,
     average_precision,
+    base_rate_posteriors,
     compute_benign_invalid_metrics,
     compute_binary_metrics,
     compute_malicious_attack_metrics,
@@ -44,6 +45,8 @@ MODES: list[DetectorMode] = [
     "regression_only",
     "lda_only",
     "ci_only",
+    "entropy_only",
+    "vote2_stats",
     "combined_stats",
     "full_stats",
     "rules_plus_stats",
@@ -80,6 +83,8 @@ class ExperimentResult:
     latency_ms_p95: float
     settings: dict[str, Any]
     operating_point_1pct: dict[str, Any] | None = None
+    fpr_by_legitimate_group: dict[str, Any] | None = None
+    base_rate: dict[str, Any] | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -154,6 +159,16 @@ def run_mode_experiment(
             slices[sl] = sr
 
     lat = np.array(latencies)
+    group_fpr = _fpr_by_legitimate_group(test_meta_ordered, pred_alert)
+    n_mal = sum(1 for m in test_meta_ordered if is_positive_malicious(m))
+    n_leg = sum(1 for flag in legit_mask if flag)
+    base_rate = base_rate_posteriors(
+        mal_metrics.recall,
+        mal_metrics.fpr,
+        mal_metrics.wilson_fpr_high,
+        n_mal,
+        n_leg,
+    )
     result = ExperimentResult(
         mode=mode,
         metrics_malicious=mal_metrics.to_dict(),
@@ -167,6 +182,8 @@ def run_mode_experiment(
         latency_ms_median=float(np.median(lat)),
         latency_ms_p95=float(np.percentile(lat, 95)),
         settings=asdict(guard.settings),
+        fpr_by_legitimate_group=group_fpr,
+        base_rate=base_rate,
     )
     _plot_mode_pr(y_mal, scores, mode, model_dir.parent)
     sweep = _threshold_sweep_percentile(
@@ -244,6 +261,20 @@ def _threshold_sweep_percentile(
     return rows
 
 
+def _fpr_by_legitimate_group(
+    meta: list[GroundTruthMeta], alerts: list[bool]
+) -> dict[str, Any]:
+    groups = ("legitimate", "difficult_legitimate", "distribution_shift")
+    out: dict[str, Any] = {}
+    for name in groups:
+        idx = [i for i, m in enumerate(meta) if m.scenario_group == name]
+        if not idx:
+            continue
+        hits = sum(1 for i in idx if alerts[i])
+        out[name] = {"alerts": hits, "support": len(idx), "alert_rate": hits / len(idx)}
+    return out
+
+
 def operating_point_at_fpr(rows: list[dict[str, Any]] | None, budget: float = 0.01) -> dict[str, Any] | None:
     """Read the sweep. Does not change the validation-fitted threshold.
 
@@ -266,6 +297,113 @@ def operating_point_at_fpr(rows: list[dict[str, Any]] | None, budget: float = 0.
         "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
         **best,
     }
+
+
+def run_contamination_sensitivity(
+    records: list[RequestRecord],
+    meta: list[GroundTruthMeta],
+    results_dir: Path,
+    fraction: float = 0.01,
+    seed: int = 42,
+) -> dict[str, Any]:
+    """Replace a declared fraction of legitimate training rows with train-split attacks.
+
+    Refits combined_stats only. Validation and test stay clean.
+    """
+    from anomaly_guard.core.decision import AnomalyGuard
+
+    meta_by_id = {m.request_id: m for m in meta}
+    train = training_normal_records(records, meta)
+    malicious_train = [
+        r
+        for r in records
+        if (m := meta_by_id.get(r.request_id))
+        and m.split == "train"
+        and m.scenario_group in ("malicious_intent", "hard_malicious_intent")
+    ]
+    if not train or not malicious_train:
+        return {"error": "need legitimate train rows and a malicious train pool"}
+    rng = np.random.default_rng(seed)
+    n_replace = min(len(train), max(1, int(round(fraction * len(train)))))
+    slots = rng.choice(len(train), size=n_replace, replace=False)
+    picks = rng.choice(len(malicious_train), size=n_replace, replace=len(malicious_train) < n_replace)
+    contaminated = list(train)
+    for slot, pick in zip(slots, picks):
+        contaminated[int(slot)] = malicious_train[int(pick)]
+
+    val = validation_legitimate_records(records, meta)
+    test_recs, test_meta = partition_records(records, meta)["test"]
+
+    def medians(guard: AnomalyGuard) -> dict[str, float]:
+        out: dict[str, float] = {}
+        baseline = guard.detector.baseline
+        if baseline is None:
+            return out
+        for key, ep in baseline.endpoints.items():
+            for fname, fp in ep.fields.items():
+                if fp.length is not None:
+                    out[f"{key} {fname}"] = fp.length.median
+        return out
+
+    def evaluate(guard: AnomalyGuard) -> dict[str, Any]:
+        ordered: list[GroundTruthMeta] = []
+        alerts: list[bool] = []
+        by_id = {m.request_id: m for m in test_meta}
+        for rec in test_recs:
+            ordered.append(by_id[rec.request_id])
+            alerts.append(alert_predicted(guard.score(rec).decision))
+        metrics = compute_malicious_attack_metrics(ordered, alerts)
+        return {
+            "recall": metrics.recall,
+            "precision": metrics.precision,
+            "false_positive_rate": metrics.fpr,
+            "attack_slices": {
+                sl: slice_attack_recall(ordered, alerts, sl) for sl in ATTACK_SLICES
+            },
+        }
+
+    clean = AnomalyGuard(mode="combined_stats")
+    clean.fit(train)
+    clean_medians = medians(clean)
+    clean.calibrate(val)
+    dirty = AnomalyGuard(mode="combined_stats")
+    dirty.fit(contaminated)
+    dirty_medians = medians(dirty)
+    dirty.calibrate(val)
+    deltas = []
+    for key in sorted(set(clean_medians) | set(dirty_medians)):
+        before = clean_medians.get(key)
+        after = dirty_medians.get(key)
+        if before is None or after is None:
+            continue
+        deltas.append(
+            {
+                "field": key,
+                "clean_median_length": before,
+                "contaminated_median_length": after,
+                "delta": after - before,
+            }
+        )
+    summary = {
+        "mode": "combined_stats",
+        "fraction": fraction,
+        "seed": seed,
+        "n_train_legitimate": len(train),
+        "n_replaced": int(n_replace),
+        "n_malicious_train_pool": len(malicious_train),
+        "clean": evaluate(clean),
+        "contaminated": evaluate(dirty),
+        "length_median_deltas": deltas,
+        "note": (
+            "One percent of legitimate training rows were replaced by malicious rows from the "
+            "train split. The cutoff is still fit on clean validation traffic. This is not an adaptive attacker."
+        ),
+    }
+    results_dir.mkdir(parents=True, exist_ok=True)
+    (results_dir / "contamination_combined_stats.json").write_text(
+        json.dumps(summary, indent=2), encoding="utf-8"
+    )
+    return summary
 
 
 def _xss_component_profile(predictions: list[dict[str, Any]]) -> dict[str, Any]:
@@ -405,6 +543,7 @@ def run_full_experiment(
         data_dir, results_dir, families=list(HELD_OUT_FAMILIES)
     )
     summary["xss_component_profile"] = _xss_component_profile(all_preds)
+    summary["contamination_combined_stats"] = run_contamination_sensitivity(records, meta, results_dir)
 
     with (results_dir / "metrics_summary.json").open("w", encoding="utf-8") as f:
         json.dump(summary, f, indent=2)

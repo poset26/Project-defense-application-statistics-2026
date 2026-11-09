@@ -39,6 +39,7 @@ class LengthProfile:
     log_mean: float | None = None
     log_std: float | None = None
     log_n: int = 0
+    log_mad: float | None = None
     ci_low: float | None = None
     ci_high: float | None = None
 
@@ -56,6 +57,8 @@ class FieldProfile:
     field_name: str
     length: LengthProfile | None = None
     composition: CompositionProfile | None = None
+    entropy_median: float | None = None
+    entropy_mad: float | None = None
     training_count: int = 0
     status: Literal["ok", "insufficient_evidence", "empty_only"] = "ok"
 
@@ -100,26 +103,37 @@ class StatisticalResult:
     aggregate_percentile: float | None
     insufficient_baseline: bool
     processing_time_ms: float
+    aggregate_kind: str = "percentile"
+
+
+def _robust_z(observed: float, median: float, mad: float) -> tuple[float, str]:
+    """Normal-consistent robust z: 0.6745 * |x − median| / MAD."""
+    if mad <= 0:
+        diff = abs(observed - median)
+        if diff <= 1e-9:
+            return 0.0, f"matches median {median:.4g}"
+        return float(diff), f"deviation {diff:.4g} from median {median:.4g} (MAD is 0)"
+    z = MAD_SCALE * abs(observed - median) / mad
+    return float(z), f"robust z {z:.3f} = 0.6745*|x-median|/MAD (median {median:.4g}, MAD {mad:.4g})"
 
 
 def _robust_length_score(observed: float, profile: LengthProfile, use_log: bool = True) -> tuple[float, str]:
     if not use_log:
         return _robust_length_score_raw(observed, profile)
     obs = math.log1p(max(observed, 0.0))
+    if profile.log_mad is not None and profile.log_mad > 0:
+        med = profile.log_mean if profile.log_mean is not None else math.log1p(max(profile.median, 0.0))
+        raw, detail = _robust_z(obs, med, profile.log_mad)
+        return raw, f"log1p(length) MAD of the log sample: {detail}"
     med = math.log1p(max(profile.median, 0.0))
     if profile.mad > 0:
         mad = max(profile.mad / max(profile.median, 1.0), 1e-3)
-    else:
-        mad = profile.mad
+        raw, detail = _robust_z(obs, med, mad)
+        return raw, f"log1p(length) approximated MAD: {detail}"
     log_profile = LengthProfile(
         median=med,
-        mad=mad,
-        tolerance=max(0.05, med * 0.05),
-        discrete_values=(
-            [math.log1p(max(x, 0)) for x in profile.discrete_values]
-            if profile.discrete_values is not None and len(profile.discrete_values) <= 3
-            else None
-        ),
+        mad=0.0,
+        tolerance=max(0.05, abs(med) * 0.05),
     )
     raw, detail = _robust_length_score_raw(obs, log_profile)
     return raw, f"log1p(length): {detail}"
@@ -135,8 +149,8 @@ def _robust_length_score_raw(observed: float, profile: LengthProfile) -> tuple[f
         if diff <= profile.tolerance:
             return 0.0, f"within tolerance {profile.tolerance} of median {profile.median}"
         return diff / max(profile.tolerance, 1.0), f"deviation from fixed median {profile.median}"
-    z = abs(observed - profile.median) / (MAD_SCALE * profile.mad)
-    return float(z), f"robust z vs median {profile.median:.1f}, MAD {profile.mad:.1f}"
+    z, detail = _robust_z(observed, profile.median, profile.mad)
+    return z, detail
 
 
 def _fit_log_length_interval(lengths: list[float], alpha: float = 0.05) -> tuple[float, float, float | None, float | None, int]:
@@ -303,6 +317,7 @@ class StatisticalDetector:
             route_spec = self.config.route_key[(method, route)]
             for spec in route_spec.fields:
                 lengths: list[float] = []
+                entropies: list[float] = []
                 cat_counts: dict[str, int] = {c: 0 for c in CATEGORY_BINS}
                 non_empty = 0
                 for feats, parsed in items:
@@ -311,6 +326,7 @@ class StatisticalDetector:
                         continue
                     non_empty += 1
                     lengths.append(float(ff.char_length))
+                    entropies.append(float(ff.entropy))
                     text = parsed.field_text(spec.name)
                     from anomaly_guard.core.features import _category_fractions
 
@@ -332,11 +348,15 @@ class StatisticalDetector:
                     if mad <= 0 and len(set(int(x) for x in lengths)) <= 3:
                         discrete = sorted(set(int(x) for x in lengths))
                     log_mean, log_std, ci_low, ci_high, log_n = _fit_log_length_interval(lengths)
+                    logs = np.log1p(np.maximum(arr, 0.0))
+                    log_med = float(np.median(logs))
+                    log_mad = float(np.median(np.abs(logs - log_med)))
                     fp.length = LengthProfile(
                         median=med,
                         mad=mad,
                         tolerance=tol,
                         discrete_values=discrete,
+                        log_mad=log_mad,
                         log_mean=log_mean,
                         log_std=log_std,
                         log_n=log_n,
@@ -351,6 +371,9 @@ class StatisticalDetector:
                         merged_categories=merged_cats,
                         training_chars=int(total),
                     )
+                    earr = np.array(entropies, dtype=float)
+                    fp.entropy_median = float(np.median(earr))
+                    fp.entropy_mad = float(np.median(np.abs(earr - fp.entropy_median)))
                 ep.fields[spec.name] = fp
             endpoints[key] = ep
 
@@ -541,6 +564,20 @@ class StatisticalDetector:
                         )
                     )
 
+            if fp.entropy_median is not None and fp.status == "ok":
+                ent_raw, ent_detail = _robust_z(float(ff.entropy), fp.entropy_median, fp.entropy_mad or 0.0)
+                pct_e = None if collect_for_calibration else self._empirical_percentile(ent_raw, "entropy")
+                components.append(
+                    ComponentScore(
+                        component="entropy",
+                        field=fname,
+                        raw_score=ent_raw,
+                        percentile=pct_e,
+                        status="ok",
+                        detail=f"Shannon entropy: {ent_detail}",
+                    )
+                )
+
             if ext_prof:
                 fep = ext_prof.fields.get(fname)
                 if fep is None:
@@ -658,6 +695,8 @@ def _baseline_to_dict(b: BaselineArtifact) -> dict[str, Any]:
                 "status": fp.status,
                 "length": asdict(fp.length) if fp.length else None,
                 "composition": asdict(fp.composition) if fp.composition else None,
+                "entropy_median": fp.entropy_median,
+                "entropy_mad": fp.entropy_mad,
             }
         eps[k] = {
             "method": ep.method,
@@ -689,6 +728,8 @@ def _baseline_from_dict(d: dict[str, Any]) -> BaselineArtifact:
                 status=fpd.get("status", "ok"),
                 length=LengthProfile(**lp) if lp else None,
                 composition=CompositionProfile(**cp) if cp else None,
+                entropy_median=fpd.get("entropy_median"),
+                entropy_mad=fpd.get("entropy_mad"),
             )
         endpoints[k] = EndpointProfile(
             method=epd["method"],

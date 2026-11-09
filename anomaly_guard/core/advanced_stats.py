@@ -259,7 +259,7 @@ def score_ngram(text: str, fep: FieldExtendedProfile) -> tuple[float, str]:
             continue
         med = fep.ngram_median[g]
         mad = max(fep.ngram_mad.get(g, 0.5), 0.5)
-        zs.append(abs(c - med) / (MAD_SCALE * mad))
+        zs.append(MAD_SCALE * abs(c - med) / mad)
     raw = max(zs) if zs else 0.0
     return raw, f"robust n-gram z max {raw:.3f} over {len(counts)} grams"
 

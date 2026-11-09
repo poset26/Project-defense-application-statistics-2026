@@ -111,10 +111,80 @@ def test_mean_aggregate_is_not_the_max():
         ComponentScore("composition", "q", 0.1, 40.0, "ok", ""),
         ComponentScore("length_ci", "q", 0.0, 10.0, "ok", ""),
     ]
-    assert aggregate_component_percentiles(comps, use_mean=False) == 99.0
-    mean = aggregate_component_percentiles(comps, use_mean=True)
+    assert aggregate_component_percentiles(comps, how="max") == 99.0
+    mean = aggregate_component_percentiles(comps, how="mean")
+    assert aggregate_component_percentiles(comps, how="second") == 40.0
     assert mean is not None
     assert abs(mean - (99 + 40 + 10) / 3) < 1e-9
+
+
+def test_rare_prior_posterior_is_far_below_file_precision():
+    from anomaly_guard.evaluation.metrics import posterior_attack_given_alert
+
+    posterior = posterior_attack_given_alert(0.33, 0.039, 0.001)
+    assert posterior is not None
+    assert 0.007 < posterior < 0.01
+    assert posterior_attack_given_alert(0.24, 0.0, 0.001) == 1.0
+
+
+def test_entropy_only_flags_a_repeated_character_string():
+    from anomaly_guard.core.decision import AnomalyGuard
+
+    train = []
+    for i in range(40):
+        phrase = f"ordinary search phrase number {i} about routing"
+        train.append(
+            RequestRecord(
+                request_id=f"e{i}",
+                timestamp="t",
+                client_id="c",
+                method="GET",
+                route="/search",
+                raw_query=f"q={phrase}&page=1",
+                headers={},
+                body="",
+            )
+        )
+    guard = AnomalyGuard(mode="entropy_only")
+    guard.fit(train)
+    guard.calibrate(train[:20])
+    odd = RequestRecord(
+        request_id="rep",
+        timestamp="t",
+        client_id="c",
+        method="GET",
+        route="/search",
+        raw_query="q=" + ("A" * 80),
+        headers={},
+        body="",
+    )
+    res = guard.score(odd)
+    ents = [c for c in (res.statistical.components if res.statistical else []) if c.component == "entropy"]
+    assert ents
+    assert ents[0].raw_score > 0.5
+
+
+def test_payl_cutoff_is_a_raw_distance():
+    from anomaly_guard.core.decision import AnomalyGuard
+
+    train = []
+    for i in range(30):
+        train.append(
+            RequestRecord(
+                request_id=f"p{i}",
+                timestamp="t",
+                client_id="c",
+                method="GET",
+                route="/search",
+                raw_query=f"q=query about item {i % 9}&page=1",
+                headers={},
+                body="",
+            )
+        )
+    guard = AnomalyGuard(mode="payl_only")
+    guard.fit(train)
+    guard.calibrate(train[:15])
+    assert guard.settings.threshold_scale == "raw_distance"
 
 
 def test_operating_point_prefers_budget():

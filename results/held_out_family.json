@@ -23,8 +23,8 @@
     "full_stats": {
       "alert_recall": 0.0,
       "alerts": 0,
-      "reviews": 0,
-      "review_rate": 0.0
+      "reviews": 84,
+      "review_rate": 1.0
     },
     "rules_plus_stats": {
       "alert_recall": 1.0,

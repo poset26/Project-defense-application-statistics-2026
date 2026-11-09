@@ -1,6 +1,6 @@
 {
-  "version": "v1794226053",
-  "created_at": "2026-11-09T12:07:33.444303+00:00",
+  "version": "v1794237898",
+  "created_at": "2026-11-09T15:24:58.584627+00:00",
   "config_hash": "6ec01485c41e94f1",
   "training_count": 5444,
   "endpoints": {
@@ -21,6 +21,7 @@
             "log_mean": 3.717723343154236,
             "log_std": 0.7508836149016437,
             "log_n": 2705,
+            "log_mad": 0.7707054149058195,
             "ci_low": 2.245087315921861,
             "ci_high": 5.190359370386611
           },
@@ -35,7 +36,9 @@
             ],
             "min_total_count": 5,
             "training_chars": 141299
-          }
+          },
+          "entropy_median": 3.175123135113461,
+          "entropy_mad": 0.6090605846657278
         },
         "page": {
           "field_name": "page",
@@ -51,6 +54,7 @@
             "log_mean": 0.6931471805599453,
             "log_std": 0.0,
             "log_n": 2705,
+            "log_mad": 0.0,
             "ci_low": null,
             "ci_high": null
           },
@@ -63,7 +67,9 @@
             ],
             "min_total_count": 5,
             "training_chars": 2705
-          }
+          },
+          "entropy_median": 0.0,
+          "entropy_mad": 0.0
         }
       }
     },
@@ -86,6 +92,7 @@
             "log_mean": 2.397895272798371,
             "log_std": 4.442492708427712e-16,
             "log_n": 1388,
+            "log_mad": 0.0,
             "ci_low": null,
             "ci_high": null
           },
@@ -100,7 +107,9 @@
             ],
             "min_total_count": 5,
             "training_chars": 13880
-          }
+          },
+          "entropy_median": 3.121928094887362,
+          "entropy_mad": 0.0
         },
         "password": {
           "field_name": "password",
@@ -117,6 +126,7 @@
             "log_mean": 2.161244745118419,
             "log_std": 0.054271425002060336,
             "log_n": 1388,
+            "log_mad": 0.0,
             "ci_low": 2.0547434589993405,
             "ci_high": 2.2677460312374973
           },
@@ -133,7 +143,9 @@
             ],
             "min_total_count": 5,
             "training_chars": 10680
-          }
+          },
+          "entropy_median": 2.75,
+          "entropy_mad": 0.0
         }
       }
     },
@@ -154,6 +166,7 @@
             "log_mean": 3.71952502686338,
             "log_std": 0.566512478774401,
             "log_n": 1351,
+            "log_mad": 0.23180161405732447,
             "ci_low": 2.607773369687372,
             "ci_high": 4.831276684039388
           },
@@ -172,7 +185,9 @@
             ],
             "min_total_count": 5,
             "training_chars": 65312
-          }
+          },
+          "entropy_median": 3.9590120481429842,
+          "entropy_mad": 0.0356683202659247
         },
         "author": {
           "field_name": "author",
@@ -189,6 +204,7 @@
             "log_mean": 1.9296480993152942,
             "log_std": 0.047379516615117856,
             "log_n": 910,
+            "log_mad": 0.0,
             "ci_low": 1.8366110648469076,
             "ci_high": 2.0226851337836806
           },
@@ -203,7 +219,9 @@
             ],
             "min_total_count": 5,
             "training_chars": 5364
-          }
+          },
+          "entropy_median": 2.584962500721156,
+          "entropy_mad": 0.0
         }
       }
     }

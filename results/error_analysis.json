@@ -232,9 +232,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): log1p(length): robust z vs median 3.4, MAD 0.2",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): log1p(length) MAD of the log sample: robust z 6.746 = 0.6745*|x-median|/MAD (median 3.72, MAD 0.2318)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 100.0): log1p(length): robust z vs median 3.4, MAD 0.2",
+      "Field 'text' length unusual (empirical percentile 100.0): log1p(length) MAD of the log sample: robust z 6.746 = 0.6745*|x-median|/MAD (median 3.72, MAD 0.2318)",
       "Field 'author' composition unusual (empirical percentile 98.4): distribution discrepancy 0.4214 (n=15); top cells [('digit', 4.25312116619759), ('letter', 2.068056503132597)]; p=0.01193 (baseline incompatibility, not attack probability)"
     ]
   },
@@ -1417,9 +1417,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): log1p(length): robust z vs median 3.4, MAD 0.2",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): log1p(length) MAD of the log sample: robust z 6.746 = 0.6745*|x-median|/MAD (median 3.72, MAD 0.2318)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 100.0): log1p(length): robust z vs median 3.4, MAD 0.2",
+      "Field 'text' length unusual (empirical percentile 100.0): log1p(length) MAD of the log sample: robust z 6.746 = 0.6745*|x-median|/MAD (median 3.72, MAD 0.2318)",
       "Field 'author' composition unusual (empirical percentile 98.4): distribution discrepancy 0.4214 (n=15); top cells [('digit', 4.25312116619759), ('letter', 2.068056503132597)]; p=0.01193 (baseline incompatibility, not attack probability)"
     ]
   },
@@ -1698,9 +1698,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): log1p(length): robust z vs median 3.4, MAD 0.2",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): log1p(length) MAD of the log sample: robust z 6.746 = 0.6745*|x-median|/MAD (median 3.72, MAD 0.2318)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 100.0): log1p(length): robust z vs median 3.4, MAD 0.2",
+      "Field 'text' length unusual (empirical percentile 100.0): log1p(length) MAD of the log sample: robust z 6.746 = 0.6745*|x-median|/MAD (median 3.72, MAD 0.2318)",
       "Field 'author' composition unusual (empirical percentile 98.4): distribution discrepancy 0.4214 (n=15); top cells [('digit', 4.25312116619759), ('letter', 2.068056503132597)]; p=0.01193 (baseline incompatibility, not attack probability)"
     ]
   },
@@ -1999,9 +1999,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): log1p(length): robust z vs median 3.4, MAD 0.2",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): log1p(length) MAD of the log sample: robust z 6.746 = 0.6745*|x-median|/MAD (median 3.72, MAD 0.2318)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 100.0): log1p(length): robust z vs median 3.4, MAD 0.2",
+      "Field 'text' length unusual (empirical percentile 100.0): log1p(length) MAD of the log sample: robust z 6.746 = 0.6745*|x-median|/MAD (median 3.72, MAD 0.2318)",
       "Field 'author' composition unusual (empirical percentile 98.4): distribution discrepancy 0.4214 (n=15); top cells [('digit', 4.25312116619759), ('letter', 2.068056503132597)]; p=0.01193 (baseline incompatibility, not attack probability)"
     ]
   },
@@ -2032,9 +2032,9 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): log1p(length): robust z vs median 3.4, MAD 0.2",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): log1p(length) MAD of the log sample: robust z 6.746 = 0.6745*|x-median|/MAD (median 3.72, MAD 0.2318)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 100.0): log1p(length): robust z vs median 3.4, MAD 0.2",
+      "Field 'text' length unusual (empirical percentile 100.0): log1p(length) MAD of the log sample: robust z 6.746 = 0.6745*|x-median|/MAD (median 3.72, MAD 0.2318)",
       "Field 'author' composition unusual (empirical percentile 98.4): distribution discrepancy 0.4214 (n=15); top cells [('digit', 4.25312116619759), ('letter', 2.068056503132597)]; p=0.01193 (baseline incompatibility, not attack probability)"
     ]
   },

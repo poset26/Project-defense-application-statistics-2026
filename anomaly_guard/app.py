@@ -14,7 +14,11 @@ import streamlit as st
 from anomaly_guard.core.decision import AnomalyGuard, DetectorMode
 from anomaly_guard.core.schema import GroundTruthMeta, RequestRecord, read_jsonl
 from anomaly_guard.evaluation.experiments import MODES, load_dataset, run_mode_experiment
-from anomaly_guard.evaluation.splits import training_normal_records, validation_legitimate_records
+from anomaly_guard.evaluation.splits import (
+    training_normal_records,
+    validation_legitimate_records,
+    validation_ordinary_records,
+)
 from anomaly_guard.simulation.generator import replay_records
 from anomaly_guard.storage import EventStore
 
@@ -51,13 +55,25 @@ def page_traffic() -> None:
         meta_list = [GroundTruthMeta.from_dict(m) for m in read_jsonl(data_dir / "ground_truth.jsonl")]
         meta_by_id = {m.request_id: m for m in meta_list}
         guard = AnomalyGuard(mode=mode)  # type: ignore
+        val = validation_legitimate_records(records, meta_list)
+        ordinary = validation_ordinary_records(records, meta_list)
         if baseline.exists():
             guard.load_baseline(baseline)
+            if guard.load_settings(baseline.with_suffix(".settings.json")):
+                st.caption(
+                    f"Using saved cutoff {guard.settings.alert_threshold_percentile:.4g} "
+                    f"({guard.settings.threshold_scale}, {guard.settings.threshold_population})."
+                )
+            else:
+                guard.calibrate(val, threshold_records=ordinary)
+                st.caption(
+                    "Saved cutoff was missing or fit for another mode. "
+                    "Recalibrated the 1% budget on ordinary validation traffic."
+                )
         else:
             train = training_normal_records(records, meta_list)
-            val = validation_legitimate_records(records, meta_list)
             guard.fit(train)
-            guard.calibrate(val)
+            guard.calibrate(val, threshold_records=ordinary)
         store = _store()
         store.clear()
         lim = None if limit == 0 else int(limit)
@@ -258,9 +274,8 @@ def page_evaluation() -> None:
         st.dataframe(pd.DataFrame(slice_rows), use_container_width=True)
         st.subheader("False positives by legitimate group")
         st.caption(
-            "Ordinary traffic is the group the baseline was fit on. "
-            "Difficult and distribution-shift rows are inside the legitimate false-positive rate "
-            "and are not the same population."
+            "The 1% alert cutoff is fit on ordinary validation traffic only. "
+            "Difficult and distribution-shift rows are a stress test. They are not the budget."
         )
         group_rows = []
         for mode, m in modes.items():
@@ -309,6 +324,26 @@ def page_evaluation() -> None:
                     "n_replaced": contam.get("n_replaced"),
                 }
             )
+        st.subheader("XSS alert recall and review rate")
+        st.caption(
+            "Alert recall of zero is not a silent miss when the review rate is high. "
+            "Medium-severity onerror tags are reviews, not alerts."
+        )
+        xss_rows = []
+        for mode, m in modes.items():
+            fam = (m.get("per_family") or {}).get("xss") or {}
+            if not fam:
+                continue
+            xss_rows.append(
+                {
+                    "mode": mode,
+                    "alert recall": fam.get("recall"),
+                    "review rate": fam.get("review_rate"),
+                    "support": fam.get("support"),
+                }
+            )
+        if xss_rows:
+            st.dataframe(pd.DataFrame(xss_rows), use_container_width=True)
         xss = summary.get("xss_component_profile")
         if xss:
             st.subheader("XSS under full_stats")
@@ -349,11 +384,13 @@ def page_model_settings() -> None:
         meta = [GroundTruthMeta.from_dict(m) for m in read_jsonl(data_dir / "ground_truth.jsonl")]
         train = training_normal_records(records, meta)
         val = validation_legitimate_records(records, meta)
+        ordinary = validation_ordinary_records(records, meta)
         guard = AnomalyGuard(mode=mode)
         guard.fit(train)
-        settings = guard.calibrate(val)
+        settings = guard.calibrate(val, threshold_records=ordinary)
         out.parent.mkdir(parents=True, exist_ok=True)
         guard.save_baseline(out)
+        guard.save_settings(out.with_suffix(".settings.json"))
         st.success(f"Saved baseline v{guard.detector.baseline.version} from {len(train)} samples")
         st.json(settings.__dict__)
     if out.exists():

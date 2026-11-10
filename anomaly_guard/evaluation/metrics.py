@@ -282,18 +282,22 @@ def per_family_recall(
     meta: list[GroundTruthMeta],
     preds: dict[str, str],
 ) -> dict[str, dict[str, float]]:
-    hits: dict[str, list[bool]] = {}
+    alerts: dict[str, list[bool]] = {}
+    reviews: dict[str, list[bool]] = {}
     for m in meta:
         if not is_positive_malicious(m):
             continue
         fam = m.attack_family or "unknown"
-        hits.setdefault(fam, []).append(alert_predicted(preds.get(m.request_id, "normal")))
+        decision = preds.get(m.request_id, "normal")
+        alerts.setdefault(fam, []).append(alert_predicted(decision))
+        reviews.setdefault(fam, []).append(review_predicted(decision))
     return {
         fam: {
-            "recall": float(np.mean(hits[fam])) if hits[fam] else 0.0,
-            "support": float(len(hits[fam])),
+            "recall": float(np.mean(alerts[fam])) if alerts[fam] else 0.0,
+            "review_rate": float(np.mean(reviews[fam])) if reviews[fam] else 0.0,
+            "support": float(len(alerts[fam])),
         }
-        for fam in hits
+        for fam in alerts
     }
 
 

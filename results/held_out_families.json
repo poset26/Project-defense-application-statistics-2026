@@ -23,10 +23,10 @@
           "review_rate": 0.0
         },
         "full_stats": {
-          "alert_recall": 0.0,
-          "alerts": 0,
-          "reviews": 84,
-          "review_rate": 1.0
+          "alert_recall": 1.0,
+          "alerts": 84,
+          "reviews": 0,
+          "review_rate": 0.0
         },
         "rules_plus_stats": {
           "alert_recall": 1.0,
@@ -53,34 +53,34 @@
           "review_rate": 0.6904761904761905
         },
         "combined_stats": {
-          "alert_recall": 0.0,
-          "alerts": 0,
-          "reviews": 0,
-          "review_rate": 0.0
+          "alert_recall": 0.14285714285714285,
+          "alerts": 12,
+          "reviews": 19,
+          "review_rate": 0.2261904761904762
         },
         "ci_only": {
-          "alert_recall": 0.0,
-          "alerts": 0,
-          "reviews": 0,
-          "review_rate": 0.0
+          "alert_recall": 0.14285714285714285,
+          "alerts": 12,
+          "reviews": 19,
+          "review_rate": 0.2261904761904762
         },
         "full_stats": {
-          "alert_recall": 0.0,
-          "alerts": 0,
+          "alert_recall": 1.0,
+          "alerts": 84,
           "reviews": 0,
           "review_rate": 0.0
         },
         "rules_plus_stats": {
-          "alert_recall": 0.0,
-          "alerts": 0,
-          "reviews": 58,
-          "review_rate": 0.6904761904761905
+          "alert_recall": 0.14285714285714285,
+          "alerts": 12,
+          "reviews": 72,
+          "review_rate": 0.8571428571428571
         },
         "rules_plus_full_stats": {
-          "alert_recall": 0.0,
-          "alerts": 0,
-          "reviews": 58,
-          "review_rate": 0.6904761904761905
+          "alert_recall": 1.0,
+          "alerts": 84,
+          "reviews": 0,
+          "review_rate": 0.0
         }
       }
     },
@@ -97,8 +97,8 @@
         "combined_stats": {
           "alert_recall": 0.0,
           "alerts": 0,
-          "reviews": 0,
-          "review_rate": 0.0
+          "reviews": 41,
+          "review_rate": 1.0
         },
         "ci_only": {
           "alert_recall": 0.0,
@@ -107,22 +107,22 @@
           "review_rate": 0.0
         },
         "full_stats": {
-          "alert_recall": 0.0,
-          "alerts": 0,
-          "reviews": 41,
-          "review_rate": 1.0
+          "alert_recall": 1.0,
+          "alerts": 41,
+          "reviews": 0,
+          "review_rate": 0.0
         },
         "rules_plus_stats": {
           "alert_recall": 0.0,
           "alerts": 0,
-          "reviews": 16,
-          "review_rate": 0.3902439024390244
-        },
-        "rules_plus_full_stats": {
-          "alert_recall": 0.0,
-          "alerts": 0,
           "reviews": 41,
           "review_rate": 1.0
+        },
+        "rules_plus_full_stats": {
+          "alert_recall": 1.0,
+          "alerts": 41,
+          "reviews": 0,
+          "review_rate": 0.0
         }
       }
     }

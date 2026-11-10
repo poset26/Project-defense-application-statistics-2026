@@ -162,6 +162,24 @@ def training_normal_records(
     ]
 
 
+def validation_ordinary_records(
+    records: list[RequestRecord], meta: list[GroundTruthMeta]
+) -> list[RequestRecord]:
+    """Validation rows from the same population the baseline was fit on.
+
+    Difficult legitimate text and distribution-shift rows stay out of the
+    false-positive cutoff. They are a stress test, not the 1% budget.
+    """
+    meta_by_id = {m.request_id: m for m in meta}
+    return [
+        r
+        for r in records
+        if (m := meta_by_id.get(r.request_id))
+        and m.split == "validation"
+        and m.scenario_group == "legitimate"
+    ]
+
+
 def validation_legitimate_records(
     records: list[RequestRecord], meta: list[GroundTruthMeta]
 ) -> list[RequestRecord]:

@@ -102,7 +102,7 @@ The simulator (`anomaly_guard/simulation/`) writes both files with matching `req
 
 Training baseline: **train** split, **`legitimate`** group only.
 
-Calibration: **validation** split, groups `legitimate`, `difficult_legitimate`, `distribution_shift`.
+Percentile pools: **validation** split, groups `legitimate`, `difficult_legitimate`, and `distribution_shift`. The 1% alert cutoff uses **ordinary** validation traffic only (`scenario_group == legitimate`). Difficult and shifted rows are a stress test. `train` writes `baseline.settings.json` with the mode name. Replay and the dashboard load that file when the mode matches, and recalibrate on ordinary validation traffic when it does not.
 
 Evaluation (`evaluate`): scores **test** split only; metrics join predictions to ground truth by `request_id`.
 

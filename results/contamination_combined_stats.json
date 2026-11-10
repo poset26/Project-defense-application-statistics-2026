@@ -6,16 +6,16 @@
   "n_replaced": 54,
   "n_malicious_train_pool": 1080,
   "clean": {
-    "recall": 0.09111111111111111,
-    "precision": 0.45054945054945056,
-    "false_positive_rate": 0.06369426751592357,
+    "recall": 0.11777777777777777,
+    "precision": 0.25118483412322273,
+    "false_positive_rate": 0.20127388535031848,
     "attack_slices": {
       "signature_easy": {
         "recall": 0.0,
         "support": 125.0
       },
       "rule_evasive": {
-        "recall": 0.0,
+        "recall": 0.04938271604938271,
         "support": 243.0
       },
       "size_distribution": {
@@ -25,16 +25,16 @@
     }
   },
   "contaminated": {
-    "recall": 0.09111111111111111,
-    "precision": 0.2662337662337662,
-    "false_positive_rate": 0.14394904458598726,
+    "recall": 0.11777777777777777,
+    "precision": 0.3136094674556213,
+    "false_positive_rate": 0.14777070063694267,
     "attack_slices": {
       "signature_easy": {
         "recall": 0.0,
         "support": 125.0
       },
       "rule_evasive": {
-        "recall": 0.0,
+        "recall": 0.04938271604938271,
         "support": 243.0
       },
       "size_distribution": {

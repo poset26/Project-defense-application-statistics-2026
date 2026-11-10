@@ -34,6 +34,7 @@ from anomaly_guard.evaluation.splits import (
     partition_records,
     training_normal_records,
     validation_legitimate_records,
+    validation_ordinary_records,
 )
 
 MODES: list[DetectorMode] = [
@@ -85,6 +86,7 @@ class ExperimentResult:
     operating_point_1pct: dict[str, Any] | None = None
     fpr_by_legitimate_group: dict[str, Any] | None = None
     base_rate: dict[str, Any] | None = None
+    fpr_on_ordinary_test: float | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -104,12 +106,13 @@ def run_mode_experiment(
 ) -> tuple[ExperimentResult, list[dict[str, Any]]]:
     train_recs = training_normal_records(records, meta)
     val_recs = validation_legitimate_records(records, meta)
+    ordinary_recs = validation_ordinary_records(records, meta)
     parts = partition_records(records, meta)
     test_recs, test_meta = parts["test"]
 
     guard = AnomalyGuard(mode=mode)
     guard.fit(train_recs)
-    guard.calibrate(val_recs)
+    guard.calibrate(val_recs, threshold_records=ordinary_recs)
     baseline_path = model_dir / f"baseline_{mode}.json"
     guard.save_baseline(baseline_path)
 
@@ -175,6 +178,7 @@ def run_mode_experiment(
         metrics_benign_invalid=invalid_metrics.to_dict(),
         metrics_any_anomaly=any_metrics.to_dict(),
         fpr_on_legitimate_test=mal_metrics.fpr,
+        fpr_on_ordinary_test=(group_fpr.get("legitimate") or {}).get("alert_rate"),
         review_rate_legitimate=review_rate_on_legitimate(test_meta_ordered, decisions),
         average_precision=ap,
         per_family=fam_recall,
@@ -332,6 +336,7 @@ def run_contamination_sensitivity(
         contaminated[int(slot)] = malicious_train[int(pick)]
 
     val = validation_legitimate_records(records, meta)
+    ordinary = validation_ordinary_records(records, meta)
     test_recs, test_meta = partition_records(records, meta)["test"]
 
     def medians(guard: AnomalyGuard) -> dict[str, float]:
@@ -365,11 +370,11 @@ def run_contamination_sensitivity(
     clean = AnomalyGuard(mode="combined_stats")
     clean.fit(train)
     clean_medians = medians(clean)
-    clean.calibrate(val)
+    clean.calibrate(val, threshold_records=ordinary)
     dirty = AnomalyGuard(mode="combined_stats")
     dirty.fit(contaminated)
     dirty_medians = medians(dirty)
-    dirty.calibrate(val)
+    dirty.calibrate(val, threshold_records=ordinary)
     deltas = []
     for key in sorted(set(clean_medians) | set(dirty_medians)):
         before = clean_medians.get(key)
@@ -470,6 +475,7 @@ def run_held_out_family_evaluation(
 
     train_recs = training_normal_records(records, meta)
     val_recs = validation_legitimate_records(records, meta)
+    ordinary_recs = validation_ordinary_records(records, meta)
     summary: dict[str, Any] = {"families": {}, "modes_fit": list(PRIMARY_MODES)}
     for name in wanted:
         summary["families"][name] = {
@@ -483,7 +489,7 @@ def run_held_out_family_evaluation(
     for mode in PRIMARY_MODES:
         guard = AnomalyGuard(mode=mode)
         guard.fit(train_recs)
-        guard.calibrate(val_recs)
+        guard.calibrate(val_recs, threshold_records=ordinary_recs)
         for name, rows in by_family.items():
             if not rows:
                 continue

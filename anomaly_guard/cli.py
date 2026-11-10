@@ -9,7 +9,12 @@ from pathlib import Path
 from anomaly_guard.core.decision import AnomalyGuard, DetectorMode
 from anomaly_guard.core.schema import GroundTruthMeta, RequestRecord, read_jsonl
 from anomaly_guard.evaluation.experiments import MODES, run_full_experiment
-from anomaly_guard.evaluation.splits import assign_splits, training_normal_records, validation_legitimate_records
+from anomaly_guard.evaluation.splits import (
+    assign_splits,
+    training_normal_records,
+    validation_legitimate_records,
+    validation_ordinary_records,
+)
 from anomaly_guard.simulation.generator import DEFAULT_PLAN, generate_dataset, replay_records, save_dataset
 from anomaly_guard.storage import EventStore
 
@@ -48,16 +53,18 @@ def cmd_train(args: argparse.Namespace) -> None:
     meta = [GroundTruthMeta.from_dict(m) for m in read_jsonl(data_dir / "ground_truth.jsonl")]
     train_recs = training_normal_records(records, meta)
     val_recs = validation_legitimate_records(records, meta)
+    ordinary_recs = validation_ordinary_records(records, meta)
     mode: DetectorMode = args.mode
     guard = AnomalyGuard(mode=mode)
     guard.fit(train_recs)
-    settings = guard.calibrate(val_recs)
+    settings = guard.calibrate(val_recs, threshold_records=ordinary_recs)
     out = Path(args.output)
     guard.save_baseline(out)
     settings_path = out.with_suffix(".settings.json")
-    settings_path.write_text(json.dumps(settings.__dict__, indent=2), encoding="utf-8")
+    guard.save_settings(settings_path)
     print(f"Trained on {len(train_recs)} legitimate records; baseline -> {out}")
     print(f"Calibrated settings -> {settings_path}")
+    print(f"Alert cutoff {settings.alert_threshold_percentile} on {settings.threshold_population}")
 
 
 def cmd_replay(args: argparse.Namespace) -> None:
@@ -66,7 +73,14 @@ def cmd_replay(args: argparse.Namespace) -> None:
     meta_list = [GroundTruthMeta.from_dict(m) for m in read_jsonl(data_dir / "ground_truth.jsonl")]
     meta_by_id = {m.request_id: m for m in meta_list}
     guard = AnomalyGuard(mode=args.mode)
-    guard.load_baseline(Path(args.baseline))
+    baseline = Path(args.baseline)
+    guard.load_baseline(baseline)
+    if not guard.load_settings(baseline.with_suffix(".settings.json")):
+        guard.calibrate(
+            validation_legitimate_records(records, meta_list),
+            threshold_records=validation_ordinary_records(records, meta_list),
+        )
+        print("Saved cutoff did not match this mode; recalibrated on ordinary validation traffic.")
     store = EventStore(Path(args.db))
     if args.clear:
         store.clear()

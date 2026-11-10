@@ -64,7 +64,7 @@ The CLI and library support ablation modes (default production-style mode: **`ru
 | `rules_plus_full_stats` | Hybrid: rules + the mean-fused full stack |
 | `isolation_forest` | Optional Isolation Forest comparison on its own score |
 
-Training uses **legitimate train-split** requests only. Percentile thresholds are calibrated on **held-out legitimate validation** traffic (including difficult legitimate and distribution-shift groups), targeting a configurable false-positive budget (`max_false_positive_rate_target`, default 1% on validation).
+Training uses **legitimate train-split** requests only. Percentile pools use held-out non-attack validation traffic. The 1% alert cutoff is fit on **ordinary** validation traffic only. Difficult legitimate text and distribution shift are a stress test, not part of the budget. `train` writes `baseline.settings.json`. Replay and the dashboard load it when the mode matches.
 
 ## Repository layout
 

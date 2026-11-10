@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import time
 from dataclasses import asdict, dataclass
 from typing import Any, Literal
@@ -151,6 +152,7 @@ class DecisionSettings:
     max_false_positive_rate_target: float = 0.01
     enable_high_severity_rule_alert: bool = True
     threshold_scale: str = "percentile"
+    threshold_population: str = "ordinary_validation"
 
 
 class AnomalyGuard:
@@ -192,19 +194,58 @@ class AnomalyGuard:
         )
         self._isolation.fit(X)
 
-    def calibrate(self, validation_records: list[RequestRecord]) -> DecisionSettings:
-        """Tune thresholds on held-out legitimate validation traffic."""
+    def calibrate(
+        self,
+        validation_records: list[RequestRecord],
+        threshold_records: list[RequestRecord] | None = None,
+    ) -> DecisionSettings:
+        """Map scores on held-out non-attack traffic. Set the cutoff on one population.
+
+        `validation_records` build the empirical percentile pools. The alert
+        cutoff uses `threshold_records` when that list is passed, so a stress
+        group such as distribution shift does not choose the 1% budget.
+        """
+        cutoff_records = threshold_records if threshold_records is not None else validation_records
+        self.settings.threshold_population = (
+            "ordinary_validation" if threshold_records is not None else "same_as_percentile_pool"
+        )
         if self.mode != "rules_only":
             self.detector.calibrate_percentiles(validation_records)
 
         hybrid_modes: frozenset[DetectorMode] = frozenset({"rules_plus_stats", "rules_plus_full_stats"})
         if self.mode in STATISTICS_ONLY_MODES or self.mode in hybrid_modes:
-            self._calibrate_percentile_thresholds(validation_records)
+            self._calibrate_percentile_thresholds(cutoff_records)
 
         if self.mode == "isolation_forest":
-            self._calibrate_isolation(validation_records)
+            self._calibrate_isolation(cutoff_records)
 
         return self.settings
+
+    def save_settings(self, path) -> None:
+        from pathlib import Path
+
+        path = Path(path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        payload = {"mode": self.mode, **asdict(self.settings)}
+        path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+    def load_settings(self, path) -> bool:
+        """Apply a saved cutoff when it was fit for this detector mode."""
+        from pathlib import Path
+
+        path = Path(path)
+        if not path.exists():
+            return False
+        data = json.loads(path.read_text(encoding="utf-8"))
+        saved_mode = data.get("mode")
+        if saved_mode and saved_mode != self.mode:
+            return False
+        for key, value in data.items():
+            if key == "mode":
+                continue
+            if hasattr(self.settings, key):
+                setattr(self.settings, key, value)
+        return True
 
     def _calibrate_percentile_thresholds(self, validation_records: list[RequestRecord]) -> None:
         percentiles: list[float] = []
@@ -327,14 +368,17 @@ class AnomalyGuard:
 
         if stat:
             for c in stat.components:
-                if (
-                    c.status == "ok"
-                    and c.percentile is not None
-                    and c.percentile >= self.settings.review_threshold_percentile
-                ):
-                    explanations.append(
-                        f"Field '{c.field}' {c.component} unusual (empirical percentile {c.percentile:.1f}): {c.detail}"
-                    )
+                if c.status == "ok" and component_exceeds_review(c, self.settings):
+                    if self.settings.threshold_scale == "raw_distance":
+                        explanations.append(
+                            f"Field '{c.field}' {c.component} unusual "
+                            f"(raw distance {c.raw_score:.3f}): {c.detail}"
+                        )
+                    else:
+                        explanations.append(
+                            f"Field '{c.field}' {c.component} unusual "
+                            f"(empirical percentile {c.percentile:.1f}): {c.detail}"
+                        )
 
         ms = (time.perf_counter() - t0) * 1000
         return ScoreResult(
@@ -404,6 +448,18 @@ def aggregate_component_percentiles(
     if how == "second":
         return float(values[1]) if len(values) >= 2 else 0.0
     return float(values[0])
+
+
+def component_exceeds_review(component: ComponentScore, settings: DecisionSettings) -> bool:
+    """Review narration uses the same scale as the cutoff.
+
+    A raw PAYL distance near 15 must not be compared with a 0–100 percentile.
+    """
+    if settings.threshold_scale == "raw_distance":
+        return component.raw_score >= settings.review_threshold_percentile
+    if component.percentile is None:
+        return False
+    return component.percentile >= settings.review_threshold_percentile
 
 
 def _decision_from_rules(rules: list[TriggeredRule], settings: DecisionSettings) -> DecisionLabel:

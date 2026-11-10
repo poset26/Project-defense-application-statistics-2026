@@ -1,8 +1,17 @@
 # Statistical models research (for course framing)
 
-This note supports the **defense / statistics class** angle for Anomaly Guard. It recommends **interpretable statistical procedures** first—not deep learning—and maps them to what you already measure and to published HTTP payload baselines.
+This note is the statistics-course map for Anomaly Guard. It records which interpretable procedures were recommended, which ones are now in the detector, and which ones stayed out on purpose. Current numbers and the operating point are in [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md). This file is not a second results table.
 
-**Current checked-in full run (reference):** `combined_stats` malicious recall ≈ **9%** (alert only); **`rules_plus_stats` ≈ 33%**; **`size_distribution` slice** ≈ **50%** for stats vs **0%** for rules. The low global stats number is largely **slice mix** (evasive attacks) plus **honest ablations**, not only “under-trained.”
+**Checked-in full run, ordinary-only 1% cutoff** (see the technical report for the group split):
+
+| Mode | Malicious recall | Ordinary test FPR | Mixed legitimate FPR |
+|------|------------------|-------------------|----------------------|
+| `rules_only` | 0.24 | 0 | 0 |
+| `entropy_only` | 0.18 | 0.011 | 0.07 |
+| `rules_plus_full_stats` | 0.92 | 0 | 0.53 |
+| `payl_only` | 0.98 | 0.015 | 0.66 |
+
+The mixed rate is high because difficult text and distribution shift do not set the cutoff and then fail it. Quoting only the 0.92 recall without the 0.53 mixed false-positive rate is the accuracy trap this note warned about.
 
 ---
 
@@ -11,32 +20,40 @@ This note supports the **defense / statistics class** angle for Anomaly Guard. I
 | Statistical idea | Where it already appears | What to argue in class |
 |------------------|--------------------------|------------------------|
 | **Novelty detection** | Train on legitimate only; score new requests | Same split discipline as one-class / outlier lit.; not supervised classification of attacks |
-| **Robust location & scale** | Median + MAD length z | Resistant to heavy tails; MAD×1.4826 links to σ under normality |
-| **Goodness-of-fit** | Character category counts vs baseline *p*ᵢ | Pearson χ²; discuss **cell contributions** and **expected count ≥ 5** |
-| **Empirical calibration** | Percentiles from validation legitimate traffic | Estimating an **operating threshold** from data (not fixed 3σ myth) |
-| **Binomial inference** | Wilson CI on legitimate FPR | Uncertainty on **false-positive rate**, not “P(attack)” |
-| **Precision–recall** | Exported curves on test | Imbalanced positives; prevalence **not** internet attack rate |
-| **Multiple testing** | Many fields × two components | Risk of family-wise false alarms; Bonferroni or FDR as discussion |
-| **Ablations** | `rules_only` vs `combined_stats` vs hybrid | Which **hypothesis** each mode tests |
+| **Robust location & scale** | `0.6745 * \|x − median\| / MAD` on `log1p(length)`; the constant is in the numerator | Resistant to heavy tails. A reported “z > 3” now matches that formula |
+| **Goodness-of-fit** | χ²/n on character categories, plus length-band χ². Cell contributions are in the explanation | The p-value is baseline incompatibility. Characters in one string are not independent trials |
+| **Prediction and proportion intervals** | `ci_only`: Student-t interval for a new log length; Wilson intervals for category proportions | Distance is in interval widths |
+| **Empirical calibration** | Percentile pools on non-attack validation. The 1% cutoff uses **ordinary** validation only | The threshold is estimated. Difficult and shifted traffic are a stress test, not the budget |
+| **Base rate** | `base_rate` rows in `metrics_summary.json` | P(attack \| alert) at the file’s 36% mixture and at 1% and 0.1% priors. Precision on this file is not an operational rate |
+| **Binomial inference** | Wilson interval on the legitimate false-positive rate | Uncertainty on that rate. For rules, the observed zero should be quoted with the Wilson upper end |
+| **Precision–recall** | One curve and one threshold sweep per mode | The sweep is descriptive. It does not move the deployed cutoff |
+| **Multiple testing** | Request-level percentile cutoff | Benjamini–Hochberg is coded and tested, and it is **not** called from a decision. Do not claim it as a correction |
+| **Ablations** | Rules, each statistic, mean fusion, second-highest percentile, raw PAYL | Each mode is one comparison |
 
 **Caution (good for class points):** A χ² *p*-value or an “empirical percentile” is **incompatibility with a reference traffic model**, not a posterior probability of attack (ASA statement on *p*-values).
 
 ---
 
-## 2. Why pure “combined_stats” is ~9% (substantive, not only ML failure)
+## 2. Why length and chi-square stay near the size slice
 
-1. **Task definition:** Statistics-only modes deliberately **ignore** signature rules. Most test positives are **rule-evasive** strings that match legitimate length/composition tolerances.
-2. **Features:** Histogram bins over **unordered** characters miss token structure (e.g. `uni/**/on` looks like letters/slashes).
-3. **Calibration:** Validation targets **1%** legitimate FPR; on test, alert FPR was **~6.4%**—threshold transfer + shift groups stress the baseline.
-4. **Aggregation:** Max of length/composition **percentiles** is conservative; one weak field does not rescue another (appropriate statistically, harsh for recall).
+On the current ordinary-only cutoff, `combined_stats` malicious recall is about **0.12**, with ordinary false-positive rate about **1.1%** and mixed legitimate false-positive rate about **0.20**. Signature-easy recall is 0. Rule-evasive recall is about 0.05. The size slice is about 0.50.
 
-**Implication for “train a better model”:** For a stats class, prefer **better estimators, stratification, and test design** before opaque models.
+1. **Task definition.** Statistics-only modes do not use signature rules. Textbook strings are not what length and chi-square are for.
+2. **Features.** Unordered character bins miss token structure. PAYL and the mean-fused stack are what move rule-evasive recall, and they spend the difficult and shift groups to do it.
+3. **Two false-positive rates.** Ordinary test traffic can sit near 1% while the mixed rate is much higher. The stress groups are the difference. Do not average them into one sentence.
+4. **Aggregation.** Max of length and chi-square does not recover PAYL. Mean fusion does, and it also alerts on most difficult text once the cutoff is not lifted by the shift group.
+
+**Implication.** Another black-box model is not the next statistics question. The open claim is which false-positive population the 1% budget is allowed to see.
 
 ---
 
-## 3. Recommended statistical upgrades (priority order)
+## 3. Recommended upgrades, and where they stand
 
-### 3.1 Stratified length bands for composition (high value, stays interpretable)
+The subsections below are the original recommendations. Status as of the ordinary-cutoff run:
+
+### 3.1 Stratified length bands for composition — implemented
+
+Length-quartile chi-square lives in `anomaly_guard/core/advanced_stats.py` and is part of `full_stats`. It is not a separate ablation mode.
 
 **Problem:** Comparing a 12-character login username to a 200-character comment baseline confounds length and composition.
 
@@ -46,7 +63,9 @@ This note supports the **defense / statistics class** angle for Anomaly Guard. I
 
 ---
 
-### 3.2 χ² with **per-category contributions** in explanations (not just one scalar)
+### 3.2 χ² cell contributions in explanations — implemented
+
+The composition detail string lists the top cells. The decision still uses χ²/n plus a percentile, not the teaching p-value.
 
 Replace a single disguised scalar with:
 
@@ -60,7 +79,9 @@ Replace a single disguised scalar with:
 
 ---
 
-### 3.3 **log1p** transform before robust length scoring (heavy tails)
+### 3.3 log1p before robust length scoring — implemented
+
+Scoring uses the MAD of the `log1p` sample. The robust z is `0.6745 * |x − median| / MAD`.
 
 HTTPS/payload lengths are right-skewed. Literature (e.g. robust Z in security analytics; Stratosphere-style pipelines) uses:
 
@@ -70,7 +91,9 @@ HTTPS/payload lengths are right-skewed. Literature (e.g. robust Z in security an
 
 ---
 
-### 3.4 N-gram **occurrence profiling** (PAYL family, still statistical)
+### 3.4 N-gram and PAYL profiles — implemented
+
+`payl_only` scores a 256-bin byte histogram and thresholds the **raw** distance. `ngram_only` uses median and MAD of the top bigrams. On this file PAYL’s ordinary false-positive rate is about 1.5%, and its mixed rate is about 0.66 because difficult and shifted traffic all clear that raw cutoff.
 
 **Reference:** Krüger et al. / PAYL (payload histograms); IEEE ANTS 2018 n-gram profiling (median/average counts of *k*-grams on **normal** HTTP).
 
@@ -86,32 +109,27 @@ HTTPS/payload lengths are right-skewed. Literature (e.g. robust Z in security an
 
 ---
 
-### 3.5 Empirical null / **permutation calibration** of composite score
+### 3.5 Empirical null of the composite score — implemented as a validation quantile, not a permutation test
 
-Instead of pooling all length scores into one percentile ladder:
+The alert cutoff is the ordinary-validation quantile of the aggregate score at a 1% target. Component scores are still turned into percentiles, then combined by max, mean, or the second-highest type percentile. There is no permutation or leave-one-out redraw of that null. A permutation test that shuffles characters inside a string would still be the wrong null for dependent text, and it was not added.
 
-1. On validation legitimate, for each request compute vector of component scores **s** = (z_len, χ²_comp, …).
-2. Build **null distribution** of *T(s)* = max(percentiles) by **permutation** or **leave-one-out** on validation (no test peeking).
-3. Alert if *T* exceeds validation (1 − α) quantile (α = 0.01).
-
-**Course tie-in:** Estimating critical values; exchangeability under H₀ “legitimate.”
+**Course tie-in:** Estimating a critical value under the working hypothesis that ordinary validation traffic is exchangeable with the traffic you are willing to call normal.
 
 ---
 
-### 3.6 Multiple fields: **Bonferroni or Benjamini–Hochberg FDR**
+### 3.6 Bonferroni or Benjamini–Hochberg — not used in decisions
 
-You test several fields × (length, composition). Family-wise error inflates legitimate FPR.
+`benjamini_hochberg` is unit-tested and never called from scoring. The request-level cutoff is the error rate that is actually controlled. Citing the unused function as a multiple-testing correction would overclaim.
 
-**Options:**
+Several fields and components are scored on each request. Max-of-percentiles would let one of them alert. Mean fusion and the second-highest percentile are the combinations that were measured instead of a p-value correction.
 
-- **Bonferroni:** alert if any field *p*ᵢ ≤ α/m (conservative).
-- **BH-FDR:** control expected false discovery rate among field alerts at q = 0.05.
-
-**Course tie-in:** Multiple comparisons chapter; connect to your ~6.4% test FPR vs 1% target.
+**Course tie-in:** Multiple comparisons. The unit that has a budget here is the request, not the field.
 
 ---
 
-### 3.7 **Two-sample** or **empirical Bayes** for proportions (alternative to χ² on one string)
+### 3.7 Wilson intervals on proportions — implemented; beta-binomial is not
+
+`proportion_ci` scores a field by how far a category share sits outside the training Wilson interval. There is no beta-binomial posterior predictive.
 
 For large fields (comments), compare observed category shares to baseline using:
 
@@ -122,13 +140,11 @@ For large fields (comments), compare observed category shares to baseline using:
 
 ---
 
-### 3.8 **LDA / sparse LDA** on the **same feature vector** (optional “multivariate stats” extension)
+### 3.8 Mahalanobis on the feature vector — implemented; the mode name is historical
 
-Mahalanobis / LDA on engineered counts is still **classical multivariate statistics** if trained on legitimate-only and scored by distance to legitimate mean (GSAD/RePIDS line of work—UTS thesis).
+`lda_only` is one-class distance to the legitimate mean with a ridge-stabilized covariance. There is no attack class, so it is not linear discriminant analysis. The empirical percentile remains the alarm. An F or χ² critical value on that distance was not adopted, because the features are skewed counts and fractions. Feature loadings are not exported.
 
-Use as **`comparison` mode only**, same splits as MAD+χ²; report **loadings** on features for interpretability.
-
-**Course tie-in:** Discriminant analysis as outlier distance, not attack classifier.
+**Course tie-in:** Multivariate distance as an outlier score, not as a classifier trained on attacks.
 
 ---
 
@@ -138,36 +154,36 @@ Use as **`comparison` mode only**, same splits as MAD+χ²; report **loadings** 
 |----------|---------------------|
 | **Isolation Forest** (already optional) | Nonparametric benchmark; cite impurity / isolation path as black-box contrast |
 | **Deep sequence models** | Out of scope; breaks explainability requirement |
-| **Tuning rules to fix 9%** | Confounds the stats experiment |
+| **Retuning `rules.yaml` to raise statistics-only recall** | Confounds the comparison. Rule-evasive strings exist so signatures can fail |
 
 ---
 
-## 4. Proposed experimental matrix (for the write-up)
+## 4. Experimental matrix that was actually run
 
-Hold **train = legitimate only**, **calibrate on validation legitimate**, report **test** with slices:
+Train on legitimate only. Percentile pools use non-attack validation. The 1% cutoff uses ordinary validation. Test metrics are alert-only, with review separate, and with ordinary / difficult / shift false-positive rates side by side.
 
-| Estimator | Detection target | Primary metric |
-|-----------|------------------|----------------|
-| Rules only | Signature-easy | Recall on `signature_easy` |
-| MAD length (log1p) | Size-only + some evasive length | Recall on `size_distribution` |
-| χ² + residuals | Composition shift | Recall on evasive + shift |
-| N-gram median profile | Token structure evasion | Recall on `rule_evasive` |
-| Hybrid (rules + calibrated max percentile) | Operational | FPR on legit (Wilson), recall by slice |
+| Estimator | What it shows on this file |
+|-----------|----------------------------|
+| Rules only | Signature-easy recall about 0.57. Size slice 0. Ordinary and stress FPR 0. XSS alert recall 0, review rate about 0.69 |
+| Length or chi-square | Size-slice recall about 0.50. Signature-easy 0. Ordinary FPR about 1% |
+| Entropy | Rule-evasive recall about 0.17, size 0.50, mixed FPR about 0.07 |
+| PAYL raw distance | Rule-evasive recall about 0.96. Ordinary FPR about 1.5%. Difficult and shift alert rates are 1 |
+| Mean-fused stack, with or without rules | Malicious recall about 0.92. Ordinary FPR 0. Mixed FPR about 0.53 |
+| OLS residual | Recall 0. Kept as a negative result |
 
-**Hypothesis for class:** “Composition and length baselines **increment** detection on size/shift slices; on **rule-evasive** slice, **n-gram or residual-guided** composition adds signal beyond MAD; hybrid **dominates** rules on overall recall at stated FPR budget.”
+The class hypothesis that “hybrid dominates rules at a 1% mixed false-positive rate” is **not** what this cutoff shows. The hybrid dominates rules on recall at a 1% **ordinary** rate, and it does not hold a 1% rate once difficult and shifted traffic are included. The descriptive mixed-mask sweep still has a point near 1% mixed FPR with hybrid recall about 0.33. That point is not the deployed cutoff.
 
 ---
 
-## 5. Mapping to your codebase (implementation sketch when approved)
+## 5. Where the code lives
 
-| Idea | Likely module |
-|------|----------------|
-| Length bins → composition profiles | `core/statistics.py` fit/score |
-| χ² contributions in `ComponentScore.detail` | `core/statistics.py` |
-| log1p length | `_robust_length_score` input |
-| N-gram tables | new `core/ngram_profile.py` + optional mode `ngram_only` |
-| Permutation threshold | `evaluation/experiments.py` calibrate |
-| FDR across fields | `core/decision.py` after per-field p/percentile |
+| Idea | Module |
+|------|--------|
+| Length, chi-square, entropy, prediction interval, Wilson proportions | `anomaly_guard/core/statistics.py` |
+| PAYL, bigrams, length-band χ², OLS, Mahalanobis | `anomaly_guard/core/advanced_stats.py` |
+| Mean, max, and second-highest fusion; raw PAYL cutoff; settings load | `anomaly_guard/core/decision.py` |
+| Ordinary validation split | `validation_ordinary_records` in `anomaly_guard/evaluation/splits.py` |
+| Group false-positive rates, base-rate table, contamination refit | `anomaly_guard/evaluation/experiments.py` |
 
 ---
 
@@ -185,5 +201,6 @@ Hold **train = legitimate only**, **calibrate on validation legitimate**, report
 
 ## 7. Short answer for instructors
 
-**“Should we train a better model?”**  
-For this class, **yes—but statistically**: stratify baselines, add **n-gram median profiling** and **χ² residual explanations**, stabilize length with **log1p + MAD**, and calibrate composite scores with a **validation-derived null**. That targets the **15% rule-evasive** and **50%-capable size** slices without collapsing the experiment into regex tuning. The **9%** headline is the wrong single number; slice-level and hybrid comparisons are the defensible result.
+The statistical upgrades in this note are in the detector: log-length MAD, chi-square with cell contributions and length bands, Wilson proportion intervals, a prediction interval, PAYL, bigrams, entropy, and Mahalanobis distance. The cutoff is a validation quantile on ordinary traffic.
+
+The result to teach is not a single recall. Rules stay quiet on every legitimate group and miss the size slice. Entropy is the quiet statistical mode. PAYL and the mean-fused hybrid catch evasive and size attacks and then alert on traffic that is legitimate but not the training population. At a 0.1% attack prior, the hybrid’s mixed false-positive rate makes P(attack | alert) about 0.2%. Sequential tests, Hawkes processes, and Kalman filters do not fit this generator and were not added.

@@ -67,8 +67,10 @@ Each raw component is mapped to an empirical percentile on validation traffic. `
 | Mode | Statistical components used | Decision logic (simplified) |
 |------|------------------------------|-----------------------------|
 | `rules_only` | None in decision | High-severity rules → alert; medium → review |
-| `length_only`, `composition_only`, `entropy_only`, `payl_only`, `ci_only`, `vote2_stats`, `full_stats` | The named components only | Statistics decide. Rules are recorded and do not change the label |
+| `length_only`, `composition_only`, `entropy_only`, `payl_only`, `ngram_only`, `regression_only`, `lda_only`, `ci_only` | That component only | Statistics decide. Rules are recorded and do not change the label |
 | `combined_stats` | Length and composition, max percentile | Statistics only |
+| `vote2_stats` | Same components as `full_stats` | Alert from the second-highest type percentile |
+| `full_stats` | Length, chi-square, intervals, PAYL, n-grams, OLS, Mahalanobis | Mean of per-type percentiles |
 | `rules_plus_stats` / `rules_plus_full_stats` | Length+composition, or the mean of the full stack | High-severity pattern → alert; else the statistical cutoff |
 | `isolation_forest` | IF `decision_function` on the feature vector | The forest score alone. `contamination=0.001` |
 
@@ -78,7 +80,7 @@ Decisions:
 - **`review`** — elevated schema issues or statistical unusualness below alert cutoff.
 - **`alert`** — high-severity pattern match and/or statistical aggregate above calibrated alert percentile (or IF score below threshold).
 
-Explanations list triggered rules and, when present, field-level statistical messages with empirical percentiles.
+Explanations list triggered rules. A field is called unusual only on the same scale as the cutoff: a percentile for percentile modes, the raw distance for `payl_only`. A percentile is never compared with a raw-distance threshold.
 
 Optional **Isolation Forest** (`sklearn`, 100 trees, `contamination=0.001`) trains on legitimate train vectors when mode is `isolation_forest`. The alert cutoff is fit on validation scores.
 
@@ -111,7 +113,7 @@ Evaluation (`evaluate`): scores **test** split only; metrics join predictions to
 | Artifact | Role |
 |----------|------|
 | `models/baseline.json` | Serialized endpoint profiles + `calibration_scores` |
-| `models/baseline.settings.json` | Written by CLI `train`: calibrated `DecisionSettings` |
+| `models/baseline.settings.json` | Written by `train`: mode name plus `DecisionSettings`. Replay and the dashboard apply it only when the mode matches |
 | `results/models/baseline_<mode>.json` | Per-mode baselines from full ablation run |
 | `data/events.db` | SQLite `events` table: request JSON, score JSON, optional ground truth |
 
@@ -122,7 +124,7 @@ Streamlit app (`anomaly_guard/app.py`):
 - **Traffic** — replay JSONL into the event store; filter stored rows.
 - **Alert inspector** — escaped request text, rules, statistical components, explanations; optional experiment labels.
 - **Normal vs unusual** — baseline medians and a bar chart of observed vs baseline character fractions for a selected request.
-- **Evaluation** — loads saved `results/metrics_summary.json` or runs a single-mode experiment.
+- **Evaluation** — saved metrics, attack slices, false positives by traffic group, base-rate posteriors, XSS alert recall next to review rate, contamination summary, and held-out families. Optional single-mode run for `rules_plus_stats`.
 - **Model settings** — retrain baseline from disk dataset.
 
 ## Evaluation module

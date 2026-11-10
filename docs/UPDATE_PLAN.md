@@ -1,8 +1,18 @@
 # Update plan: make the experiment able to fail
 
-Status: **applied** (see `main` after the experiment-honesty update). This document records the original shortcomings and the implementation plan; behavior and evaluation now follow the fixes below unless noted as residual.
+Status: **applied, then superseded.** This file is the historical record of the experiment-honesty fixes. Do not cite its numbers. The current method, cutoff, and test results are in [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md). How to run them is in [USAGE.md](USAGE.md).
 
-Pulled baseline: `69708ba` (evaluation metric refinements on `main`). Numbers below are from `results/metrics_summary.json` produced by `scripts/demo.sh` on the small simulator (`data/simulated`, 900 requests).
+What changed after this plan was applied, and is **not** described in the sections below:
+
+- Statistics-only modes do not let rules decide. Primary metrics count `alert` only. Review is separate.
+- The simulator has signature-easy, rule-evasive, and size/distribution slices. The full 11,500-request file is the checked-in result. `scripts/demo.sh` is a smoke test.
+- The 1% alert cutoff is fit on **ordinary** validation traffic. Difficult legitimate text and distribution shift are a stress test.
+- Replay and the dashboard load `baseline.settings.json` when the mode matches.
+- Later additions (intervals, entropy, PAYL, mean fusion, vote-2, base-rate posteriors, group false-positive rates, one contamination refit) are in the technical report.
+
+The findings below describe the repository **before** those fixes, on a small demo of about 900 requests. They are kept so the original failure mode stays readable.
+
+Pulled baseline at the time: `69708ba`. Numbers below are from `results/metrics_summary.json` produced by `scripts/demo.sh` on that small simulator.
 
 ## What is wrong, in one sentence
 

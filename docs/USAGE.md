@@ -47,19 +47,22 @@ anomaly-guard train \
   --mode rules_plus_stats
 ```
 
-`--mode` choices:
+`--mode` is any name in `anomaly_guard.evaluation.experiments.MODES`. The default is `rules_plus_stats`. The full list:
 
-`rules_only`, `length_only`, `composition_only`, `combined_stats`, `rules_plus_stats`, `isolation_forest`
+`rules_only`, `length_only`, `composition_only`, `payl_only`, `ngram_only`, `regression_only`, `lda_only`, `ci_only`, `entropy_only`, `vote2_stats`, `combined_stats`, `full_stats`, `rules_plus_stats`, `rules_plus_full_stats`, `isolation_forest`
+
+`lda_only` is Mahalanobis distance to the legitimate mean, not linear discriminant analysis. `payl_only` cuts on the raw byte-histogram distance. `full_stats` and `rules_plus_full_stats` use the mean of per-type percentiles. `vote2_stats` uses the second-highest type percentile.
 
 Behavior:
 
 1. Load requests and ground truth from `--data`.
 2. **Fit** statistical profiles on train-split **`legitimate`** traffic only.
-3. **Calibrate** decision percentiles on validation-split legitimate-family traffic.
-4. Save baseline JSON to `--output`.
-5. Write sibling **`baseline.settings.json`** (same path, `.settings.json` suffix) with calibrated thresholds.
+3. Build percentile pools on validation traffic from `legitimate`, `difficult_legitimate`, and `distribution_shift`.
+4. Set the 1% alert cutoff on **ordinary** validation traffic only (`scenario_group == legitimate`). Difficult text and distribution shift do not choose the threshold.
+5. Save baseline JSON to `--output`.
+6. Write sibling **`baseline.settings.json`** with the calibrated thresholds and the **mode name**.
 
-For `isolation_forest`, the Isolation Forest is fit during `train` on the same legitimate train records.
+For `isolation_forest`, the forest is fit during `train` on the same legitimate train records (`contamination=0.001`). Its cutoff is also fit on ordinary validation scores.
 
 ### `replay` — score traffic into SQLite
 
@@ -72,7 +75,7 @@ anomaly-guard replay \
   [--shuffle] [--seed 0] [--limit N] [--clear] [--with-labels]
 ```
 
-Loads the baseline from disk (does not refit unless you train separately). Each request is scored with `AnomalyGuard.score()` and upserted into `events.db`.
+Loads the baseline from disk. If `baseline.settings.json` was saved for the same `--mode`, that cutoff is used. If the file is missing or was fit for another mode, replay recalibrates on ordinary validation traffic from `--data`. It does not refit the profiles. Each request is scored with `AnomalyGuard.score()` and upserted into `events.db`.
 
 - **`--with-labels`** — stores ground-truth JSON for dashboard experiment views (not used by the scorer).
 - **`--clear`** — deletes existing events before replay.
@@ -86,15 +89,19 @@ Replay order uses `simulation/generator.replay_records()` (stable file order unl
 anomaly-guard evaluate --data data/simulated --output results
 ```
 
-For each detector mode, retrains on train legitimate, calibrates on validation, scores **test** split, and writes artifacts under `--output`:
+For each detector mode, retrains on train legitimate, builds percentile pools on non-attack validation traffic, sets the cutoff on ordinary validation traffic, scores the **test** split, and writes artifacts under `--output`:
 
 | Output | Description |
 |--------|-------------|
-| `metrics_summary.json` | Per-mode metrics, settings, latency, AP |
+| `metrics_summary.json` | Per-mode metrics, ordinary vs stress false-positive rates, base-rate posteriors, XSS alert and review rates, settings, latency |
 | `predictions_<mode>.jsonl` | One line per test request with decision and full score dict |
 | `models/baseline_<mode>.json` | Baseline snapshot for that run |
-| `detector_comparison.png` | Bar chart: malicious F1 vs legitimate FPR by mode |
+| `pr_curve_<mode>.png` | Precision-recall curve for that mode |
+| `threshold_sweep_<mode>.json` | Descriptive test sweep. It does not move the deployed cutoff |
+| `detector_comparison.png` | Malicious F1, mixed legitimate FPR, and rule-evasive recall by mode |
 | `error_analysis.json` | Sample false negatives / false positives (`rules_plus_stats`) |
+| `held_out_families.json` | Alert and review rates for traversal, XSS, and oversized |
+| `contamination_combined_stats.json` | One `combined_stats` refit after replacing 1% of legitimate training rows with train-split attacks |
 
 Prints a JSON summary of `modes` to stdout.
 
@@ -118,9 +125,11 @@ Open the URL shown in the terminal (typically `http://127.0.0.1:8765`).
 |------|---------|
 | **Traffic** | Replay from a data directory into `data/events.db`; optional shuffle, limit, detector mode, experiment labels |
 | **Alert inspector** | Inspect alert/review rows: escaped request, rules, statistical components, explanations |
-| **Normal vs unusual** | Browse trained baseline: per-endpoint expanders with **median length, MAD, training counts**, and **composition category_probs** JSON — profile tables only, not overlaid charts |
-| **Evaluation** | Show saved `results/metrics_summary.json` and comparison plot; optional quick run for `rules_plus_stats` only |
-| **Model settings** | Retrain baseline from disk; show endpoint coverage |
+| **Normal vs unusual** | Baseline medians, and a bar chart of observed versus baseline character fractions for a selected stored request |
+| **Evaluation** | Saved `results/metrics_summary.json`: mode table, attack slices, false positives by ordinary / difficult / shift, base-rate posteriors, XSS alert recall next to review rate, contamination summary, held-out families. Optional quick run for `rules_plus_stats` only |
+| **Model settings** | Retrain from disk on the selected mode. Writes the baseline and `baseline.settings.json`. The 1% cutoff uses ordinary validation traffic |
+
+Traffic replay uses the same settings rule as the CLI: load `baseline.settings.json` when its mode matches, otherwise recalibrate on ordinary validation traffic.
 
 The app caption states that alerts describe unusual validation, not confirmed intrusions.
 
@@ -136,7 +145,7 @@ Default paths in the UI match CLI defaults (`data/simulated`, `models/baseline.j
 | `data/events.db` | `replay` (or dashboard Traffic replay) |
 | `results/*` | `evaluate` |
 
-Checked-in `results/` in the repository reflects a **small-demo** run; regenerate after changing data or code.
+Checked-in `results/` match `anomaly-guard evaluate` on the full simulator (11,500 requests, seed 42), with the 1% cutoff fit on ordinary validation traffic. `scripts/demo.sh` is a small smoke run and is not the source of those numbers. Interpretation is in [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md).
 
 ## pytest
 
@@ -151,4 +160,4 @@ Tests live under `tests/` (parser, rules, features, statistics, simulation, metr
 - **`alert`** / **`review`** — request deviates from rules and/or learned legitimate profiles for the selected mode; investigate manually.
 - Ground truth in the dashboard is for **experiments only**; the detector never reads it during `score()`.
 
-For evaluation caveats on the bundled metrics file, see [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md) and [UPDATE_PLAN.md](UPDATE_PLAN.md).
+For the operating point and its limits, see [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md). [UPDATE_PLAN.md](UPDATE_PLAN.md) is the historical record of the earlier experiment-honesty fixes, not the current numbers.

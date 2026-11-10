@@ -86,7 +86,7 @@ docs/
   ARCHITECTURE.md     # pipeline and data-flow detail
   USAGE.md            # install and operations
   TECHNICAL_REPORT.md # methodology and honest evaluation limits
-  UPDATE_PLAN.md      # proposed fixes for experiment design (do not treat as implemented)
+  UPDATE_PLAN.md      # historical record of the experiment-honesty fixes
 tests/                # pytest suite
 scripts/demo.sh       # end-to-end small demo
 ```
@@ -96,7 +96,8 @@ scripts/demo.sh       # end-to-end small demo
 - [Architecture](docs/ARCHITECTURE.md) — pipeline, request vs ground-truth files, splits, what `score()` may use
 - [Usage](docs/USAGE.md) — install, generate, train, replay, evaluate, dashboard, artifacts
 - [Technical report](docs/TECHNICAL_REPORT.md) — methodology, metrics definitions, current limitations
-- [Update plan](docs/UPDATE_PLAN.md) — known evaluation shortcomings and a fix plan (proposed, not merged into detector code)
+- [Statistics note](docs/STATISTICS_MODELS_RESEARCH.md) — which course methods are in the detector, and which were left out
+- [Update plan](docs/UPDATE_PLAN.md) — historical record of the earlier experiment-honesty fixes. Current numbers are in the technical report
 
 ## Checked-in results
 

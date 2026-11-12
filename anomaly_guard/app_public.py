@@ -16,6 +16,8 @@ from anomaly_guard.core.schema import GroundTruthMeta, RequestRecord, read_jsonl
 from anomaly_guard.evaluation.experiments import MODES
 from anomaly_guard.evaluation.splits import validation_legitimate_records, validation_ordinary_records
 from anomaly_guard.dashboard_ui import (
+    explain_legitimate_group_columns,
+    explain_mode_metrics_columns,
     matplotlib_style,
     page_formulas,
     page_home,
@@ -254,6 +256,7 @@ def _render_metrics_summary(summary: dict) -> None:
             }
         )
     st.dataframe(pd.DataFrame(rows), use_container_width=True)
+    explain_mode_metrics_columns()
     group_rows = []
     for mode, m in modes.items():
         groups = m.get("fpr_by_legitimate_group") or {}
@@ -264,12 +267,12 @@ def _render_metrics_summary(summary: dict) -> None:
                 "mode": mode,
                 "ordinary": (groups.get("legitimate") or {}).get("alert_rate"),
                 "difficult": (groups.get("difficult_legitimate") or {}).get("alert_rate"),
-                "distribution shift": (groups.get("distribution_shift") or {}).get("alert_rate"),
             }
         )
     if group_rows:
         st.subheader("False positives by legitimate group")
         st.dataframe(pd.DataFrame(group_rows), use_container_width=True)
+        explain_legitimate_group_columns()
 
 
 def page_evaluation() -> None:

@@ -254,6 +254,34 @@ def page_formulas() -> None:
     )
 
 
+def explain_mode_metrics_columns() -> None:
+    st.markdown(
+        """
+        **Column guide (test split, alert decision unless noted)**
+
+        - **mode** — Detector variant in the ablation (rules-only, single stat, or fused).
+        - **precision (attack)** — Of requests labeled attack that got **alert**, how many were truly attacks.
+        - **recall (attack)** — Fraction of attack test rows that received an **alert** (main detection rate).
+        - **f1 (attack)** — Harmonic mean of attack precision and recall on **alert**.
+        - **fpr (legit)** — Fraction of legitimate-family test rows (ordinary + difficult + shift) that got **alert**.
+        - **invalid rejection** — Fraction of **benign_invalid** rows (bad JSON/schema, not attacks) sent to alert/review.
+        - **AP** — Average precision over alert scores for attack vs non-attack on the test split.
+        """
+    )
+
+
+def explain_legitimate_group_columns() -> None:
+    st.markdown(
+        """
+        **Column guide**
+
+        - **mode** — Same detector variant as the summary table above.
+        - **ordinary** — Alert rate on test **ordinary** legitimate traffic (closest to training distribution).
+        - **difficult** — Alert rate on **difficult_legitimate** test rows (still benign, awkward text).
+        """
+    )
+
+
 def shell_header(*, is_public: bool) -> None:
     st.set_page_config(page_title="Anomaly Guard", layout="wide", initial_sidebar_state="expanded")
     st.title("Anomaly Guard")

@@ -22,6 +22,8 @@ from anomaly_guard.evaluation.splits import (
     validation_ordinary_records,
 )
 from anomaly_guard.dashboard_ui import (
+    explain_legitimate_group_columns,
+    explain_mode_metrics_columns,
     page_formulas,
     page_home,
     shell_header,
@@ -333,6 +335,7 @@ def page_evaluation() -> None:
                 "AP": m.get("average_precision"),
             })
         st.dataframe(pd.DataFrame(rows), use_container_width=True)
+        explain_mode_metrics_columns()
         st.subheader("Attack slices and the 1% false-positive read")
         st.caption(
             "Slice numbers are alert recall. The 1% columns are a descriptive read of the "
@@ -357,7 +360,7 @@ def page_evaluation() -> None:
         st.subheader("False positives by legitimate group")
         st.caption(
             "The 1% alert cutoff is fit on ordinary validation traffic only. "
-            "Difficult and distribution-shift rows are a stress test. They are not the budget."
+            "Difficult legitimate rows are a stress test. They are not the budget."
         )
         group_rows = []
         for mode, m in modes.items():
@@ -369,11 +372,11 @@ def page_evaluation() -> None:
                     "mode": mode,
                     "ordinary": (groups.get("legitimate") or {}).get("alert_rate"),
                     "difficult": (groups.get("difficult_legitimate") or {}).get("alert_rate"),
-                    "distribution shift": (groups.get("distribution_shift") or {}).get("alert_rate"),
                 }
             )
         if group_rows:
             st.dataframe(pd.DataFrame(group_rows), use_container_width=True)
+            explain_legitimate_group_columns()
         st.subheader("P(attack | alert) at three priors")
         st.caption(
             "The file mixture is malicious divided by malicious plus legitimate-family test rows. "

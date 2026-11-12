@@ -309,5 +309,6 @@ def main() -> None:
         "Evaluation": page_evaluation,
         "Model settings": page_model_settings,
     }
-    choice = st.sidebar.radio("View", list(pages.keys()))
+    page_names = list(pages.keys())
+    choice = st.sidebar.radio("View", page_names, index=0, help="Start on Home for the theory overview.")
     pages[choice]()

@@ -23,6 +23,7 @@ from anomaly_guard.dashboard_ui import (
     page_home,
     plot_decision_counts,
     plot_mode_metrics,
+    render_decision_conclusion,
     shell_header,
     sidebar_theme_toggle,
 )
@@ -197,6 +198,10 @@ def page_normal_vs_unusual() -> None:
             from anomaly_guard.core.features import CATEGORY_BINS, _category_fractions
             from anomaly_guard.core.parser import parse_request
             from anomaly_guard.core.schema import load_app_config
+
+            score = json.loads(row["score_json"])
+            gt = json.loads(row["ground_truth_json"]) if row.get("ground_truth_json") else None
+            render_decision_conclusion(score, gt)
 
             req = RequestRecord.from_dict(json.loads(row["request_json"]))
             parsed = parse_request(req, load_app_config())

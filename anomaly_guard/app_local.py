@@ -26,6 +26,7 @@ from anomaly_guard.dashboard_ui import (
     explain_mode_metrics_columns,
     page_formulas,
     page_home,
+    render_decision_conclusion,
     shell_header,
     sidebar_theme_toggle,
 )
@@ -254,13 +255,13 @@ def page_normal_vs_unusual() -> None:
             from anomaly_guard.core.parser import parse_request
             from anomaly_guard.core.schema import RequestRecord, load_app_config
 
+            score = json.loads(row["score_json"])
+            gt = json.loads(row["ground_truth_json"]) if row.get("ground_truth_json") else None
+            render_decision_conclusion(score, gt)
+
             req = RequestRecord.from_dict(json.loads(row["request_json"]))
             config = load_app_config()
             parsed = parse_request(req, config)
-            guard = AnomalyGuard()
-            if baseline_path.exists():
-                guard.load_baseline(baseline_path)
-            st.subheader("Selected request vs baseline")
             key = f"{req.method.upper()} {req.route}"
             ep = data.get("endpoints", {}).get(key, {})
             for fname, fp in ep.get("fields", {}).items():

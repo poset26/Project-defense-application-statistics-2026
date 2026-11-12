@@ -254,6 +254,59 @@ def page_formulas() -> None:
     )
 
 
+def render_decision_conclusion(score: dict[str, Any], ground_truth: dict[str, Any] | None) -> None:
+    """Show detector outcome and reasoning before baseline comparison charts."""
+    decision = str(score.get("decision", "unknown"))
+    headline = {
+        "normal": "Normal — within expected variation",
+        "review": "Review — unusual but below alert cutoff",
+        "alert": "Alert — exceeds unusualness threshold or critical rule",
+    }.get(decision, decision)
+
+    if ground_truth:
+        sg = str(ground_truth.get("scenario_group", ""))
+        if "malicious" in sg or sg == "hard_malicious_intent":
+            sim = "Simulated **attack** traffic"
+        elif sg == "benign_invalid":
+            sim = "Simulated **invalid** request (not an attack pattern)"
+        else:
+            sim = "Simulated **benign** traffic"
+        st.subheader("Conclusion")
+        st.markdown(f"**Detector:** {headline} (`{decision}`)")
+        st.markdown(f"**Ground truth (demo labels only):** {sim} — `{sg}`")
+    else:
+        st.subheader("Conclusion")
+        st.markdown(f"**Detector:** {headline} (`{decision}`)")
+
+    stat = score.get("statistical") or {}
+    agg = stat.get("aggregate_percentile")
+    if agg is not None:
+        st.markdown(f"**Fused unusualness:** {float(agg):.1f}th percentile vs validation pool")
+
+    st.markdown("**What drove the decision**")
+    rules = score.get("triggered_rules") or []
+    if rules:
+        for r in rules:
+            st.write(f"- **Rule {r.get('rule_id')}** ({r.get('severity')}): {r.get('explanation')}")
+    comps = sorted(
+        (stat.get("components") or []),
+        key=lambda c: float(c.get("percentile") or 0),
+        reverse=True,
+    )[:4]
+    for c in comps:
+        pct = c.get("percentile")
+        pct_s = f"{float(pct):.1f}th pct" if pct is not None else "n/a"
+        st.write(
+            f"- **{c.get('component')}** on `{c.get('field') or '—'}`: {c.get('detail')} ({pct_s})"
+        )
+    for e in score.get("explanations") or []:
+        if e not in {r.get("explanation") for r in rules}:
+            st.write(f"- {e}")
+
+    st.divider()
+    st.subheader("Visual comparison vs baseline")
+
+
 def explain_mode_metrics_columns() -> None:
     st.markdown(
         """

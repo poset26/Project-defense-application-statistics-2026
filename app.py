@@ -1,5 +1,5 @@
-"""Cursor publish entrypoint — Streamlit dashboard."""
+"""Cursor publish entrypoint — read-only public dashboard."""
 
-from anomaly_guard.app import main
+from anomaly_guard.app_public import main
 
 main()

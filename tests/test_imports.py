@@ -12,4 +12,10 @@ def test_app_module_importable():
 
 
 def test_publish_entrypoint_importable():
-    import app  # noqa: F401
+    import anomaly_guard.app_public  # noqa: F401
+
+
+def test_root_publish_entrypoint():
+    from pathlib import Path
+
+    assert "app_public" in Path("app.py").read_text(encoding="utf-8")

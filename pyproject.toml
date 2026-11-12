@@ -30,7 +30,7 @@ where = ["."]
 include = ["anomaly_guard*"]
 
 [tool.setuptools.package-data]
-anomaly_guard = ["config/*.yaml"]
+anomaly_guard = ["config/*.yaml", "publish_assets/**"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

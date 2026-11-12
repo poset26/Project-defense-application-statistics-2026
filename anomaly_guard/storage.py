@@ -108,3 +108,64 @@ class EventStore:
                 "SELECT decision, COUNT(*) as c FROM events GROUP BY decision"
             ).fetchall()
         return {r["decision"]: r["c"] for r in rows}
+
+
+class MemoryEventStore:
+    """In-memory event store for hosted demo sessions (no shared SQLite)."""
+
+    def __init__(self) -> None:
+        self._rows: dict[str, dict[str, Any]] = {}
+        self._order: list[str] = []
+
+    def upsert_event(
+        self,
+        record: RequestRecord,
+        score: ScoreResult,
+        ground_truth: GroundTruthMeta | None = None,
+    ) -> None:
+        rid = record.request_id
+        if rid not in self._rows:
+            self._order.append(rid)
+        self._rows[rid] = {
+            "request_id": rid,
+            "timestamp": record.timestamp,
+            "method": record.method,
+            "route": record.route,
+            "decision": score.decision,
+            "request_json": json.dumps(record.to_dict()),
+            "score_json": json.dumps(score.to_dict()),
+            "ground_truth_json": json.dumps(ground_truth.to_dict()) if ground_truth else None,
+        }
+
+    def clear(self) -> None:
+        self._rows.clear()
+        self._order.clear()
+
+    def search(
+        self,
+        decision: str | None = None,
+        route: str | None = None,
+        limit: int = 500,
+    ) -> list[dict[str, Any]]:
+        out: list[dict[str, Any]] = []
+        for rid in reversed(self._order):
+            row = self._rows[rid]
+            if decision and row["decision"] != decision:
+                continue
+            if route and row["route"] != route:
+                continue
+            out.append(dict(row))
+            if len(out) >= limit:
+                break
+        return out
+
+    def get(self, request_id: str) -> dict[str, Any] | None:
+        row = self._rows.get(request_id)
+        return dict(row) if row else None
+
+    def counts(self) -> dict[str, int]:
+        tallies: dict[str, int] = {}
+        for row in self._rows.values():
+            d = row["decision"]
+            tallies[d] = tallies.get(d, 0) + 1
+        return tallies

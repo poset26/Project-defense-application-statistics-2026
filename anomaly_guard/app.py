@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import html
 import json
+import os
 from pathlib import Path
+from typing import Union
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -19,8 +21,9 @@ from anomaly_guard.evaluation.splits import (
     validation_legitimate_records,
     validation_ordinary_records,
 )
+from anomaly_guard.hosted import is_cursor_hosted
 from anomaly_guard.simulation.generator import replay_records
-from anomaly_guard.storage import EventStore
+from anomaly_guard.storage import EventStore, MemoryEventStore
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_DATA = ROOT / "data" / "simulated"
@@ -28,7 +31,9 @@ DEFAULT_BASELINE = ROOT / "models" / "baseline.json"
 DEFAULT_DB = ROOT / "data" / "events.db"
 RESULTS_DIR = ROOT / "results"
 MAX_REPLAY_REQUESTS = 5_000
+HOSTED_MAX_REPLAY_REQUESTS = 500
 _WRITE_ROOTS = (ROOT / "models", ROOT / "results", ROOT / "data")
+StoreT = Union[EventStore, MemoryEventStore]
 
 
 def _escape(s: str) -> str:
@@ -60,26 +65,48 @@ def _sandbox_write_path(label: str, user_path: str) -> Path | None:
     return resolved
 
 
+def _hosted_demo() -> bool:
+    return is_cursor_hosted() or os.environ.get("ANOMALY_GUARD_HOSTED_DEMO") == "1"
+
+
 @st.cache_resource
-def _store() -> EventStore:
+def _sqlite_store() -> EventStore:
     return EventStore(DEFAULT_DB)
+
+
+def _store() -> StoreT:
+    if _hosted_demo():
+        if "ag_event_store" not in st.session_state:
+            st.session_state.ag_event_store = MemoryEventStore()
+        return st.session_state.ag_event_store
+    return _sqlite_store()
+
+
+def _replay_cap() -> int:
+    return HOSTED_MAX_REPLAY_REQUESTS if _hosted_demo() else MAX_REPLAY_REQUESTS
 
 
 def page_traffic() -> None:
     st.header("Traffic")
-    data_dir = _sandbox_path("Data directory", st.text_input("Data directory", str(DEFAULT_DATA)))
-    baseline = _sandbox_path("Baseline path", st.text_input("Baseline path", str(DEFAULT_BASELINE)))
-    if data_dir is None or baseline is None:
-        return
+    if _hosted_demo():
+        data_dir = DEFAULT_DATA
+        baseline = DEFAULT_BASELINE
+        st.caption("Hosted demo uses bundled data and baseline. Replay affects only your session.")
+    else:
+        data_dir = _sandbox_path("Data directory", st.text_input("Data directory", str(DEFAULT_DATA)))
+        baseline = _sandbox_path("Baseline path", st.text_input("Baseline path", str(DEFAULT_BASELINE)))
+        if data_dir is None or baseline is None:
+            return
+    cap = _replay_cap()
     mode = st.selectbox("Detector mode", list(MODES), index=list(MODES).index("rules_plus_stats"))
     shuffle = st.checkbox("Shuffle replay", value=False)
     limit = int(
         st.number_input(
             "Replay limit",
             min_value=1,
-            max_value=MAX_REPLAY_REQUESTS,
-            value=200,
-            help=f"At most {MAX_REPLAY_REQUESTS} requests per replay.",
+            max_value=cap,
+            value=min(200, cap),
+            help=f"At most {cap} requests per replay.",
         )
     )
     experiment_mode = st.checkbox("Experiment mode (store ground-truth labels)", value=True)
@@ -94,7 +121,14 @@ def page_traffic() -> None:
         guard = AnomalyGuard(mode=mode)  # type: ignore
         val = validation_legitimate_records(records, meta_list)
         ordinary = validation_ordinary_records(records, meta_list)
-        if baseline.exists():
+        if not baseline.exists():
+            if _hosted_demo():
+                st.error("Bundled baseline is missing. Redeploy from a build that includes models/.")
+                return
+            train = training_normal_records(records, meta_list)
+            guard.fit(train)
+            guard.calibrate(val, threshold_records=ordinary)
+        else:
             guard.load_baseline(baseline)
             if guard.load_settings(baseline.with_suffix(".settings.json")):
                 st.caption(
@@ -107,10 +141,6 @@ def page_traffic() -> None:
                     "Saved cutoff was missing or fit for another mode. "
                     "Recalibrated the 1% budget on ordinary validation traffic."
                 )
-        else:
-            train = training_normal_records(records, meta_list)
-            guard.fit(train)
-            guard.calibrate(val, threshold_records=ordinary)
         store = _store()
         store.clear()
         lim = limit
@@ -267,14 +297,17 @@ def page_normal_vs_unusual() -> None:
 
 def page_evaluation() -> None:
     st.header("Evaluation")
-    data_dir = _sandbox_path("Dataset", st.text_input("Dataset", str(DEFAULT_DATA)))
-    if data_dir is None:
-        return
-    if st.button("Run quick evaluation (rules_plus_stats only)"):
-        records, meta = load_dataset(data_dir)
-        with st.spinner("Running..."):
-            res, _ = run_mode_experiment(records, meta, "rules_plus_stats", RESULTS_DIR / "models")
-        st.json(res.to_dict())
+    if _hosted_demo():
+        st.caption("Hosted demo is read-only. Metrics below are from the last CLI evaluation export.")
+    else:
+        data_dir = _sandbox_path("Dataset", st.text_input("Dataset", str(DEFAULT_DATA)))
+        if data_dir is None:
+            return
+        if st.button("Run quick evaluation (rules_plus_stats only)"):
+            records, meta = load_dataset(data_dir)
+            with st.spinner("Running..."):
+                res, _ = run_mode_experiment(records, meta, "rules_plus_stats", RESULTS_DIR / "models")
+            st.json(res.to_dict())
     metrics_path = RESULTS_DIR / "metrics_summary.json"
     if metrics_path.exists():
         summary = json.loads(metrics_path.read_text(encoding="utf-8"))
@@ -417,27 +450,36 @@ def page_evaluation() -> None:
 
 def page_model_settings() -> None:
     st.header("Model settings")
-    data_dir = _sandbox_path("Training data directory", st.text_input("Training data directory", str(DEFAULT_DATA)))
-    mode: DetectorMode = st.selectbox(
-        "Mode", list(MODES), index=list(MODES).index("rules_plus_stats")
-    )  # type: ignore
-    out = _sandbox_write_path("Baseline output", st.text_input("Baseline output", str(DEFAULT_BASELINE)))
-    if data_dir is None or out is None:
-        return
-    if st.button("Train baseline (explicit retrain)"):
-        records = [RequestRecord.from_dict(r) for r in read_jsonl(data_dir / "requests.jsonl")]
-        meta = [GroundTruthMeta.from_dict(m) for m in read_jsonl(data_dir / "ground_truth.jsonl")]
-        train = training_normal_records(records, meta)
-        val = validation_legitimate_records(records, meta)
-        ordinary = validation_ordinary_records(records, meta)
-        guard = AnomalyGuard(mode=mode)
-        guard.fit(train)
-        settings = guard.calibrate(val, threshold_records=ordinary)
-        out.parent.mkdir(parents=True, exist_ok=True)
-        guard.save_baseline(out)
-        guard.save_settings(out.with_suffix(".settings.json"))
-        st.success(f"Saved baseline v{guard.detector.baseline.version} from {len(train)} samples")
-        st.json(settings.__dict__)
+    if _hosted_demo():
+        st.info(
+            "Hosted demo cannot retrain or overwrite baselines. "
+            "Use the CLI locally (`anomaly-guard train`) to refresh models."
+        )
+        out = DEFAULT_BASELINE
+    else:
+        data_dir = _sandbox_path(
+            "Training data directory", st.text_input("Training data directory", str(DEFAULT_DATA))
+        )
+        mode: DetectorMode = st.selectbox(
+            "Mode", list(MODES), index=list(MODES).index("rules_plus_stats")
+        )  # type: ignore
+        out = _sandbox_write_path("Baseline output", st.text_input("Baseline output", str(DEFAULT_BASELINE)))
+        if data_dir is None or out is None:
+            return
+        if st.button("Train baseline (explicit retrain)"):
+            records = [RequestRecord.from_dict(r) for r in read_jsonl(data_dir / "requests.jsonl")]
+            meta = [GroundTruthMeta.from_dict(m) for m in read_jsonl(data_dir / "ground_truth.jsonl")]
+            train = training_normal_records(records, meta)
+            val = validation_legitimate_records(records, meta)
+            ordinary = validation_ordinary_records(records, meta)
+            guard = AnomalyGuard(mode=mode)
+            guard.fit(train)
+            settings = guard.calibrate(val, threshold_records=ordinary)
+            out.parent.mkdir(parents=True, exist_ok=True)
+            guard.save_baseline(out)
+            guard.save_settings(out.with_suffix(".settings.json"))
+            st.success(f"Saved baseline v{guard.detector.baseline.version} from {len(train)} samples")
+            st.json(settings.__dict__)
     if out.exists():
         data = json.loads(out.read_text(encoding="utf-8"))
         st.write("Profile coverage:")
@@ -449,6 +491,11 @@ def main() -> None:
     st.set_page_config(page_title="Anomaly Guard", layout="wide")
     st.title("Anomaly Guard")
     st.caption("Local explainable HTTP request anomaly detector — alerts describe unusual validation, not confirmed intrusions.")
+    if _hosted_demo():
+        st.warning(
+            "Read-only hosted demo: session-scoped replay only. "
+            "No shared database writes, retraining, or evaluation jobs."
+        )
     pages = {
         "Traffic": page_traffic,
         "Alert inspector": page_alert_inspector,

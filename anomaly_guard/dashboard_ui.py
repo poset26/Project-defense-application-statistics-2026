@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import html
 import json
 from pathlib import Path
 from typing import Any
@@ -254,6 +255,45 @@ def page_formulas() -> None:
     )
 
 
+_FIELD_HELP: dict[str, str] = {
+    "text": "Comment body (`text` on POST /comment).",
+    "author": "Display name or handle (`author` on POST /comment).",
+    "q": "Search query string (GET /search).",
+    "username": "Login username (POST /login).",
+    "password": "Login password (POST /login).",
+}
+
+_COMPOSITION_HELP = (
+    "Each bar is the **fraction of characters** in that symbol class: letter, digit, whitespace, "
+    "quote, bracket, slash, or other. **Baseline** = training on ordinary legitimate traffic; "
+    "**observed** = this request after parsing."
+)
+
+
+def field_display_name(field_name: str, route: str) -> str:
+    hint = _FIELD_HELP.get(field_name, f"Parsed input field `{field_name}` for `{route}`.")
+    return hint
+
+
+def explain_composition_chart() -> None:
+    st.caption(_COMPOSITION_HELP)
+
+
+def render_request_preview(req: dict[str, Any]) -> None:
+    st.subheader("Request")
+    body = str(req.get("body") or "")
+    if len(body) > 3000:
+        body = body[:3000] + "\n… [truncated for display]"
+    text = html.escape(
+        f"{req.get('method', 'GET')} {req.get('route', '')}\n"
+        f"Query: {req.get('raw_query', '')}\n"
+        f"Body: {body}",
+        quote=True,
+    )
+    st.code(text, language="text")
+    st.caption("Rendered with HTML escaping. This is what you are comparing to the baseline.")
+
+
 def render_decision_conclusion(score: dict[str, Any], ground_truth: dict[str, Any] | None) -> None:
     """Show detector outcome and reasoning before baseline comparison charts."""
     decision = str(score.get("decision", "unknown"))
@@ -304,7 +344,7 @@ def render_decision_conclusion(score: dict[str, Any], ground_truth: dict[str, An
             st.write(f"- {e}")
 
     st.divider()
-    st.subheader("Visual comparison vs baseline")
+    st.subheader("Analysis vs baseline")
 
 
 def explain_mode_metrics_columns() -> None:

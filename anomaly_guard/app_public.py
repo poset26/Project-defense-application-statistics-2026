@@ -23,7 +23,10 @@ from anomaly_guard.dashboard_ui import (
     page_home,
     plot_decision_counts,
     plot_mode_metrics,
+    explain_composition_chart,
+    field_display_name,
     render_decision_conclusion,
+    render_request_preview,
     shell_header,
     sidebar_theme_toggle,
 )
@@ -199,23 +202,28 @@ def page_normal_vs_unusual() -> None:
             from anomaly_guard.core.parser import parse_request
             from anomaly_guard.core.schema import load_app_config
 
+            req_dict = json.loads(row["request_json"])
+            render_request_preview(req_dict)
+
             score = json.loads(row["score_json"])
             gt = json.loads(row["ground_truth_json"]) if row.get("ground_truth_json") else None
             render_decision_conclusion(score, gt)
 
-            req = RequestRecord.from_dict(json.loads(row["request_json"]))
+            req = RequestRecord.from_dict(req_dict)
             parsed = parse_request(req, load_app_config())
             key = f"{req.method.upper()} {req.route}"
             ep = data.get("endpoints", {}).get(key, {})
             for fname, fp in ep.get("fields", {}).items():
                 text = parsed.field_text(fname)
                 length = fp.get("length") or {}
+                st.markdown(f"**`{fname}`** — {field_display_name(fname, req.route)}")
                 st.write(
-                    f"**{fname}** length: observed={len(text)}, baseline median={length.get('median', 0):.1f}, "
+                    f"Length: observed={len(text)}, baseline median={length.get('median', 0):.1f}, "
                     f"MAD={length.get('mad', 0):.1f}"
                 )
                 base_probs = (fp.get("composition") or {}).get("category_probs") or {}
                 if text:
+                    explain_composition_chart()
                     obs_frac = _category_fractions(text)
                     labels = sorted(set(base_probs) | set(CATEGORY_BINS))
                     matplotlib_style(st.session_state.get("ag_dark", True))
@@ -226,7 +234,7 @@ def page_normal_vs_unusual() -> None:
                     ax.set_xticks(xpos)
                     ax.set_xticklabels(labels, rotation=45, ha="right")
                     ax.legend()
-                    ax.set_title(f"{fname} character composition")
+                    ax.set_title(f"{fname}: character-class mix")
                     st.pyplot(fig)
                     plt.close(fig)
 

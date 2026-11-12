@@ -36,7 +36,7 @@ Writes:
 
 `--small` uses a reduced plan (on the order of **700** requests) for quick runs. Omit `--small` for the full default plan from `DEFAULT_PLAN` in `simulation/generator.py` (**10,700** requests; no `benign_invalid` group).
 
-Splits are assigned automatically via `assign_splits()` when saving.
+Splits are assigned automatically via `assign_splits()` when saving. Request ids are `req-` plus the generation index, so the same `--seed` rewrites the same ids, timestamps, text, and splits. Every row has a distinct query or body, including a `ref` token, so ordinary test strings are not copies of training strings. Query names and values are percent-decoded once: `%71` is the field `q`, `%25` is a literal `%`, and a truncated `%A` is flagged as malformed.
 
 ### `train` — baseline and calibration
 
@@ -62,7 +62,7 @@ Behavior:
 5. Save baseline JSON to `--output`.
 6. Write sibling **`baseline.settings.json`** with the calibrated thresholds and the **mode name**.
 
-For `isolation_forest`, the forest is fit during `train` on the same legitimate train records (`contamination=0.001`). Its cutoff is also fit on ordinary validation scores.
+For `isolation_forest`, the forest is fit during `train` on the same legitimate train records (`contamination=0.001`). Its cutoff is also fit on ordinary validation scores, and a score alerts only when it is strictly below that cutoff. The fitted forest is stored next to the baseline as `baseline.isolation.joblib` and loaded on replay. Ranking metrics use that forest score.
 
 ### `replay` — score traffic into SQLite
 

@@ -327,10 +327,39 @@ def slice_attack_recall(
     return {"recall": float(np.mean(hits)), "support": float(len(indices))}
 
 
+_RULE_SEVERITY_RANK = {"low": 1.0, "medium": 2.0, "high": 3.0}
+
+
+def _rules_ranking_score(score_dict: dict[str, Any]) -> float:
+    """Rank rules-only rows by severity so average precision is not a constant.
+
+    The severity band stays intact: extra rules add at most 0.09.
+    """
+    rules = score_dict.get("triggered_rules") or []
+    if not rules:
+        return 0.0
+    best = 0.0
+    for rule in rules:
+        best = max(best, _RULE_SEVERITY_RANK.get(str(rule.get("severity")), 0.0))
+    return best + min(len(rules), 9) * 0.01
+
+
 def ranking_score_from_prediction(score_dict: dict[str, Any]) -> float:
+    """Higher means more anomalous.
+
+    Isolation Forest must not fall through to another component's percentile.
+    Rules-only has no percentile; its rank is the strongest triggered rule.
+    """
+    mode = score_dict.get("mode")
     comp = score_dict.get("component_scores") or {}
+    if mode == "isolation_forest":
+        if comp.get("isolation_score") is None:
+            return 0.0
+        return float(-comp["isolation_score"])
+    if mode == "rules_only":
+        return _rules_ranking_score(score_dict)
     if comp.get("aggregate_percentile") is not None:
         return float(comp["aggregate_percentile"])
     if comp.get("isolation_score") is not None:
         return float(-comp["isolation_score"])
-    return 0.0
+    return _rules_ranking_score(score_dict)

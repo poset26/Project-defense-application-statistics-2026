@@ -86,3 +86,59 @@ def test_cutoff_ties_do_not_exceed_one_percent():
     cutoff = _cutoff_with_rate_cap(np.sort(scores), 0.01)
     flagged = int(np.sum(scores > cutoff))
     assert flagged / len(scores) <= 0.01
+
+
+def test_percentile_100_is_only_for_scores_above_the_pool():
+    from anomaly_guard.core.schema import load_app_config
+    from anomaly_guard.core.statistics import StatisticalDetector
+
+    det = StatisticalDetector(load_app_config())
+    det._calibration_pools = {"entropy": [1.0, 2.0, 2.0]}
+    tied = det._empirical_percentile(2.0, "entropy")
+    above = det._empirical_percentile(2.5, "entropy")
+    assert tied is not None and tied < 100
+    assert above == 100.0
+
+
+def test_entropy_only_can_alert_above_a_tied_percentile():
+    from anomaly_guard.core.decision import AnomalyGuard, clears_cutoff
+    from anomaly_guard.core.schema import RequestRecord
+
+    rows = []
+    for i in range(40):
+        rows.append(
+            RequestRecord(
+                request_id=f"t{i}",
+                timestamp="t",
+                client_id="c",
+                method="GET",
+                route="/search",
+                raw_query=f"q=ordinary+words+about+routing+{i}&page=1",
+                headers={},
+                body="",
+            )
+        )
+    guard = AnomalyGuard(mode="entropy_only")
+    guard.fit(rows)
+    guard.calibrate(rows[:25], threshold_records=rows[:25])
+    attack = RequestRecord(
+        request_id="atk",
+        timestamp="t",
+        client_id="c",
+        method="GET",
+        route="/search",
+        raw_query="q=" + ("!" * 160),
+        headers={},
+        body="",
+    )
+    result = guard.score(attack)
+    assert guard.settings.alert_threshold_percentile < 100
+    assert result.statistical is not None
+    assert result.statistical.aggregate_percentile == 100
+    assert clears_cutoff(
+        result.statistical.aggregate_percentile,
+        guard.settings.alert_threshold_percentile,
+    )
+    assert result.decision == "alert"
+    flagged = sum(guard.score(r).decision == "alert" for r in rows[:25])
+    assert flagged / 25 <= guard.settings.max_false_positive_rate_target

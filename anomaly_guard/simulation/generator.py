@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
+import json
 import random
-import uuid
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -46,6 +46,81 @@ def _pick_template(group: str, seq: int) -> ScenarioTemplate:
     return templates[seq % len(templates)]
 
 
+def _content_key(rec: RequestRecord) -> tuple[str, str, str, str]:
+    return (rec.method.upper(), rec.route, rec.raw_query, rec.body)
+
+
+def _stamp_pair(raw: str, key: str, token: str, sep: str) -> str:
+    """Append `token` to an existing `key` value, or add that pair."""
+    parts = raw.split("&") if raw else []
+    out: list[str] = []
+    found = False
+    for part in parts:
+        if not part:
+            continue
+        name, _, value = part.partition("=")
+        if name == key and not found:
+            value = f"{value}{sep}{token}" if value else token
+            out.append(f"{name}={value}")
+            found = True
+        else:
+            out.append(part)
+    if not found:
+        out.append(f"{key}={token}")
+    return "&".join(out)
+
+
+def _stamp_json_text(body: str, token: str) -> str:
+    try:
+        obj = json.loads(body)
+    except json.JSONDecodeError:
+        return body + token
+    if isinstance(obj, dict):
+        if "text" in obj:
+            obj["text"] = f"{obj['text']} {token}"
+        elif "author" in obj:
+            obj["author"] = f"{obj['author']}-{token}"
+        else:
+            obj["text"] = token
+        return json.dumps(obj, ensure_ascii=False)
+    return body + token
+
+
+def _with_unique_content(rec: RequestRecord, seq: int) -> RequestRecord:
+    """Give every row its own query or body so train and test cannot share a string.
+
+    The token is appended to a field the route already allows. Attack payloads
+    stay in place as a prefix; only a short reference is added.
+    """
+    token = f"ref{seq:05d}"
+    headers = dict(rec.headers)
+    content_type = ""
+    for key, value in headers.items():
+        if key.lower() == "content-type":
+            content_type = value.split(";")[0].strip().lower()
+            break
+    query = rec.raw_query
+    body = rec.body
+    if rec.method.upper() == "GET":
+        query = _stamp_pair(query, "q", token, "+")
+    elif content_type == "application/json":
+        body = _stamp_json_text(body, token)
+    elif rec.route == "/login":
+        body = _stamp_pair(body, "password", token, "")
+    else:
+        body = _stamp_pair(body, "text", token, "+")
+    return RequestRecord(
+        request_id=rec.request_id,
+        timestamp=rec.timestamp,
+        client_id=rec.client_id,
+        method=rec.method,
+        route=rec.route,
+        raw_query=query,
+        headers=headers,
+        body=body,
+    )
+
+
 def generate_dataset(
     plan: GenerationPlan | None = None,
     base_time: datetime | None = None,
@@ -67,16 +142,23 @@ def generate_dataset(
     meta: list[GroundTruthMeta] = []
     seq = 0
     t_offset = 0
+    seen: set[tuple[str, str, str, str]] = set()
 
     for group, n in counts.items():
         if n <= 0:
             continue
         for i in range(n):
             tmpl = _pick_template(group, i)
-            rid = str(uuid.uuid4())
+            # Sequential ids follow the seed's generation order. uuid4() did not.
+            rid = f"req-{seq:07d}"
             ts = (base + timedelta(milliseconds=t_offset)).isoformat()
             t_offset += rng.randint(1, 50)
             rec, m = tmpl.builder(rid, ts, seq)
+            rec = _with_unique_content(rec, seq)
+            key = _content_key(rec)
+            if key in seen:
+                raise RuntimeError(f"Duplicate request content at {rid}")
+            seen.add(key)
             records.append(rec)
             meta.append(m)
             seq += 1

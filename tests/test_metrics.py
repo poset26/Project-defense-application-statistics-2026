@@ -31,6 +31,24 @@ def test_malicious_precision_excludes_benign_invalid_flags():
     assert m.fpr == 0.0
 
 
+def test_rules_only_ranking_is_not_constant_and_forest_ignores_other_scores():
+    from anomaly_guard.evaluation.metrics import ranking_score_from_prediction
+
+    quiet = {"mode": "rules_only", "triggered_rules": [], "component_scores": {}}
+    loud = {
+        "mode": "rules_only",
+        "triggered_rules": [{"severity": "high", "rule_id": "SQL"}],
+        "component_scores": {},
+    }
+    assert ranking_score_from_prediction(loud) > ranking_score_from_prediction(quiet)
+    forest = {
+        "mode": "isolation_forest",
+        "triggered_rules": [],
+        "component_scores": {"aggregate_percentile": 99.0, "isolation_score": -0.42},
+    }
+    assert ranking_score_from_prediction(forest) == 0.42
+
+
 def test_benign_invalid_rejection_rate():
     meta = [_meta("benign_invalid", f"b{i}") for i in range(4)]
     meta.append(_meta("legitimate", "l1"))

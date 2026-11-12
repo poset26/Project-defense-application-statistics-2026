@@ -433,11 +433,21 @@ class StatisticalDetector:
         return out
 
     def _empirical_percentile(self, raw: float, component: str) -> float | None:
+        """Share of calibration scores strictly below `raw`, in percent.
+
+        A raw score tied with the pool maximum stays below 100. Only a score
+        strictly above every calibration value reaches 100, so an alert rule
+        of ``percentile > cutoff`` can still fire when the cutoff sits on that
+        tied maximum. The old inclusive rank mapped every such extreme to 100,
+        and entropy's 1% cutoff was then 100 as well.
+        """
         pool = self._calibration_pools.get(component, [])
         if not pool:
             return None
-        arr = np.array(pool)
-        return float(np.mean(arr <= raw) * 100.0)
+        arr = np.asarray(pool, dtype=float)
+        if raw > float(arr[-1]):
+            return 100.0
+        return float(np.mean(arr < raw) * 100.0)
 
     def _score_internal(
         self, record: RequestRecord, collect_for_calibration: bool = False

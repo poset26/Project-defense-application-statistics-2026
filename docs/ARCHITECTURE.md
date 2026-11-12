@@ -52,11 +52,11 @@ Rules always run inside `AnomalyGuard.score()` for every detector mode; mode onl
 `StatisticalDetector.fit(normal_records)` builds per-endpoint, per-field profiles:
 
 - **Length profile** — median and MAD. The robust z is `0.6745 * |x − median| / MAD` on `log1p(length)`, using the MAD of the log sample. A Student-t 95% prediction interval is stored on the same log lengths.
-- **Composition profile** — character-category proportions. The score is χ²/n from `scipy.stats.chisquare` after a small continuity adjustment. A p-value is attached only when every expected count is at least 5, and the text calls it baseline incompatibility, not P(attack). Characters in one string are not independent trials, so that p-value is not a Type I error.
+- **Composition profile** — character-category proportions. The score is χ²/n after a small continuity adjustment, using every character class even when training never saw it. A p-value is attached only when every expected count is at least 5, and the text calls it baseline incompatibility, not P(attack). Characters in one string are not independent trials, so that p-value is not a Type I error.
 - **Entropy profile** — median and MAD of Shannon entropy. It is its own ablation (`entropy_only`) and is not folded into mean fusion.
 - **Extended profiles** — length-band χ², PAYL byte distance, bigrams, OLS residual, Mahalanobis distance (`lda_only` is that distance, not linear discriminant analysis).
 
-Each raw component is mapped to an empirical percentile on validation traffic. `combined_stats` takes the **max** of the length and composition percentiles. `full_stats` takes the **mean** across component types. `vote2_stats` takes the **second-highest** type percentile. `payl_only` thresholds the **raw** PAYL distance, because percentile 100 is tied too often to meet a 1% budget.
+Each raw component is mapped to an empirical percentile on validation traffic: the percent of calibration scores strictly below it. A raw score above the whole pool is 100, and a tie at the pool maximum stays below 100. `combined_stats` takes the **max** of the length and composition percentiles. `full_stats` takes the **mean** across component types. `vote2_stats` takes the **second-highest** type percentile. `payl_only` thresholds the **raw** PAYL distance, because percentile 100 is tied too often to meet a 1% budget. An alert requires the score to be **strictly above** the cutoff (for Isolation Forest, strictly below its lower-tail cutoff).
 
 `StatisticalDetector.score()` and `AnomalyGuard.score()` **must not** read ground-truth metadata—only the request record and loaded baseline.
 
@@ -82,7 +82,7 @@ Decisions:
 
 Explanations list triggered rules. A field is called unusual only on the same scale as the cutoff: a percentile for percentile modes, the raw distance for `payl_only`. A percentile is never compared with a raw-distance threshold.
 
-Optional **Isolation Forest** (`sklearn`, 100 trees, `contamination=0.001`) trains on legitimate train vectors when mode is `isolation_forest`. The alert cutoff is fit on validation scores.
+Optional **Isolation Forest** (`sklearn`, 100 trees, `contamination=0.001`) trains on legitimate train vectors when mode is `isolation_forest`. The alert cutoff is fit on ordinary validation scores. `save_baseline` writes the forest beside the JSON profile as `*.isolation.joblib`, and `load_baseline` reads it back for that mode. Average precision for this mode uses the negated forest score, not another component's percentile.
 
 ## Request data vs ground truth
 

@@ -174,13 +174,13 @@ def page_formulas() -> None:
 
         ### Percentile calibration
 
-        Each component yields a **validation percentile** $p_j \in [0,100]$. Modes aggregate with
+        Each component yields a **validation percentile**: the share of calibration scores strictly below the raw score, in percent. A raw score above every calibration value is 100. Ties at the pool maximum stay below 100, which is what lets entropy alert. Modes aggregate with
 
         $$
         p_{\mathrm{agg}} = \max_j p_j \quad\text{or}\quad \frac{1}{k}\sum_j p_j \quad\text{or}\quad \text{2nd-largest } p_j
         $$
 
-        The **alert threshold** is the validation percentile at target false-alert rate (1% on ordinary traffic).
+        The **alert threshold** is fit on ordinary validation traffic for a 1% false-alert budget. A decision alerts only when the aggregate is **strictly above** that cutoff. The threshold sweep uses the same comparison.
 
         ### Wilson upper bound (legitimate FPR reporting)
 

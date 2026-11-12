@@ -281,14 +281,11 @@ class AnomalyGuard:
             scores.append(float(self._isolation.decision_function(vec)[0]))
         if not scores:
             return
-        scores_arr = np.array(sorted(scores))
+        scores_arr = np.array(sorted(scores), dtype=float)
         target = self.settings.max_false_positive_rate_target
-        alert_idx = int(np.floor(target * len(scores_arr)))
-        alert_idx = max(0, min(alert_idx, len(scores_arr) - 1))
-        review_idx = int(np.floor(target * 2 * len(scores_arr)))
-        review_idx = max(0, min(review_idx, len(scores_arr) - 1))
-        self.settings.isolation_alert_threshold = float(scores_arr[alert_idx])
-        self.settings.isolation_review_threshold = float(scores_arr[review_idx])
+        self.settings.isolation_alert_threshold = _lower_tail_cutoff(scores_arr, target)
+        review_rate = min(0.05, max(target * 5, target))
+        self.settings.isolation_review_threshold = _lower_tail_cutoff(scores_arr, review_rate)
 
     def _aggregate_percentile_for_record(self, record: RequestRecord) -> float | None:
         if self.mode == "rules_only":
@@ -420,10 +417,38 @@ class AnomalyGuard:
         return stat
 
     def save_baseline(self, path) -> None:
+        from pathlib import Path
+
+        path = Path(path)
         self.detector.save(path)
+        iso_path = _isolation_model_path(path)
+        if self._isolation is not None:
+            import joblib
+
+            joblib.dump(self._isolation, iso_path)
+        elif iso_path.exists():
+            iso_path.unlink()
 
     def load_baseline(self, path) -> None:
+        from pathlib import Path
+
+        path = Path(path)
         self.detector.load(path)
+        self._isolation = None
+        iso_path = _isolation_model_path(path)
+        if self.mode == "isolation_forest" and iso_path.exists():
+            import joblib
+
+            self._isolation = joblib.load(iso_path)
+
+
+def clears_cutoff(score: float, cutoff: float) -> bool:
+    """True when `score` is strictly above `cutoff`.
+
+    Decisions and threshold sweeps both use this. A tie at the cutoff must not
+    count, or a repeated score can exceed the false-positive budget.
+    """
+    return float(score) > float(cutoff)
 
 
 def _cutoff_with_rate_cap(sorted_scores: np.ndarray, rate: float) -> float:
@@ -436,6 +461,21 @@ def _cutoff_with_rate_cap(sorted_scores: np.ndarray, rate: float) -> float:
         return float(sorted_scores[-1])
     idx = n - max_alerts - 1
     idx = max(0, min(n - 1, idx))
+    return float(sorted_scores[idx])
+
+
+def _lower_tail_cutoff(sorted_scores: np.ndarray, rate: float) -> float:
+    """Cutoff for a lower-is-worse score.
+
+    The share of scores strictly below the cutoff is at most `rate`.
+    """
+    n = int(sorted_scores.size)
+    if n == 0:
+        return 0.0
+    max_alerts = int(math.floor(float(rate) * n))
+    if max_alerts <= 0:
+        return float(sorted_scores[0])
+    idx = min(n - 1, max_alerts)
     return float(sorted_scores[idx])
 
 
@@ -464,15 +504,15 @@ def aggregate_component_percentiles(
 
 
 def component_exceeds_review(component: ComponentScore, settings: DecisionSettings) -> bool:
-    """Review narration uses the same scale as the cutoff.
+    """Review narration uses the same scale and the same strict comparison as the decision.
 
     A raw PAYL distance near 15 must not be compared with a 0–100 percentile.
     """
     if settings.threshold_scale == "raw_distance":
-        return component.raw_score >= settings.review_threshold_percentile
+        return clears_cutoff(component.raw_score, settings.review_threshold_percentile)
     if component.percentile is None:
         return False
-    return component.percentile >= settings.review_threshold_percentile
+    return clears_cutoff(component.percentile, settings.review_threshold_percentile)
 
 
 def _decision_from_rules(rules: list[TriggeredRule], settings: DecisionSettings) -> DecisionLabel:
@@ -495,9 +535,9 @@ def _decision_from_statistics(
     if pct is None:
         return "normal"
     # Strictly above the cutoff so a tied mass at the quantile cannot exceed the budget.
-    if pct > settings.alert_threshold_percentile:
+    if clears_cutoff(pct, settings.alert_threshold_percentile):
         return "alert"
-    if pct > settings.review_threshold_percentile:
+    if clears_cutoff(pct, settings.review_threshold_percentile):
         return "review"
     return "normal"
 
@@ -532,8 +572,15 @@ def _decision_from_isolation_only(
 ) -> DecisionLabel:
     if score is None:
         return "normal"
-    if score <= settings.isolation_alert_threshold:
+    # Lower is more anomalous. Ties at the cutoff do not alert.
+    if score < settings.isolation_alert_threshold:
         return "alert"
-    if score <= settings.isolation_review_threshold:
+    if score < settings.isolation_review_threshold:
         return "review"
     return "normal"
+
+
+def _isolation_model_path(path):
+    from pathlib import Path
+
+    return Path(path).with_suffix(".isolation.joblib")

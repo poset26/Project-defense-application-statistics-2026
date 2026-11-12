@@ -157,6 +157,25 @@ def test_settings_roundtrip_rejects_another_mode(tmp_path):
     assert same.settings.alert_threshold_percentile == 100.0
 
 
+def test_isolation_forest_persists_across_load(tmp_path):
+    guard = AnomalyGuard(mode="isolation_forest")
+    train = _train_rows(40)
+    guard.fit(train)
+    guard.calibrate(train[:20], threshold_records=train[:20])
+    assert guard._isolation is not None
+    path = tmp_path / "baseline.json"
+    guard.save_baseline(path)
+    guard.save_settings(path.with_suffix(".settings.json"))
+    loaded = AnomalyGuard(mode="isolation_forest")
+    loaded.load_baseline(path)
+    loaded.load_settings(path.with_suffix(".settings.json"))
+    assert loaded._isolation is not None
+    fresh = guard.score(train[0]).isolation_score
+    again = loaded.score(train[0]).isolation_score
+    assert fresh is not None and again is not None
+    assert abs(fresh - again) < 1e-9
+
+
 def test_rules_only_alerts_on_signature_sqli():
     guard = AnomalyGuard(mode="rules_only")
     guard.fit(_train_rows())

@@ -3,22 +3,22 @@
   "support": 84,
   "modes": {
     "rules_only": {
-      "alert_recall": 0.5476190476190477,
-      "alerts": 46,
+      "alert_recall": 0.5,
+      "alerts": 42,
       "reviews": 0,
       "review_rate": 0.0
     },
     "combined_stats": {
-      "alert_recall": 0.0,
-      "alerts": 0,
-      "reviews": 0,
-      "review_rate": 0.0
-    },
-    "ci_only": {
       "alert_recall": 1.0,
       "alerts": 84,
       "reviews": 0,
       "review_rate": 0.0
+    },
+    "ci_only": {
+      "alert_recall": 0.0,
+      "alerts": 0,
+      "reviews": 84,
+      "review_rate": 1.0
     },
     "full_stats": {
       "alert_recall": 1.0,
@@ -27,8 +27,8 @@
       "review_rate": 0.0
     },
     "rules_plus_stats": {
-      "alert_recall": 0.5476190476190477,
-      "alerts": 46,
+      "alert_recall": 1.0,
+      "alerts": 84,
       "reviews": 0,
       "review_rate": 0.0
     },

@@ -10,7 +10,7 @@ from typing import Any
 
 import numpy as np
 
-from anomaly_guard.core.decision import AnomalyGuard, DetectorMode, _decision_from_rules
+from anomaly_guard.core.decision import AnomalyGuard, DetectorMode, _decision_from_rules, clears_cutoff
 from anomaly_guard.core.parser import parse_request
 from anomaly_guard.core.rules import evaluate_rules
 from anomaly_guard.core.schema import GroundTruthMeta, RequestRecord, read_jsonl
@@ -222,6 +222,8 @@ def _threshold_sweep_percentile(
 ) -> None:
     if mode == "rules_only":
         return None
+    if mode == "isolation_forest":
+        return _threshold_sweep_isolation(guard, val_recs, test_meta, test_recs, mode, out)
     val_pcts = [guard._aggregate_percentile_for_record(r) for r in val_recs]
     val_pcts = [p for p in val_pcts if p is not None]
     if not val_pcts:
@@ -248,7 +250,7 @@ def _threshold_sweep_percentile(
     for t in thresholds:
         pred = []
         for i, p in enumerate(test_pcts):
-            stat_hit = p is not None and p >= t
+            stat_hit = p is not None and clears_cutoff(p, float(t))
             pred.append(stat_hit or (hybrid and rule_alerts[i]))
         tp = sum(pred[i] and y_mal[i] for i in range(len(pred)))
         fn = sum((not pred[i]) and y_mal[i] for i in range(len(pred)))
@@ -260,6 +262,61 @@ def _threshold_sweep_percentile(
             "recall_malicious": rec,
             "fpr_legitimate": fpr,
             "includes_rule_alerts": hybrid,
+            "comparison": "score > threshold",
+        })
+    with (out / f"threshold_sweep_{mode}.json").open("w", encoding="utf-8") as f:
+        json.dump(rows, f, indent=2)
+    return rows
+
+
+def _isolation_score(guard: AnomalyGuard, rec: RequestRecord) -> float | None:
+    if guard._isolation is None or guard.detector.baseline is None:
+        return None
+    parsed = parse_request(rec, guard.config)
+    from anomaly_guard.core.features import extract_features
+
+    feats = extract_features(parsed)
+    order = guard.detector.baseline.feature_field_order
+    vec = np.array([feats.to_vector(order)], dtype=float)
+    return float(guard._isolation.decision_function(vec)[0])
+
+
+def _threshold_sweep_isolation(
+    guard: AnomalyGuard,
+    val_recs: list[RequestRecord],
+    test_meta: list[GroundTruthMeta],
+    test_recs: list[RequestRecord],
+    mode: str,
+    out: Path,
+) -> list[dict[str, Any]] | None:
+    """Sweep the forest score with the same lower-is-worse rule as the decision."""
+    val_scores = [s for s in (_isolation_score(guard, r) for r in val_recs) if s is not None]
+    if not val_scores:
+        return None
+    test_scores = [_isolation_score(guard, r) for r in test_recs]
+    meta_by_id = {m.request_id: m for m in test_meta}
+    y_mal = [is_positive_malicious(meta_by_id[r.request_id]) for r in test_recs]
+    leg = [
+        meta_by_id[r.request_id].scenario_group
+        in ("legitimate", "difficult_legitimate", "distribution_shift")
+        for r in test_recs
+    ]
+    thresholds = np.linspace(min(val_scores), max(val_scores), 25)
+    rows = []
+    for t in thresholds:
+        pred = [s is not None and s < float(t) for s in test_scores]
+        tp = sum(pred[i] and y_mal[i] for i in range(len(pred)))
+        fn = sum((not pred[i]) and y_mal[i] for i in range(len(pred)))
+        fp = sum(pred[i] and leg[i] for i in range(len(pred)))
+        rec = tp / (tp + fn) if (tp + fn) else 0.0
+        fpr = fp / sum(leg) if sum(leg) else 0.0
+        rows.append({
+            "threshold_percentile": float(t),
+            "recall_malicious": rec,
+            "fpr_legitimate": fpr,
+            "includes_rule_alerts": False,
+            "score": "isolation_decision_function",
+            "comparison": "score < threshold",
         })
     with (out / f"threshold_sweep_{mode}.json").open("w", encoding="utf-8") as f:
         json.dump(rows, f, indent=2)
@@ -445,9 +502,9 @@ def _xss_component_profile(predictions: list[dict[str, Any]]) -> dict[str, Any]:
         "decisions": decisions,
         "median_percentile_by_component": medians,
         "note": (
-            "Alert recall can be zero while medium-severity rules still queue review. "
-            "Component percentiles here are elevated but sit under the calibrated alert cutoff, "
-            "so XSS is unusual without becoming an alert."
+            "Median per-type percentile of full_stats on test XSS rows. "
+            "Rules-only can still review a medium-severity handler without alerting. "
+            "These percentiles describe the row; the mode cutoff decides the label."
         ),
     }
 

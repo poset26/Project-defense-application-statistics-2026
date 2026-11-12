@@ -3,10 +3,8 @@
 from __future__ import annotations
 
 import json
-import re
 from dataclasses import dataclass, field
 from typing import Any
-from urllib.parse import unquote_plus
 
 from anomaly_guard.core.schema import AppConfig, RequestRecord, RouteSpec
 
@@ -76,17 +74,77 @@ def _split_query_pairs(raw: str) -> list[tuple[str, str]]:
     return pairs
 
 
+_HEX = frozenset("0123456789abcdefABCDEF")
+
+
 def _decode_once(value: str) -> tuple[str, bool]:
-    """Single-pass percent decoding; detect malformed sequences."""
+    """One application/x-www-form-urlencoded decode of a name or a value.
+
+    ``%25`` becomes a literal ``%`` and is not treated as a broken escape.
+    A truncated sequence such as ``%A`` or a trailing ``%`` is kept and flagged.
+    Decoding the result again is intentionally not done (``%252F`` stays ``%2F``).
+    """
     malformed = False
+    buf = bytearray()
+    i = 0
+    n = len(value)
+    while i < n:
+        ch = value[i]
+        if ch == "+":
+            buf.append(0x20)
+            i += 1
+            continue
+        if ch == "%":
+            hexpart = value[i + 1 : i + 3]
+            if len(hexpart) == 2 and hexpart[0] in _HEX and hexpart[1] in _HEX:
+                buf.append(int(hexpart, 16))
+                i += 3
+                continue
+            malformed = True
+            buf.append(ord("%"))
+            i += 1
+            continue
+        buf.extend(ch.encode("utf-8"))
+        i += 1
     try:
-        decoded = unquote_plus(value, errors="strict")
-    except Exception:
+        decoded = buf.decode("utf-8")
+    except UnicodeDecodeError:
         malformed = True
-        decoded = unquote_plus(value, errors="replace")
-    if "%" in decoded and re.search(r"%[0-9A-Fa-f]{0,1}[^0-9A-Fa-f]|%$", decoded):
-        malformed = True
+        decoded = buf.decode("utf-8", errors="replace")
     return decoded, malformed
+
+
+def _absorb_form_pairs(
+    pairs: list[tuple[str, str]],
+    source: str,
+    fields: dict[str, ParsedField],
+    flags: ParseFlags,
+) -> None:
+    """Decode names and values once, then group by the decoded name."""
+    grouped: dict[str, list[tuple[str, str]]] = {}
+    for raw_k, raw_v in pairs:
+        name, bad_name = _decode_once(raw_k)
+        if bad_name:
+            flags.malformed_encoding = True
+        grouped.setdefault(name, []).append((raw_k, raw_v))
+
+    for name, vals in grouped.items():
+        if len(vals) > 1:
+            flags.duplicate_keys.append(name)
+        raw_values = [v for _, v in vals]
+        decoded_values: list[str] = []
+        for rv in raw_values:
+            dec, bad = _decode_once(rv)
+            if bad:
+                flags.malformed_encoding = True
+            decoded_values.append(dec)
+        fields[name] = ParsedField(
+            name=name,
+            values=decoded_values,
+            raw_values=raw_values,
+            decoded_values=decoded_values,
+            source=source,
+        )
 
 
 def parse_request(record: RequestRecord, config: AppConfig) -> ParsedRequest:
@@ -117,27 +175,7 @@ def parse_request(record: RequestRecord, config: AppConfig) -> ParsedRequest:
             flags.too_many_parameters = True
             pairs = pairs[: limits.max_parameters]
 
-        by_name: dict[str, list[tuple[str, str]]] = {}
-        for raw_k, raw_v in pairs:
-            by_name.setdefault(raw_k, []).append((raw_k, raw_v))
-
-        for name, vals in by_name.items():
-            if len(vals) > 1:
-                flags.duplicate_keys.append(name)
-            raw_values = [v for _, v in vals]
-            decoded_values: list[str] = []
-            for rv in raw_values:
-                dec, bad = _decode_once(rv)
-                if bad:
-                    flags.malformed_encoding = True
-                decoded_values.append(dec)
-            fields[name] = ParsedField(
-                name=name,
-                values=decoded_values,
-                raw_values=raw_values,
-                decoded_values=decoded_values,
-                source="query",
-            )
+        _absorb_form_pairs(pairs, "query", fields, flags)
 
     elif record.body and not flags.oversized_body:
         if content_type == "application/json":
@@ -168,26 +206,7 @@ def parse_request(record: RequestRecord, config: AppConfig) -> ParsedRequest:
             if parameter_count > limits.max_parameters:
                 flags.too_many_parameters = True
                 pairs = pairs[: limits.max_parameters]
-            by_name: dict[str, list[tuple[str, str]]] = {}
-            for raw_k, raw_v in pairs:
-                by_name.setdefault(raw_k, []).append((raw_k, raw_v))
-            for name, vals in by_name.items():
-                if len(vals) > 1:
-                    flags.duplicate_keys.append(name)
-                raw_values = [v for _, v in vals]
-                decoded_values = []
-                for rv in raw_values:
-                    dec, bad = _decode_once(rv)
-                    if bad:
-                        flags.malformed_encoding = True
-                    decoded_values.append(dec)
-                fields[name] = ParsedField(
-                    name=name,
-                    values=decoded_values,
-                    raw_values=raw_values,
-                    decoded_values=decoded_values,
-                    source="form",
-                )
+            _absorb_form_pairs(pairs, "form", fields, flags)
         else:
             flags.unsupported_content_type = True
             flags.skipped_body = True

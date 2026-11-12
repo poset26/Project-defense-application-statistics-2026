@@ -21,6 +21,12 @@ from anomaly_guard.evaluation.splits import (
     validation_legitimate_records,
     validation_ordinary_records,
 )
+from anomaly_guard.dashboard_ui import (
+    page_formulas,
+    page_home,
+    shell_header,
+    sidebar_theme_toggle,
+)
 from anomaly_guard.hosted import is_cursor_hosted
 from anomaly_guard.simulation.generator import replay_records
 from anomaly_guard.storage import EventStore, MemoryEventStore
@@ -488,15 +494,14 @@ def page_model_settings() -> None:
 
 
 def main() -> None:
-    st.set_page_config(page_title="Anomaly Guard", layout="wide")
-    st.title("Anomaly Guard")
-    st.caption("Local explainable HTTP request anomaly detector — alerts describe unusual validation, not confirmed intrusions.")
-    if _hosted_demo():
-        st.warning(
-            "Read-only hosted demo: session-scoped replay only. "
-            "No shared database writes, retraining, or evaluation jobs."
-        )
+    shell_header(is_public=False)
+    sidebar_theme_toggle()
+    assets = ROOT / "anomaly_guard" / "publish_assets"
+    if not (assets / "detector_comparison.png").exists():
+        assets = ROOT / "results"
     pages = {
+        "Home": lambda: page_home(assets_dir=assets if assets.exists() else None, is_public=False),
+        "Formulas": page_formulas,
         "Traffic": page_traffic,
         "Alert inspector": page_alert_inspector,
         "Normal vs unusual": page_normal_vs_unusual,

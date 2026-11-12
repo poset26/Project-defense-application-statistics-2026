@@ -15,6 +15,15 @@ from anomaly_guard.core.decision import AnomalyGuard
 from anomaly_guard.core.schema import GroundTruthMeta, RequestRecord, read_jsonl
 from anomaly_guard.evaluation.experiments import MODES
 from anomaly_guard.evaluation.splits import validation_legitimate_records, validation_ordinary_records
+from anomaly_guard.dashboard_ui import (
+    matplotlib_style,
+    page_formulas,
+    page_home,
+    plot_decision_counts,
+    plot_mode_metrics,
+    shell_header,
+    sidebar_theme_toggle,
+)
 from anomaly_guard.simulation.generator import replay_records
 from anomaly_guard.storage import MemoryEventStore
 
@@ -22,7 +31,8 @@ _PKG = Path(__file__).resolve().parent
 _ASSETS = _PKG / "publish_assets"
 _DEMO = _ASSETS / "demo"
 BASELINE = _DEMO / "baseline.json"
-MAX_REPLAY = 200
+MAX_REPLAY = 50
+REPLAY_COOLDOWN_SEC = 45
 
 
 def _escape(s: str) -> str:
@@ -51,6 +61,12 @@ def page_traffic() -> None:
     experiment_mode = st.checkbox("Experiment mode (store ground-truth labels)", value=True)
 
     if st.button("Replay traffic"):
+        import time
+
+        last_run = float(st.session_state.get("ag_last_replay_ts", 0))
+        if time.time() - last_run < REPLAY_COOLDOWN_SEC:
+            st.warning(f"Please wait {REPLAY_COOLDOWN_SEC:.0f}s between replays (shared hosting).")
+            return
         if not BASELINE.exists():
             st.error("Demo baseline missing from deployment package.")
             return
@@ -81,8 +97,13 @@ def page_traffic() -> None:
             counts[score.decision] = counts.get(score.decision, 0) + 1
             gt = meta_by_id.get(rec.request_id) if experiment_mode else None
             store.upsert_event(rec, score, gt)
+        st.session_state.ag_last_replay_ts = time.time()
+        st.session_state.ag_last_counts = counts
         st.success(f"Processed {sum(counts.values())} requests. Parsing flags: {parse_fail}")
         st.json(counts)
+
+    if st.session_state.get("ag_last_counts"):
+        plot_decision_counts(st.session_state.ag_last_counts, st.session_state.get("ag_dark", True))
 
     store = _store()
     st.subheader("Stored events")
@@ -94,22 +115,33 @@ def page_traffic() -> None:
         limit=100,
     )
     if rows:
-        st.dataframe(
-            pd.DataFrame(
-                [
-                    {
-                        "request_id": r["request_id"][:8],
-                        "route": r["route"],
-                        "decision": r["decision"],
-                        "timestamp": r["timestamp"],
-                    }
-                    for r in rows
-                ]
-            ),
-            use_container_width=True,
+        df = pd.DataFrame(
+            [
+                {
+                    "request_id": r["request_id"][:8],
+                    "route": r["route"],
+                    "decision": r["decision"],
+                    "timestamp": r["timestamp"],
+                }
+                for r in rows
+            ]
         )
+        st.dataframe(df, use_container_width=True)
+        dark = st.session_state.get("ag_dark", True)
+        matplotlib_style(dark)
+        route_counts = df["route"].value_counts()
+        fig, ax = plt.subplots(figsize=(5, 3))
+        route_counts.plot(kind="bar", ax=ax, color=_DARK_ACCENT(dark))
+        ax.set_title("Events by route")
+        ax.set_ylabel("Count")
+        st.pyplot(fig)
+        plt.close(fig)
     else:
         st.info("No events yet. Replay traffic to populate the store.")
+
+
+def _DARK_ACCENT(dark: bool) -> str:
+    return "#7c9cbf" if dark else "#3366cc"
 
 
 def page_alert_inspector() -> None:
@@ -179,6 +211,7 @@ def page_normal_vs_unusual() -> None:
                 if text:
                     obs_frac = _category_fractions(text)
                     labels = sorted(set(base_probs) | set(CATEGORY_BINS))
+                    matplotlib_style(st.session_state.get("ag_dark", True))
                     fig, ax = plt.subplots(figsize=(6, 3))
                     xpos = np.arange(len(labels))
                     ax.bar(xpos - 0.2, [base_probs.get(c, 0) for c in labels], 0.4, label="baseline")
@@ -244,12 +277,14 @@ def page_evaluation() -> None:
     st.caption("Pre-computed metrics from the development CLI run (read-only).")
     metrics_path = _ASSETS / "metrics_summary.json"
     if metrics_path.exists():
-        _render_metrics_summary(json.loads(metrics_path.read_text(encoding="utf-8")))
+        summary = json.loads(metrics_path.read_text(encoding="utf-8"))
+        _render_metrics_summary(summary)
+        plot_mode_metrics(summary, st.session_state.get("ag_dark", True))
     else:
         st.info("Bundled metrics summary is not available.")
     plot = _ASSETS / "detector_comparison.png"
     if plot.exists():
-        st.image(str(plot), caption="Detector comparison")
+        st.image(str(plot), caption="Detector comparison (precision–recall style export)")
 
 
 def page_model_settings() -> None:
@@ -263,14 +298,11 @@ def page_model_settings() -> None:
 
 
 def main() -> None:
-    st.set_page_config(page_title="Anomaly Guard", layout="wide")
-    st.title("Anomaly Guard")
-    st.caption(
-        "Public demo — explainable HTTP anomaly scores on a small bundled sample. "
-        "Not a production WAF."
-    )
-    st.warning("Read-only: per-session replay only. No shared database or model writes.")
+    shell_header(is_public=True)
+    sidebar_theme_toggle()
     pages = {
+        "Home": lambda: page_home(assets_dir=_ASSETS, is_public=True),
+        "Formulas": page_formulas,
         "Traffic": page_traffic,
         "Alert inspector": page_alert_inspector,
         "Normal vs unusual": page_normal_vs_unusual,

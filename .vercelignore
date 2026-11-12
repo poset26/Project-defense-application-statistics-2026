@@ -5,3 +5,4 @@ models
 .git
 tests
 docs
+anomaly_guard/app_local.py

@@ -35,3 +35,6 @@ anomaly_guard = ["config/*.yaml"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+
+[tool.vercel]
+entrypoint = "app.py"

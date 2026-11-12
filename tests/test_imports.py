@@ -9,3 +9,7 @@ def test_splits_exports_ordinary_records():
 
 def test_app_module_importable():
     import anomaly_guard.app  # noqa: F401
+
+
+def test_publish_entrypoint_importable():
+    import app  # noqa: F401

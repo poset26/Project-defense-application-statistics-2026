@@ -9,7 +9,8 @@ from pathlib import Path
 from typing import Any, Literal
 
 import numpy as np
-from scipy.stats import chisquare, t as student_t
+
+from anomaly_guard.core.stat_lite import chisquare, student_t_ppf
 
 import math
 
@@ -161,7 +162,7 @@ def _fit_log_length_interval(lengths: list[float], alpha: float = 0.05) -> tuple
     std = float(np.std(logs, ddof=1)) if n > 1 else 0.0
     if n < 8 or std <= 1e-8:
         return mean, std, None, None, n
-    crit = float(student_t.ppf(1.0 - alpha / 2.0, n - 1))
+    crit = float(student_t_ppf(1.0 - alpha / 2.0, n - 1))
     half = crit * std * math.sqrt(1.0 + 1.0 / n)
     return mean, std, mean - half, mean + half, n
 

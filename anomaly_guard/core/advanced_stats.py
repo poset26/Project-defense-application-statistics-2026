@@ -210,7 +210,7 @@ def score_stratified_composition(
     band = next((b for b in fep.length_band_compositions if b.band_index == bi), None)
     if band is None:
         return None, "length band without composition profile"
-    from scipy.stats import chisquare
+    from anomaly_guard.core.stat_lite import chisquare
 
     n = len(text)
     obs_frac = _category_fractions(text)

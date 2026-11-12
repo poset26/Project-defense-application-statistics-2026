@@ -2,4 +2,7 @@
 
 from anomaly_guard.app_public import main
 
-main()
+__all__ = ["main"]
+
+if __name__ == "__main__":
+    main()

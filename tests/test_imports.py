@@ -18,4 +18,6 @@ def test_publish_entrypoint_importable():
 def test_root_publish_entrypoint():
     from pathlib import Path
 
-    assert "app_public" in Path("app.py").read_text(encoding="utf-8")
+    text = Path("app.py").read_text(encoding="utf-8")
+    assert "app_public" in text
+    assert "main()" not in text.split("if __name__")[0]

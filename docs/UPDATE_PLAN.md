@@ -5,7 +5,8 @@ Status: **applied, then superseded.** This file is the historical record of the 
 What changed after this plan was applied, and is **not** described in the sections below:
 
 - Statistics-only modes do not let rules decide. Primary metrics count `alert` only. Review is separate.
-- The simulator has signature-easy, rule-evasive, and size/distribution slices. The full 11,500-request file is the checked-in result. `scripts/demo.sh` is a smoke test.
+- The simulator has signature-easy, rule-evasive, and size/distribution slices. The checked-in full plan is **10,700** requests (no `benign_invalid`). `scripts/demo.sh` runs the full default pipeline.
+- Public Streamlit demo (`app.py` → `app_public`) is read-only; local full UI uses `ANOMALY_GUARD_LOCAL=1`.
 - The 1% alert cutoff is fit on **ordinary** validation traffic. Difficult legitimate text and distribution shift are a stress test.
 - Replay and the dashboard load `baseline.settings.json` when the mode matches.
 - Later additions (intervals, entropy, PAYL, mean fusion, vote-2, base-rate posteriors, group false-positive rates, one contamination refit) are in the technical report.

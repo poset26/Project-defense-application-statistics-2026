@@ -17,4 +17,4 @@ anomaly-guard replay --data data/simulated --baseline models/baseline.json \
 echo "== Run ablation evaluation =="
 anomaly-guard evaluate --data data/simulated --output results
 
-echo "Done. Start dashboard: streamlit run anomaly_guard/app.py --server.port 8765 --server.address 127.0.0.1"
+echo "Done. Dashboard: ANOMALY_GUARD_LOCAL=1 streamlit run anomaly_guard/app.py --server.port 8765 --server.address 127.0.0.1"

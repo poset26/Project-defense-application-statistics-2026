@@ -1,6 +1,6 @@
 # Anomaly Guard — Technical Report
 
-This report matches the code and the checked-in full-simulator run in `results/metrics_summary.json` (11,500 generated requests). An **alert** means a request looks unusual relative to route rules or a legitimate baseline. It is not proof of a successful attack. Ground-truth labels record simulator intent.
+This report matches the code and the checked-in full-simulator run in `results/metrics_summary.json` (**10,700** generated requests, seed 42). The simulator **does not emit `benign_invalid` rows** anymore. An **alert** means a request looks unusual relative to route rules or a legitimate baseline. It is not proof of a successful attack. Ground-truth labels record simulator intent.
 
 ## 1. The operating point
 
@@ -8,15 +8,15 @@ The 1% false-positive budget is fit on **ordinary validation traffic only** (the
 
 On that budget, the detector to defend is **`rules_plus_full_stats`**:
 
-| | Malicious recall | Ordinary test FPR (n=270) | Difficult FPR (n=402) | Shift FPR (n=113) | Mixed legitimate FPR |
+| | Malicious recall | Ordinary test FPR (n=261) | Difficult FPR (n=373) | Shift FPR (n=107) | Mixed legitimate FPR |
 |--|------------------|---------------------------|----------------------|-------------------|----------------------|
 | `rules_only` | 0.24 | 0 | 0 | 0 | 0 |
-| `rules_plus_full_stats` | **0.92** | **0** | 0.75 | 1.00 | 0.53 |
+| `rules_plus_full_stats` | **0.92** | **0.019** | 1.00 | 1.00 | 0.65 |
 | `entropy_only` | 0.18 | 0.011 | 0 | 0.46 | 0.070 |
 
 `rules_plus_full_stats` alert slices: signature-easy 1.00, rule-evasive 0.85, size/distribution 1.00. XSS alert recall is 1.00. Rules alone still have XSS **alert** recall 0 and XSS **review** rate 0.69, because the test rows are medium-severity `onerror` tags and evasive strings.
 
-Ordinary traffic meets the budget. The mixed false-positive rate does not, because difficult text and longer comments were removed from the cutoff and now sit above it. The previous precision of 0.83 was the same model with the shift group allowed to lift the threshold. That number is not the operating point anymore.
+Ordinary traffic is near the 1% budget (~1.9% alert rate on this test draw). The mixed false-positive rate is still dominated by difficult and shifted legitimate rows, which do not set the cutoff. Numbers in earlier drafts used 11,500 requests including `benign_invalid`; the current file has 10,700 requests and no invalid slice.
 
 ### Base rate
 

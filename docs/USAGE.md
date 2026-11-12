@@ -34,7 +34,7 @@ Writes:
 - `ground_truth.jsonl` — metadata joined by `request_id`
 - `manifest.json` — seed and generator plan
 
-`--small` uses a reduced plan (on the order of **900** requests) for quick runs. Omit `--small` for the full default plan from `DEFAULT_PLAN` in `simulation/generator.py`.
+`--small` uses a reduced plan (on the order of **700** requests) for quick runs. Omit `--small` for the full default plan from `DEFAULT_PLAN` in `simulation/generator.py` (**10,700** requests; no `benign_invalid` group).
 
 Splits are assigned automatically via `assign_splits()` when saving.
 
@@ -115,25 +115,33 @@ Equivalent to: install dev deps, `generate --small`, `train`, `replay --with-lab
 
 ## Streamlit dashboard
 
+Two entry points:
+
 ```bash
-streamlit run anomaly_guard/app.py --server.port 8765 --server.address 127.0.0.1
+# Read-only public demo (same as Cursor publish): bundled sample, in-memory session store
+streamlit run app.py --server.port 8765 --server.address 127.0.0.1
+
+# Full local dashboard: SQLite, custom paths, retrain, quick evaluate
+ANOMALY_GUARD_LOCAL=1 streamlit run anomaly_guard/app.py --server.port 8765 --server.address 127.0.0.1
 ```
 
-Open the URL shown in the terminal (typically `http://127.0.0.1:8765`).
+Open the URL shown in the terminal (typically `http://127.0.0.1:8765`). Default theme is **dark** (`.streamlit/config.toml`); the sidebar includes a light/dark toggle.
 
 | Page | Purpose |
 |------|---------|
-| **Traffic** | Replay from a data directory into `data/events.db`; optional shuffle, limit, detector mode, experiment labels |
-| **Alert inspector** | Inspect alert/review rows: escaped request, rules, statistical components, explanations |
-| **Normal vs unusual** | Baseline medians, and a bar chart of observed versus baseline character fractions for a selected stored request |
-| **Evaluation** | Saved `results/metrics_summary.json`: mode table, attack slices, false positives by ordinary / difficult / shift, base-rate posteriors, XSS alert recall next to review rate, contamination summary, held-out families. Optional quick run for `rules_plus_stats` only |
-| **Model settings** | Retrain from disk on the selected mode. Writes the baseline and `baseline.settings.json`. The 1% cutoff uses ordinary validation traffic |
+| **Home** | Theory: rules + baseline, calibration, pipeline diagram, mermaid flow, bundled detector comparison image |
+| **Formulas** | LaTeX for length MAD-z, composition χ², Mahalanobis, percentile fusion, Wilson bound, posterior read |
+| **Traffic** | Replay into the event store (SQLite locally; per-session memory on the public demo); decision pie and route bar charts after replay |
+| **Alert inspector** | Escaped request, rules, statistical components, explanations; optional experiment labels |
+| **Normal vs unusual** | Full request first, then conclusion (decision + drivers), then length and character-composition charts per field (`text` = comment body, `author` = handle on POST `/comment`, etc.) |
+| **Evaluation** | Bundled or `results/metrics_summary.json`: mode summary with column guide, FPR by **ordinary** / **difficult** (distribution-shift column removed from the table), charts |
+| **Model settings** | **Local only:** retrain from disk. **Public demo:** read-only bundled baseline summary |
 
 Traffic replay uses the same settings rule as the CLI: load `baseline.settings.json` when its mode matches, otherwise recalibrate on ordinary validation traffic.
 
 The app caption states that alerts describe unusual validation, not confirmed intrusions.
 
-Default paths in the UI match CLI defaults (`data/simulated`, `models/baseline.json`, `data/events.db`, `results/`).
+Default paths in the **local** UI match CLI defaults (`data/simulated`, `models/baseline.json`, `data/events.db`, `results/`). The **public** demo uses `anomaly_guard/publish_assets/demo/` only.
 
 ## Where artifacts land
 
@@ -145,7 +153,11 @@ Default paths in the UI match CLI defaults (`data/simulated`, `models/baseline.j
 | `data/events.db` | `replay` (or dashboard Traffic replay) |
 | `results/*` | `evaluate` |
 
-Checked-in `results/` match `anomaly-guard evaluate` on the full simulator (11,500 requests, seed 42), with the 1% cutoff fit on ordinary validation traffic. `scripts/demo.sh` is a small smoke run and is not the source of those numbers. Interpretation is in [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md).
+Checked-in `results/` match `evaluate` on the full simulator (**10,700** requests, seed 42), with the 1% cutoff fit on ordinary validation traffic. There is no `benign_invalid` slice in the generator anymore. `scripts/demo.sh` runs generate → train → replay → evaluate on the default plan. Interpretation is in [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md).
+
+### Cursor publish
+
+Root `app.py` exposes `app:main` for hosting and imports `anomaly_guard.app_public` only. Large repo paths (`data/`, `results/`, `models/`) are listed in `.vercelignore` so they are not shipped as static downloads; the demo reads `publish_assets/` inside the package.
 
 ## pytest
 

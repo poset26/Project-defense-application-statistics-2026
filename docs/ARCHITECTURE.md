@@ -91,15 +91,15 @@ Optional **Isolation Forest** (`sklearn`, 100 trees, `contamination=0.001`) trai
 | `requests.jsonl` | `RequestRecord`: id, timestamp, client, method, route, raw query, headers, body | **Yes** — sole input to `score()` |
 | `ground_truth.jsonl` | `GroundTruthMeta`: scenario_group, scenario_id, attack_family, template_id, split | **No** for detection — only evaluation, replay `--with-labels`, dashboard experiment mode |
 
-Scenario groups: `legitimate`, `difficult_legitimate`, `benign_invalid`, `malicious_intent`, `hard_malicious_intent`, `distribution_shift`.
+Scenario groups in the **current generator**: `legitimate`, `difficult_legitimate`, `malicious_intent`, `hard_malicious_intent`, `distribution_shift`. The type `benign_invalid` remains in the schema for old JSONL, but **`DEFAULT_PLAN.benign_invalid` is 0** and invalid templates were removed from `ALL_TEMPLATES`.
 
-The simulator (`anomaly_guard/simulation/`) writes both files with matching `request_id` keys. `manifest.json` records seed and plan counts.
+The simulator (`anomaly_guard/simulation/`) writes both files with matching `request_id` keys. `manifest.json` records seed and plan counts. Full default size is **10,700** requests.
 
 ## Train / validation / test splits
 
 `evaluation/splits.py` assigns each request a split:
 
-- **Malicious** and **benign_invalid** rows: split inside each attack family so every family contributes test rows.
+- **Malicious** rows: split inside each attack family so every family contributes test rows.
 - **Legitimate-family** rows (`legitimate`, `difficult_legitimate`, `distribution_shift`): **route-stratified per request** (`METHOD route:request_id`) so every endpoint appears in both train and validation—needed so baseline calibration sees the same routes as training.
 
 Training baseline: **train** split, **`legitimate`** group only.
@@ -119,13 +119,22 @@ Evaluation (`evaluate`): scores **test** split only; metrics join predictions to
 
 ## Dashboard mapping
 
-Streamlit app (`anomaly_guard/app.py`):
+| Module | Role |
+|--------|------|
+| `app.py` (repo root) | Cursor publish entrypoint → `app_public` only |
+| `anomaly_guard/app.py` | Router: `app_public` by default, `app_local` when `ANOMALY_GUARD_LOCAL=1` |
+| `anomaly_guard/app_public.py` | Read-only hosted demo: bundled JSONL, in-memory `MemoryEventStore`, replay cap + cooldown |
+| `anomaly_guard/app_local.py` | Full UI: SQLite `EventStore`, path inputs, retrain, in-app quick evaluate |
+| `anomaly_guard/dashboard_ui.py` | Home, formulas, dark-mode toggle, chart helpers, decision summary on compare page |
 
-- **Traffic** — replay JSONL into the event store; filter stored rows.
-- **Alert inspector** — escaped request text, rules, statistical components, explanations; optional experiment labels.
-- **Normal vs unusual** — baseline medians and a bar chart of observed vs baseline character fractions for a selected request.
-- **Evaluation** — saved metrics, attack slices, false positives by traffic group, base-rate posteriors, XSS alert recall next to review rate, contamination summary, and held-out families. Optional single-mode run for `rules_plus_stats`.
-- **Model settings** — retrain baseline from disk dataset.
+Shared pages:
+
+- **Home / Formulas** — theory and notation (see `dashboard_ui.py`).
+- **Traffic** — replay JSONL into the store; filter stored rows; charts after replay.
+- **Alert inspector** — escaped request text, rules, statistical components, explanations.
+- **Normal vs unusual** — request preview, conclusion (decision + drivers), then per-field length and character-class bars (`text`, `author`, `q`, etc.).
+- **Evaluation** — metrics tables with column guides; legitimate FPR split **ordinary / difficult** (distribution shift is still in JSON exports but omitted from the public table).
+- **Model settings** — retrain (**local only**); bundled baseline readout on the public demo.
 
 ## Evaluation module
 
@@ -133,4 +142,4 @@ Streamlit app (`anomaly_guard/app.py`):
 
 Metrics (`evaluation/metrics.py`) use **`decision == alert` only**. Review rate is separate. The legitimate false-positive rate has a Wilson interval and is also broken out by ordinary, difficult, and distribution-shift traffic. `base_rate` rows convert recall and that false-positive rate into P(attack | alert) at the file’s prevalence and at 1% and 0.1% priors. `contamination_combined_stats.json` is one refit of length and chi-square after replacing 1% of legitimate training rows with train-split attacks.
 
-Checked-in `results/` come from the full 11,500-request simulator. See [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md).
+Checked-in `results/` come from the full **10,700**-request simulator (no `benign_invalid`). See [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md).

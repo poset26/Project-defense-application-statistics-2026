@@ -21,17 +21,21 @@ python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
 
-# Full simulator (~11,500 requests; matches checked-in results/)
-anomaly-guard generate --output data/simulated
+# Full simulator (~10,700 requests; matches checked-in results/)
+python3 -m anomaly_guard.cli generate --output data/simulated
 
 # Smoke tests only (~740 requests)
-# anomaly-guard generate --output data/simulated --small
-anomaly-guard train --data data/simulated --output models/baseline.json
-anomaly-guard replay --data data/simulated --baseline models/baseline.json \
+# python3 -m anomaly_guard.cli generate --output data/simulated --small
+python3 -m anomaly_guard.cli train --data data/simulated --output models/baseline.json
+python3 -m anomaly_guard.cli replay --data data/simulated --baseline models/baseline.json \
   --db data/events.db --with-labels --limit 300 --clear
-anomaly-guard evaluate --data data/simulated --output results
+python3 -m anomaly_guard.cli evaluate --data data/simulated --output results
 
-streamlit run anomaly_guard/app.py --server.port 8765 --server.address 127.0.0.1
+# Local full dashboard (SQLite, retrain, full data paths)
+ANOMALY_GUARD_LOCAL=1 streamlit run anomaly_guard/app.py --server.port 8765 --server.address 127.0.0.1
+
+# Same UI as Cursor publish (read-only demo, bundled sample)
+streamlit run app.py --server.port 8765 --server.address 127.0.0.1
 ```
 
 Full scripted demo (same small dataset):
@@ -69,15 +73,20 @@ Training uses **legitimate train-split** requests only. Percentile pools use hel
 ## Repository layout
 
 ```
+app.py                # Cursor publish entrypoint → read-only dashboard
 anomaly_guard/
   cli.py              # anomaly-guard CLI
-  app.py              # Streamlit dashboard
+  app.py              # Streamlit router (public vs local)
+  app_public.py       # Hosted read-only demo (bundled assets)
+  app_local.py        # Full dashboard when ANOMALY_GUARD_LOCAL=1
+  dashboard_ui.py     # Home, formulas, theme, charts
+  publish_assets/     # Bundled demo data, metrics, plots for hosting
   core/               # parser, features, rules, statistics, decision
   simulation/         # JSONL traffic generator
   evaluation/         # splits, metrics, experiment runner
   config/             # routes.yaml, rules.yaml
 data/
-  simulated/          # full JSONL dataset (~11.5k requests; regenerate with generate)
+  simulated/          # full JSONL dataset (~10.7k requests; regenerate with generate)
   events.db           # SQLite event store (created by replay)
 models/
   baseline.json       # trained profiles + calibration scores
@@ -101,7 +110,7 @@ scripts/demo.sh       # end-to-end small demo
 
 ## Checked-in results
 
-Files under `results/` match **`anomaly-guard evaluate`** on the full simulator in `data/simulated` (11,500 requests, seed 42). `scripts/demo.sh` is only a small smoke run and is not the source of those numbers. The interpretation, including the base-rate posterior and the limits of this generator, is in [docs/TECHNICAL_REPORT.md](docs/TECHNICAL_REPORT.md).
+Files under `results/` match **`evaluate`** on the full simulator in `data/simulated` (**10,700** requests, seed 42). The simulator no longer emits **`benign_invalid`** rows (schema-breaking mistakes are out of scope for this dataset). `scripts/demo.sh` runs the full pipeline on the default plan, not a toy subset. Interpretation is in [docs/TECHNICAL_REPORT.md](docs/TECHNICAL_REPORT.md).
 
 ## Tests
 

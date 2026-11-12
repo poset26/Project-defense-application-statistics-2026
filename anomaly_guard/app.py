@@ -27,10 +27,37 @@ DEFAULT_DATA = ROOT / "data" / "simulated"
 DEFAULT_BASELINE = ROOT / "models" / "baseline.json"
 DEFAULT_DB = ROOT / "data" / "events.db"
 RESULTS_DIR = ROOT / "results"
+MAX_REPLAY_REQUESTS = 5_000
+_WRITE_ROOTS = (ROOT / "models", ROOT / "results", ROOT / "data")
 
 
 def _escape(s: str) -> str:
     return html.escape(s, quote=True)
+
+
+def _sandbox_path(label: str, user_path: str, *, must_exist: bool = False) -> Path | None:
+    """Resolve a path and require it to stay inside the project root."""
+    try:
+        raw = Path(user_path).expanduser()
+        resolved = (ROOT / raw).resolve() if not raw.is_absolute() else raw.resolve()
+        resolved.relative_to(ROOT.resolve())
+    except (ValueError, OSError):
+        st.error(f"{label} must stay inside the project directory.")
+        return None
+    if must_exist and not resolved.exists():
+        st.error(f"{label} not found.")
+        return None
+    return resolved
+
+
+def _sandbox_write_path(label: str, user_path: str) -> Path | None:
+    resolved = _sandbox_path(label, user_path)
+    if resolved is None:
+        return None
+    if not any(resolved == root or root in resolved.parents for root in _WRITE_ROOTS):
+        st.error(f"{label} must be under models/, results/, or data/.")
+        return None
+    return resolved
 
 
 @st.cache_resource
@@ -40,11 +67,21 @@ def _store() -> EventStore:
 
 def page_traffic() -> None:
     st.header("Traffic")
-    data_dir = Path(st.text_input("Data directory", str(DEFAULT_DATA)))
-    baseline = Path(st.text_input("Baseline path", str(DEFAULT_BASELINE)))
+    data_dir = _sandbox_path("Data directory", st.text_input("Data directory", str(DEFAULT_DATA)))
+    baseline = _sandbox_path("Baseline path", st.text_input("Baseline path", str(DEFAULT_BASELINE)))
+    if data_dir is None or baseline is None:
+        return
     mode = st.selectbox("Detector mode", list(MODES), index=list(MODES).index("rules_plus_stats"))
     shuffle = st.checkbox("Shuffle replay", value=False)
-    limit = st.number_input("Limit (0 = all)", min_value=0, value=200)
+    limit = int(
+        st.number_input(
+            "Replay limit",
+            min_value=1,
+            max_value=MAX_REPLAY_REQUESTS,
+            value=200,
+            help=f"At most {MAX_REPLAY_REQUESTS} requests per replay.",
+        )
+    )
     experiment_mode = st.checkbox("Experiment mode (store ground-truth labels)", value=True)
 
     if st.button("Replay traffic"):
@@ -76,7 +113,7 @@ def page_traffic() -> None:
             guard.calibrate(val, threshold_records=ordinary)
         store = _store()
         store.clear()
-        lim = None if limit == 0 else int(limit)
+        lim = limit
         counts = {"normal": 0, "review": 0, "alert": 0}
         parse_fail = 0
         for rec in replay_records(records, shuffle=shuffle, limit=lim):
@@ -156,7 +193,11 @@ def page_alert_inspector() -> None:
 
 def page_normal_vs_unusual() -> None:
     st.header("Normal versus unusual")
-    baseline_path = Path(st.text_input("Baseline JSON", str(DEFAULT_BASELINE)))
+    baseline_path = _sandbox_path(
+        "Baseline JSON", st.text_input("Baseline JSON", str(DEFAULT_BASELINE)), must_exist=False
+    )
+    if baseline_path is None:
+        return
     store = _store()
     events = store.search(limit=200)
     req_ids = [e["request_id"] for e in events] if events else []
@@ -226,7 +267,9 @@ def page_normal_vs_unusual() -> None:
 
 def page_evaluation() -> None:
     st.header("Evaluation")
-    data_dir = Path(st.text_input("Dataset", str(DEFAULT_DATA)))
+    data_dir = _sandbox_path("Dataset", st.text_input("Dataset", str(DEFAULT_DATA)))
+    if data_dir is None:
+        return
     if st.button("Run quick evaluation (rules_plus_stats only)"):
         records, meta = load_dataset(data_dir)
         with st.spinner("Running..."):
@@ -374,11 +417,13 @@ def page_evaluation() -> None:
 
 def page_model_settings() -> None:
     st.header("Model settings")
-    data_dir = Path(st.text_input("Training data directory", str(DEFAULT_DATA)))
+    data_dir = _sandbox_path("Training data directory", st.text_input("Training data directory", str(DEFAULT_DATA)))
     mode: DetectorMode = st.selectbox(
         "Mode", list(MODES), index=list(MODES).index("rules_plus_stats")
     )  # type: ignore
-    out = Path(st.text_input("Baseline output", str(DEFAULT_BASELINE)))
+    out = _sandbox_write_path("Baseline output", st.text_input("Baseline output", str(DEFAULT_BASELINE)))
+    if data_dir is None or out is None:
+        return
     if st.button("Train baseline (explicit retrain)"):
         records = [RequestRecord.from_dict(r) for r in read_jsonl(data_dir / "requests.jsonl")]
         meta = [GroundTruthMeta.from_dict(m) for m in read_jsonl(data_dir / "ground_truth.jsonl")]

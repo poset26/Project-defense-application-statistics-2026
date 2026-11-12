@@ -8,8 +8,6 @@ import threading
 import time
 from pathlib import Path
 
-import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 import streamlit as st
 
@@ -20,7 +18,6 @@ from anomaly_guard.evaluation.splits import validation_legitimate_records, valid
 from anomaly_guard.dashboard_ui import (
     explain_legitimate_group_columns,
     explain_mode_metrics_columns,
-    matplotlib_style,
     page_formulas,
     page_home,
     plot_decision_counts,
@@ -186,21 +183,10 @@ def page_traffic() -> None:
             ]
         )
         st.dataframe(df, use_container_width=True)
-        dark = st.session_state.get("ag_dark", True)
-        matplotlib_style(dark)
-        route_counts = df["route"].value_counts()
-        fig, ax = plt.subplots(figsize=(5, 3))
-        route_counts.plot(kind="bar", ax=ax, color=_DARK_ACCENT(dark))
-        ax.set_title("Events by route")
-        ax.set_ylabel("Count")
-        st.pyplot(fig)
-        plt.close(fig)
+        st.caption("Events by route")
+        st.bar_chart(df["route"].value_counts())
     else:
         st.info("No events yet. Replay traffic to populate the store.")
-
-
-def _DARK_ACCENT(dark: bool) -> str:
-    return "#7c9cbf" if dark else "#3366cc"
 
 
 def page_alert_inspector() -> None:
@@ -279,17 +265,15 @@ def page_normal_vs_unusual() -> None:
                     explain_composition_chart()
                     obs_frac = _category_fractions(text)
                     labels = sorted(set(base_probs) | set(CATEGORY_BINS))
-                    matplotlib_style(st.session_state.get("ag_dark", True))
-                    fig, ax = plt.subplots(figsize=(6, 3))
-                    xpos = np.arange(len(labels))
-                    ax.bar(xpos - 0.2, [base_probs.get(c, 0) for c in labels], 0.4, label="baseline")
-                    ax.bar(xpos + 0.2, [obs_frac.get(c, 0) for c in labels], 0.4, label="observed")
-                    ax.set_xticks(xpos)
-                    ax.set_xticklabels(labels, rotation=45, ha="right")
-                    ax.legend()
-                    ax.set_title(f"{fname}: character-class mix")
-                    st.pyplot(fig)
-                    plt.close(fig)
+                    st.bar_chart(
+                        pd.DataFrame(
+                            {
+                                "baseline": [base_probs.get(c, 0) for c in labels],
+                                "observed": [obs_frac.get(c, 0) for c in labels],
+                            },
+                            index=labels,
+                        )
+                    )
 
     for ep_key, ep in data.get("endpoints", {}).items():
         with st.expander(ep_key):

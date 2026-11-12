@@ -8,7 +8,6 @@ from dataclasses import asdict, dataclass
 from typing import Any, Literal
 
 import numpy as np
-from sklearn.ensemble import IsolationForest
 
 from anomaly_guard.core.features import extract_features
 from anomaly_guard.core.parser import parse_request
@@ -168,7 +167,7 @@ class AnomalyGuard:
         self.mode = mode
         self.settings = settings or DecisionSettings()
         self.detector = StatisticalDetector(self.config)
-        self._isolation: IsolationForest | None = None
+        self._isolation: Any | None = None
 
     def fit(self, normal_records: list[RequestRecord]) -> None:
         self.detector.fit(normal_records)
@@ -187,6 +186,8 @@ class AnomalyGuard:
         if len(vectors) < 10:
             return
         X = np.array(vectors, dtype=float)
+        from sklearn.ensemble import IsolationForest
+
         self._isolation = IsolationForest(
             n_estimators=100,
             contamination=0.001,

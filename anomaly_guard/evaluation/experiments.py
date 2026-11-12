@@ -8,7 +8,6 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
-import matplotlib.pyplot as plt
 import numpy as np
 
 from anomaly_guard.core.decision import AnomalyGuard, DetectorMode, _decision_from_rules
@@ -200,6 +199,8 @@ def run_mode_experiment(
 def _plot_mode_pr(y_true: list[bool], scores: list[float], mode: str, out: Path) -> None:
     if not any(y_true):
         return
+    import matplotlib.pyplot as plt
+
     p, r = precision_recall_points(y_true, scores)
     fig, ax = plt.subplots(figsize=(5, 4))
     ax.plot(r, p)
@@ -560,6 +561,8 @@ def run_full_experiment(
 
 
 def _plot_comparisons(summary: dict[str, Any], out: Path) -> None:
+    import matplotlib.pyplot as plt
+
     modes = list(summary["modes"].keys())
     f1s = [summary["modes"][m]["metrics_malicious"]["f1"] for m in modes]
     fprs = [summary["modes"][m]["metrics_malicious"]["false_positive_rate"] for m in modes]

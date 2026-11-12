@@ -2,21 +2,25 @@
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 from typing import Any
 
 import numpy as np
-from sklearn.metrics import (
-    average_precision_score,
-    confusion_matrix,
-    f1_score,
-    precision_recall_curve,
-    precision_score,
-    recall_score,
-)
-from statsmodels.stats.proportion import proportion_confint
 
 from anomaly_guard.core.schema import GroundTruthMeta
+
+
+def _wilson_interval(successes: int, n: int, z: float = 1.959963984540054) -> tuple[float, float]:
+    """Wilson score interval. Matches the usual 95% two-sided bound."""
+    if n <= 0:
+        return 0.0, 0.0
+    p = successes / n
+    z2 = z * z
+    den = 1.0 + z2 / n
+    centre = p + z2 / (2.0 * n)
+    margin = z * math.sqrt(p * (1.0 - p) / n + z2 / (4.0 * n * n))
+    return (centre - margin) / den, (centre + margin) / den
 
 
 def is_positive_malicious(meta: GroundTruthMeta) -> bool:
@@ -113,7 +117,7 @@ def compute_malicious_attack_metrics(
     fp_rate = float(np.mean(yp[leg])) if leg.any() else 0.0
     n_leg = int(leg.sum())
     fp_count = int(((yp == 1) & leg).sum())
-    low, high = proportion_confint(fp_count, n_leg, method="wilson") if n_leg else (0.0, 0.0)
+    low, high = _wilson_interval(fp_count, n_leg) if n_leg else (0.0, 0.0)
     fnr = fn / max(fn + tp, 1)
     return BinaryMetrics(
         tp=tp,
@@ -150,20 +154,22 @@ def compute_binary_metrics(
 ) -> BinaryMetrics:
     yt = np.array(y_true, dtype=int)
     yp = np.array(y_pred, dtype=int)
-    cm = confusion_matrix(yt, yp, labels=[0, 1])
-    tn, fp, fn, tp = cm.ravel()
-    prec = precision_score(yt, yp, zero_division=0)
-    rec = recall_score(yt, yp, zero_division=0)
-    f1 = f1_score(yt, yp, zero_division=0)
+    tp = int(((yt == 1) & (yp == 1)).sum())
+    fn = int(((yt == 1) & (yp == 0)).sum())
+    fp = int(((yt == 0) & (yp == 1)).sum())
+    tn = int(((yt == 0) & (yp == 0)).sum())
+    prec = tp / (tp + fp) if (tp + fp) else 0.0
+    rec = tp / (tp + fn) if (tp + fn) else 0.0
+    f1 = (2 * prec * rec / (prec + rec)) if (prec + rec) else 0.0
     if legitimate_mask is not None:
         leg = np.array(legitimate_mask, dtype=bool)
         fp_rate = float(np.mean(yp[leg])) if leg.any() else float(fp / max(fp + tn, 1))
         n_leg = int(leg.sum())
         fp_count = int(((yp == 1) & leg).sum())
-        low, high = proportion_confint(fp_count, n_leg, method="wilson") if n_leg else (0.0, 0.0)
+        low, high = _wilson_interval(fp_count, n_leg) if n_leg else (0.0, 0.0)
     else:
         fp_rate = fp / max(fp + tn, 1)
-        low, high = proportion_confint(fp, fp + tn, method="wilson") if (fp + tn) else (0.0, 0.0)
+        low, high = _wilson_interval(fp, fp + tn) if (fp + tn) else (0.0, 0.0)
     fnr = fn / max(fn + tp, 1)
     return BinaryMetrics(
         tp=int(tp),
@@ -270,10 +276,14 @@ def score_to_rank(values: list[float]) -> list[float]:
 def average_precision(y_true: list[bool], scores: list[float]) -> float:
     if not any(y_true):
         return 0.0
+    from sklearn.metrics import average_precision_score
+
     return float(average_precision_score(np.array(y_true, dtype=int), np.array(scores, dtype=float)))
 
 
 def precision_recall_points(y_true: list[bool], scores: list[float]) -> tuple[list[float], list[float]]:
+    from sklearn.metrics import precision_recall_curve
+
     p, r, _ = precision_recall_curve(np.array(y_true, dtype=int), np.array(scores, dtype=float))
     return p.tolist(), r.tolist()
 

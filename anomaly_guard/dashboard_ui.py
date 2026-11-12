@@ -7,8 +7,6 @@ import json
 from pathlib import Path
 from typing import Any
 
-import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 import streamlit as st
 
@@ -54,87 +52,39 @@ def _inject_theme_overrides(dark: bool) -> None:
         )
 
 
-def matplotlib_style(dark: bool) -> None:
-    if dark:
-        plt.style.use("dark_background")
-        plt.rcParams.update({
-            "figure.facecolor": _DARK_PALETTE["bg"],
-            "axes.facecolor": _DARK_PALETTE["panel"],
-            "text.color": _DARK_PALETTE["text"],
-            "axes.labelcolor": _DARK_PALETTE["text"],
-            "xtick.color": _DARK_PALETTE["text"],
-            "ytick.color": _DARK_PALETTE["text"],
-        })
-    else:
-        plt.style.use("default")
-
-
 def plot_pipeline_diagram(dark: bool) -> None:
-    matplotlib_style(dark)
-    fig, ax = plt.subplots(figsize=(9, 2.8))
-    ax.set_xlim(0, 10)
-    ax.set_ylim(0, 3)
-    ax.axis("off")
-    boxes = [
-        (0.3, "HTTP\nrequest", "#4a5568"),
-        (2.2, "Parse +\nfeatures", "#5a67d8"),
-        (4.1, "Rule\nengine", "#d69e2e"),
-        (6.0, "Statistical\nbaseline", "#38b2ac"),
-        (7.9, "Fuse +\nthreshold", "#ed64a6"),
-        (9.0, "normal /\nreview / alert", "#48bb78"),
-    ]
-    for x, label, color in boxes:
-        ax.add_patch(plt.Rectangle((x, 0.8), 1.5, 1.2, facecolor=color, alpha=0.85, edgecolor="white"))
-        ax.text(x + 0.75, 1.4, label, ha="center", va="center", fontsize=9, color="white", weight="bold")
-    for x in range(4):
-        ax.annotate(
-            "",
-            xy=(boxes[x + 1][0], 1.4),
-            xytext=(boxes[x][0] + 1.5, 1.4),
-            arrowprops=dict(arrowstyle="->", color=_DARK_PALETTE["text"] if dark else "#333", lw=1.5),
-        )
-    ax.set_title("Anomaly Guard decision pipeline", fontsize=11, pad=8)
-    st.pyplot(fig)
-    plt.close(fig)
+    del dark
+    st.markdown(
+        "**Pipeline:** HTTP request → parse and features → rule engine → "
+        "statistical baseline → fuse and threshold → **normal / review / alert**"
+    )
 
 
 def plot_decision_counts(counts: dict[str, int], dark: bool) -> None:
+    del dark
     if not any(counts.values()):
         return
-    matplotlib_style(dark)
-    labels = list(counts.keys())
-    values = [counts[k] for k in labels]
-    colors = [_DARK_PALETTE.get(k, _DARK_PALETTE["accent"]) for k in labels]
-    fig, ax = plt.subplots(figsize=(4, 4))
-    ax.pie(values, labels=labels, autopct="%1.1f%%", colors=colors, startangle=90)
-    ax.set_title("Replay decision mix")
-    st.pyplot(fig)
-    plt.close(fig)
+    st.caption("Replay decision mix")
+    st.bar_chart(pd.DataFrame({"count": counts}))
 
 
 def plot_mode_metrics(summary: dict[str, Any], dark: bool) -> None:
+    del dark
     modes = summary.get("modes") or {}
     if not modes:
         return
-    matplotlib_style(dark)
-    names, recalls, fprs = [], [], []
+    rows = []
     for name, block in modes.items():
         mm = block.get("metrics_malicious") or {}
-        names.append(name.replace("_", "\n"))
-        recalls.append(mm.get("recall") or 0.0)
-        fprs.append((block.get("metrics_malicious") or {}).get("false_positive_rate") or 0.0)
-    x = np.arange(len(names))
-    w = 0.35
-    fig, ax = plt.subplots(figsize=(10, 4))
-    ax.bar(x - w / 2, recalls, w, label="Attack recall", color=_DARK_PALETTE["accent"])
-    ax.bar(x + w / 2, fprs, w, label="Legit FPR", color=_DARK_PALETTE["alert"])
-    ax.set_xticks(x)
-    ax.set_xticklabels(names, rotation=35, ha="right", fontsize=8)
-    ax.set_ylim(0, 1.05)
-    ax.legend()
-    ax.set_title("Detector modes (bundled evaluation export)")
-    st.pyplot(fig)
-    plt.close(fig)
+        rows.append(
+            {
+                "mode": name,
+                "attack recall": mm.get("recall") or 0.0,
+                "legit FPR": mm.get("false_positive_rate") or 0.0,
+            }
+        )
+    st.caption("Detector modes (bundled evaluation export)")
+    st.bar_chart(pd.DataFrame(rows).set_index("mode"))
 
 
 def page_home(*, assets_dir: Path | None, is_public: bool) -> None:

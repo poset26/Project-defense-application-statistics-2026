@@ -19,14 +19,12 @@ _ROUTE_STRATIFIED_GROUPS: set[ScenarioGroup] = {
 _ATTACK_SPLITTABLE: set[ScenarioGroup] = {
     "malicious_intent",
     "hard_malicious_intent",
-    "benign_invalid",
 }
 
 TEST_GROUPS: set[ScenarioGroup] = set(
     [
         "legitimate",
         "difficult_legitimate",
-        "benign_invalid",
         "malicious_intent",
         "hard_malicious_intent",
         "distribution_shift",

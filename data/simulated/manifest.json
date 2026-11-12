@@ -1,10 +1,10 @@
 {
   "seed": 42,
-  "counts": 11500,
+  "counts": 10700,
   "plan": {
     "legitimate": 7000,
     "difficult_legitimate": 1500,
-    "benign_invalid": 800,
+    "benign_invalid": 0,
     "malicious_intent": 1500,
     "hard_malicious_intent": 300,
     "distribution_shift": 400,

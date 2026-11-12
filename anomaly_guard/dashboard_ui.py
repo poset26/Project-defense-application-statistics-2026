@@ -357,7 +357,6 @@ def explain_mode_metrics_columns() -> None:
         - **recall (attack)** — Fraction of attack test rows that received an **alert** (main detection rate).
         - **f1 (attack)** — Harmonic mean of attack precision and recall on **alert**.
         - **fpr (legit)** — Fraction of legitimate-family test rows (ordinary + difficult + shift) that got **alert**.
-        - **invalid rejection** — Fraction of **benign_invalid** rows (bad JSON/schema, not attacks) sent to alert/review.
         - **AP** — Average precision over alert scores for attack vs non-attack on the test split.
         """
     )

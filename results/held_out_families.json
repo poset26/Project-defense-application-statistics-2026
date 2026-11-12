@@ -5,8 +5,8 @@
       "support": 84,
       "modes": {
         "rules_only": {
-          "alert_recall": 1.0,
-          "alerts": 84,
+          "alert_recall": 0.5476190476190477,
+          "alerts": 46,
           "reviews": 0,
           "review_rate": 0.0
         },
@@ -29,8 +29,8 @@
           "review_rate": 0.0
         },
         "rules_plus_stats": {
-          "alert_recall": 1.0,
-          "alerts": 84,
+          "alert_recall": 0.5476190476190477,
+          "alerts": 46,
           "reviews": 0,
           "review_rate": 0.0
         },
@@ -47,22 +47,22 @@
       "support": 84,
       "modes": {
         "rules_only": {
-          "alert_recall": 0.0,
-          "alerts": 0,
-          "reviews": 58,
-          "review_rate": 0.6904761904761905
+          "alert_recall": 0.47619047619047616,
+          "alerts": 40,
+          "reviews": 21,
+          "review_rate": 0.25
         },
         "combined_stats": {
-          "alert_recall": 0.14285714285714285,
-          "alerts": 12,
+          "alert_recall": 0.13095238095238096,
+          "alerts": 11,
           "reviews": 19,
           "review_rate": 0.2261904761904762
         },
         "ci_only": {
-          "alert_recall": 0.14285714285714285,
-          "alerts": 12,
-          "reviews": 19,
-          "review_rate": 0.2261904761904762
+          "alert_recall": 0.13095238095238096,
+          "alerts": 11,
+          "reviews": 12,
+          "review_rate": 0.14285714285714285
         },
         "full_stats": {
           "alert_recall": 1.0,
@@ -71,10 +71,10 @@
           "review_rate": 0.0
         },
         "rules_plus_stats": {
-          "alert_recall": 0.14285714285714285,
-          "alerts": 12,
-          "reviews": 72,
-          "review_rate": 0.8571428571428571
+          "alert_recall": 0.6071428571428571,
+          "alerts": 51,
+          "reviews": 33,
+          "review_rate": 0.39285714285714285
         },
         "rules_plus_full_stats": {
           "alert_recall": 1.0,
@@ -91,14 +91,14 @@
         "rules_only": {
           "alert_recall": 0.0,
           "alerts": 0,
-          "reviews": 16,
-          "review_rate": 0.3902439024390244
+          "reviews": 17,
+          "review_rate": 0.4146341463414634
         },
         "combined_stats": {
-          "alert_recall": 0.0,
-          "alerts": 0,
-          "reviews": 41,
-          "review_rate": 1.0
+          "alert_recall": 0.7804878048780488,
+          "alerts": 32,
+          "reviews": 9,
+          "review_rate": 0.21951219512195122
         },
         "ci_only": {
           "alert_recall": 0.0,
@@ -113,10 +113,10 @@
           "review_rate": 0.0
         },
         "rules_plus_stats": {
-          "alert_recall": 0.0,
-          "alerts": 0,
-          "reviews": 41,
-          "review_rate": 1.0
+          "alert_recall": 0.7804878048780488,
+          "alerts": 32,
+          "reviews": 9,
+          "review_rate": 0.21951219512195122
         },
         "rules_plus_full_stats": {
           "alert_recall": 1.0,

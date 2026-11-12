@@ -29,7 +29,7 @@ def cmd_generate(args: argparse.Namespace) -> None:
         plan = type(plan)(
             legitimate=400,
             difficult_legitimate=80,
-            benign_invalid=60,
+            benign_invalid=0,
             malicious_intent=120,
             hard_malicious_intent=40,
             distribution_shift=40,

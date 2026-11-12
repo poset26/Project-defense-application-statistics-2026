@@ -13,7 +13,7 @@ def test_rules_only_not_full_recall_on_rule_evasive(tmp_path: Path):
     plan = DEFAULT_PLAN.__class__(
         legitimate=200,
         difficult_legitimate=40,
-        benign_invalid=30,
+        benign_invalid=0,
         malicious_intent=80,
         hard_malicious_intent=20,
         distribution_shift=30,

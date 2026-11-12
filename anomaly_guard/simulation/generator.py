@@ -17,7 +17,7 @@ from anomaly_guard.simulation.scenarios import ALL_TEMPLATES, ScenarioTemplate
 class GenerationPlan:
     legitimate: int = 7000
     difficult_legitimate: int = 1500
-    benign_invalid: int = 800
+    benign_invalid: int = 0
     malicious_intent: int = 1500
     hard_malicious_intent: int = 300
     distribution_shift: int = 400
@@ -69,6 +69,8 @@ def generate_dataset(
     t_offset = 0
 
     for group, n in counts.items():
+        if n <= 0:
+            continue
         for i in range(n):
             tmpl = _pick_template(group, i)
             rid = str(uuid.uuid4())

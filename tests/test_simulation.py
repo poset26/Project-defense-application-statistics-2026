@@ -10,7 +10,7 @@ def test_generate_and_split(tmp_path: Path):
     plan = DEFAULT_PLAN.__class__(
         legitimate=50,
         difficult_legitimate=10,
-        benign_invalid=10,
+        benign_invalid=0,
         malicious_intent=10,
         hard_malicious_intent=5,
         distribution_shift=5,

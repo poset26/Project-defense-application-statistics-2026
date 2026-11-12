@@ -554,8 +554,6 @@ ALL_TEMPLATES: list[ScenarioTemplate] = [
     ScenarioTemplate("comment_ordinary", "legitimate", None, "leg_comment", build_comment_legitimate),
     ScenarioTemplate("matched_pair_benign", "legitimate", None, "pair_benign", build_matched_pair_benign),
     ScenarioTemplate("search_difficult", "difficult_legitimate", None, "diff_search", build_search_difficult),
-    ScenarioTemplate("invalid_contract", "benign_invalid", None, "invalid_contract", build_benign_invalid_contract),
-    ScenarioTemplate("invalid_odd", "benign_invalid", None, "invalid_odd", build_benign_invalid_schema_valid),
     ScenarioTemplate("sqli_sig", "malicious_intent", "sqli", "sqli_sig", build_sqli_signature),
     ScenarioTemplate("sqli_eva", "malicious_intent", "sqli", "sqli_eva", build_sqli_evasive),
     ScenarioTemplate("xss_sig", "malicious_intent", "xss", "xss_sig", build_xss_signature),

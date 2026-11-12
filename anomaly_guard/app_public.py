@@ -256,7 +256,6 @@ def _render_metrics_summary(summary: dict) -> None:
     rows = []
     for mode, m in modes.items():
         mm = m.get("metrics_malicious", {})
-        inv = m.get("metrics_benign_invalid", {})
         rows.append(
             {
                 "mode": mode,
@@ -264,7 +263,6 @@ def _render_metrics_summary(summary: dict) -> None:
                 "recall (attack)": mm.get("recall"),
                 "f1 (attack)": mm.get("f1"),
                 "fpr (legit)": mm.get("false_positive_rate"),
-                "invalid rejection": inv.get("rejection_rate"),
                 "AP": m.get("average_precision"),
             }
         )

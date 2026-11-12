@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import html
 import json
+import threading
+import time
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -12,7 +14,7 @@ import pandas as pd
 import streamlit as st
 
 from anomaly_guard.core.decision import AnomalyGuard
-from anomaly_guard.core.schema import GroundTruthMeta, RequestRecord, read_jsonl
+from anomaly_guard.core.schema import GroundTruthMeta, RequestRecord
 from anomaly_guard.evaluation.experiments import MODES
 from anomaly_guard.evaluation.splits import validation_legitimate_records, validation_ordinary_records
 from anomaly_guard.dashboard_ui import (
@@ -37,12 +39,68 @@ _PKG = Path(__file__).resolve().parent
 _ASSETS = _PKG / "publish_assets"
 _DEMO = _ASSETS / "demo"
 BASELINE = _DEMO / "baseline.json"
-MAX_REPLAY = 50
-REPLAY_COOLDOWN_SEC = 45
+MAX_REPLAY = 20
+REPLAY_COOLDOWN_SEC = 30
+_REPLAY_LOCK = threading.Lock()
+_NEXT_REPLAY_AT = 0.0
 
 
 def _escape(s: str) -> str:
     return html.escape(s, quote=True)
+
+
+def _load_demo_slice(limit: int) -> tuple[list[RequestRecord], list[GroundTruthMeta]]:
+    """Read only the first `limit` demo rows so a click cannot scan the whole file."""
+    records: list[RequestRecord] = []
+    with (_DEMO / "requests.jsonl").open(encoding="utf-8") as handle:
+        for line in handle:
+            if len(records) >= limit:
+                break
+            line = line.strip()
+            if line:
+                records.append(RequestRecord.from_dict(json.loads(line)))
+    wanted = {r.request_id for r in records}
+    meta: list[GroundTruthMeta] = []
+    with (_DEMO / "ground_truth.jsonl").open(encoding="utf-8") as handle:
+        for line in handle:
+            if len(meta) >= len(wanted):
+                break
+            line = line.strip()
+            if not line:
+                continue
+            row = json.loads(line)
+            if row.get("request_id") in wanted:
+                meta.append(GroundTruthMeta.from_dict(row))
+    return records, meta
+
+
+@st.cache_resource
+def _cached_guard(mode: str) -> AnomalyGuard:
+    guard = AnomalyGuard(mode=mode)  # type: ignore[arg-type]
+    guard.load_baseline(BASELINE)
+    settings_path = BASELINE.with_suffix(".settings.json")
+    if settings_path.exists():
+        guard.load_settings(settings_path)
+    return guard
+
+
+def _acquire_replay_slot() -> str | None:
+    """One replay at a time, with a gap shared by every visitor on this process."""
+    global _NEXT_REPLAY_AT
+    if not _REPLAY_LOCK.acquire(blocking=False):
+        return "Another replay is already running. Wait a moment and try again."
+    now = time.monotonic()
+    if now < _NEXT_REPLAY_AT:
+        wait = int(_NEXT_REPLAY_AT - now) + 1
+        _REPLAY_LOCK.release()
+        return f"Shared hosting allows one replay every {REPLAY_COOLDOWN_SEC}s. Try again in {wait}s."
+    return None
+
+
+def _release_replay_slot() -> None:
+    global _NEXT_REPLAY_AT
+    _NEXT_REPLAY_AT = time.monotonic() + REPLAY_COOLDOWN_SEC
+    _REPLAY_LOCK.release()
 
 
 def _store() -> MemoryEventStore:
@@ -61,52 +119,47 @@ def page_traffic() -> None:
             "Replay limit",
             min_value=1,
             max_value=MAX_REPLAY,
-            value=min(100, MAX_REPLAY),
+            value=MAX_REPLAY,
         )
     )
     experiment_mode = st.checkbox("Experiment mode (store ground-truth labels)", value=True)
 
     if st.button("Replay traffic"):
-        import time
-
-        last_run = float(st.session_state.get("ag_last_replay_ts", 0))
-        if time.time() - last_run < REPLAY_COOLDOWN_SEC:
-            st.warning(f"Please wait {REPLAY_COOLDOWN_SEC:.0f}s between replays (shared hosting).")
-            return
         if not BASELINE.exists():
             st.error("Demo baseline missing from deployment package.")
             return
-        records = [RequestRecord.from_dict(r) for r in read_jsonl(_DEMO / "requests.jsonl")]
-        meta_list = [GroundTruthMeta.from_dict(m) for m in read_jsonl(_DEMO / "ground_truth.jsonl")]
-        meta_by_id = {m.request_id: m for m in meta_list}
-        guard = AnomalyGuard(mode=mode)  # type: ignore[arg-type]
-        guard.load_baseline(BASELINE)
-        settings_path = BASELINE.with_suffix(".settings.json")
-        if settings_path.exists():
-            guard.load_settings(settings_path)
-        else:
-            val = validation_legitimate_records(records, meta_list)
-            ordinary = validation_ordinary_records(records, meta_list)
-            guard.calibrate(val, threshold_records=ordinary)
-        store = _store()
-        store.clear()
-        counts = {"normal": 0, "review": 0, "alert": 0}
-        parse_fail = 0
-        for rec in replay_records(records, shuffle=shuffle, limit=limit):
-            from anomaly_guard.core.parser import parse_request
-            from anomaly_guard.core.schema import load_app_config
+        blocked = _acquire_replay_slot()
+        if blocked:
+            st.warning(blocked)
+            return
+        try:
+            records, meta_list = _load_demo_slice(limit)
+            meta_by_id = {m.request_id: m for m in meta_list}
+            guard = _cached_guard(mode)
+            if guard.settings.alert_threshold_percentile <= 0 and not BASELINE.with_suffix(".settings.json").exists():
+                val = validation_legitimate_records(records, meta_list)
+                ordinary = validation_ordinary_records(records, meta_list)
+                guard.calibrate(val, threshold_records=ordinary)
+            store = _store()
+            store.clear()
+            counts = {"normal": 0, "review": 0, "alert": 0}
+            parse_fail = 0
+            for rec in replay_records(records, shuffle=shuffle, limit=limit):
+                from anomaly_guard.core.parser import parse_request
+                from anomaly_guard.core.schema import load_app_config
 
-            parsed = parse_request(rec, load_app_config())
-            if parsed.flags.json_parse_error or parsed.flags.malformed_encoding:
-                parse_fail += 1
-            score = guard.score(rec)
-            counts[score.decision] = counts.get(score.decision, 0) + 1
-            gt = meta_by_id.get(rec.request_id) if experiment_mode else None
-            store.upsert_event(rec, score, gt)
-        st.session_state.ag_last_replay_ts = time.time()
-        st.session_state.ag_last_counts = counts
-        st.success(f"Processed {sum(counts.values())} requests. Parsing flags: {parse_fail}")
-        st.json(counts)
+                parsed = parse_request(rec, load_app_config())
+                if parsed.flags.json_parse_error or parsed.flags.malformed_encoding:
+                    parse_fail += 1
+                score = guard.score(rec)
+                counts[score.decision] = counts.get(score.decision, 0) + 1
+                gt = meta_by_id.get(rec.request_id) if experiment_mode else None
+                store.upsert_event(rec, score, gt)
+            st.session_state.ag_last_counts = counts
+            st.success(f"Processed {sum(counts.values())} requests. Parsing flags: {parse_fail}")
+            st.json(counts)
+        finally:
+            _release_replay_slot()
 
     if st.session_state.get("ag_last_counts"):
         plot_decision_counts(st.session_state.ag_last_counts, st.session_state.get("ag_dark", True))

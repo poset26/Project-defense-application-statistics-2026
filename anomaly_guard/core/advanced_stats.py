@@ -157,14 +157,13 @@ def fit_endpoint_extended(
                     cat_counts[c] += int(round(fr[c] * max(len(t), 1)))
             total = sum(cat_counts.values()) or 1
             probs = {k: v / total for k, v in cat_counts.items()}
-            merged = [k for k, v in cat_counts.items() if v >= 1]
             fep.length_band_compositions.append(
                 LengthBandComposition(
                     band_index=bi,
                     low=lo,
                     high=hi,
                     category_probs=probs,
-                    merged_categories=merged or list(CATEGORY_BINS),
+                    merged_categories=list(CATEGORY_BINS),
                 )
             )
 
@@ -219,19 +218,22 @@ def score_stratified_composition(
     if diff:
         obs["other"] = obs.get("other", 0) + diff
     expected, observed = [], []
-    for cat in band.merged_categories:
+    for cat in CATEGORY_BINS:
         p = band.category_probs.get(cat, 0.0)
-        expected.append(max(p * n, 0.25))
+        expected.append(p * n + 0.5)
         observed.append(float(obs.get(cat, 0)))
-    if min(expected) < 1.0:
-        return None, "insufficient expected counts in band"
     exp = np.array(expected, dtype=float)
     obs_arr = np.array(observed, dtype=float)
-    exp = exp * (obs_arr.sum() / exp.sum())
+    if float(exp.sum()) <= 0 or float(obs_arr.sum()) <= 0:
+        return 1e6, "composition counts were not finite"
+    exp = np.maximum(exp * (obs_arr.sum() / exp.sum()), 1e-6)
     stat, pval = chisquare(f_obs=obs_arr, f_exp=exp)
+    if not np.isfinite(stat):
+        stat = 1e6
+        pval = 0.0
     contrib = ((obs_arr - exp) ** 2 / np.maximum(exp, 0.25)).tolist()
     top = sorted(
-        zip(band.merged_categories, contrib), key=lambda x: -x[1]
+        zip(CATEGORY_BINS, contrib), key=lambda x: -x[1]
     )[:2]
     detail = f"band {bi} [{band.low:.0f},{band.high:.0f}): χ²/n={stat/n:.4f}; top shifts {top}"
     if all(e >= 5 for e in exp):

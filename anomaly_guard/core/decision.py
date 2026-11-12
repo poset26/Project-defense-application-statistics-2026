@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import math
 import time
 from dataclasses import asdict, dataclass
 from typing import Any, Literal
@@ -256,13 +257,11 @@ class AnomalyGuard:
                 percentiles.append(pct)
         if not percentiles:
             return
-        scores_arr = np.array(sorted(percentiles))
+        scores_arr = np.array(sorted(percentiles), dtype=float)
         target = self.settings.max_false_positive_rate_target
-        alert_idx = int(np.ceil((1.0 - target) * len(scores_arr))) - 1
-        alert_idx = max(0, min(alert_idx, len(scores_arr) - 1))
-        self.settings.alert_threshold_percentile = float(scores_arr[alert_idx])
-        review_idx = max(0, alert_idx - max(1, len(scores_arr) // 25))
-        self.settings.review_threshold_percentile = float(scores_arr[review_idx])
+        self.settings.alert_threshold_percentile = _cutoff_with_rate_cap(scores_arr, target)
+        review_rate = min(0.05, max(target * 5, target))
+        self.settings.review_threshold_percentile = _cutoff_with_rate_cap(scores_arr, review_rate)
         if self.mode in RAW_DISTANCE_MODES:
             self.settings.threshold_scale = "raw_distance"
         elif self.mode in SECOND_AGGREGATE_MODES:
@@ -427,6 +426,19 @@ class AnomalyGuard:
         self.detector.load(path)
 
 
+def _cutoff_with_rate_cap(sorted_scores: np.ndarray, rate: float) -> float:
+    """Cutoff where the share of scores strictly above it is at most `rate`."""
+    n = int(sorted_scores.size)
+    if n == 0:
+        return 0.0
+    max_alerts = int(math.floor(float(rate) * n))
+    if max_alerts <= 0:
+        return float(sorted_scores[-1])
+    idx = n - max_alerts - 1
+    idx = max(0, min(n - 1, idx))
+    return float(sorted_scores[idx])
+
+
 def aggregate_component_percentiles(
     components: list[ComponentScore], how: str = "max"
 ) -> float | None:
@@ -482,9 +494,10 @@ def _decision_from_statistics(
     pct = stat.aggregate_percentile if stat else None
     if pct is None:
         return "normal"
-    if pct >= settings.alert_threshold_percentile:
+    # Strictly above the cutoff so a tied mass at the quantile cannot exceed the budget.
+    if pct > settings.alert_threshold_percentile:
         return "alert"
-    if pct >= settings.review_threshold_percentile:
+    if pct > settings.review_threshold_percentile:
         return "review"
     return "normal"
 

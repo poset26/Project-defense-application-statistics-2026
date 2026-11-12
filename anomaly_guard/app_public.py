@@ -71,13 +71,32 @@ def _load_demo_slice(limit: int) -> tuple[list[RequestRecord], list[GroundTruthM
     return records, meta
 
 
+def _public_modes() -> list[str]:
+    """Modes that have a saved cutoff. Isolation Forest has no saved model here."""
+    return [m for m in MODES if m != "isolation_forest"]
+
+
+def _apply_saved_cutoff(guard: AnomalyGuard, mode: str) -> None:
+    settings_path = BASELINE.with_suffix(".settings.json")
+    if settings_path.exists() and guard.load_settings(settings_path):
+        return
+    summary_path = _ASSETS / "metrics_summary.json"
+    saved: dict = {}
+    if summary_path.exists():
+        summary = json.loads(summary_path.read_text(encoding="utf-8"))
+        saved = ((summary.get("modes") or {}).get(mode) or {}).get("settings") or {}
+    if not saved:
+        return
+    for key, value in saved.items():
+        if hasattr(guard.settings, key):
+            setattr(guard.settings, key, value)
+
+
 @st.cache_resource
 def _cached_guard(mode: str) -> AnomalyGuard:
     guard = AnomalyGuard(mode=mode)  # type: ignore[arg-type]
     guard.load_baseline(BASELINE)
-    settings_path = BASELINE.with_suffix(".settings.json")
-    if settings_path.exists():
-        guard.load_settings(settings_path)
+    _apply_saved_cutoff(guard, mode)
     return guard
 
 
@@ -109,7 +128,8 @@ def _store() -> MemoryEventStore:
 def page_traffic() -> None:
     st.header("Traffic")
     st.caption("Bundled sample traffic only. Replay affects your browser session, not other visitors.")
-    mode = st.selectbox("Detector mode", list(MODES), index=list(MODES).index("rules_plus_stats"))
+    modes = _public_modes()
+    mode = st.selectbox("Detector mode", modes, index=modes.index("rules_plus_stats"))
     shuffle = st.checkbox("Shuffle replay", value=False)
     limit = int(
         st.number_input(
@@ -305,6 +325,19 @@ def _render_metrics_summary(summary: dict) -> None:
         )
     st.dataframe(pd.DataFrame(rows), use_container_width=True)
     explain_mode_metrics_columns()
+    st.subheader("Confusion counts (alert vs not, test split)")
+    st.caption("True positive is a malicious request that alerted. False positive is a legitimate-family request that alerted.")
+    confusion = []
+    for mode, m in modes.items():
+        mm = m.get("metrics_malicious") or {}
+        confusion.append({
+            "mode": mode,
+            "tp": mm.get("tp"),
+            "fp": mm.get("fp"),
+            "tn": mm.get("tn"),
+            "fn": mm.get("fn"),
+        })
+    st.dataframe(pd.DataFrame(confusion), use_container_width=True)
     group_rows = []
     for mode, m in modes.items():
         groups = m.get("fpr_by_legitimate_group") or {}
@@ -338,6 +371,32 @@ def page_evaluation() -> None:
         st.image(str(plot), caption="Detector comparison (precision–recall style export)")
 
 
+def page_try_request() -> None:
+    st.header("Try a request")
+    st.caption("Score one request you type. Nothing is stored on the server.")
+    modes = _public_modes()
+    mode = st.selectbox("Detector mode", modes, index=modes.index("rules_plus_stats"), key="try_mode")
+    method = st.selectbox("Method", ["GET", "POST"])
+    route = st.selectbox("Route", ["/search", "/login", "/comment"])
+    raw_query = st.text_input("Query string", "q=hello")
+    body = st.text_area("Body", '{"text": "hello", "author": "ada"}' if route == "/comment" else "")
+    if st.button("Score this request"):
+        guard = _cached_guard(mode)
+        rec = RequestRecord(
+            request_id="manual",
+            timestamp="t",
+            client_id="manual",
+            method=method,
+            route=route,
+            raw_query=raw_query,
+            headers={"content-type": "application/json" if body.strip().startswith("{") else "application/x-www-form-urlencoded"},
+            body=body,
+        )
+        score = guard.score(rec)
+        render_decision_conclusion(score.to_dict(), None)
+        render_request_preview(rec.to_dict())
+
+
 def page_model_settings() -> None:
     st.header("Model settings")
     st.info("Published demo is read-only. Train with the CLI on your machine.")
@@ -354,6 +413,7 @@ def main() -> None:
     pages = {
         "Home": lambda: page_home(assets_dir=_ASSETS, is_public=True),
         "Formulas": page_formulas,
+        "Try a request": page_try_request,
         "Traffic": page_traffic,
         "Alert inspector": page_alert_inspector,
         "Normal vs unusual": page_normal_vs_unusual,

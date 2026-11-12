@@ -153,14 +153,13 @@ def parse_request(record: RequestRecord, config: AppConfig) -> ParsedRequest:
                         sval = json.dumps(val, ensure_ascii=False)
                     else:
                         sval = str(val)
-                    dec, bad = _decode_once(sval)
-                    if bad:
-                        flags.malformed_encoding = True
+                    # JSON strings are already decoded. Form percent-decoding
+                    # turns "C++" into "C  " and "%25" into "%".
                     fields[str(name)] = ParsedField(
                         name=str(name),
-                        values=[dec],
+                        values=[sval],
                         raw_values=[sval],
-                        decoded_values=[dec],
+                        decoded_values=[sval],
                         source="json",
                     )
         elif content_type in ("application/x-www-form-urlencoded", "") or not content_type:

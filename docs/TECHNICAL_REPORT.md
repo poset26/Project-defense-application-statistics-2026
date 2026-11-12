@@ -1,6 +1,8 @@
 # Anomaly Guard — Technical Report
 
-This report matches the code and the checked-in full-simulator run in `results/metrics_summary.json` (**10,700** generated requests, seed 42). The simulator **does not emit `benign_invalid` rows** anymore. An **alert** means a request looks unusual relative to route rules or a legitimate baseline. It is not proof of a successful attack. Ground-truth labels record simulator intent.
+This report matches the checked-in full-simulator run in `results/metrics_summary.json` (**10,700** generated requests, **450** malicious and **741** legitimate-family test rows). The simulator does not emit `benign_invalid` rows. An **alert** means a request looks unusual relative to route rules or a legitimate baseline. It is not proof of a successful attack.
+
+Scoring fixes after that export (character classes the training sample never saw, a single-request proportion interval, a log-length score centered on the median, and a cutoff that does not alert a tied mass) are in the code. Re-run `evaluate` before quoting a new table.
 
 ## 1. The operating point
 
@@ -10,13 +12,14 @@ On that budget, the detector to defend is **`rules_plus_full_stats`**:
 
 | | Malicious recall | Ordinary test FPR (n=261) | Difficult FPR (n=373) | Shift FPR (n=107) | Mixed legitimate FPR |
 |--|------------------|---------------------------|----------------------|-------------------|----------------------|
-| `rules_only` | 0.24 | 0 | 0 | 0 | 0 |
-| `rules_plus_full_stats` | **0.92** | **0.019** | 1.00 | 1.00 | 0.65 |
-| `entropy_only` | 0.18 | 0.011 | 0 | 0.46 | 0.070 |
+| `rules_only` | 0.262 | 0 | 0 | 0 | 0 |
+| `rules_plus_stats` (default) | **0.449** | **0.027** | — | — | **0.216** |
+| `rules_plus_full_stats` | **0.916** | **0.019** | 1.00 | 1.00 | **0.655** |
+| `entropy_only` | 0.18 | 0.008 | 0 | — | 0.003 |
 
-`rules_plus_full_stats` alert slices: signature-easy 1.00, rule-evasive 0.85, size/distribution 1.00. XSS alert recall is 1.00. Rules alone still have XSS **alert** recall 0 and XSS **review** rate 0.69, because the test rows are medium-severity `onerror` tags and evasive strings.
+`rules_plus_full_stats` still alerts on every difficult and shifted legitimate test row in this export. That is why mixed false-positive rate is 0.655 while ordinary traffic is near 2%. Earlier drafts quoted default-mode recall 0.36 and ordinary FPR 0.011; the file says **0.449** and **0.027**. Rules-only recall is **0.262**, not 0.24. There are **741** legitimate-family test rows, not 785.
 
-Ordinary traffic is near the 1% budget (~1.9% alert rate on this test draw). The mixed false-positive rate is still dominated by difficult and shifted legitimate rows, which do not set the cutoff. Numbers in earlier drafts used 11,500 requests including `benign_invalid`; the current file has 10,700 requests and no invalid slice.
+Ordinary traffic on this draw is about 1.9–2.7% depending on the mode, and several modes miss a strict 1% budget because tied scores at the cutoff were counted as alerts. The scorer now alerts only when the score is strictly above a tie-aware cutoff. Those rates will change after the next `evaluate`.
 
 ### Base rate
 

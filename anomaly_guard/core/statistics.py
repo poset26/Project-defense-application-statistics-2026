@@ -38,6 +38,7 @@ class LengthProfile:
     tolerance: float
     discrete_values: list[int] | None = None
     log_mean: float | None = None
+    log_median: float | None = None
     log_std: float | None = None
     log_n: int = 0
     log_mad: float | None = None
@@ -123,7 +124,10 @@ def _robust_length_score(observed: float, profile: LengthProfile, use_log: bool 
         return _robust_length_score_raw(observed, profile)
     obs = math.log1p(max(observed, 0.0))
     if profile.log_mad is not None and profile.log_mad > 0:
-        med = profile.log_mean if profile.log_mean is not None else math.log1p(max(profile.median, 0.0))
+        if profile.log_median is not None:
+            med = profile.log_median
+        else:
+            med = math.log1p(max(profile.median, 0.0))
         raw, detail = _robust_z(obs, med, profile.log_mad)
         return raw, f"log1p(length) MAD of the log sample: {detail}"
     med = math.log1p(max(profile.median, 0.0))
@@ -202,13 +206,15 @@ def _proportion_ci_score(text: str, profile: CompositionProfile) -> tuple[float 
     from anomaly_guard.core.features import _category_fractions
 
     obs = _category_fractions(text)
+    n_req = float(len(text))
     worst = 0.0
-    worst_detail = "all category proportions inside training Wilson intervals"
+    worst_detail = "all category proportions inside a single-request Wilson interval"
     for cat, p in profile.category_probs.items():
         if cat == "other_merged":
             continue
-        k = p * profile.training_chars
-        lo, hi = _wilson_interval(k, float(profile.training_chars))
+        # Interval for one new string of this length, not for the pooled training rate.
+        k = float(p) * n_req
+        lo, hi = _wilson_interval(k, n_req)
         p_obs = float(obs.get(cat, 0.0))
         width = max(hi - lo, 1e-3)
         if p_obs < lo:
@@ -259,28 +265,32 @@ def _composition_score(text: str, profile: CompositionProfile) -> tuple[float | 
     if diff:
         obs_counts["other"] = obs_counts.get("other", 0) + diff
 
-    obs_merged, _ = _merge_rare_categories(obs_counts, min_count=1)
-    expected: list[float] = []
-    observed: list[float] = []
-    for cat in profile.merged_categories:
-        p = profile.category_probs.get(cat, 0.0)
-        expected.append(p * n + 0.25)
-        observed.append(float(obs_merged.get(cat, 0)))
+    # Keep every character class, including ones training never saw (quotes, slashes).
+    labels = list(CATEGORY_BINS)
+    observed = [float(obs_counts.get(cat, 0)) for cat in labels]
+    expected = [float(profile.category_probs.get(cat, 0.0)) * n + 0.5 for cat in labels]
 
-    if min(expected) < 1.0 or n < profile.min_total_count:
-        return None, "insufficient_evidence", "expected counts too small for composition test", None
+    if n < profile.min_total_count:
+        return None, "insufficient_evidence", "string shorter than the composition minimum", None
 
     obs_arr = np.array(observed, dtype=float)
     exp_arr = np.array(expected, dtype=float)
-    exp_arr = exp_arr * (obs_arr.sum() / exp_arr.sum())
+    exp_sum = float(exp_arr.sum())
+    obs_sum = float(obs_arr.sum())
+    if exp_sum <= 0 or obs_sum <= 0 or not np.isfinite(exp_arr).all():
+        return 1e6, "ok", "composition counts were not finite; treated as extremely unusual", 0.0
+    exp_arr = np.maximum(exp_arr * (obs_sum / exp_sum), 1e-6)
 
     stat, p_value = chisquare(f_obs=obs_arr, f_exp=exp_arr)
+    if not np.isfinite(stat):
+        stat = 1e6
+        p_value = 0.0
     score = float(stat / max(n, 1))
     teaching_p: float | None = None
-    if all(e >= 5 for e in expected) and all(o >= 0 for o in observed):
+    if all(e >= 5 for e in expected) and all(o >= 0 for o in observed) and np.isfinite(p_value):
         teaching_p = float(p_value)
-    contribs = ((obs_arr - exp_arr) ** 2 / np.maximum(exp_arr, 0.25)).tolist()
-    top = sorted(zip(profile.merged_categories, contribs), key=lambda x: -x[1])[:2]
+    contribs = ((obs_arr - exp_arr) ** 2 / exp_arr).tolist()
+    top = sorted(zip(labels, contribs), key=lambda x: -x[1])[:2]
     detail = f"distribution discrepancy {score:.4f} (n={n}); top cells {top}"
     if teaching_p is not None:
         detail += f"; p={teaching_p:.4g} (baseline incompatibility, not attack probability)"
@@ -359,6 +369,7 @@ class StatisticalDetector:
                         discrete_values=discrete,
                         log_mad=log_mad,
                         log_mean=log_mean,
+                        log_median=log_med,
                         log_std=log_std,
                         log_n=log_n,
                         ci_low=ci_low,

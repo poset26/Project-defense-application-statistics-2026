@@ -127,8 +127,11 @@ def page_home(*, assets_dir: Path | None, is_public: bool) -> None:
         - **Train** only on `legitimate` split rows (same population the baseline describes).
         - **Percentile pools** use all validation legitimate-family rows (including difficult / shift).
         - **Alert cutoff** is fit on **ordinary** validation legitimate only (~1% false-alert budget).
-        - Decisions: **normal** (within budget), **review** (elevated but below alert), **alert** (at or above cutoff
-          or critical rule hit).
+        - **Review cutoff** caps the combined statistical tail (review **or** alert) at ~5% on validation;
+          it is not “5% review + 1% alert” stacked.
+        - Decisions: **normal** (statistical scores at or below review cutoff, no rule review), **review**
+          (elevated stats and/or non-critical schema/pattern rules), **alert** (stats **strictly above** the alert
+          cutoff or high-severity rule hit).
         """
     )
 
@@ -155,14 +158,17 @@ def page_formulas() -> None:
 
         ### Character composition (multinomial / $\chi^2$ style)
 
-        Categories $c \in \{\mathrm{alpha}, \mathrm{digit}, \mathrm{space}, \ldots\}$ with baseline probabilities
-        $\hat{p}_c$ and counts $n_c$ on length $L$:
+        Categories $c \in \{\mathrm{letter}, \mathrm{digit}, \mathrm{space}, \ldots\}$ with baseline
+        proportions $\hat{p}_c$. Observed counts $n_c$ come from rounding $L\hat{p}_c^{\mathrm{obs}}$ on length $L$.
+        Expected counts add $0.5$ smoothing, then renormalize so $\sum_c E_c = \sum_c n_c$:
 
         $$
-        \chi^2_{\mathrm{comp}} = \sum_c \frac{(n_c - L\hat{p}_c)^2}{L\hat{p}_c + \varepsilon}
+        E_c = \max\!\left(\varepsilon,\; \frac{(\hat{p}_c L + 0.5)\sum_j n_j}{\sum_j (\hat{p}_j L + 0.5)}\right)
         $$
 
-        Cell contributions drive which symbols look most unlike training.
+        Raw Pearson $\chi^2 = \sum_c (n_c - E_c)^2 / E_c$. The **scorer** uses $\chi^2 / L$ for calibration
+        percentiles. When every $E_c \ge 5$, a **p-value** for baseline incompatibility is shown in explanations;
+        that p-value is **not** the empirical anomaly percentile used for alerts.
 
         ### Mahalanobis distance (feature vector $\mathbf{x}$)
 
@@ -184,15 +190,17 @@ def page_formulas() -> None:
 
         ### Wilson upper bound (legitimate FPR reporting)
 
-        For $k$ alerts in $n$ ordinary legitimate validation rows:
+        For $k$ alert decisions in $n$ **held-out test** rows from the **legitimate family**
+        (ordinary + difficult legitimate + distribution shift):
 
         $$
         \mathrm{WilsonUpper}(k,n) = \frac{\hat{p} + \frac{z^2}{2n} + z\sqrt{\frac{\hat{p}(1-\hat{p})}{n} + \frac{z^2}{4n^2}}}{1 + z^2/n}
         $$
 
-        On the evaluation export this is the **upper end of a Wilson score interval** for the
-        **observed alert rate** among **ordinary legitimate validation** rows (same $k$, $n$
-        population as calibration for the 1% budget), not a post-hoc test-set recount.
+        The exported field ``wilson_fpr_population`` names the numerator (alert count),
+        the denominator, the split (``test``), and the groups (ordinary legitimate,
+        difficult legitimate, and distribution shift). The **1% calibration budget**
+        still uses ordinary validation traffic only and is a different population.
 
         ### Posterior probability (reporting only)
 

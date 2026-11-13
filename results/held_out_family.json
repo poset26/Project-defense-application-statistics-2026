@@ -21,10 +21,10 @@
       "review_rate": 1.0
     },
     "full_stats": {
-      "alert_recall": 1.0,
-      "alerts": 84,
-      "reviews": 0,
-      "review_rate": 0.0
+      "alert_recall": 0.9880952380952381,
+      "alerts": 83,
+      "reviews": 1,
+      "review_rate": 0.011904761904761904
     },
     "rules_plus_stats": {
       "alert_recall": 1.0,
@@ -33,10 +33,10 @@
       "review_rate": 0.0
     },
     "rules_plus_full_stats": {
-      "alert_recall": 1.0,
-      "alerts": 84,
-      "reviews": 0,
-      "review_rate": 0.0
+      "alert_recall": 0.9880952380952381,
+      "alerts": 83,
+      "reviews": 1,
+      "review_rate": 0.011904761904761904
     }
   }
 }

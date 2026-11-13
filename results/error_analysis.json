@@ -16,9 +16,9 @@
     "attack_family": "evasive",
     "attack_slice": "rule_evasive",
     "decision": "review",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8642 (n=57); top cells [('digit', 43.541249818761784), ('whitespace', 2.8926968111371356)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]"
+      "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8642 (n=57); top cells [('digit', 43.541249818761784), ('whitespace', 2.8926968111371356)]"
     ]
   },
   {
@@ -28,10 +28,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.6): log1p(length) MAD of the log sample: robust z 7.548 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.3): log1p(length) MAD of the log sample: robust z 17.639 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.6): log1p(length) MAD of the log sample: robust z 7.548 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.3): log1p(length) MAD of the log sample: robust z 17.639 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -41,9 +41,9 @@
     "attack_family": "evasive",
     "attack_slice": "rule_evasive",
     "decision": "review",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8380 (n=57); top cells [('digit', 43.541249818761784), ('whitespace', 1.6596930924594426)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]"
+      "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8380 (n=57); top cells [('digit', 43.541249818761784), ('whitespace', 1.6596930924594426)]"
     ]
   },
   {
@@ -53,22 +53,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 9.504 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 26.273 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 9.504 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009898",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
+      "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 26.273 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -88,10 +76,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.3): log1p(length) MAD of the log sample: robust z 8.954 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 23.890 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.3): log1p(length) MAD of the log sample: robust z 8.954 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 23.890 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -101,22 +89,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.3): log1p(length) MAD of the log sample: robust z 8.954 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 23.658 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.3): log1p(length) MAD of the log sample: robust z 8.954 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009937",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 2.998 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)",
-    "evidence": [
-      "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 2.998 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
+      "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 23.658 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -126,23 +102,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 8.647 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.1): log1p(length) MAD of the log sample: robust z 22.500 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 8.647 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009817",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
-    "evidence": [
-      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.4599 (n=30); top cells [('bracket', 5.381094527363184), ('digit', 3.068973567441555)]"
+      "Field 'text' length unusual (empirical percentile 99.1): log1p(length) MAD of the log sample: robust z 22.500 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -152,9 +115,9 @@
     "attack_family": "evasive",
     "attack_slice": "rule_evasive",
     "decision": "review",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8256 (n=59); top cells [('digit', 43.43810169491527), ('whitespace', 2.5299515693573458)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]"
+      "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8256 (n=59); top cells [('digit', 43.43810169491527), ('whitespace', 2.5299515693573458)]"
     ]
   },
   {
@@ -164,46 +127,9 @@
     "attack_family": "evasive",
     "attack_slice": "rule_evasive",
     "decision": "review",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8198 (n=58); top cells [('digit', 43.488786094757494), ('whitespace', 1.5280761728042564)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009964",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
-    "evidence": [
-      "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
-      "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 3.061 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009718",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009790",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
+      "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8198 (n=58); top cells [('digit', 43.488786094757494), ('whitespace', 1.5280761728042564)]"
     ]
   },
   {
@@ -213,10 +139,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 9.504 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.9): log1p(length) MAD of the log sample: robust z 26.355 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 9.504 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 99.9): log1p(length) MAD of the log sample: robust z 26.355 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -226,10 +152,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.3): log1p(length) MAD of the log sample: robust z 8.954 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.4): log1p(length) MAD of the log sample: robust z 24.211 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.3): log1p(length) MAD of the log sample: robust z 8.954 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 99.4): log1p(length) MAD of the log sample: robust z 24.211 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -239,22 +165,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 8.647 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.1): log1p(length) MAD of the log sample: robust z 22.549 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 8.647 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0010274",
-    "scenario_group": "hard_malicious_intent",
-    "attack_family": "evasive",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
+      "Field 'text' length unusual (empirical percentile 99.1): log1p(length) MAD of the log sample: robust z 22.549 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -268,64 +182,16 @@
     "evidence": []
   },
   {
-    "kind": "false_negative",
-    "request_id": "req-0010294",
-    "scenario_group": "hard_malicious_intent",
-    "attack_family": "evasive",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0010262",
-    "scenario_group": "hard_malicious_intent",
-    "attack_family": "evasive",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009700",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5443 (n=20); top cells [('digit', 4.354737514483924), ('other', 3.1545429873204163)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5443 (n=20); top cells [('digit', 4.354737514483924), ('other', 3.1545429873204163)]"
-    ]
-  },
-  {
     "kind": "false_positive",
     "request_id": "req-0010641",
     "scenario_group": "distribution_shift",
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.3): log1p(length) MAD of the log sample: robust z 6.596 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.8): log1p(length) MAD of the log sample: robust z 13.783 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.3): log1p(length) MAD of the log sample: robust z 6.596 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0010226",
-    "scenario_group": "hard_malicious_intent",
-    "attack_family": "evasive",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
+      "Field 'text' length unusual (empirical percentile 97.8): log1p(length) MAD of the log sample: robust z 13.783 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -335,10 +201,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 9.239 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.7): log1p(length) MAD of the log sample: robust z 25.184 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 9.239 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 99.7): log1p(length) MAD of the log sample: robust z 25.184 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -348,10 +214,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 9.239 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 25.098 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 9.239 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 25.098 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -375,15 +241,15 @@
     "evidence": []
   },
   {
-    "kind": "false_negative",
-    "request_id": "req-0009646",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
+    "kind": "false_positive",
+    "request_id": "req-0000218",
+    "scenario_group": "legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.4): log1p(length) MAD of the log sample: robust z 2.101 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
+      "Field 'text' length unusual (empirical percentile 97.4): log1p(length) MAD of the log sample: robust z 2.101 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)"
     ]
   },
   {
@@ -393,22 +259,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.6): log1p(length) MAD of the log sample: robust z 7.548 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 17.895 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.6): log1p(length) MAD of the log sample: robust z 7.548 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
-    ]
-  },
-  {
-    "kind": "false_positive",
-    "request_id": "req-0002590",
-    "scenario_group": "legitimate",
-    "attack_family": null,
-    "attack_slice": null,
-    "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 97.9): log1p(length) MAD of the log sample: robust z 5.642 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-    "evidence": [
-      "Field 'text' length unusual (empirical percentile 97.9): log1p(length) MAD of the log sample: robust z 5.642 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)"
+      "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 17.895 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -422,66 +276,16 @@
     "evidence": []
   },
   {
-    "kind": "false_negative",
-    "request_id": "req-0009820",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Field 'q' length unusual (empirical percentile 96.0): log1p(length) MAD of the log sample: robust z 2.957 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)",
-    "evidence": [
-      "Field 'q' length unusual (empirical percentile 96.0): log1p(length) MAD of the log sample: robust z 2.957 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009793",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
-    "evidence": [
-      "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
-      "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 3.124 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
-    ]
-  },
-  {
     "kind": "false_positive",
     "request_id": "req-0010684",
     "scenario_group": "distribution_shift",
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.8): log1p(length) MAD of the log sample: robust z 7.949 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 19.364 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.8): log1p(length) MAD of the log sample: robust z 7.949 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009709",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
-    "evidence": [
-      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.4599 (n=30); top cells [('bracket', 5.381094527363184), ('digit', 3.068973567441555)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0010234",
-    "scenario_group": "hard_malicious_intent",
-    "attack_family": "evasive",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
+      "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 19.364 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -501,10 +305,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 8.647 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.1): log1p(length) MAD of the log sample: robust z 22.549 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 8.647 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 99.1): log1p(length) MAD of the log sample: robust z 22.549 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -514,10 +318,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 8.647 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.0): log1p(length) MAD of the log sample: robust z 22.350 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 8.647 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 99.0): log1p(length) MAD of the log sample: robust z 22.350 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -527,22 +331,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 9.504 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.9): log1p(length) MAD of the log sample: robust z 26.355 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 9.504 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0010254",
-    "scenario_group": "hard_malicious_intent",
-    "attack_family": "evasive",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
+      "Field 'text' length unusual (empirical percentile 99.9): log1p(length) MAD of the log sample: robust z 26.355 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -552,23 +344,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 9.239 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 25.055 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 9.239 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009997",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
-    "evidence": [
-      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.4599 (n=30); top cells [('bracket', 5.381094527363184), ('digit', 3.068973567441555)]"
+      "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 25.055 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -588,22 +367,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.3): log1p(length) MAD of the log sample: robust z 8.954 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.0): log1p(length) MAD of the log sample: robust z 21.841 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.3): log1p(length) MAD of the log sample: robust z 8.954 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009916",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5443 (n=20); top cells [('digit', 4.354737514483924), ('other', 3.1545429873204163)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5443 (n=20); top cells [('digit', 4.354737514483924), ('other', 3.1545429873204163)]"
+      "Field 'text' length unusual (empirical percentile 99.0): log1p(length) MAD of the log sample: robust z 21.841 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -613,10 +380,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 9.504 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): log1p(length) MAD of the log sample: robust z 26.395 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 9.504 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 100.0): log1p(length) MAD of the log sample: robust z 26.395 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -626,22 +393,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 8.647 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.0): log1p(length) MAD of the log sample: robust z 22.249 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 8.647 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0010270",
-    "scenario_group": "hard_malicious_intent",
-    "attack_family": "evasive",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
+      "Field 'text' length unusual (empirical percentile 99.0): log1p(length) MAD of the log sample: robust z 22.249 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -653,18 +408,6 @@
     "decision": "normal",
     "likely_cause": "unknown",
     "evidence": []
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0010286",
-    "scenario_group": "hard_malicious_intent",
-    "attack_family": "evasive",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
-    ]
   },
   {
     "kind": "false_negative",
@@ -683,22 +426,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 9.504 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 26.233 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 9.504 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009772",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5443 (n=20); top cells [('digit', 4.354737514483924), ('other', 3.1545429873204163)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5443 (n=20); top cells [('digit', 4.354737514483924), ('other', 3.1545429873204163)]"
+      "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 26.233 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -708,10 +439,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.8): log1p(length) MAD of the log sample: robust z 7.949 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 19.246 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.8): log1p(length) MAD of the log sample: robust z 7.949 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 19.246 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -721,9 +452,9 @@
     "attack_family": "evasive",
     "attack_slice": "rule_evasive",
     "decision": "review",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8945 (n=53); top cells [('digit', 43.77091334112539), ('whitespace', 1.1660491338430254)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]"
+      "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8945 (n=53); top cells [('digit', 43.77091334112539), ('whitespace', 1.1660491338430254)]"
     ]
   },
   {
@@ -733,35 +464,22 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.8): log1p(length) MAD of the log sample: robust z 7.949 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 19.305 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.8): log1p(length) MAD of the log sample: robust z 7.949 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 19.305 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
-    "kind": "false_negative",
-    "request_id": "req-0009685",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
+    "kind": "false_positive",
+    "request_id": "req-0000018",
+    "scenario_group": "legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.5): log1p(length) MAD of the log sample: robust z 2.475 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
-      "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 3.107 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009748",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 3.024 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)",
-    "evidence": [
-      "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 3.024 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
+      "Field 'text' length unusual (empirical percentile 97.5): log1p(length) MAD of the log sample: robust z 2.475 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)"
     ]
   },
   {
@@ -771,10 +489,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 9.239 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.7): log1p(length) MAD of the log sample: robust z 25.184 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 9.239 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 99.7): log1p(length) MAD of the log sample: robust z 25.184 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -784,10 +502,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.0): log1p(length) MAD of the log sample: robust z 8.314 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.7): log1p(length) MAD of the log sample: robust z 21.105 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.0): log1p(length) MAD of the log sample: robust z 8.314 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.7): log1p(length) MAD of the log sample: robust z 21.105 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -807,10 +525,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.6): log1p(length) MAD of the log sample: robust z 7.548 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 18.085 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.6): log1p(length) MAD of the log sample: robust z 7.548 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 18.085 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -820,9 +538,9 @@
     "attack_family": "evasive",
     "attack_slice": "rule_evasive",
     "decision": "review",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.7738 (n=62); top cells [('digit', 43.295863087909375), ('whitespace', 2.052741365314019)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]"
+      "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.7738 (n=62); top cells [('digit', 43.295863087909375), ('whitespace', 2.052741365314019)]"
     ]
   },
   {
@@ -832,36 +550,22 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 6.017 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.6): log1p(length) MAD of the log sample: robust z 11.147 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 6.017 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 97.6): log1p(length) MAD of the log sample: robust z 11.147 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
-    "kind": "false_negative",
-    "request_id": "req-0009892",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
+    "kind": "false_positive",
+    "request_id": "req-0005510",
+    "scenario_group": "legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.3): log1p(length) MAD of the log sample: robust z 2.038 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
-      "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 3.122 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009982",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
-    "evidence": [
-      "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
-      "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 3.100 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
+      "Field 'text' length unusual (empirical percentile 97.3): log1p(length) MAD of the log sample: robust z 2.038 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)"
     ]
   },
   {
@@ -873,32 +577,6 @@
     "decision": "normal",
     "likely_cause": "unknown",
     "evidence": []
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009775",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
-    "evidence": [
-      "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
-      "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 3.085 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009955",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
-    "evidence": [
-      "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
-      "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 3.040 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
-    ]
   },
   {
     "kind": "false_negative",
@@ -927,10 +605,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.6): log1p(length) MAD of the log sample: robust z 7.548 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.3): log1p(length) MAD of the log sample: robust z 17.574 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.6): log1p(length) MAD of the log sample: robust z 7.548 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.3): log1p(length) MAD of the log sample: robust z 17.574 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -944,40 +622,16 @@
     "evidence": []
   },
   {
-    "kind": "false_negative",
-    "request_id": "req-0009970",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0010258",
-    "scenario_group": "hard_malicious_intent",
-    "attack_family": "evasive",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
-    ]
-  },
-  {
     "kind": "false_positive",
     "request_id": "req-0010630",
     "scenario_group": "distribution_shift",
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 6.017 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.8): log1p(length) MAD of the log sample: robust z 11.598 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 6.017 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 97.8): log1p(length) MAD of the log sample: robust z 11.598 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -987,47 +641,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.0): log1p(length) MAD of the log sample: robust z 8.314 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.7): log1p(length) MAD of the log sample: robust z 20.943 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.0): log1p(length) MAD of the log sample: robust z 8.314 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009694",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
-    "evidence": [
-      "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
-      "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 3.126 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009862",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009910",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Field 'q' length unusual (empirical percentile 96.0): log1p(length) MAD of the log sample: robust z 2.933 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)",
-    "evidence": [
-      "Field 'q' length unusual (empirical percentile 96.0): log1p(length) MAD of the log sample: robust z 2.933 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
+      "Field 'text' length unusual (empirical percentile 98.7): log1p(length) MAD of the log sample: robust z 20.943 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1039,30 +656,6 @@
     "decision": "normal",
     "likely_cause": "unknown",
     "evidence": []
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009754",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0010290",
-    "scenario_group": "hard_malicious_intent",
-    "attack_family": "evasive",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
-    ]
   },
   {
     "kind": "false_negative",
@@ -1081,10 +674,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.3): log1p(length) MAD of the log sample: robust z 8.954 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 23.704 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.3): log1p(length) MAD of the log sample: robust z 8.954 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 23.704 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1094,10 +687,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.8): log1p(length) MAD of the log sample: robust z 7.949 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 19.305 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.8): log1p(length) MAD of the log sample: robust z 7.949 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 19.305 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1112,45 +705,6 @@
   },
   {
     "kind": "false_negative",
-    "request_id": "req-0009673",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
-    "evidence": [
-      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.4599 (n=30); top cells [('bracket', 5.381094527363184), ('digit', 3.068973567441555)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009973",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
-    "evidence": [
-      "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
-      "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 3.081 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009853",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
-    "evidence": [
-      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.4599 (n=30); top cells [('bracket', 5.381094527363184), ('digit', 3.068973567441555)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
     "request_id": "req-0009921",
     "scenario_group": "malicious_intent",
     "attack_family": "evasive",
@@ -1161,15 +715,27 @@
   },
   {
     "kind": "false_positive",
+    "request_id": "req-0006126",
+    "scenario_group": "legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.3): log1p(length) MAD of the log sample: robust z 2.038 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 97.3): log1p(length) MAD of the log sample: robust z 2.038 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)"
+    ]
+  },
+  {
+    "kind": "false_positive",
     "request_id": "req-0010605",
     "scenario_group": "distribution_shift",
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.0): log1p(length) MAD of the log sample: robust z 8.314 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.7): log1p(length) MAD of the log sample: robust z 21.105 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.0): log1p(length) MAD of the log sample: robust z 8.314 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.7): log1p(length) MAD of the log sample: robust z 21.105 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1189,10 +755,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 9.239 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 25.011 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 9.239 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 25.011 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1202,10 +768,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 8.647 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.1): log1p(length) MAD of the log sample: robust z 22.698 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 8.647 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 99.1): log1p(length) MAD of the log sample: robust z 22.698 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1215,10 +781,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.0): log1p(length) MAD of the log sample: robust z 8.314 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.7): log1p(length) MAD of the log sample: robust z 21.051 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.0): log1p(length) MAD of the log sample: robust z 8.314 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.7): log1p(length) MAD of the log sample: robust z 21.051 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1228,10 +794,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 6.017 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.6): log1p(length) MAD of the log sample: robust z 11.056 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 6.017 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 97.6): log1p(length) MAD of the log sample: robust z 11.056 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1241,10 +807,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 7.101 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.1): log1p(length) MAD of the log sample: robust z 15.810 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 7.101 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.1): log1p(length) MAD of the log sample: robust z 15.810 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1254,10 +820,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 6.017 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.6): log1p(length) MAD of the log sample: robust z 7.310 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 6.017 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 97.6): log1p(length) MAD of the log sample: robust z 7.310 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1267,10 +833,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.6): log1p(length) MAD of the log sample: robust z 7.548 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 17.510 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.6): log1p(length) MAD of the log sample: robust z 7.548 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 17.510 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1280,10 +846,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.8): log1p(length) MAD of the log sample: robust z 7.949 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 19.364 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.8): log1p(length) MAD of the log sample: robust z 7.949 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 19.364 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1293,34 +859,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.8): log1p(length) MAD of the log sample: robust z 7.949 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 19.305 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.8): log1p(length) MAD of the log sample: robust z 7.949 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009730",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 2.982 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)",
-    "evidence": [
-      "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 2.982 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0010282",
-    "scenario_group": "hard_malicious_intent",
-    "attack_family": "evasive",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
+      "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 19.305 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1330,10 +872,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.0): log1p(length) MAD of the log sample: robust z 8.314 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.7): log1p(length) MAD of the log sample: robust z 20.889 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.0): log1p(length) MAD of the log sample: robust z 8.314 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.7): log1p(length) MAD of the log sample: robust z 20.889 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1343,9 +885,9 @@
     "attack_family": "evasive",
     "attack_slice": "rule_evasive",
     "decision": "review",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8024 (n=59); top cells [('digit', 43.43810169491527), ('whitespace', 1.4041730536129715)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]"
+      "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8024 (n=59); top cells [('digit', 43.43810169491527), ('whitespace', 1.4041730536129715)]"
     ]
   },
   {
@@ -1355,10 +897,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.3): log1p(length) MAD of the log sample: robust z 8.954 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 23.890 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.3): log1p(length) MAD of the log sample: robust z 8.954 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 23.890 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1378,33 +920,21 @@
     "attack_family": "evasive",
     "attack_slice": "rule_evasive",
     "decision": "review",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8024 (n=59); top cells [('digit', 43.43810169491527), ('whitespace', 1.4041730536129715)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009682",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
+      "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8024 (n=59); top cells [('digit', 43.43810169491527), ('whitespace', 1.4041730536129715)]"
     ]
   },
   {
     "kind": "false_positive",
-    "request_id": "req-0001630",
-    "scenario_group": "legitimate",
+    "request_id": "req-0007926",
+    "scenario_group": "difficult_legitimate",
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 97.9): log1p(length) MAD of the log sample: robust z 5.642 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Rule SQL_UNION_SELECT (high): Query or body contains SQL UNION/SELECT-like token sequence",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 97.9): log1p(length) MAD of the log sample: robust z 5.642 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)"
+      "Rule SQL_UNION_SELECT (high): Query or body contains SQL UNION/SELECT-like token sequence"
     ]
   },
   {
@@ -1424,10 +954,22 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 7.101 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.0): log1p(length) MAD of the log sample: robust z 15.667 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 7.101 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.0): log1p(length) MAD of the log sample: robust z 15.667 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0006118",
+    "scenario_group": "legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.5): log1p(length) MAD of the log sample: robust z 2.333 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 97.5): log1p(length) MAD of the log sample: robust z 2.333 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)"
     ]
   },
   {
@@ -1437,10 +979,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 8.647 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.1): log1p(length) MAD of the log sample: robust z 22.500 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 8.647 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 99.1): log1p(length) MAD of the log sample: robust z 22.500 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1450,47 +992,34 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 7.101 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.0): log1p(length) MAD of the log sample: robust z 15.667 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 7.101 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.0): log1p(length) MAD of the log sample: robust z 15.667 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
-    "kind": "false_negative",
-    "request_id": "req-0009880",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5443 (n=20); top cells [('digit', 4.354737514483924), ('other', 3.1545429873204163)]",
+    "kind": "false_positive",
+    "request_id": "req-0000794",
+    "scenario_group": "legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.5): log1p(length) MAD of the log sample: robust z 2.287 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5443 (n=20); top cells [('digit', 4.354737514483924), ('other', 3.1545429873204163)]"
+      "Field 'text' length unusual (empirical percentile 97.5): log1p(length) MAD of the log sample: robust z 2.287 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)"
     ]
   },
   {
-    "kind": "false_negative",
-    "request_id": "req-0009925",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
+    "kind": "false_positive",
+    "request_id": "req-0007958",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Rule SQL_UNION_SELECT (high): Query or body contains SQL UNION/SELECT-like token sequence",
     "evidence": [
-      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.4599 (n=30); top cells [('bracket', 5.381094527363184), ('digit', 3.068973567441555)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009721",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Field 'q' length unusual (empirical percentile 96.0): log1p(length) MAD of the log sample: robust z 2.960 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)",
-    "evidence": [
-      "Field 'q' length unusual (empirical percentile 96.0): log1p(length) MAD of the log sample: robust z 2.960 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
+      "Rule SQL_UNION_SELECT (high): Query or body contains SQL UNION/SELECT-like token sequence"
     ]
   },
   {
@@ -1500,10 +1029,22 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 9.239 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.7): log1p(length) MAD of the log sample: robust z 25.441 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 9.239 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 99.7): log1p(length) MAD of the log sample: robust z 25.441 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0005494",
+    "scenario_group": "legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.5): log1p(length) MAD of the log sample: robust z 2.333 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 97.5): log1p(length) MAD of the log sample: robust z 2.333 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)"
     ]
   },
   {
@@ -1513,23 +1054,22 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.8): log1p(length) MAD of the log sample: robust z 7.949 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 16.915 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.8): log1p(length) MAD of the log sample: robust z 7.949 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 16.915 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
-    "kind": "false_negative",
-    "request_id": "req-0009658",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
+    "kind": "false_positive",
+    "request_id": "req-0002462",
+    "scenario_group": "legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.5): log1p(length) MAD of the log sample: robust z 2.333 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
-      "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 3.047 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
+      "Field 'text' length unusual (empirical percentile 97.5): log1p(length) MAD of the log sample: robust z 2.333 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)"
     ]
   },
   {
@@ -1539,23 +1079,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.6): log1p(length) MAD of the log sample: robust z 7.548 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 17.895 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.6): log1p(length) MAD of the log sample: robust z 7.548 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009961",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
-    "evidence": [
-      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.4599 (n=30); top cells [('bracket', 5.381094527363184), ('digit', 3.068973567441555)]"
+      "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 17.895 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1565,46 +1092,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 6.017 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.7): log1p(length) MAD of the log sample: robust z 11.509 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 6.017 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009844",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5443 (n=20); top cells [('digit', 4.354737514483924), ('other', 3.1545429873204163)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5443 (n=20); top cells [('digit', 4.354737514483924), ('other', 3.1545429873204163)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009739",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 3.003 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)",
-    "evidence": [
-      "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 3.003 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009808",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5443 (n=20); top cells [('digit', 4.354737514483924), ('other', 3.1545429873204163)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5443 (n=20); top cells [('digit', 4.354737514483924), ('other', 3.1545429873204163)]"
+      "Field 'text' length unusual (empirical percentile 97.7): log1p(length) MAD of the log sample: robust z 11.509 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1614,10 +1105,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.6): log1p(length) MAD of the log sample: robust z 7.548 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.3): log1p(length) MAD of the log sample: robust z 17.639 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.6): log1p(length) MAD of the log sample: robust z 7.548 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.3): log1p(length) MAD of the log sample: robust z 17.639 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1637,9 +1128,9 @@
     "attack_family": "evasive",
     "attack_slice": "rule_evasive",
     "decision": "review",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8981 (n=54); top cells [('digit', 43.71030595813205), ('whitespace', 2.1050231250881897)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]"
+      "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8981 (n=54); top cells [('digit', 43.71030595813205), ('whitespace', 2.1050231250881897)]"
     ]
   },
   {
@@ -1649,10 +1140,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 7.101 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.0): log1p(length) MAD of the log sample: robust z 15.667 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 7.101 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.0): log1p(length) MAD of the log sample: robust z 15.667 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1662,22 +1153,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 7.101 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 16.022 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 7.101 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009712",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Field 'q' length unusual (empirical percentile 96.0): log1p(length) MAD of the log sample: robust z 2.938 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)",
-    "evidence": [
-      "Field 'q' length unusual (empirical percentile 96.0): log1p(length) MAD of the log sample: robust z 2.938 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
+      "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 16.022 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1687,35 +1166,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 9.239 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 25.055 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 9.239 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009928",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 2.977 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)",
-    "evidence": [
-      "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 2.977 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009889",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
-    "evidence": [
-      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.4599 (n=30); top cells [('bracket', 5.381094527363184), ('digit', 3.068973567441555)]"
+      "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 25.055 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1725,10 +1179,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.6): log1p(length) MAD of the log sample: robust z 7.548 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 17.959 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.6): log1p(length) MAD of the log sample: robust z 7.548 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 17.959 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1738,9 +1192,9 @@
     "attack_family": "evasive",
     "attack_slice": "rule_evasive",
     "decision": "review",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8198 (n=58); top cells [('digit', 43.488786094757494), ('whitespace', 1.5280761728042564)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]"
+      "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8198 (n=58); top cells [('digit', 43.488786094757494), ('whitespace', 1.5280761728042564)]"
     ]
   },
   {
@@ -1760,10 +1214,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 8.647 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.1): log1p(length) MAD of the log sample: robust z 22.400 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 8.647 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 99.1): log1p(length) MAD of the log sample: robust z 22.400 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1773,10 +1227,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.8): log1p(length) MAD of the log sample: robust z 7.949 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 19.187 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.8): log1p(length) MAD of the log sample: robust z 7.949 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 19.187 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1786,33 +1240,9 @@
     "attack_family": "evasive",
     "attack_slice": "rule_evasive",
     "decision": "review",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8256 (n=59); top cells [('digit', 43.43810169491527), ('whitespace', 2.5299515693573458)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009952",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5443 (n=20); top cells [('digit', 4.354737514483924), ('other', 3.1545429873204163)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5443 (n=20); top cells [('digit', 4.354737514483924), ('other', 3.1545429873204163)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0010278",
-    "scenario_group": "hard_malicious_intent",
-    "attack_family": "evasive",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
+      "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8256 (n=59); top cells [('digit', 43.43810169491527), ('whitespace', 2.5299515693573458)]"
     ]
   },
   {
@@ -1822,10 +1252,22 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.3): log1p(length) MAD of the log sample: robust z 6.596 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.8): log1p(length) MAD of the log sample: robust z 13.783 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.3): log1p(length) MAD of the log sample: robust z 6.596 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 97.8): log1p(length) MAD of the log sample: robust z 13.783 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0006058",
+    "scenario_group": "legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.4): log1p(length) MAD of the log sample: robust z 2.186 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 97.4): log1p(length) MAD of the log sample: robust z 2.186 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)"
     ]
   },
   {
@@ -1835,10 +1277,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 6.017 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.6): log1p(length) MAD of the log sample: robust z 11.147 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 6.017 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 97.6): log1p(length) MAD of the log sample: robust z 11.147 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1852,41 +1294,16 @@
     "evidence": []
   },
   {
-    "kind": "false_negative",
-    "request_id": "req-0009865",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
-    "evidence": [
-      "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
-      "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 3.063 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009631",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 2.984 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)",
-    "evidence": [
-      "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 2.984 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
-    ]
-  },
-  {
     "kind": "false_positive",
     "request_id": "req-0010370",
     "scenario_group": "distribution_shift",
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 6.017 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.6): log1p(length) MAD of the log sample: robust z 11.056 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 6.017 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 97.6): log1p(length) MAD of the log sample: robust z 11.056 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1896,22 +1313,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.3): log1p(length) MAD of the log sample: robust z 6.596 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.8): log1p(length) MAD of the log sample: robust z 13.862 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.3): log1p(length) MAD of the log sample: robust z 6.596 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0010298",
-    "scenario_group": "hard_malicious_intent",
-    "attack_family": "evasive",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
+      "Field 'text' length unusual (empirical percentile 97.8): log1p(length) MAD of the log sample: robust z 13.862 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1921,33 +1326,9 @@
     "attack_family": "evasive",
     "attack_slice": "rule_evasive",
     "decision": "review",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8741 (n=54); top cells [('digit', 43.71030595813205), ('whitespace', 1.0553977597590902)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009946",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 3.020 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)",
-    "evidence": [
-      "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 3.020 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009847",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 3.022 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)",
-    "evidence": [
-      "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 3.022 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
+      "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8741 (n=54); top cells [('digit', 43.71030595813205), ('whitespace', 1.0553977597590902)]"
     ]
   },
   {
@@ -1957,10 +1338,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.3): log1p(length) MAD of the log sample: robust z 8.954 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 23.797 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.3): log1p(length) MAD of the log sample: robust z 8.954 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 23.797 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1970,10 +1351,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.6): log1p(length) MAD of the log sample: robust z 7.548 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.3): log1p(length) MAD of the log sample: robust z 17.768 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.6): log1p(length) MAD of the log sample: robust z 7.548 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.3): log1p(length) MAD of the log sample: robust z 17.768 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -1983,10 +1364,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 9.504 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 26.151 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 9.504 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 26.151 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -2000,6 +1381,18 @@
     "evidence": []
   },
   {
+    "kind": "false_positive",
+    "request_id": "req-0000074",
+    "scenario_group": "legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.5): log1p(length) MAD of the log sample: robust z 2.475 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 97.5): log1p(length) MAD of the log sample: robust z 2.475 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)"
+    ]
+  },
+  {
     "kind": "false_negative",
     "request_id": "req-0009966",
     "scenario_group": "malicious_intent",
@@ -2010,16 +1403,15 @@
     "evidence": []
   },
   {
-    "kind": "false_negative",
-    "request_id": "req-0009766",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
+    "kind": "false_positive",
+    "request_id": "req-0000226",
+    "scenario_group": "legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.4): log1p(length) MAD of the log sample: robust z 2.101 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
-      "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 3.065 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
+      "Field 'text' length unusual (empirical percentile 97.4): log1p(length) MAD of the log sample: robust z 2.101 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)"
     ]
   },
   {
@@ -2029,10 +1421,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 7.101 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 16.163 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 7.101 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 16.163 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -2042,34 +1434,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.3): log1p(length) MAD of the log sample: robust z 6.596 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.9): log1p(length) MAD of the log sample: robust z 14.097 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.3): log1p(length) MAD of the log sample: robust z 6.596 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009703",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Field 'q' length unusual (empirical percentile 96.0): log1p(length) MAD of the log sample: robust z 2.915 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)",
-    "evidence": [
-      "Field 'q' length unusual (empirical percentile 96.0): log1p(length) MAD of the log sample: robust z 2.915 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009934",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
+      "Field 'text' length unusual (empirical percentile 97.9): log1p(length) MAD of the log sample: robust z 14.097 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -2079,10 +1447,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.8): log1p(length) MAD of the log sample: robust z 7.949 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.7): log1p(length) MAD of the log sample: robust z 19.886 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.8): log1p(length) MAD of the log sample: robust z 7.949 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.7): log1p(length) MAD of the log sample: robust z 19.886 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -2096,41 +1464,16 @@
     "evidence": []
   },
   {
-    "kind": "false_negative",
-    "request_id": "req-0010225",
-    "scenario_group": "hard_malicious_intent",
-    "attack_family": "evasive",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]",
-    "evidence": [
-      "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]"
-    ]
-  },
-  {
     "kind": "false_positive",
     "request_id": "req-0010511",
     "scenario_group": "distribution_shift",
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.3): log1p(length) MAD of the log sample: robust z 6.596 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.8): log1p(length) MAD of the log sample: robust z 13.783 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.3): log1p(length) MAD of the log sample: robust z 6.596 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009991",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
-    "evidence": [
-      "Rule FIELD_TOO_LONG (medium): Field 'q' exceeds maximum allowed length",
-      "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 3.120 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
+      "Field 'text' length unusual (empirical percentile 97.8): log1p(length) MAD of the log sample: robust z 13.783 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -2140,22 +1483,22 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 6.017 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.7): log1p(length) MAD of the log sample: robust z 11.238 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 6.017 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 97.7): log1p(length) MAD of the log sample: robust z 11.238 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
-    "kind": "false_negative",
-    "request_id": "req-0009811",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Field 'q' length unusual (empirical percentile 96.0): log1p(length) MAD of the log sample: robust z 2.935 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)",
+    "kind": "false_positive",
+    "request_id": "req-0000038",
+    "scenario_group": "legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.5): log1p(length) MAD of the log sample: robust z 2.287 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'q' length unusual (empirical percentile 96.0): log1p(length) MAD of the log sample: robust z 2.935 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
+      "Field 'text' length unusual (empirical percentile 97.5): log1p(length) MAD of the log sample: robust z 2.287 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)"
     ]
   },
   {
@@ -2165,22 +1508,34 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 9.504 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 26.233 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 9.504 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 26.233 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
-    "kind": "false_negative",
-    "request_id": "req-0009919",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Field 'q' length unusual (empirical percentile 96.0): log1p(length) MAD of the log sample: robust z 2.955 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)",
+    "kind": "false_positive",
+    "request_id": "req-0007286",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Rule SQL_UNION_SELECT (high): Query or body contains SQL UNION/SELECT-like token sequence",
     "evidence": [
-      "Field 'q' length unusual (empirical percentile 96.0): log1p(length) MAD of the log sample: robust z 2.955 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
+      "Rule SQL_UNION_SELECT (high): Query or body contains SQL UNION/SELECT-like token sequence"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0001370",
+    "scenario_group": "legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.4): log1p(length) MAD of the log sample: robust z 2.101 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 97.4): log1p(length) MAD of the log sample: robust z 2.101 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)"
     ]
   },
   {
@@ -2190,10 +1545,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 8.647 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.1): log1p(length) MAD of the log sample: robust z 22.894 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 8.647 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 99.1): log1p(length) MAD of the log sample: robust z 22.894 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -2203,10 +1558,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 8.647 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.1): log1p(length) MAD of the log sample: robust z 22.500 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 8.647 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 99.1): log1p(length) MAD of the log sample: robust z 22.500 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -2216,10 +1571,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.3): log1p(length) MAD of the log sample: robust z 6.596 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.9): log1p(length) MAD of the log sample: robust z 14.019 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.3): log1p(length) MAD of the log sample: robust z 6.596 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 97.9): log1p(length) MAD of the log sample: robust z 14.019 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -2239,34 +1594,22 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.0): log1p(length) MAD of the log sample: robust z 8.314 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.7): log1p(length) MAD of the log sample: robust z 21.051 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.0): log1p(length) MAD of the log sample: robust z 8.314 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.7): log1p(length) MAD of the log sample: robust z 21.051 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
-    "kind": "false_negative",
-    "request_id": "req-0009640",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 3.005 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)",
+    "kind": "false_positive",
+    "request_id": "req-0000094",
+    "scenario_group": "legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.4): log1p(length) MAD of the log sample: robust z 2.101 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'q' length unusual (empirical percentile 96.3): log1p(length) MAD of the log sample: robust z 3.005 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
-    ]
-  },
-  {
-    "kind": "false_negative",
-    "request_id": "req-0009901",
-    "scenario_group": "malicious_intent",
-    "attack_family": "oversized",
-    "attack_slice": "size_distribution",
-    "decision": "review",
-    "likely_cause": "Field 'q' length unusual (empirical percentile 96.0): log1p(length) MAD of the log sample: robust z 2.910 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)",
-    "evidence": [
-      "Field 'q' length unusual (empirical percentile 96.0): log1p(length) MAD of the log sample: robust z 2.910 = 0.6745*|x-median|/MAD (median 3.664, MAD 0.5725)"
+      "Field 'text' length unusual (empirical percentile 97.4): log1p(length) MAD of the log sample: robust z 2.101 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)"
     ]
   },
   {
@@ -2276,9 +1619,9 @@
     "attack_family": "evasive",
     "attack_slice": "rule_evasive",
     "decision": "review",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8642 (n=57); top cells [('digit', 43.541249818761784), ('whitespace', 2.8926968111371356)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]"
+      "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8642 (n=57); top cells [('digit', 43.541249818761784), ('whitespace', 2.8926968111371356)]"
     ]
   },
   {
@@ -2288,9 +1631,9 @@
     "attack_family": "evasive",
     "attack_slice": "rule_evasive",
     "decision": "review",
-    "likely_cause": "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8741 (n=54); top cells [('digit', 43.71030595813205), ('whitespace', 1.0553977597590902)]",
     "evidence": [
-      "Field 'q' composition unusual (empirical percentile 97.4): distribution discrepancy 0.8388 (n=15); top cells [('digit', 9.156039957764824), ('whitespace', 1.0003212839427393)]"
+      "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8741 (n=54); top cells [('digit', 43.71030595813205), ('whitespace', 1.0553977597590902)]"
     ]
   },
   {
@@ -2300,10 +1643,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.3): log1p(length) MAD of the log sample: robust z 6.596 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.6): log1p(length) MAD of the log sample: robust z 10.211 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.3): log1p(length) MAD of the log sample: robust z 6.596 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 97.6): log1p(length) MAD of the log sample: robust z 10.211 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -2327,41 +1670,28 @@
     "evidence": []
   },
   {
-    "kind": "false_negative",
-    "request_id": "req-0010250",
-    "scenario_group": "hard_malicious_intent",
-    "attack_family": "evasive",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
-    ]
-  },
-  {
     "kind": "false_positive",
     "request_id": "req-0010549",
     "scenario_group": "distribution_shift",
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 9.504 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): log1p(length) MAD of the log sample: robust z 26.395 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 9.504 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 100.0): log1p(length) MAD of the log sample: robust z 26.395 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
-    "kind": "false_negative",
-    "request_id": "req-0009745",
-    "scenario_group": "malicious_intent",
-    "attack_family": "xss",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
+    "kind": "false_positive",
+    "request_id": "req-0007894",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Rule SQL_UNION_SELECT (high): Query or body contains SQL UNION/SELECT-like token sequence",
     "evidence": [
-      "Rule EVENT_HANDLER (medium): Inline event handler attribute pattern",
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.4599 (n=30); top cells [('bracket', 5.381094527363184), ('digit', 3.068973567441555)]"
+      "Rule SQL_UNION_SELECT (high): Query or body contains SQL UNION/SELECT-like token sequence"
     ]
   },
   {
@@ -2371,10 +1701,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 6.017 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.6): log1p(length) MAD of the log sample: robust z 10.871 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 6.017 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 97.6): log1p(length) MAD of the log sample: robust z 10.871 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -2394,10 +1724,10 @@
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 99.3): log1p(length) MAD of the log sample: robust z 8.954 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.4): log1p(length) MAD of the log sample: robust z 23.982 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 99.3): log1p(length) MAD of the log sample: robust z 8.954 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 99.4): log1p(length) MAD of the log sample: robust z 23.982 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   },
   {
@@ -2411,28 +1741,446 @@
     "evidence": []
   },
   {
-    "kind": "false_negative",
-    "request_id": "req-0010242",
-    "scenario_group": "hard_malicious_intent",
-    "attack_family": "evasive",
-    "attack_slice": "rule_evasive",
-    "decision": "review",
-    "likely_cause": "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]",
-    "evidence": [
-      "Field 'text' composition unusual (empirical percentile 96.0): distribution discrepancy 0.5711 (n=24); top cells [('bracket', 5.603030303030301), ('digit', 5.355885753664058)]"
-    ]
-  },
-  {
     "kind": "false_positive",
     "request_id": "req-0010532",
     "scenario_group": "distribution_shift",
     "attack_family": null,
     "attack_slice": null,
     "decision": "alert",
-    "likely_cause": "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 7.101 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.1): log1p(length) MAD of the log sample: robust z 15.810 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
     "evidence": [
-      "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 7.101 = 0.6745*|x-median|/MAD (median 3.638, MAD 0.1719)",
-      "Field 'author' composition unusual (empirical percentile 97.4): distribution discrepancy 0.9588 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.313339413032665)]"
+      "Field 'text' length unusual (empirical percentile 98.1): log1p(length) MAD of the log sample: robust z 15.810 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0010302",
+    "scenario_group": "distribution_shift",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.8): log1p(length) MAD of the log sample: robust z 12.722 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 97.8): log1p(length) MAD of the log sample: robust z 12.722 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "req-0009705",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0010400",
+    "scenario_group": "distribution_shift",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.7): log1p(length) MAD of the log sample: robust z 11.329 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 97.7): log1p(length) MAD of the log sample: robust z 11.329 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0010386",
+    "scenario_group": "distribution_shift",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.1): log1p(length) MAD of the log sample: robust z 22.549 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 99.1): log1p(length) MAD of the log sample: robust z 22.549 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0010687",
+    "scenario_group": "distribution_shift",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 23.890 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 23.890 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0004910",
+    "scenario_group": "legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.3): log1p(length) MAD of the log sample: robust z 2.038 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 97.3): log1p(length) MAD of the log sample: robust z 2.038 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "req-0010233",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "review",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8849 (n=56); top cells [('digit', 43.595588235294116), ('whitespace', 3.0888557917373984)]",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8849 (n=56); top cells [('digit', 43.595588235294116), ('whitespace', 3.0888557917373984)]"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0005918",
+    "scenario_group": "legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.4): log1p(length) MAD of the log sample: robust z 2.186 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 97.4): log1p(length) MAD of the log sample: robust z 2.186 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "req-0010249",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "review",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9432 (n=52); top cells [('digit', 43.83385308385309), ('whitespace', 2.4487259024055232)]",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9432 (n=52); top cells [('digit', 43.83385308385309), ('whitespace', 2.4487259024055232)]"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0002414",
+    "scenario_group": "legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.4): log1p(length) MAD of the log sample: robust z 2.186 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 97.4): log1p(length) MAD of the log sample: robust z 2.186 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0010458",
+    "scenario_group": "distribution_shift",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 25.098 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 99.6): log1p(length) MAD of the log sample: robust z 25.098 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0010413",
+    "scenario_group": "distribution_shift",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 17.832 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 98.4): log1p(length) MAD of the log sample: robust z 17.832 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "req-0009750",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "req-0009975",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0000858",
+    "scenario_group": "legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.4): log1p(length) MAD of the log sample: robust z 2.101 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 97.4): log1p(length) MAD of the log sample: robust z 2.101 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0010407",
+    "scenario_group": "distribution_shift",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.1): log1p(length) MAD of the log sample: robust z 23.611 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 99.1): log1p(length) MAD of the log sample: robust z 23.611 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "req-0009813",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0010674",
+    "scenario_group": "distribution_shift",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.6): log1p(length) MAD of the log sample: robust z 19.540 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 98.6): log1p(length) MAD of the log sample: robust z 19.540 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0010645",
+    "scenario_group": "distribution_shift",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.7): log1p(length) MAD of the log sample: robust z 20.835 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 98.7): log1p(length) MAD of the log sample: robust z 20.835 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0000194",
+    "scenario_group": "legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.4): log1p(length) MAD of the log sample: robust z 2.101 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 97.4): log1p(length) MAD of the log sample: robust z 2.101 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0007918",
+    "scenario_group": "difficult_legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Rule SQL_UNION_SELECT (high): Query or body contains SQL UNION/SELECT-like token sequence",
+    "evidence": [
+      "Rule SQL_UNION_SELECT (high): Query or body contains SQL UNION/SELECT-like token sequence"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "req-0009993",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0001194",
+    "scenario_group": "legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.4): log1p(length) MAD of the log sample: robust z 2.101 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 97.4): log1p(length) MAD of the log sample: robust z 2.101 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "req-0009822",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "req-0009795",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "req-0010277",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "review",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.7738 (n=62); top cells [('digit', 43.295863087909375), ('whitespace', 2.052741365314019)]",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.7738 (n=62); top cells [('digit', 43.295863087909375), ('whitespace', 2.052741365314019)]"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0001386",
+    "scenario_group": "legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.5): log1p(length) MAD of the log sample: robust z 2.287 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 97.5): log1p(length) MAD of the log sample: robust z 2.287 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0010469",
+    "scenario_group": "distribution_shift",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 100.0): log1p(length) MAD of the log sample: robust z 26.476 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 100.0): log1p(length) MAD of the log sample: robust z 26.476 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0010323",
+    "scenario_group": "distribution_shift",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 17.510 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 98.2): log1p(length) MAD of the log sample: robust z 17.510 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0000034",
+    "scenario_group": "legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.5): log1p(length) MAD of the log sample: robust z 2.857 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 97.5): log1p(length) MAD of the log sample: robust z 2.857 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "req-0009660",
+    "scenario_group": "malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "normal",
+    "likely_cause": "unknown",
+    "evidence": []
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0010679",
+    "scenario_group": "distribution_shift",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 26.273 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 99.8): log1p(length) MAD of the log sample: robust z 26.273 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
+    ]
+  },
+  {
+    "kind": "false_negative",
+    "request_id": "req-0010229",
+    "scenario_group": "hard_malicious_intent",
+    "attack_family": "evasive",
+    "attack_slice": "rule_evasive",
+    "decision": "review",
+    "likely_cause": "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8849 (n=56); top cells [('digit', 43.595588235294116), ('whitespace', 3.0888557917373984)]",
+    "evidence": [
+      "Field 'q' composition unusual (empirical percentile 96.6): distribution discrepancy 0.8849 (n=56); top cells [('digit', 43.595588235294116), ('whitespace', 3.0888557917373984)]"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0010312",
+    "scenario_group": "distribution_shift",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 98.0): log1p(length) MAD of the log sample: robust z 15.739 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 98.0): log1p(length) MAD of the log sample: robust z 15.739 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0005482",
+    "scenario_group": "legitimate",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 97.5): log1p(length) MAD of the log sample: robust z 2.333 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 97.5): log1p(length) MAD of the log sample: robust z 2.333 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)"
+    ]
+  },
+  {
+    "kind": "false_positive",
+    "request_id": "req-0010587",
+    "scenario_group": "distribution_shift",
+    "attack_family": null,
+    "attack_slice": null,
+    "decision": "alert",
+    "likely_cause": "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 23.704 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+    "evidence": [
+      "Field 'text' length unusual (empirical percentile 99.2): log1p(length) MAD of the log sample: robust z 23.704 = 0.6745*|x-median|/MAD (median 4.727, MAD 0.03604)",
+      "Field 'author' composition unusual (empirical percentile 96.6): distribution discrepancy 0.9575 (n=15); top cells [('other', 6.2720720720720715), ('digit', 4.304193524536723)]"
     ]
   }
 ]

@@ -29,6 +29,7 @@ from anomaly_guard.evaluation.metrics import (
     review_rate_on_legitimate,
     slice_attack_recall,
 )
+from anomaly_guard.simulation.dataset_quality import payload_overlap_report
 from anomaly_guard.evaluation.splits import (
     partition_records,
     training_normal_records,
@@ -87,6 +88,7 @@ class ExperimentResult:
     base_rate: dict[str, Any] | None = None
     fpr_on_ordinary_test: float | None = None
     average_precision_statistic_component: float | None = None
+    ordinary_content_slices: dict[str, Any] | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -195,6 +197,7 @@ def run_mode_experiment(
         settings=asdict(guard.settings),
         fpr_by_legitimate_group=group_fpr,
         base_rate=base_rate,
+        ordinary_content_slices=_ordinary_content_slice_rates(meta, test_recs, pred_alert),
     )
     _plot_mode_pr(y_mal, scores, mode, model_dir.parent)
     sweep = _threshold_sweep_percentile(
@@ -202,6 +205,45 @@ def run_mode_experiment(
     )
     result.operating_point_1pct = operating_point_at_fpr(sweep, budget=0.01)
     return result, predictions
+
+
+def _ordinary_content_slice_rates(
+    meta: list[GroundTruthMeta],
+    test_recs: list[RequestRecord],
+    pred_alert: list[bool],
+) -> dict[str, Any]:
+    """Alert rates on ordinary test rows, split by whether the content family was trained."""
+    from anomaly_guard.simulation.payload_family import content_family_from_meta, is_holdout_content
+
+    train_families = {
+        content_family_from_meta(row)
+        for row in meta
+        if row.split == "train"
+        and row.scenario_group == "legitimate"
+        and content_family_from_meta(row)
+    }
+    meta_by_id = {row.request_id: row for row in meta}
+    buckets: dict[str, list[bool]] = {"in_distribution": [], "unseen_content": []}
+    for rec, alert in zip(test_recs, pred_alert):
+        row = meta_by_id[rec.request_id]
+        if row.scenario_group != "legitimate":
+            continue
+        family = content_family_from_meta(row)
+        if family in train_families and not is_holdout_content(row):
+            buckets["in_distribution"].append(alert)
+        else:
+            buckets["unseen_content"].append(alert)
+    report: dict[str, Any] = {}
+    for name, flags in buckets.items():
+        report[name] = {
+            "n": len(flags),
+            "alerts": int(sum(flags)),
+            "alert_rate": (sum(flags) / len(flags)) if flags else None,
+            "split": "test",
+            "scenario_group": "legitimate",
+            "population": name,
+        }
+    return report
 
 
 def _plot_mode_pr(y_true: list[bool], scores: list[float], mode: str, out: Path) -> None:
@@ -594,6 +636,7 @@ def run_full_experiment(
     records, meta = load_dataset(data_dir)
     modes = modes or MODES
     summary: dict[str, Any] = {"modes": {}, "generated_at": time.time()}
+    summary["dataset_quality"] = payload_overlap_report(records, meta)
 
     all_preds: list[dict[str, Any]] = []
     for mode in modes:

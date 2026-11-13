@@ -9,5 +9,11 @@
     "hard_malicious_intent": 300,
     "distribution_shift": 400,
     "seed": 42
-  }
+  },
+  "git_revision": "65dd9a4"
+  "python": "3.12.3",
+  "numpy": "2.5.4",
+  "scikit-learn": "1.9.1",
+  "pandas": "3.1.1",
+  "statsmodels": "0.15.0"
 }

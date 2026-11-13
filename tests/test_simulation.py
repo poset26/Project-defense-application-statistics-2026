@@ -62,3 +62,9 @@ def test_seed_replays_splits_and_ordinary_test_text_is_new():
     ordinary = [r for r, m in zip(test_recs, test_meta) if m.scenario_group == "legitimate"]
     assert ordinary
     assert all((r.method, r.route, r.raw_query, r.body) not in train_text for r in ordinary)
+    from anomaly_guard.simulation.dataset_quality import payload_overlap_report
+
+    report = payload_overlap_report(first_records, split_a)
+    assert report["exact_content_overlap_count"] == 0
+    assert report["in_distribution_ordinary_test_count"] > 0
+    assert report["unseen_content_ordinary_test_count"] > 0

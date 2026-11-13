@@ -36,7 +36,9 @@ Writes:
 
 `--small` uses a reduced plan (on the order of **700** requests) for quick runs. Omit `--small` for the full default plan from `DEFAULT_PLAN` in `simulation/generator.py` (**10,700** requests; no `benign_invalid` group).
 
-Splits are assigned automatically via `assign_splits()` when saving. Request ids are `req-` plus the generation index, so the same `--seed` rewrites the same ids, timestamps, text, and splits. Every row has a distinct query or body, including a `ref` token, so ordinary test strings are not copies of training strings. Query names and values are percent-decoded once: `%71` is the field `q`, `%25` is a literal `%`, and a truncated `%A` is flagged as malformed.
+Splits are assigned automatically via `assign_splits()` when saving. Request ids are `req-` plus the generation index, so the same `--seed` rewrites the same ids, timestamps, text, and splits. Every row has distinct query/body text after seed-driven diversification. Train/test splits for
+ordinary legitimate traffic are keyed by **payload family** (template body before diversification)
+so the same underlying template instance cannot appear in both train and test. Query names and values are percent-decoded once: `%71` is the field `q`, `%25` is a literal `%`, and a truncated `%A` is flagged as malformed.
 
 ### `train` — baseline and calibration
 

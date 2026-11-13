@@ -100,6 +100,31 @@ def test_percentile_100_is_only_for_scores_above_the_pool():
     assert above == 100.0
 
 
+def test_cutoff_equality_does_not_alert_or_review():
+    from anomaly_guard.core.decision import DecisionSettings, _decision_from_statistics, clears_cutoff
+    from anomaly_guard.core.statistics import StatisticalResult
+
+    assert clears_cutoff(99.0, 99.0) is False
+    assert clears_cutoff(99.0, 95.0) is True
+    settings = DecisionSettings(alert_threshold_percentile=99.0, review_threshold_percentile=95.0)
+    exact_alert = StatisticalResult(
+        baseline_version="t",
+        components=[],
+        aggregate_percentile=99.0,
+        insufficient_baseline=False,
+        processing_time_ms=0.0,
+    )
+    exact_review = StatisticalResult(
+        baseline_version="t",
+        components=[],
+        aggregate_percentile=95.0,
+        insufficient_baseline=False,
+        processing_time_ms=0.0,
+    )
+    assert _decision_from_statistics(exact_alert, settings) == "review"
+    assert _decision_from_statistics(exact_review, settings) == "normal"
+
+
 def test_entropy_only_can_alert_above_a_tied_percentile():
     from anomaly_guard.core.decision import AnomalyGuard, clears_cutoff
     from anomaly_guard.core.schema import RequestRecord
@@ -142,3 +167,35 @@ def test_entropy_only_can_alert_above_a_tied_percentile():
     assert result.decision == "alert"
     flagged = sum(guard.score(r).decision == "alert" for r in rows[:25])
     assert flagged / 25 <= guard.settings.max_false_positive_rate_target
+
+
+def test_composition_worked_example_matches_scorer():
+    import math
+
+    import numpy as np
+
+    from anomaly_guard.core.features import CATEGORY_BINS
+    from anomaly_guard.core.stat_lite import chisquare
+    from anomaly_guard.core.statistics import CompositionProfile, _composition_score
+
+    text = "abcdefghij" * 3
+    n = len(text)
+    probs = {cat: 0.0 for cat in CATEGORY_BINS}
+    probs["letter"] = 1.0
+    profile = CompositionProfile(
+        category_probs=probs,
+        merged_categories=["letter"],
+        training_chars=1000,
+        min_total_count=8,
+    )
+    score, status, _detail, _p = _composition_score(text, profile)
+    observed = [float(n if cat == "letter" else 0) for cat in CATEGORY_BINS]
+    expected = [probs[cat] * n + 0.5 for cat in CATEGORY_BINS]
+    obs_arr = np.array(observed)
+    exp_arr = np.array(expected)
+    exp_arr = np.maximum(exp_arr * (obs_arr.sum() / exp_arr.sum()), 1e-6)
+    stat, _ = chisquare(f_obs=obs_arr, f_exp=exp_arr)
+    assert status == "ok"
+    assert score is not None
+    assert math.isclose(score, float(stat) / n, rel_tol=1e-9)
+

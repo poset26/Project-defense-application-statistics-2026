@@ -46,10 +46,65 @@ _LEGIT_SEARCH = [
 ]
 
 
+_SEARCH_QUALIFIERS = (
+    "overview",
+    "examples",
+    "timeline",
+    "summary",
+    "worksheet",
+    "lecture notes",
+    "practice set",
+    "reading list",
+    "lab guide",
+    "seminar notes",
+    "course review",
+    "problem set",
+)
+_SEARCH_DETAILS = (
+    "for beginners",
+    "with exercises",
+    "from the course",
+    "this semester",
+    "in one page",
+    "with citations",
+    "for the exam",
+    "with diagrams",
+    "after the lecture",
+    "before the lab",
+    "with solutions",
+    "from last year",
+    "for self study",
+    "with a glossary",
+    "in plain language",
+    "with worked examples",
+)
+
+
+_SEARCH_SCOPE = (
+    "today",
+    "this week",
+    "this month",
+    "this term",
+    "last week",
+    "last term",
+    "next week",
+    "next term",
+)
+
+
+def _unique_phrase(seq: int, *banks: tuple[str, ...]) -> tuple[str, int]:
+    """Injective phrase for seq until the product of the bank sizes is exceeded."""
+    topic_i = seq % len(banks[0])
+    n = seq // len(banks[0])
+    parts = [banks[0][topic_i]]
+    for bank in banks[1:]:
+        parts.append(bank[n % len(bank)])
+        n //= len(bank)
+    return " ".join(parts), topic_i
+
+
 def build_search_legitimate(rid: str, ts: str, seq: int) -> tuple[RequestRecord, GroundTruthMeta]:
-    q = _LEGIT_SEARCH[seq % len(_LEGIT_SEARCH)]
-    if seq % 7 == 0:
-        q = q + " " + ("details " * (seq % 4))
+    q, topic_i = _unique_phrase(seq, _LEGIT_SEARCH, _SEARCH_QUALIFIERS, _SEARCH_DETAILS, _SEARCH_SCOPE)
     page = (seq % 12) + 1
     rec = RequestRecord(
         request_id=rid,
@@ -67,6 +122,7 @@ def build_search_legitimate(rid: str, ts: str, seq: int) -> tuple[RequestRecord,
         scenario_id="search_ordinary",
         attack_family=None,
         template_id="leg_search_v1",
+        notes=f"cf:leg_search_v1:{topic_i}",
     )
     return rec, meta
 
@@ -82,7 +138,7 @@ def build_search_difficult(rid: str, ts: str, seq: int) -> tuple[RequestRecord, 
         "SELECT is a SQL keyword but this is prose about databases",
         "path/to/file in a tutorial",
     ]
-    q = queries[seq % len(queries)]
+    q, topic_i = _unique_phrase(seq, tuple(queries), _SEARCH_QUALIFIERS, _SEARCH_DETAILS, _SEARCH_SCOPE)
     rec = RequestRecord(
         request_id=rid,
         timestamp=ts,
@@ -104,8 +160,12 @@ def build_search_difficult(rid: str, ts: str, seq: int) -> tuple[RequestRecord, 
 
 
 def build_login_legitimate(rid: str, ts: str, seq: int) -> tuple[RequestRecord, GroundTruthMeta]:
-    user = f"student{(seq % 500):03d}"
-    body = f"username={user}&password=dummy-{seq % 40}"
+    stems = ("maple", "cedar", "river", "harbor", "linen", "quartz", "willow", "amber")
+    roles = ("reader", "tutor", "guest", "author", "member", "visitor")
+    user = f"{stems[seq % len(stems)]}{roles[(seq // len(stems)) % len(roles)]}{(seq % 900):03d}"
+    secrets = ("notebook", "pencil", "satchel", "compass", "lantern", "meadow")
+    pw = f"{secrets[seq % len(secrets)]}-{secrets[(seq // 7) % len(secrets)]}-{seq % 97}"
+    body = f"username={user}&password={pw}"
     rec = RequestRecord(
         request_id=rid,
         timestamp=ts,
@@ -122,6 +182,7 @@ def build_login_legitimate(rid: str, ts: str, seq: int) -> tuple[RequestRecord, 
         scenario_id="login_ordinary",
         attack_family=None,
         template_id="leg_login_v1",
+        notes=f"cf:leg_login_v1:{seq % 40}",
     )
     return rec, meta
 
@@ -131,13 +192,45 @@ def build_comment_legitimate(rid: str, ts: str, seq: int) -> tuple[RequestRecord
         "Great article, thanks!",
         "I disagree but appreciate the write-up.",
         "Could you clarify section 2?",
-        "See also `printf` and similar APIs in C.",
+        "See also printf and similar APIs in C.",
         "We use union types in TypeScript for API responses.",
-        "Repeated chars ok: .... and ---- in markdown examples.",
+        "Repeated chars ok: dots and dashes in markdown examples.",
+        "The diagram on page two helped.",
+        "I will bring this up in the seminar.",
     ]
-    text = texts[seq % len(texts)]
-    if seq % 5 == 0:
-        text = text + " " + ("More context. " * (1 + seq % 8))
+    extras = (
+        "Please expand on the example.",
+        "I will reread the section tonight.",
+        "This matches the lecture notes.",
+        "Happy to discuss after class.",
+        "The reference list is useful.",
+        "I tried the exercise myself.",
+    )
+    closers = (
+        "Thanks again.",
+        "See you Monday.",
+        "That is all from me.",
+        "More later if needed.",
+    )
+    followups = (
+        "I saved the link.",
+        "The example compiled.",
+        "I will cite the paper.",
+        "This belongs in the notes.",
+        "The figure is clear.",
+        "I compared two sources.",
+        "The definition helped.",
+        "I will retry the lab.",
+        "The wording is precise.",
+        "I shared it with the group.",
+        "The proof sketch is short.",
+        "I marked the hard step.",
+        "The dataset description matches.",
+        "I will ask in office hours.",
+        "The notation is consistent.",
+        "I copied the command carefully.",
+    )
+    text, topic_i = _unique_phrase(seq, texts, extras, closers, followups, _SEARCH_SCOPE)
     if seq % 3 == 0:
         body = f"text={text.replace(' ', '+')}"
         headers = _headers_form()
@@ -160,6 +253,7 @@ def build_comment_legitimate(rid: str, ts: str, seq: int) -> tuple[RequestRecord
         scenario_id="comment_ordinary",
         attack_family=None,
         template_id="leg_comment_v1",
+        notes=f"cf:leg_comment_v1:{topic_i}",
     )
     return rec, meta
 
@@ -477,9 +571,9 @@ def build_hard_malicious(rid: str, ts: str, seq: int) -> tuple[RequestRecord, Gr
 
 
 def build_matched_pair_benign(rid: str, ts: str, seq: int) -> tuple[RequestRecord, GroundTruthMeta]:
-    topic = _LEGIT_SEARCH[seq % len(_LEGIT_SEARCH)]
-    pad = "x" * (50 + (seq % 30))
-    q = f"{topic} {pad}"
+    q, topic_i = _unique_phrase(seq, _LEGIT_SEARCH, _SEARCH_QUALIFIERS, _SEARCH_DETAILS, _SEARCH_SCOPE)
+    pad = "x" * (40 + (seq % 5))
+    q = f"comparison {q} {pad}"
     rec = RequestRecord(
         request_id=rid,
         timestamp=ts,
@@ -496,15 +590,16 @@ def build_matched_pair_benign(rid: str, ts: str, seq: int) -> tuple[RequestRecor
         scenario_id="matched_pair",
         attack_family=None,
         template_id="pair_benign",
+        notes=f"cf:pair_benign:{topic_i}",
     )
     return rec, meta
 
 
 def build_matched_pair_malicious(rid: str, ts: str, seq: int) -> tuple[RequestRecord, GroundTruthMeta]:
-    topic = _LEGIT_SEARCH[seq % len(_LEGIT_SEARCH)]
-    pad = "x" * (50 + (seq % 30))
+    q, topic_i = _unique_phrase(seq, _LEGIT_SEARCH, _SEARCH_QUALIFIERS, _SEARCH_DETAILS, _SEARCH_SCOPE)
+    pad = "x" * (40 + (seq % 5))
     inject = "uni%0aon" if seq % 2 else "1 OR 2=1"
-    q = f"{topic} {pad} {inject}"
+    q = f"comparison {q} {pad} {inject}"
     rec = RequestRecord(
         request_id=rid,
         timestamp=ts,
@@ -565,6 +660,8 @@ ALL_TEMPLATES: list[ScenarioTemplate] = [
     ScenarioTemplate("pair_mal", "malicious_intent", "evasive", "pair_mal", build_matched_pair_malicious),
     ScenarioTemplate("hard_short", "hard_malicious_intent", "evasive", "hard", build_hard_malicious),
     ScenarioTemplate("longer_comments", "distribution_shift", None, "shift", build_distribution_shift),
+    ScenarioTemplate("invalid_contract", "benign_invalid", None, "inv_contract", build_benign_invalid_contract),
+    ScenarioTemplate("invalid_schema_ok", "benign_invalid", None, "inv_schema_ok", build_benign_invalid_schema_valid),
 ]
 
 TEMPLATE_BY_ID = {t.scenario_id: t for t in ALL_TEMPLATES}

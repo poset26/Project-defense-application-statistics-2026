@@ -4,18 +4,29 @@
       "mode": "rules_only",
       "metrics_malicious": {
         "tp": 115,
-        "fp": 0,
-        "tn": 705,
+        "fp": 5,
+        "tn": 2397,
         "fn": 335,
-        "precision": 1.0,
+        "precision": 0.9583333333333334,
         "recall": 0.25555555555555554,
-        "f1": 0.4070796460176991,
-        "false_positive_rate": 0.0,
+        "f1": 0.40350877192982454,
+        "false_positive_rate": 0.0020815986677768525,
         "false_negative_rate": 0.7444444444444445,
         "wilson_fpr_ci": [
-          0.0,
-          0.0054193483929187705
-        ]
+          0.0008894521146159792,
+          0.0048638192698912085
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 5,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
       "metrics_benign_invalid": {
         "total": 0,
@@ -24,26 +35,37 @@
       },
       "metrics_any_anomaly": {
         "tp": 115,
-        "fp": 0,
-        "tn": 705,
+        "fp": 5,
+        "tn": 2397,
         "fn": 335,
-        "precision": 1.0,
+        "precision": 0.9583333333333334,
         "recall": 0.25555555555555554,
-        "f1": 0.4070796460176991,
-        "false_positive_rate": 0.0,
+        "f1": 0.40350877192982454,
+        "false_positive_rate": 0.0020815986677768525,
         "false_negative_rate": 0.7444444444444445,
         "wilson_fpr_ci": [
-          0.0,
-          0.0054193483929187705
-        ]
+          0.0008894521146159792,
+          0.0048638192698912085
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 5,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
-      "fpr_on_legitimate_test": 0.0,
+      "fpr_on_legitimate_test": 0.0020815986677768525,
       "review_rate_legitimate": 0.0,
-      "average_precision": 0.6012121212121213,
+      "average_precision": 0.4974574674246816,
       "per_family": {
         "sqli": {
           "recall": 0.36904761904761907,
-          "review_rate": 0.0,
+          "review_rate": 0.21428571428571427,
           "support": 84.0
         },
         "evasive": {
@@ -68,7 +90,7 @@
         },
         "oversized": {
           "recall": 0.0,
-          "review_rate": 0.4878048780487805,
+          "review_rate": 0.8536585365853658,
           "support": 41.0
         }
       },
@@ -86,8 +108,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 0.02394700095464941,
-      "latency_ms_p95": 0.10628779946273423,
+      "latency_ms_median": 0.031862000014371006,
+      "latency_ms_p95": 0.06373124988385814,
       "settings": {
         "alert_threshold_percentile": 99.0,
         "review_threshold_percentile": 95.0,
@@ -102,13 +124,13 @@
       "fpr_by_legitimate_group": {
         "legitimate": {
           "alerts": 0,
-          "support": 271,
+          "support": 1968,
           "alert_rate": 0.0
         },
         "difficult_legitimate": {
-          "alerts": 0,
+          "alerts": 5,
           "support": 340,
-          "alert_rate": 0.0
+          "alert_rate": 0.014705882352941176
         },
         "distribution_shift": {
           "alerts": 0,
@@ -118,47 +140,77 @@
       },
       "base_rate": {
         "n_malicious": 450,
-        "n_legitimate_family": 705,
-        "note": "Precision on this file is not an operational detection rate. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
+        "n_legitimate_family": 2402,
+        "note": "Precision on this file is not an operational detection rate. Wilson k/n uses legitimate-family test rows (ordinary + difficult + shift) that share the same alert decision. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
         "rows": [
           {
             "name": "file_legitimate_mixture",
-            "prior": 0.38961038961038963,
-            "posterior_at_observed_fpr": 1.0,
-            "posterior_at_wilson_fpr_upper": 0.9678453120840954
+            "prior": 0.15778401122019636,
+            "posterior_at_observed_fpr": 0.9583333333333334,
+            "posterior_at_wilson_fpr_upper": 0.9077784416831665
           },
           {
             "name": "prior_1pct",
             "prior": 0.01,
-            "posterior_at_observed_fpr": 1.0,
-            "posterior_at_wilson_fpr_upper": 0.3226422133462384
+            "posterior_at_observed_fpr": 0.5535893222173233,
+            "posterior_at_wilson_fpr_upper": 0.34671643865300206
           },
           {
             "name": "prior_0_1pct",
             "prior": 0.001,
-            "posterior_at_observed_fpr": 1.0,
-            "posterior_at_wilson_fpr_upper": 0.04507562390272408
+            "posterior_at_observed_fpr": 0.10944223012860639,
+            "posterior_at_wilson_fpr_upper": 0.04996676226660128
           }
         ]
       },
-      "fpr_on_ordinary_test": 0.0
+      "fpr_on_ordinary_test": 0.0,
+      "average_precision_statistic_component": null,
+      "ordinary_content_slices": {
+        "in_distribution": {
+          "n": 1735,
+          "alerts": 0,
+          "alert_rate": 0.0,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "in_distribution"
+        },
+        "unseen_content": {
+          "n": 233,
+          "alerts": 0,
+          "alert_rate": 0.0,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "unseen_content"
+        }
+      }
     },
     "length_only": {
       "mode": "length_only",
       "metrics_malicious": {
-        "tp": 51,
-        "fp": 96,
-        "tn": 609,
-        "fn": 399,
-        "precision": 0.3469387755102041,
-        "recall": 0.11333333333333333,
-        "f1": 0.1708542713567839,
-        "false_positive_rate": 0.13617021276595745,
-        "false_negative_rate": 0.8866666666666667,
+        "tp": 287,
+        "fp": 117,
+        "tn": 2285,
+        "fn": 163,
+        "precision": 0.7103960396039604,
+        "recall": 0.6377777777777778,
+        "f1": 0.6721311475409836,
+        "false_positive_rate": 0.04870940882597835,
+        "false_negative_rate": 0.3622222222222222,
         "wilson_fpr_ci": [
-          0.11281696175159012,
-          0.16346690452581036
-        ]
+          0.04079829609640716,
+          0.05806169234908265
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 117,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
       "metrics_benign_invalid": {
         "total": 0,
@@ -166,36 +218,47 @@
         "rejection_rate": 0.0
       },
       "metrics_any_anomaly": {
-        "tp": 51,
-        "fp": 96,
-        "tn": 609,
-        "fn": 399,
-        "precision": 0.3469387755102041,
-        "recall": 0.11333333333333333,
-        "f1": 0.1708542713567839,
-        "false_positive_rate": 0.13617021276595745,
-        "false_negative_rate": 0.8866666666666667,
+        "tp": 287,
+        "fp": 117,
+        "tn": 2285,
+        "fn": 163,
+        "precision": 0.7103960396039604,
+        "recall": 0.6377777777777778,
+        "f1": 0.6721311475409836,
+        "false_positive_rate": 0.04870940882597835,
+        "false_negative_rate": 0.3622222222222222,
         "wilson_fpr_ci": [
-          0.11281696175159012,
-          0.16346690452581036
-        ]
+          0.04079829609640716,
+          0.05806169234908265
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 117,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
-      "fpr_on_legitimate_test": 0.13617021276595745,
-      "review_rate_legitimate": 0.011347517730496455,
-      "average_precision": 0.5325042299694209,
+      "fpr_on_legitimate_test": 0.04870940882597835,
+      "review_rate_legitimate": 0.02497918401332223,
+      "average_precision": 0.6329829982199512,
       "per_family": {
         "sqli": {
-          "recall": 0.0,
+          "recall": 1.0,
           "review_rate": 0.0,
           "support": 84.0
         },
         "evasive": {
-          "recall": 0.0,
+          "recall": 0.31896551724137934,
           "review_rate": 0.0,
           "support": 116.0
         },
         "xss": {
-          "recall": 0.11904761904761904,
+          "recall": 1.0,
           "review_rate": 0.0,
           "support": 84.0
         },
@@ -210,30 +273,30 @@
           "support": 41.0
         },
         "oversized": {
-          "recall": 0.0,
-          "review_rate": 1.0,
+          "recall": 1.0,
+          "review_rate": 0.0,
           "support": 41.0
         }
       },
       "attack_slices": {
         "signature_easy": {
-          "recall": 0.0,
+          "recall": 0.6666666666666666,
           "support": 126.0
         },
         "rule_evasive": {
-          "recall": 0.04132231404958678,
+          "recall": 0.5,
           "support": 242.0
         },
         "size_distribution": {
-          "recall": 0.5,
+          "recall": 1.0,
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.126758999816957,
-      "latency_ms_p95": 1.851255600377044,
+      "latency_ms_median": 1.1123895001219353,
+      "latency_ms_p95": 1.504670450412959,
       "settings": {
-        "alert_threshold_percentile": 97.38292011019284,
-        "review_threshold_percentile": 95.48898071625345,
+        "alert_threshold_percentile": 97.03637180062866,
+        "review_threshold_percentile": 95.06061966771442,
         "isolation_alert_threshold": 0.0,
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
@@ -245,17 +308,17 @@
         "budget": 0.01,
         "selection": "highest_recall_with_test_fpr_at_most_budget",
         "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
-        "threshold_percentile": 99.79338842975206,
-        "recall_malicious": 0.09111111111111111,
-        "fpr_legitimate": 0.0,
+        "threshold_percentile": 99.95509654243376,
+        "recall_malicious": 0.31777777777777777,
+        "fpr_legitimate": 0.00041631973355537054,
         "includes_rule_alerts": false,
         "comparison": "score > threshold"
       },
       "fpr_by_legitimate_group": {
         "legitimate": {
-          "alerts": 2,
-          "support": 271,
-          "alert_rate": 0.007380073800738007
+          "alerts": 23,
+          "support": 1968,
+          "alert_rate": 0.011686991869918699
         },
         "difficult_legitimate": {
           "alerts": 0,
@@ -270,47 +333,77 @@
       },
       "base_rate": {
         "n_malicious": 450,
-        "n_legitimate_family": 705,
-        "note": "Precision on this file is not an operational detection rate. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
+        "n_legitimate_family": 2402,
+        "note": "Precision on this file is not an operational detection rate. Wilson k/n uses legitimate-family test rows (ordinary + difficult + shift) that share the same alert decision. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
         "rows": [
           {
             "name": "file_legitimate_mixture",
-            "prior": 0.38961038961038963,
-            "posterior_at_observed_fpr": 0.34693877551020413,
-            "posterior_at_wilson_fpr_upper": 0.30677767953271884
+            "prior": 0.15778401122019636,
+            "posterior_at_observed_fpr": 0.7103960396039605,
+            "posterior_at_wilson_fpr_upper": 0.6729756215867468
           },
           {
             "name": "prior_1pct",
             "prior": 0.01,
-            "posterior_at_observed_fpr": 0.008336898339924247,
-            "posterior_at_wilson_fpr_upper": 0.0069544342500203445
+            "posterior_at_observed_fpr": 0.11680891888539688,
+            "posterior_at_wilson_fpr_upper": 0.09987303964677595
           },
           {
             "name": "prior_0_1pct",
             "prior": 0.001,
-            "posterior_at_observed_fpr": 0.0008324312723279634,
-            "posterior_at_wilson_fpr_upper": 0.0006935232698044615
+            "posterior_at_observed_fpr": 0.012937068527612994,
+            "posterior_at_wilson_fpr_upper": 0.010875894607647863
           }
         ]
       },
-      "fpr_on_ordinary_test": 0.007380073800738007
+      "fpr_on_ordinary_test": 0.011686991869918699,
+      "average_precision_statistic_component": null,
+      "ordinary_content_slices": {
+        "in_distribution": {
+          "n": 1735,
+          "alerts": 23,
+          "alert_rate": 0.013256484149855908,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "in_distribution"
+        },
+        "unseen_content": {
+          "n": 233,
+          "alerts": 0,
+          "alert_rate": 0.0,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "unseen_content"
+        }
+      }
     },
     "composition_only": {
       "mode": "composition_only",
       "metrics_malicious": {
         "tp": 368,
-        "fp": 218,
-        "tn": 487,
+        "fp": 117,
+        "tn": 2285,
         "fn": 82,
-        "precision": 0.6279863481228669,
+        "precision": 0.7587628865979381,
         "recall": 0.8177777777777778,
-        "f1": 0.7104247104247106,
-        "false_positive_rate": 0.30921985815602837,
+        "f1": 0.7871657754010696,
+        "false_positive_rate": 0.04870940882597835,
         "false_negative_rate": 0.18222222222222223,
         "wilson_fpr_ci": [
-          0.276214700920619,
-          0.3442928235016436
-        ]
+          0.04079829609640716,
+          0.05806169234908265
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 117,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
       "metrics_benign_invalid": {
         "total": 0,
@@ -319,22 +412,33 @@
       },
       "metrics_any_anomaly": {
         "tp": 368,
-        "fp": 218,
-        "tn": 487,
+        "fp": 117,
+        "tn": 2285,
         "fn": 82,
-        "precision": 0.6279863481228669,
+        "precision": 0.7587628865979381,
         "recall": 0.8177777777777778,
-        "f1": 0.7104247104247106,
-        "false_positive_rate": 0.30921985815602837,
+        "f1": 0.7871657754010696,
+        "false_positive_rate": 0.04870940882597835,
         "false_negative_rate": 0.18222222222222223,
         "wilson_fpr_ci": [
-          0.276214700920619,
-          0.3442928235016436
-        ]
+          0.04079829609640716,
+          0.05806169234908265
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 117,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
-      "fpr_on_legitimate_test": 0.30921985815602837,
-      "review_rate_legitimate": 0.1900709219858156,
-      "average_precision": 0.8168823676693384,
+      "fpr_on_legitimate_test": 0.04870940882597835,
+      "review_rate_legitimate": 0.0,
+      "average_precision": 0.8211271566684997,
       "per_family": {
         "sqli": {
           "recall": 1.0,
@@ -381,11 +485,11 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.0515659996599425,
-      "latency_ms_p95": 1.828180999837059,
+      "latency_ms_median": 1.1153785003443772,
+      "latency_ms_p95": 1.5777747001266096,
       "settings": {
-        "alert_threshold_percentile": 92.67928286852589,
-        "review_threshold_percentile": 85.85657370517929,
+        "alert_threshold_percentile": 92.63959390862944,
+        "review_threshold_percentile": 92.63959390862944,
         "isolation_alert_threshold": 0.0,
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
@@ -397,22 +501,22 @@
         "budget": 0.01,
         "selection": "highest_recall_with_test_fpr_at_most_budget",
         "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
-        "threshold_percentile": 97.36055776892431,
-        "recall_malicious": 0.5688888888888889,
+        "threshold_percentile": 96.63705583756345,
+        "recall_malicious": 0.5488888888888889,
         "fpr_legitimate": 0.0,
         "includes_rule_alerts": false,
         "comparison": "score > threshold"
       },
       "fpr_by_legitimate_group": {
         "legitimate": {
-          "alerts": 1,
-          "support": 271,
-          "alert_rate": 0.0036900369003690036
+          "alerts": 0,
+          "support": 1968,
+          "alert_rate": 0.0
         },
         "difficult_legitimate": {
-          "alerts": 123,
+          "alerts": 23,
           "support": 340,
-          "alert_rate": 0.36176470588235293
+          "alert_rate": 0.06764705882352941
         },
         "distribution_shift": {
           "alerts": 94,
@@ -422,47 +526,77 @@
       },
       "base_rate": {
         "n_malicious": 450,
-        "n_legitimate_family": 705,
-        "note": "Precision on this file is not an operational detection rate. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
+        "n_legitimate_family": 2402,
+        "note": "Precision on this file is not an operational detection rate. Wilson k/n uses legitimate-family test rows (ordinary + difficult + shift) that share the same alert decision. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
         "rows": [
           {
             "name": "file_legitimate_mixture",
-            "prior": 0.38961038961038963,
-            "posterior_at_observed_fpr": 0.6279863481228669,
-            "posterior_at_wilson_fpr_upper": 0.6025611068309871
+            "prior": 0.15778401122019636,
+            "posterior_at_observed_fpr": 0.7587628865979381,
+            "posterior_at_wilson_fpr_upper": 0.7251743292655936
           },
           {
             "name": "prior_1pct",
             "prior": 0.01,
-            "posterior_at_observed_fpr": 0.026018569219382753,
-            "posterior_at_wilson_fpr_upper": 0.023430170182343578
+            "posterior_at_observed_fpr": 0.14499582204640662,
+            "posterior_at_wilson_fpr_upper": 0.12454950671234227
           },
           {
             "name": "prior_0_1pct",
             "prior": 0.001,
-            "posterior_at_observed_fpr": 0.002640305943314024,
-            "posterior_at_wilson_fpr_upper": 0.0023719770688739885
+            "posterior_at_observed_fpr": 0.016527949608391993,
+            "posterior_at_wilson_fpr_upper": 0.013902723507347644
           }
         ]
       },
-      "fpr_on_ordinary_test": 0.0036900369003690036
+      "fpr_on_ordinary_test": 0.0,
+      "average_precision_statistic_component": null,
+      "ordinary_content_slices": {
+        "in_distribution": {
+          "n": 1735,
+          "alerts": 0,
+          "alert_rate": 0.0,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "in_distribution"
+        },
+        "unseen_content": {
+          "n": 233,
+          "alerts": 0,
+          "alert_rate": 0.0,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "unseen_content"
+        }
+      }
     },
     "payl_only": {
       "mode": "payl_only",
       "metrics_malicious": {
         "tp": 450,
-        "fp": 437,
-        "tn": 268,
+        "fp": 466,
+        "tn": 1936,
         "fn": 0,
-        "precision": 0.5073280721533259,
+        "precision": 0.4912663755458515,
         "recall": 1.0,
-        "f1": 0.6731488406881078,
-        "false_positive_rate": 0.6198581560283688,
+        "f1": 0.6588579795021962,
+        "false_positive_rate": 0.19400499583680267,
         "false_negative_rate": 0.0,
         "wilson_fpr_ci": [
-          0.5834678029876327,
-          0.6549494028586038
-        ]
+          0.17868493625218765,
+          0.21030223303511406
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 466,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
       "metrics_benign_invalid": {
         "total": 0,
@@ -471,22 +605,33 @@
       },
       "metrics_any_anomaly": {
         "tp": 450,
-        "fp": 437,
-        "tn": 268,
+        "fp": 466,
+        "tn": 1936,
         "fn": 0,
-        "precision": 0.5073280721533259,
+        "precision": 0.4912663755458515,
         "recall": 1.0,
-        "f1": 0.6731488406881078,
-        "false_positive_rate": 0.6198581560283688,
+        "f1": 0.6588579795021962,
+        "false_positive_rate": 0.19400499583680267,
         "false_negative_rate": 0.0,
         "wilson_fpr_ci": [
-          0.5834678029876327,
-          0.6549494028586038
-        ]
+          0.17868493625218765,
+          0.21030223303511406
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 466,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
-      "fpr_on_legitimate_test": 0.6198581560283688,
-      "review_rate_legitimate": 0.009929078014184398,
-      "average_precision": 0.824170329736174,
+      "fpr_on_legitimate_test": 0.19400499583680267,
+      "review_rate_legitimate": 0.04537885095753539,
+      "average_precision": 0.7991622502313318,
       "per_family": {
         "sqli": {
           "recall": 1.0,
@@ -533,11 +678,11 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.1532980006450089,
-      "latency_ms_p95": 1.870824500292656,
+      "latency_ms_median": 1.1078545003329054,
+      "latency_ms_p95": 1.5037064499210826,
       "settings": {
-        "alert_threshold_percentile": 0.5192241490877432,
-        "review_threshold_percentile": 0.4814763991846155,
+        "alert_threshold_percentile": 0.45484667066523315,
+        "review_threshold_percentile": 0.40550301050093845,
         "isolation_alert_threshold": 0.0,
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
@@ -549,17 +694,17 @@
         "budget": 0.01,
         "selection": "highest_recall_with_test_fpr_at_most_budget",
         "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
-        "threshold_percentile": 15.057198317537635,
-        "recall_malicious": 0.5444444444444444,
+        "threshold_percentile": 15.05574602010665,
+        "recall_malicious": 0.4088888888888889,
         "fpr_legitimate": 0.0,
         "includes_rule_alerts": false,
         "comparison": "score > threshold"
       },
       "fpr_by_legitimate_group": {
         "legitimate": {
-          "alerts": 3,
-          "support": 271,
-          "alert_rate": 0.01107011070110701
+          "alerts": 32,
+          "support": 1968,
+          "alert_rate": 0.016260162601626018
         },
         "difficult_legitimate": {
           "alerts": 340,
@@ -574,47 +719,77 @@
       },
       "base_rate": {
         "n_malicious": 450,
-        "n_legitimate_family": 705,
-        "note": "Precision on this file is not an operational detection rate. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
+        "n_legitimate_family": 2402,
+        "note": "Precision on this file is not an operational detection rate. Wilson k/n uses legitimate-family test rows (ordinary + difficult + shift) that share the same alert decision. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
         "rows": [
           {
             "name": "file_legitimate_mixture",
-            "prior": 0.38961038961038963,
-            "posterior_at_observed_fpr": 0.5073280721533259,
-            "posterior_at_wilson_fpr_upper": 0.4935621242597958
+            "prior": 0.15778401122019636,
+            "posterior_at_observed_fpr": 0.4912663755458515,
+            "posterior_at_wilson_fpr_upper": 0.47113217987446887
           },
           {
             "name": "prior_1pct",
             "prior": 0.01,
-            "posterior_at_observed_fpr": 0.01603438864628821,
-            "posterior_at_wilson_fpr_upper": 0.015188337461604582
+            "posterior_at_observed_fpr": 0.0494890390637877,
+            "posterior_at_wilson_fpr_upper": 0.04582967998693002
           },
           {
             "name": "prior_0_1pct",
             "prior": 0.001,
-            "posterior_at_observed_fpr": 0.0016122835423584621,
-            "posterior_at_wilson_fpr_upper": 0.0015260315339561076
+            "posterior_at_observed_fpr": 0.005133180605894823,
+            "posterior_at_wilson_fpr_upper": 0.004737272505871416
           }
         ]
       },
-      "fpr_on_ordinary_test": 0.01107011070110701
+      "fpr_on_ordinary_test": 0.016260162601626018,
+      "average_precision_statistic_component": null,
+      "ordinary_content_slices": {
+        "in_distribution": {
+          "n": 1735,
+          "alerts": 27,
+          "alert_rate": 0.015561959654178675,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "in_distribution"
+        },
+        "unseen_content": {
+          "n": 233,
+          "alerts": 5,
+          "alert_rate": 0.02145922746781116,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "unseen_content"
+        }
+      }
     },
     "ngram_only": {
       "mode": "ngram_only",
       "metrics_malicious": {
-        "tp": 41,
-        "fp": 94,
-        "tn": 611,
-        "fn": 409,
-        "precision": 0.3037037037037037,
-        "recall": 0.09111111111111111,
-        "f1": 0.14017094017094017,
-        "false_positive_rate": 0.13333333333333333,
-        "false_negative_rate": 0.9088888888888889,
+        "tp": 1,
+        "fp": 96,
+        "tn": 2306,
+        "fn": 449,
+        "precision": 0.010309278350515464,
+        "recall": 0.0022222222222222222,
+        "f1": 0.003656307129798903,
+        "false_positive_rate": 0.03996669442131557,
+        "false_negative_rate": 0.9977777777777778,
         "wilson_fpr_ci": [
-          0.11021695470765516,
-          0.16042390078048524
-        ]
+          0.03283964070751348,
+          0.04856283828904208
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 96,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
       "metrics_benign_invalid": {
         "total": 0,
@@ -622,52 +797,63 @@
         "rejection_rate": 0.0
       },
       "metrics_any_anomaly": {
-        "tp": 41,
-        "fp": 94,
-        "tn": 611,
-        "fn": 409,
-        "precision": 0.3037037037037037,
-        "recall": 0.09111111111111111,
-        "f1": 0.14017094017094017,
-        "false_positive_rate": 0.13333333333333333,
-        "false_negative_rate": 0.9088888888888889,
+        "tp": 1,
+        "fp": 96,
+        "tn": 2306,
+        "fn": 449,
+        "precision": 0.010309278350515464,
+        "recall": 0.0022222222222222222,
+        "f1": 0.003656307129798903,
+        "false_positive_rate": 0.03996669442131557,
+        "false_negative_rate": 0.9977777777777778,
         "wilson_fpr_ci": [
-          0.11021695470765516,
-          0.16042390078048524
-        ]
+          0.03283964070751348,
+          0.04856283828904208
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 96,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
-      "fpr_on_legitimate_test": 0.13333333333333333,
-      "review_rate_legitimate": 0.0070921985815602835,
-      "average_precision": 0.5439508897505557,
+      "fpr_on_legitimate_test": 0.03996669442131557,
+      "review_rate_legitimate": 0.043713572023313906,
+      "average_precision": 0.32371132340041203,
       "per_family": {
         "sqli": {
           "recall": 0.0,
-          "review_rate": 0.0,
+          "review_rate": 0.4642857142857143,
           "support": 84.0
         },
         "evasive": {
-          "recall": 0.0,
-          "review_rate": 0.0,
+          "recall": 0.008620689655172414,
+          "review_rate": 0.06896551724137931,
           "support": 116.0
         },
         "xss": {
           "recall": 0.0,
-          "review_rate": 0.0,
+          "review_rate": 0.011904761904761904,
           "support": 84.0
         },
         "traversal": {
           "recall": 0.0,
-          "review_rate": 0.0,
+          "review_rate": 0.5595238095238095,
           "support": 84.0
         },
         "repetitive": {
-          "recall": 1.0,
-          "review_rate": 0.0,
+          "recall": 0.0,
+          "review_rate": 1.0,
           "support": 41.0
         },
         "oversized": {
           "recall": 0.0,
-          "review_rate": 0.0,
+          "review_rate": 1.0,
           "support": 41.0
         }
       },
@@ -677,19 +863,19 @@
           "support": 126.0
         },
         "rule_evasive": {
-          "recall": 0.0,
+          "recall": 0.004132231404958678,
           "support": 242.0
         },
         "size_distribution": {
-          "recall": 0.5,
+          "recall": 0.0,
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.0636799997882918,
-      "latency_ms_p95": 1.810468099392892,
+      "latency_ms_median": 1.109518500015838,
+      "latency_ms_p95": 1.5351174000443275,
       "settings": {
-        "alert_threshold_percentile": 95.90382902938558,
-        "review_threshold_percentile": 94.16740872662511,
+        "alert_threshold_percentile": 93.7641723356009,
+        "review_threshold_percentile": 71.54195011337869,
         "isolation_alert_threshold": 0.0,
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
@@ -701,17 +887,596 @@
         "budget": 0.01,
         "selection": "highest_recall_with_test_fpr_at_most_budget",
         "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
-        "threshold_percentile": 99.73285841495992,
-        "recall_malicious": 0.09111111111111111,
+        "threshold_percentile": 99.94331065759637,
+        "recall_malicious": 0.0,
+        "fpr_legitimate": 0.00041631973355537054,
+        "includes_rule_alerts": false,
+        "comparison": "score > threshold"
+      },
+      "fpr_by_legitimate_group": {
+        "legitimate": {
+          "alerts": 1,
+          "support": 1968,
+          "alert_rate": 0.0005081300813008131
+        },
+        "difficult_legitimate": {
+          "alerts": 1,
+          "support": 340,
+          "alert_rate": 0.0029411764705882353
+        },
+        "distribution_shift": {
+          "alerts": 94,
+          "support": 94,
+          "alert_rate": 1.0
+        }
+      },
+      "base_rate": {
+        "n_malicious": 450,
+        "n_legitimate_family": 2402,
+        "note": "Precision on this file is not an operational detection rate. Wilson k/n uses legitimate-family test rows (ordinary + difficult + shift) that share the same alert decision. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
+        "rows": [
+          {
+            "name": "file_legitimate_mixture",
+            "prior": 0.15778401122019636,
+            "posterior_at_observed_fpr": 0.010309278350515465,
+            "posterior_at_wilson_fpr_upper": 0.00849993651102156
+          },
+          {
+            "name": "prior_1pct",
+            "prior": 0.01,
+            "posterior_at_observed_fpr": 0.0005613196105255139,
+            "posterior_at_wilson_fpr_upper": 0.0004620059164713781
+          },
+          {
+            "name": "prior_0_1pct",
+            "prior": 0.001,
+            "posterior_at_observed_fpr": 5.565441177526869e-05,
+            "posterior_at_wilson_fpr_upper": 4.580343447709434e-05
+          }
+        ]
+      },
+      "fpr_on_ordinary_test": 0.0005081300813008131,
+      "average_precision_statistic_component": null,
+      "ordinary_content_slices": {
+        "in_distribution": {
+          "n": 1735,
+          "alerts": 1,
+          "alert_rate": 0.0005763688760806917,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "in_distribution"
+        },
+        "unseen_content": {
+          "n": 233,
+          "alerts": 0,
+          "alert_rate": 0.0,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "unseen_content"
+        }
+      }
+    },
+    "regression_only": {
+      "mode": "regression_only",
+      "metrics_malicious": {
+        "tp": 299,
+        "fp": 122,
+        "tn": 2280,
+        "fn": 151,
+        "precision": 0.7102137767220903,
+        "recall": 0.6644444444444444,
+        "f1": 0.6865671641791045,
+        "false_positive_rate": 0.0507910074937552,
+        "false_negative_rate": 0.33555555555555555,
+        "wilson_fpr_ci": [
+          0.04270517572080735,
+          0.06031136259347632
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 122,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
+      },
+      "metrics_benign_invalid": {
+        "total": 0,
+        "flagged": 0,
+        "rejection_rate": 0.0
+      },
+      "metrics_any_anomaly": {
+        "tp": 299,
+        "fp": 122,
+        "tn": 2280,
+        "fn": 151,
+        "precision": 0.7102137767220903,
+        "recall": 0.6644444444444444,
+        "f1": 0.6865671641791045,
+        "false_positive_rate": 0.0507910074937552,
+        "false_negative_rate": 0.33555555555555555,
+        "wilson_fpr_ci": [
+          0.04270517572080735,
+          0.06031136259347632
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 122,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
+      },
+      "fpr_on_legitimate_test": 0.0507910074937552,
+      "review_rate_legitimate": 0.044962531223980015,
+      "average_precision": 0.7306430443285594,
+      "per_family": {
+        "sqli": {
+          "recall": 1.0,
+          "review_rate": 0.0,
+          "support": 84.0
+        },
+        "evasive": {
+          "recall": 0.3793103448275862,
+          "review_rate": 0.13793103448275862,
+          "support": 116.0
+        },
+        "xss": {
+          "recall": 1.0,
+          "review_rate": 0.0,
+          "support": 84.0
+        },
+        "traversal": {
+          "recall": 0.05952380952380952,
+          "review_rate": 0.15476190476190477,
+          "support": 84.0
+        },
+        "repetitive": {
+          "recall": 1.0,
+          "review_rate": 0.0,
+          "support": 41.0
+        },
+        "oversized": {
+          "recall": 1.0,
+          "review_rate": 0.0,
+          "support": 41.0
+        }
+      },
+      "attack_slices": {
+        "signature_easy": {
+          "recall": 0.6825396825396826,
+          "support": 126.0
+        },
+        "rule_evasive": {
+          "recall": 0.5413223140495868,
+          "support": 242.0
+        },
+        "size_distribution": {
+          "recall": 1.0,
+          "support": 82.0
+        }
+      },
+      "latency_ms_median": 1.1076149999098561,
+      "latency_ms_p95": 1.4679573502235137,
+      "settings": {
+        "alert_threshold_percentile": 94.11764705882352,
+        "review_threshold_percentile": 91.3336326897171,
+        "isolation_alert_threshold": 0.0,
+        "isolation_review_threshold": 0.0,
+        "max_false_positive_rate_target": 0.01,
+        "enable_high_severity_rule_alert": true,
+        "threshold_scale": "percentile",
+        "threshold_population": "ordinary_validation"
+      },
+      "operating_point_1pct": {
+        "budget": 0.01,
+        "selection": "highest_recall_with_test_fpr_at_most_budget",
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        "threshold_percentile": 97.62011674898967,
+        "recall_malicious": 0.34,
         "fpr_legitimate": 0.0,
         "includes_rule_alerts": false,
         "comparison": "score > threshold"
       },
       "fpr_by_legitimate_group": {
         "legitimate": {
+          "alerts": 18,
+          "support": 1968,
+          "alert_rate": 0.009146341463414634
+        },
+        "difficult_legitimate": {
+          "alerts": 10,
+          "support": 340,
+          "alert_rate": 0.029411764705882353
+        },
+        "distribution_shift": {
+          "alerts": 94,
+          "support": 94,
+          "alert_rate": 1.0
+        }
+      },
+      "base_rate": {
+        "n_malicious": 450,
+        "n_legitimate_family": 2402,
+        "note": "Precision on this file is not an operational detection rate. Wilson k/n uses legitimate-family test rows (ordinary + difficult + shift) that share the same alert decision. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
+        "rows": [
+          {
+            "name": "file_legitimate_mixture",
+            "prior": 0.15778401122019636,
+            "posterior_at_observed_fpr": 0.7102137767220903,
+            "posterior_at_wilson_fpr_upper": 0.6736238523879845
+          },
+          {
+            "name": "prior_1pct",
+            "prior": 0.01,
+            "posterior_at_observed_fpr": 0.11671757161769183,
+            "posterior_at_wilson_fpr_upper": 0.10013827778156459
+          },
+          {
+            "name": "prior_0_1pct",
+            "prior": 0.001,
+            "posterior_at_observed_fpr": 0.01292576261401906,
+            "posterior_at_wilson_fpr_upper": 0.010907642416403508
+          }
+        ]
+      },
+      "fpr_on_ordinary_test": 0.009146341463414634,
+      "average_precision_statistic_component": null,
+      "ordinary_content_slices": {
+        "in_distribution": {
+          "n": 1735,
+          "alerts": 18,
+          "alert_rate": 0.01037463976945245,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "in_distribution"
+        },
+        "unseen_content": {
+          "n": 233,
           "alerts": 0,
-          "support": 271,
-          "alert_rate": 0.0
+          "alert_rate": 0.0,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "unseen_content"
+        }
+      }
+    },
+    "lda_only": {
+      "mode": "lda_only",
+      "metrics_malicious": {
+        "tp": 430,
+        "fp": 451,
+        "tn": 1951,
+        "fn": 20,
+        "precision": 0.4880817253121453,
+        "recall": 0.9555555555555556,
+        "f1": 0.6461307287753568,
+        "false_positive_rate": 0.1877601998334721,
+        "false_negative_rate": 0.044444444444444446,
+        "wilson_fpr_ci": [
+          0.17264598737507242,
+          0.2038715323058477
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 451,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
+      },
+      "metrics_benign_invalid": {
+        "total": 0,
+        "flagged": 0,
+        "rejection_rate": 0.0
+      },
+      "metrics_any_anomaly": {
+        "tp": 430,
+        "fp": 451,
+        "tn": 1951,
+        "fn": 20,
+        "precision": 0.4880817253121453,
+        "recall": 0.9555555555555556,
+        "f1": 0.6461307287753568,
+        "false_positive_rate": 0.1877601998334721,
+        "false_negative_rate": 0.044444444444444446,
+        "wilson_fpr_ci": [
+          0.17264598737507242,
+          0.2038715323058477
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 451,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
+      },
+      "fpr_on_legitimate_test": 0.1877601998334721,
+      "review_rate_legitimate": 0.020399666944213156,
+      "average_precision": 0.5317361191285964,
+      "per_family": {
+        "sqli": {
+          "recall": 1.0,
+          "review_rate": 0.0,
+          "support": 84.0
+        },
+        "evasive": {
+          "recall": 0.8275862068965517,
+          "review_rate": 0.008620689655172414,
+          "support": 116.0
+        },
+        "xss": {
+          "recall": 1.0,
+          "review_rate": 0.0,
+          "support": 84.0
+        },
+        "traversal": {
+          "recall": 1.0,
+          "review_rate": 0.0,
+          "support": 84.0
+        },
+        "repetitive": {
+          "recall": 1.0,
+          "review_rate": 0.0,
+          "support": 41.0
+        },
+        "oversized": {
+          "recall": 1.0,
+          "review_rate": 0.0,
+          "support": 41.0
+        }
+      },
+      "attack_slices": {
+        "signature_easy": {
+          "recall": 1.0,
+          "support": 126.0
+        },
+        "rule_evasive": {
+          "recall": 0.9173553719008265,
+          "support": 242.0
+        },
+        "size_distribution": {
+          "recall": 1.0,
+          "support": 82.0
+        }
+      },
+      "latency_ms_median": 1.1606665002545924,
+      "latency_ms_p95": 1.6375602499920203,
+      "settings": {
+        "alert_threshold_percentile": 78.08326787117046,
+        "review_threshold_percentile": 74.94108405341713,
+        "isolation_alert_threshold": 0.0,
+        "isolation_review_threshold": 0.0,
+        "max_false_positive_rate_target": 0.01,
+        "enable_high_severity_rule_alert": true,
+        "threshold_scale": "percentile",
+        "threshold_population": "ordinary_validation"
+      },
+      "operating_point_1pct": {
+        "budget": 0.01,
+        "selection": "highest_recall_with_test_fpr_at_most_budget",
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        "threshold_percentile": 99.92144540455617,
+        "recall_malicious": 0.18444444444444444,
+        "fpr_legitimate": 0.0,
+        "includes_rule_alerts": false,
+        "comparison": "score > threshold"
+      },
+      "fpr_by_legitimate_group": {
+        "legitimate": {
+          "alerts": 17,
+          "support": 1968,
+          "alert_rate": 0.008638211382113821
+        },
+        "difficult_legitimate": {
+          "alerts": 340,
+          "support": 340,
+          "alert_rate": 1.0
+        },
+        "distribution_shift": {
+          "alerts": 94,
+          "support": 94,
+          "alert_rate": 1.0
+        }
+      },
+      "base_rate": {
+        "n_malicious": 450,
+        "n_legitimate_family": 2402,
+        "note": "Precision on this file is not an operational detection rate. Wilson k/n uses legitimate-family test rows (ordinary + difficult + shift) that share the same alert decision. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
+        "rows": [
+          {
+            "name": "file_legitimate_mixture",
+            "prior": 0.15778401122019636,
+            "posterior_at_observed_fpr": 0.4880817253121452,
+            "posterior_at_wilson_fpr_upper": 0.46754405881881117
+          },
+          {
+            "name": "prior_1pct",
+            "prior": 0.01,
+            "posterior_at_observed_fpr": 0.04889298936658192,
+            "posterior_at_wilson_fpr_upper": 0.04520378978660345
+          },
+          {
+            "name": "prior_0_1pct",
+            "prior": 0.001,
+            "posterior_at_observed_fpr": 0.00506850748928096,
+            "posterior_at_wilson_fpr_upper": 0.004669829615124058
+          }
+        ]
+      },
+      "fpr_on_ordinary_test": 0.008638211382113821,
+      "average_precision_statistic_component": null,
+      "ordinary_content_slices": {
+        "in_distribution": {
+          "n": 1735,
+          "alerts": 17,
+          "alert_rate": 0.009798270893371758,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "in_distribution"
+        },
+        "unseen_content": {
+          "n": 233,
+          "alerts": 0,
+          "alert_rate": 0.0,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "unseen_content"
+        }
+      }
+    },
+    "ci_only": {
+      "mode": "ci_only",
+      "metrics_malicious": {
+        "tp": 259,
+        "fp": 119,
+        "tn": 2283,
+        "fn": 191,
+        "precision": 0.6851851851851852,
+        "recall": 0.5755555555555556,
+        "f1": 0.6256038647342995,
+        "false_positive_rate": 0.04954204829308909,
+        "false_negative_rate": 0.42444444444444446,
+        "wilson_fpr_ci": [
+          0.041560547506554635,
+          0.058962060886452713
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 119,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
+      },
+      "metrics_benign_invalid": {
+        "total": 0,
+        "flagged": 0,
+        "rejection_rate": 0.0
+      },
+      "metrics_any_anomaly": {
+        "tp": 259,
+        "fp": 119,
+        "tn": 2283,
+        "fn": 191,
+        "precision": 0.6851851851851852,
+        "recall": 0.5755555555555556,
+        "f1": 0.6256038647342995,
+        "false_positive_rate": 0.04954204829308909,
+        "false_negative_rate": 0.42444444444444446,
+        "wilson_fpr_ci": [
+          0.041560547506554635,
+          0.058962060886452713
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 119,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
+      },
+      "fpr_on_legitimate_test": 0.04954204829308909,
+      "review_rate_legitimate": 0.0395503746877602,
+      "average_precision": 0.7556423982079873,
+      "per_family": {
+        "sqli": {
+          "recall": 0.9523809523809523,
+          "review_rate": 0.047619047619047616,
+          "support": 84.0
+        },
+        "evasive": {
+          "recall": 0.20689655172413793,
+          "review_rate": 0.4396551724137931,
+          "support": 116.0
+        },
+        "xss": {
+          "recall": 0.8690476190476191,
+          "review_rate": 0.13095238095238096,
+          "support": 84.0
+        },
+        "traversal": {
+          "recall": 0.0,
+          "review_rate": 1.0,
+          "support": 84.0
+        },
+        "repetitive": {
+          "recall": 1.0,
+          "review_rate": 0.0,
+          "support": 41.0
+        },
+        "oversized": {
+          "recall": 1.0,
+          "review_rate": 0.0,
+          "support": 41.0
+        }
+      },
+      "attack_slices": {
+        "signature_easy": {
+          "recall": 0.6666666666666666,
+          "support": 126.0
+        },
+        "rule_evasive": {
+          "recall": 0.384297520661157,
+          "support": 242.0
+        },
+        "size_distribution": {
+          "recall": 1.0,
+          "support": 82.0
+        }
+      },
+      "latency_ms_median": 1.1208164996787673,
+      "latency_ms_p95": 1.5873809001277548,
+      "settings": {
+        "alert_threshold_percentile": 88.26825569483293,
+        "review_threshold_percentile": 45.63492063492063,
+        "isolation_alert_threshold": 0.0,
+        "isolation_review_threshold": 0.0,
+        "max_false_positive_rate_target": 0.01,
+        "enable_high_severity_rule_alert": true,
+        "threshold_scale": "percentile",
+        "threshold_population": "ordinary_validation"
+      },
+      "operating_point_1pct": {
+        "budget": 0.01,
+        "selection": "highest_recall_with_test_fpr_at_most_budget",
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        "threshold_percentile": 98.2901832475799,
+        "recall_malicious": 0.24888888888888888,
+        "fpr_legitimate": 0.00041631973355537054,
+        "includes_rule_alerts": false,
+        "comparison": "score > threshold"
+      },
+      "fpr_by_legitimate_group": {
+        "legitimate": {
+          "alerts": 25,
+          "support": 1968,
+          "alert_rate": 0.012703252032520325
         },
         "difficult_legitimate": {
           "alerts": 0,
@@ -726,47 +1491,77 @@
       },
       "base_rate": {
         "n_malicious": 450,
-        "n_legitimate_family": 705,
-        "note": "Precision on this file is not an operational detection rate. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
+        "n_legitimate_family": 2402,
+        "note": "Precision on this file is not an operational detection rate. Wilson k/n uses legitimate-family test rows (ordinary + difficult + shift) that share the same alert decision. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
         "rows": [
           {
             "name": "file_legitimate_mixture",
-            "prior": 0.38961038961038963,
-            "posterior_at_observed_fpr": 0.30370370370370375,
-            "posterior_at_wilson_fpr_upper": 0.26606298480898755
+            "prior": 0.15778401122019636,
+            "posterior_at_observed_fpr": 0.6851851851851852,
+            "posterior_at_wilson_fpr_upper": 0.6464868415811877
           },
           {
             "name": "prior_1pct",
             "prior": 0.01,
-            "posterior_at_observed_fpr": 0.006855040963049657,
-            "posterior_at_wilson_fpr_upper": 0.005704042462587777
+            "posterior_at_observed_fpr": 0.10502420162982852,
+            "posterior_at_wilson_fpr_upper": 0.08975105928042851
           },
           {
             "name": "prior_0_1pct",
             "prior": 0.001,
-            "posterior_at_observed_fpr": 0.0006835497907670765,
-            "posterior_at_wilson_fpr_upper": 0.0005681852465383118
+            "posterior_at_observed_fpr": 0.01149546307285884,
+            "posterior_at_wilson_fpr_upper": 0.009676674120224105
           }
         ]
       },
-      "fpr_on_ordinary_test": 0.0
+      "fpr_on_ordinary_test": 0.012703252032520325,
+      "average_precision_statistic_component": null,
+      "ordinary_content_slices": {
+        "in_distribution": {
+          "n": 1735,
+          "alerts": 25,
+          "alert_rate": 0.01440922190201729,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "in_distribution"
+        },
+        "unseen_content": {
+          "n": 233,
+          "alerts": 0,
+          "alert_rate": 0.0,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "unseen_content"
+        }
+      }
     },
-    "regression_only": {
-      "mode": "regression_only",
+    "entropy_only": {
+      "mode": "entropy_only",
       "metrics_malicious": {
-        "tp": 143,
-        "fp": 94,
-        "tn": 611,
-        "fn": 307,
-        "precision": 0.6033755274261603,
-        "recall": 0.31777777777777777,
-        "f1": 0.4163027656477438,
-        "false_positive_rate": 0.13333333333333333,
-        "false_negative_rate": 0.6822222222222222,
+        "tp": 197,
+        "fp": 92,
+        "tn": 2310,
+        "fn": 253,
+        "precision": 0.6816608996539792,
+        "recall": 0.43777777777777777,
+        "f1": 0.5331529093369418,
+        "false_positive_rate": 0.038301415487094086,
+        "false_negative_rate": 0.5622222222222222,
         "wilson_fpr_ci": [
-          0.11021695470765516,
-          0.16042390078048524
-        ]
+          0.03133421976440463,
+          0.04674301933711583
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 92,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
       "metrics_benign_invalid": {
         "total": 0,
@@ -774,23 +1569,34 @@
         "rejection_rate": 0.0
       },
       "metrics_any_anomaly": {
-        "tp": 143,
-        "fp": 94,
-        "tn": 611,
-        "fn": 307,
-        "precision": 0.6033755274261603,
-        "recall": 0.31777777777777777,
-        "f1": 0.4163027656477438,
-        "false_positive_rate": 0.13333333333333333,
-        "false_negative_rate": 0.6822222222222222,
+        "tp": 197,
+        "fp": 92,
+        "tn": 2310,
+        "fn": 253,
+        "precision": 0.6816608996539792,
+        "recall": 0.43777777777777777,
+        "f1": 0.5331529093369418,
+        "false_positive_rate": 0.038301415487094086,
+        "false_negative_rate": 0.5622222222222222,
         "wilson_fpr_ci": [
-          0.11021695470765516,
-          0.16042390078048524
-        ]
+          0.03133421976440463,
+          0.04674301933711583
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 92,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
-      "fpr_on_legitimate_test": 0.13333333333333333,
-      "review_rate_legitimate": 0.0,
-      "average_precision": 0.662334601544629,
+      "fpr_on_legitimate_test": 0.038301415487094086,
+      "review_rate_legitimate": 0.026228143213988343,
+      "average_precision": 0.634506002957555,
       "per_family": {
         "sqli": {
           "recall": 1.0,
@@ -803,164 +1609,12 @@
           "support": 116.0
         },
         "xss": {
-          "recall": 0.0,
-          "review_rate": 0.0,
+          "recall": 0.15476190476190477,
+          "review_rate": 0.13095238095238096,
           "support": 84.0
         },
         "traversal": {
           "recall": 0.0,
-          "review_rate": 0.0,
-          "support": 84.0
-        },
-        "repetitive": {
-          "recall": 1.0,
-          "review_rate": 0.0,
-          "support": 41.0
-        },
-        "oversized": {
-          "recall": 0.0,
-          "review_rate": 0.0,
-          "support": 41.0
-        }
-      },
-      "attack_slices": {
-        "signature_easy": {
-          "recall": 0.3333333333333333,
-          "support": 126.0
-        },
-        "rule_evasive": {
-          "recall": 0.24793388429752067,
-          "support": 242.0
-        },
-        "size_distribution": {
-          "recall": 0.5,
-          "support": 82.0
-        }
-      },
-      "latency_ms_median": 1.0694609991332982,
-      "latency_ms_p95": 1.836447400273755,
-      "settings": {
-        "alert_threshold_percentile": 89.46280991735537,
-        "review_threshold_percentile": 89.46280991735537,
-        "isolation_alert_threshold": 0.0,
-        "isolation_review_threshold": 0.0,
-        "max_false_positive_rate_target": 0.01,
-        "enable_high_severity_rule_alert": true,
-        "threshold_scale": "percentile",
-        "threshold_population": "ordinary_validation"
-      },
-      "operating_point_1pct": {
-        "budget": 0.01,
-        "selection": "highest_recall_with_test_fpr_at_most_budget",
-        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
-        "threshold_percentile": 98.17493112947659,
-        "recall_malicious": 0.22666666666666666,
-        "fpr_legitimate": 0.0,
-        "includes_rule_alerts": false,
-        "comparison": "score > threshold"
-      },
-      "fpr_by_legitimate_group": {
-        "legitimate": {
-          "alerts": 0,
-          "support": 271,
-          "alert_rate": 0.0
-        },
-        "difficult_legitimate": {
-          "alerts": 0,
-          "support": 340,
-          "alert_rate": 0.0
-        },
-        "distribution_shift": {
-          "alerts": 94,
-          "support": 94,
-          "alert_rate": 1.0
-        }
-      },
-      "base_rate": {
-        "n_malicious": 450,
-        "n_legitimate_family": 705,
-        "note": "Precision on this file is not an operational detection rate. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
-        "rows": [
-          {
-            "name": "file_legitimate_mixture",
-            "prior": 0.38961038961038963,
-            "posterior_at_observed_fpr": 0.6033755274261603,
-            "posterior_at_wilson_fpr_upper": 0.5583781417680943
-          },
-          {
-            "name": "prior_1pct",
-            "prior": 0.01,
-            "posterior_at_observed_fpr": 0.02350813743218806,
-            "posterior_at_wilson_fpr_upper": 0.019616222247685458
-          },
-          {
-            "name": "prior_0_1pct",
-            "prior": 0.001,
-            "posterior_at_observed_fpr": 0.0023800409433616834,
-            "posterior_at_wilson_fpr_upper": 0.0019789220009246607
-          }
-        ]
-      },
-      "fpr_on_ordinary_test": 0.0
-    },
-    "lda_only": {
-      "mode": "lda_only",
-      "metrics_malicious": {
-        "tp": 434,
-        "fp": 435,
-        "tn": 270,
-        "fn": 16,
-        "precision": 0.4994246260069045,
-        "recall": 0.9644444444444444,
-        "f1": 0.6580742987111448,
-        "false_positive_rate": 0.6170212765957447,
-        "false_negative_rate": 0.035555555555555556,
-        "wilson_fpr_ci": [
-          0.5805956622781607,
-          0.6521785327788158
-        ]
-      },
-      "metrics_benign_invalid": {
-        "total": 0,
-        "flagged": 0,
-        "rejection_rate": 0.0
-      },
-      "metrics_any_anomaly": {
-        "tp": 434,
-        "fp": 435,
-        "tn": 270,
-        "fn": 16,
-        "precision": 0.4994246260069045,
-        "recall": 0.9644444444444444,
-        "f1": 0.6580742987111448,
-        "false_positive_rate": 0.6170212765957447,
-        "false_negative_rate": 0.035555555555555556,
-        "wilson_fpr_ci": [
-          0.5805956622781607,
-          0.6521785327788158
-        ]
-      },
-      "fpr_on_legitimate_test": 0.6170212765957447,
-      "review_rate_legitimate": 0.009929078014184398,
-      "average_precision": 0.5894931784145209,
-      "per_family": {
-        "sqli": {
-          "recall": 1.0,
-          "review_rate": 0.0,
-          "support": 84.0
-        },
-        "evasive": {
-          "recall": 0.8620689655172413,
-          "review_rate": 0.0,
-          "support": 116.0
-        },
-        "xss": {
-          "recall": 1.0,
-          "review_rate": 0.0,
-          "support": 84.0
-        },
-        "traversal": {
-          "recall": 1.0,
           "review_rate": 0.0,
           "support": 84.0
         },
@@ -977,11 +1631,11 @@
       },
       "attack_slices": {
         "signature_easy": {
-          "recall": 1.0,
+          "recall": 0.35714285714285715,
           "support": 126.0
         },
         "rule_evasive": {
-          "recall": 0.9338842975206612,
+          "recall": 0.2892561983471074,
           "support": 242.0
         },
         "size_distribution": {
@@ -989,11 +1643,11 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.0285640000802232,
-      "latency_ms_p95": 1.8327534995478345,
+      "latency_ms_median": 1.1331555001561355,
+      "latency_ms_p95": 1.618193650028843,
       "settings": {
-        "alert_threshold_percentile": 82.60333127698951,
-        "review_threshold_percentile": 79.27205428747686,
+        "alert_threshold_percentile": 97.57521329142344,
+        "review_threshold_percentile": 94.79119892231702,
         "isolation_alert_threshold": 0.0,
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
@@ -1005,169 +1659,17 @@
         "budget": 0.01,
         "selection": "highest_recall_with_test_fpr_at_most_budget",
         "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
-        "threshold_percentile": 99.9383096853794,
-        "recall_malicious": 0.27111111111111114,
-        "fpr_legitimate": 0.0,
+        "threshold_percentile": 99.95509654243376,
+        "recall_malicious": 0.4111111111111111,
+        "fpr_legitimate": 0.00041631973355537054,
         "includes_rule_alerts": false,
         "comparison": "score > threshold"
       },
       "fpr_by_legitimate_group": {
         "legitimate": {
-          "alerts": 1,
-          "support": 271,
-          "alert_rate": 0.0036900369003690036
-        },
-        "difficult_legitimate": {
-          "alerts": 340,
-          "support": 340,
-          "alert_rate": 1.0
-        },
-        "distribution_shift": {
-          "alerts": 94,
-          "support": 94,
-          "alert_rate": 1.0
-        }
-      },
-      "base_rate": {
-        "n_malicious": 450,
-        "n_legitimate_family": 705,
-        "note": "Precision on this file is not an operational detection rate. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
-        "rows": [
-          {
-            "name": "file_legitimate_mixture",
-            "prior": 0.38961038961038963,
-            "posterior_at_observed_fpr": 0.4994246260069045,
-            "posterior_at_wilson_fpr_upper": 0.48557491978713857
-          },
-          {
-            "name": "prior_1pct",
-            "prior": 0.01,
-            "posterior_at_observed_fpr": 0.01554313337620814,
-            "posterior_at_wilson_fpr_upper": 0.014717575007833715
-          },
-          {
-            "name": "prior_0_1pct",
-            "prior": 0.001,
-            "posterior_at_observed_fpr": 0.0015621855218992402,
-            "posterior_at_wilson_fpr_upper": 0.0014780966204888091
-          }
-        ]
-      },
-      "fpr_on_ordinary_test": 0.0036900369003690036
-    },
-    "ci_only": {
-      "mode": "ci_only",
-      "metrics_malicious": {
-        "tp": 213,
-        "fp": 96,
-        "tn": 609,
-        "fn": 237,
-        "precision": 0.6893203883495146,
-        "recall": 0.47333333333333333,
-        "f1": 0.5612648221343874,
-        "false_positive_rate": 0.13617021276595745,
-        "false_negative_rate": 0.5266666666666666,
-        "wilson_fpr_ci": [
-          0.11281696175159012,
-          0.16346690452581036
-        ]
-      },
-      "metrics_benign_invalid": {
-        "total": 0,
-        "flagged": 0,
-        "rejection_rate": 0.0
-      },
-      "metrics_any_anomaly": {
-        "tp": 213,
-        "fp": 96,
-        "tn": 609,
-        "fn": 237,
-        "precision": 0.6893203883495146,
-        "recall": 0.47333333333333333,
-        "f1": 0.5612648221343874,
-        "false_positive_rate": 0.13617021276595745,
-        "false_negative_rate": 0.5266666666666666,
-        "wilson_fpr_ci": [
-          0.11281696175159012,
-          0.16346690452581036
-        ]
-      },
-      "fpr_on_legitimate_test": 0.13617021276595745,
-      "review_rate_legitimate": 0.4326241134751773,
-      "average_precision": 0.6746195631866464,
-      "per_family": {
-        "sqli": {
-          "recall": 1.0,
-          "review_rate": 0.0,
-          "support": 84.0
-        },
-        "evasive": {
-          "recall": 0.31896551724137934,
-          "review_rate": 0.16379310344827586,
-          "support": 116.0
-        },
-        "xss": {
-          "recall": 0.11904761904761904,
-          "review_rate": 0.6309523809523809,
-          "support": 84.0
-        },
-        "traversal": {
-          "recall": 0.0,
-          "review_rate": 1.0,
-          "support": 84.0
-        },
-        "repetitive": {
-          "recall": 1.0,
-          "review_rate": 0.0,
-          "support": 41.0
-        },
-        "oversized": {
-          "recall": 1.0,
-          "review_rate": 0.0,
-          "support": 41.0
-        }
-      },
-      "attack_slices": {
-        "signature_easy": {
-          "recall": 0.3333333333333333,
-          "support": 126.0
-        },
-        "rule_evasive": {
-          "recall": 0.3677685950413223,
-          "support": 242.0
-        },
-        "size_distribution": {
-          "recall": 1.0,
-          "support": 82.0
-        }
-      },
-      "latency_ms_median": 1.0832290008693235,
-      "latency_ms_p95": 1.8344221989536889,
-      "settings": {
-        "alert_threshold_percentile": 89.98420543766358,
-        "review_threshold_percentile": 41.6085657370518,
-        "isolation_alert_threshold": 0.0,
-        "isolation_review_threshold": 0.0,
-        "max_false_positive_rate_target": 0.01,
-        "enable_high_severity_rule_alert": true,
-        "threshold_scale": "percentile",
-        "threshold_population": "ordinary_validation"
-      },
-      "operating_point_1pct": {
-        "budget": 0.01,
-        "selection": "highest_recall_with_test_fpr_at_most_budget",
-        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
-        "threshold_percentile": 98.46461434596343,
-        "recall_malicious": 0.15777777777777777,
-        "fpr_legitimate": 0.0,
-        "includes_rule_alerts": false,
-        "comparison": "score > threshold"
-      },
-      "fpr_by_legitimate_group": {
-        "legitimate": {
-          "alerts": 2,
-          "support": 271,
-          "alert_rate": 0.007380073800738007
+          "alerts": 17,
+          "support": 1968,
+          "alert_rate": 0.008638211382113821
         },
         "difficult_legitimate": {
           "alerts": 0,
@@ -1175,206 +1677,84 @@
           "alert_rate": 0.0
         },
         "distribution_shift": {
-          "alerts": 94,
+          "alerts": 75,
           "support": 94,
-          "alert_rate": 1.0
+          "alert_rate": 0.7978723404255319
         }
       },
       "base_rate": {
         "n_malicious": 450,
-        "n_legitimate_family": 705,
-        "note": "Precision on this file is not an operational detection rate. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
+        "n_legitimate_family": 2402,
+        "note": "Precision on this file is not an operational detection rate. Wilson k/n uses legitimate-family test rows (ordinary + difficult + shift) that share the same alert decision. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
         "rows": [
           {
             "name": "file_legitimate_mixture",
-            "prior": 0.38961038961038963,
-            "posterior_at_observed_fpr": 0.6893203883495146,
-            "posterior_at_wilson_fpr_upper": 0.6489071885070306
+            "prior": 0.15778401122019636,
+            "posterior_at_observed_fpr": 0.6816608996539792,
+            "posterior_at_wilson_fpr_upper": 0.6369699991359041
           },
           {
             "name": "prior_1pct",
             "prior": 0.01,
-            "posterior_at_observed_fpr": 0.03392053020523089,
-            "posterior_at_wilson_fpr_upper": 0.028417237530177625
+            "posterior_at_observed_fpr": 0.10350291373583326,
+            "posterior_at_wilson_fpr_upper": 0.08642619521344541
           },
           {
             "name": "prior_0_1pct",
             "prior": 0.001,
-            "posterior_at_observed_fpr": 0.003467456100883542,
-            "posterior_at_wilson_fpr_upper": 0.002890112746602464
+            "posterior_at_observed_fpr": 0.011311826597730902,
+            "posterior_at_wilson_fpr_upper": 0.009287929633429278
           }
         ]
       },
-      "fpr_on_ordinary_test": 0.007380073800738007
-    },
-    "entropy_only": {
-      "mode": "entropy_only",
-      "metrics_malicious": {
-        "tp": 124,
-        "fp": 29,
-        "tn": 676,
-        "fn": 326,
-        "precision": 0.8104575163398693,
-        "recall": 0.27555555555555555,
-        "f1": 0.4112769485903814,
-        "false_positive_rate": 0.04113475177304964,
-        "false_negative_rate": 0.7244444444444444,
-        "wilson_fpr_ci": [
-          0.028791209948239332,
-          0.05845179488894995
-        ]
-      },
-      "metrics_benign_invalid": {
-        "total": 0,
-        "flagged": 0,
-        "rejection_rate": 0.0
-      },
-      "metrics_any_anomaly": {
-        "tp": 124,
-        "fp": 29,
-        "tn": 676,
-        "fn": 326,
-        "precision": 0.8104575163398693,
-        "recall": 0.27555555555555555,
-        "f1": 0.4112769485903814,
-        "false_positive_rate": 0.04113475177304964,
-        "false_negative_rate": 0.7244444444444444,
-        "wilson_fpr_ci": [
-          0.028791209948239332,
-          0.05845179488894995
-        ]
-      },
-      "fpr_on_legitimate_test": 0.04113475177304964,
-      "review_rate_legitimate": 0.0950354609929078,
-      "average_precision": 0.6701122581008072,
-      "per_family": {
-        "sqli": {
-          "recall": 0.7023809523809523,
-          "review_rate": 0.2976190476190476,
-          "support": 84.0
+      "fpr_on_ordinary_test": 0.008638211382113821,
+      "average_precision_statistic_component": null,
+      "ordinary_content_slices": {
+        "in_distribution": {
+          "n": 1735,
+          "alerts": 17,
+          "alert_rate": 0.009798270893371758,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "in_distribution"
         },
-        "evasive": {
-          "recall": 0.08620689655172414,
-          "review_rate": 0.06896551724137931,
-          "support": 116.0
-        },
-        "xss": {
-          "recall": 0.16666666666666666,
-          "review_rate": 0.08333333333333333,
-          "support": 84.0
-        },
-        "traversal": {
-          "recall": 0.0,
-          "review_rate": 0.0,
-          "support": 84.0
-        },
-        "repetitive": {
-          "recall": 1.0,
-          "review_rate": 0.0,
-          "support": 41.0
-        },
-        "oversized": {
-          "recall": 0.0,
-          "review_rate": 1.0,
-          "support": 41.0
-        }
-      },
-      "attack_slices": {
-        "signature_easy": {
-          "recall": 0.23809523809523808,
-          "support": 126.0
-        },
-        "rule_evasive": {
-          "recall": 0.2190082644628099,
-          "support": 242.0
-        },
-        "size_distribution": {
-          "recall": 0.5,
-          "support": 82.0
-        }
-      },
-      "latency_ms_median": 1.069825999366003,
-      "latency_ms_p95": 1.819344301111414,
-      "settings": {
-        "alert_threshold_percentile": 98.7603305785124,
-        "review_threshold_percentile": 95.83333333333334,
-        "isolation_alert_threshold": 0.0,
-        "isolation_review_threshold": 0.0,
-        "max_false_positive_rate_target": 0.01,
-        "enable_high_severity_rule_alert": true,
-        "threshold_scale": "percentile",
-        "threshold_population": "ordinary_validation"
-      },
-      "operating_point_1pct": {
-        "budget": 0.01,
-        "selection": "highest_recall_with_test_fpr_at_most_budget",
-        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
-        "threshold_percentile": 99.96556473829202,
-        "recall_malicious": 0.27555555555555555,
-        "fpr_legitimate": 0.0,
-        "includes_rule_alerts": false,
-        "comparison": "score > threshold"
-      },
-      "fpr_by_legitimate_group": {
-        "legitimate": {
+        "unseen_content": {
+          "n": 233,
           "alerts": 0,
-          "support": 271,
-          "alert_rate": 0.0
-        },
-        "difficult_legitimate": {
-          "alerts": 0,
-          "support": 340,
-          "alert_rate": 0.0
-        },
-        "distribution_shift": {
-          "alerts": 29,
-          "support": 94,
-          "alert_rate": 0.30851063829787234
+          "alert_rate": 0.0,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "unseen_content"
         }
-      },
-      "base_rate": {
-        "n_malicious": 450,
-        "n_legitimate_family": 705,
-        "note": "Precision on this file is not an operational detection rate. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
-        "rows": [
-          {
-            "name": "file_legitimate_mixture",
-            "prior": 0.38961038961038963,
-            "posterior_at_observed_fpr": 0.8104575163398694,
-            "posterior_at_wilson_fpr_upper": 0.750566638179896
-          },
-          {
-            "name": "prior_1pct",
-            "prior": 0.01,
-            "posterior_at_observed_fpr": 0.06337675895517521,
-            "posterior_at_wilson_fpr_upper": 0.045454087876128625
-          },
-          {
-            "name": "prior_0_1pct",
-            "prior": 0.001,
-            "posterior_at_observed_fpr": 0.006660891151346694,
-            "posterior_at_wilson_fpr_upper": 0.0046967910067859525
-          }
-        ]
-      },
-      "fpr_on_ordinary_test": 0.0
+      }
     },
     "vote2_stats": {
       "mode": "vote2_stats",
       "metrics_malicious": {
-        "tp": 367,
-        "fp": 178,
-        "tn": 527,
-        "fn": 83,
-        "precision": 0.673394495412844,
-        "recall": 0.8155555555555556,
-        "f1": 0.7376884422110553,
-        "false_positive_rate": 0.2524822695035461,
-        "false_negative_rate": 0.18444444444444444,
+        "tp": 409,
+        "fp": 213,
+        "tn": 2189,
+        "fn": 41,
+        "precision": 0.657556270096463,
+        "recall": 0.9088888888888889,
+        "f1": 0.7630597014925373,
+        "false_positive_rate": 0.08867610324729393,
+        "false_negative_rate": 0.09111111111111111,
         "wilson_fpr_ci": [
-          0.2218139700601052,
-          0.28583333857695664
-        ]
+          0.07795453184565944,
+          0.10071121408067261
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 213,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
       "metrics_benign_invalid": {
         "total": 0,
@@ -1382,23 +1762,34 @@
         "rejection_rate": 0.0
       },
       "metrics_any_anomaly": {
-        "tp": 367,
-        "fp": 178,
-        "tn": 527,
-        "fn": 83,
-        "precision": 0.673394495412844,
-        "recall": 0.8155555555555556,
-        "f1": 0.7376884422110553,
-        "false_positive_rate": 0.2524822695035461,
-        "false_negative_rate": 0.18444444444444444,
+        "tp": 409,
+        "fp": 213,
+        "tn": 2189,
+        "fn": 41,
+        "precision": 0.657556270096463,
+        "recall": 0.9088888888888889,
+        "f1": 0.7630597014925373,
+        "false_positive_rate": 0.08867610324729393,
+        "false_negative_rate": 0.09111111111111111,
         "wilson_fpr_ci": [
-          0.2218139700601052,
-          0.28583333857695664
-        ]
+          0.07795453184565944,
+          0.10071121408067261
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 213,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
-      "fpr_on_legitimate_test": 0.2524822695035461,
-      "review_rate_legitimate": 0.09361702127659574,
-      "average_precision": 0.8763395215451355,
+      "fpr_on_legitimate_test": 0.08867610324729393,
+      "review_rate_legitimate": 0.026228143213988343,
+      "average_precision": 0.8894072155761978,
       "per_family": {
         "sqli": {
           "recall": 1.0,
@@ -1411,8 +1802,8 @@
           "support": 116.0
         },
         "xss": {
-          "recall": 0.5,
-          "review_rate": 0.5,
+          "recall": 1.0,
+          "review_rate": 0.0,
           "support": 84.0
         },
         "traversal": {
@@ -1433,7 +1824,7 @@
       },
       "attack_slices": {
         "signature_easy": {
-          "recall": 0.6666666666666666,
+          "recall": 1.0,
           "support": 126.0
         },
         "rule_evasive": {
@@ -1445,11 +1836,11 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.1213850011699833,
-      "latency_ms_p95": 1.8481164004697348,
+      "latency_ms_median": 1.1656195001705782,
+      "latency_ms_p95": 1.663962999782597,
       "settings": {
-        "alert_threshold_percentile": 95.90382902938558,
-        "review_threshold_percentile": 94.16740872662511,
+        "alert_threshold_percentile": 93.66861248316121,
+        "review_threshold_percentile": 92.63959390862944,
         "isolation_alert_threshold": 0.0,
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
@@ -1461,22 +1852,22 @@
         "budget": 0.01,
         "selection": "highest_recall_with_test_fpr_at_most_budget",
         "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
-        "threshold_percentile": 99.73285841495992,
-        "recall_malicious": 0.66,
-        "fpr_legitimate": 0.0,
+        "threshold_percentile": 99.94331065759637,
+        "recall_malicious": 0.64,
+        "fpr_legitimate": 0.00041631973355537054,
         "includes_rule_alerts": false,
         "comparison": "score > threshold"
       },
       "fpr_by_legitimate_group": {
         "legitimate": {
-          "alerts": 0,
-          "support": 271,
-          "alert_rate": 0.0
+          "alerts": 21,
+          "support": 1968,
+          "alert_rate": 0.010670731707317074
         },
         "difficult_legitimate": {
-          "alerts": 84,
+          "alerts": 98,
           "support": 340,
-          "alert_rate": 0.24705882352941178
+          "alert_rate": 0.28823529411764703
         },
         "distribution_shift": {
           "alerts": 94,
@@ -1486,47 +1877,77 @@
       },
       "base_rate": {
         "n_malicious": 450,
-        "n_legitimate_family": 705,
-        "note": "Precision on this file is not an operational detection rate. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
+        "n_legitimate_family": 2402,
+        "note": "Precision on this file is not an operational detection rate. Wilson k/n uses legitimate-family test rows (ordinary + difficult + shift) that share the same alert decision. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
         "rows": [
           {
             "name": "file_legitimate_mixture",
-            "prior": 0.38961038961038963,
-            "posterior_at_observed_fpr": 0.6733944954128441,
-            "posterior_at_wilson_fpr_upper": 0.6455442890236913
+            "prior": 0.15778401122019636,
+            "posterior_at_observed_fpr": 0.657556270096463,
+            "posterior_at_wilson_fpr_upper": 0.6283526838418716
           },
           {
             "name": "prior_1pct",
             "prior": 0.01,
-            "posterior_at_observed_fpr": 0.031596841231780394,
-            "posterior_at_wilson_fpr_upper": 0.02801339555227991
+            "posterior_at_observed_fpr": 0.09381765939924183,
+            "posterior_at_wilson_fpr_upper": 0.08354296374842038
           },
           {
             "name": "prior_0_1pct",
             "prior": 0.001,
-            "posterior_at_observed_fpr": 0.003222962124356001,
-            "posterior_at_wilson_fpr_upper": 0.002847977505528981
+            "posterior_at_observed_fpr": 0.010155601137307247,
+            "posterior_at_wilson_fpr_upper": 0.00895285987408233
           }
         ]
       },
-      "fpr_on_ordinary_test": 0.0
+      "fpr_on_ordinary_test": 0.010670731707317074,
+      "average_precision_statistic_component": null,
+      "ordinary_content_slices": {
+        "in_distribution": {
+          "n": 1735,
+          "alerts": 21,
+          "alert_rate": 0.012103746397694525,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "in_distribution"
+        },
+        "unseen_content": {
+          "n": 233,
+          "alerts": 0,
+          "alert_rate": 0.0,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "unseen_content"
+        }
+      }
     },
     "combined_stats": {
       "mode": "combined_stats",
       "metrics_malicious": {
-        "tp": 256,
-        "fp": 96,
-        "tn": 609,
-        "fn": 194,
-        "precision": 0.7272727272727273,
-        "recall": 0.5688888888888889,
-        "f1": 0.6384039900249378,
-        "false_positive_rate": 0.13617021276595745,
-        "false_negative_rate": 0.4311111111111111,
+        "tp": 391,
+        "fp": 117,
+        "tn": 2285,
+        "fn": 59,
+        "precision": 0.7696850393700787,
+        "recall": 0.8688888888888889,
+        "f1": 0.8162839248434238,
+        "false_positive_rate": 0.04870940882597835,
+        "false_negative_rate": 0.13111111111111112,
         "wilson_fpr_ci": [
-          0.11281696175159012,
-          0.16346690452581036
-        ]
+          0.04079829609640716,
+          0.05806169234908265
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 117,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
       "metrics_benign_invalid": {
         "total": 0,
@@ -1534,23 +1955,34 @@
         "rejection_rate": 0.0
       },
       "metrics_any_anomaly": {
-        "tp": 256,
-        "fp": 96,
-        "tn": 609,
-        "fn": 194,
-        "precision": 0.7272727272727273,
-        "recall": 0.5688888888888889,
-        "f1": 0.6384039900249378,
-        "false_positive_rate": 0.13617021276595745,
-        "false_negative_rate": 0.4311111111111111,
+        "tp": 391,
+        "fp": 117,
+        "tn": 2285,
+        "fn": 59,
+        "precision": 0.7696850393700787,
+        "recall": 0.8688888888888889,
+        "f1": 0.8162839248434238,
+        "false_positive_rate": 0.04870940882597835,
+        "false_negative_rate": 0.13111111111111112,
         "wilson_fpr_ci": [
-          0.11281696175159012,
-          0.16346690452581036
-        ]
+          0.04079829609640716,
+          0.05806169234908265
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 117,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
-      "fpr_on_legitimate_test": 0.13617021276595745,
-      "review_rate_legitimate": 0.06666666666666667,
-      "average_precision": 0.8628253885767988,
+      "fpr_on_legitimate_test": 0.04870940882597835,
+      "review_rate_legitimate": 0.03455453788509576,
+      "average_precision": 0.870806309623665,
       "per_family": {
         "sqli": {
           "recall": 1.0,
@@ -1558,13 +1990,13 @@
           "support": 84.0
         },
         "evasive": {
-          "recall": 0.31896551724137934,
-          "review_rate": 0.3275862068965517,
+          "recall": 0.49137931034482757,
+          "review_rate": 0.15517241379310345,
           "support": 116.0
         },
         "xss": {
-          "recall": 0.11904761904761904,
-          "review_rate": 0.38095238095238093,
+          "recall": 1.0,
+          "review_rate": 0.0,
           "support": 84.0
         },
         "traversal": {
@@ -1578,30 +2010,30 @@
           "support": 41.0
         },
         "oversized": {
-          "recall": 0.0,
-          "review_rate": 1.0,
+          "recall": 1.0,
+          "review_rate": 0.0,
           "support": 41.0
         }
       },
       "attack_slices": {
         "signature_easy": {
-          "recall": 0.6666666666666666,
+          "recall": 1.0,
           "support": 126.0
         },
         "rule_evasive": {
-          "recall": 0.5413223140495868,
+          "recall": 0.756198347107438,
           "support": 242.0
         },
         "size_distribution": {
-          "recall": 0.5,
+          "recall": 1.0,
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.1337479991198052,
-      "latency_ms_p95": 1.8578434992377877,
+      "latency_ms_median": 1.113404000079754,
+      "latency_ms_p95": 1.4920805003384876,
       "settings": {
-        "alert_threshold_percentile": 97.38292011019284,
-        "review_threshold_percentile": 95.48898071625345,
+        "alert_threshold_percentile": 97.03637180062866,
+        "review_threshold_percentile": 95.06061966771442,
         "isolation_alert_threshold": 0.0,
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
@@ -1613,17 +2045,17 @@
         "budget": 0.01,
         "selection": "highest_recall_with_test_fpr_at_most_budget",
         "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
-        "threshold_percentile": 99.79338842975206,
-        "recall_malicious": 0.5688888888888889,
-        "fpr_legitimate": 0.0,
+        "threshold_percentile": 99.95509654243376,
+        "recall_malicious": 0.5488888888888889,
+        "fpr_legitimate": 0.00041631973355537054,
         "includes_rule_alerts": false,
         "comparison": "score > threshold"
       },
       "fpr_by_legitimate_group": {
         "legitimate": {
-          "alerts": 2,
-          "support": 271,
-          "alert_rate": 0.007380073800738007
+          "alerts": 23,
+          "support": 1968,
+          "alert_rate": 0.011686991869918699
         },
         "difficult_legitimate": {
           "alerts": 0,
@@ -1638,47 +2070,77 @@
       },
       "base_rate": {
         "n_malicious": 450,
-        "n_legitimate_family": 705,
-        "note": "Precision on this file is not an operational detection rate. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
+        "n_legitimate_family": 2402,
+        "note": "Precision on this file is not an operational detection rate. Wilson k/n uses legitimate-family test rows (ordinary + difficult + shift) that share the same alert decision. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
         "rows": [
           {
             "name": "file_legitimate_mixture",
-            "prior": 0.38961038961038963,
-            "posterior_at_observed_fpr": 0.7272727272727272,
-            "posterior_at_wilson_fpr_upper": 0.6895731227036744
+            "prior": 0.15778401122019636,
+            "posterior_at_observed_fpr": 0.7696850393700787,
+            "posterior_at_wilson_fpr_upper": 0.7370902900511899
           },
           {
             "name": "prior_1pct",
             "prior": 0.01,
-            "posterior_at_observed_fpr": 0.040491061813482665,
-            "posterior_at_wilson_fpr_upper": 0.033959232964213826
+            "posterior_at_observed_fpr": 0.15267448824130314,
+            "posterior_at_wilson_fpr_upper": 0.1313116756054741
           },
           {
             "name": "prior_0_1pct",
             "prior": 0.001,
-            "posterior_at_observed_fpr": 0.004164543783089294,
-            "posterior_at_wilson_fpr_upper": 0.0034715372693117368
+            "posterior_at_observed_fpr": 0.017542824776173402,
+            "posterior_at_wilson_fpr_upper": 0.014758819489890447
           }
         ]
       },
-      "fpr_on_ordinary_test": 0.007380073800738007
+      "fpr_on_ordinary_test": 0.011686991869918699,
+      "average_precision_statistic_component": null,
+      "ordinary_content_slices": {
+        "in_distribution": {
+          "n": 1735,
+          "alerts": 23,
+          "alert_rate": 0.013256484149855908,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "in_distribution"
+        },
+        "unseen_content": {
+          "n": 233,
+          "alerts": 0,
+          "alert_rate": 0.0,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "unseen_content"
+        }
+      }
     },
     "full_stats": {
       "mode": "full_stats",
       "metrics_malicious": {
-        "tp": 409,
-        "fp": 266,
-        "tn": 439,
-        "fn": 41,
-        "precision": 0.605925925925926,
-        "recall": 0.9088888888888889,
-        "f1": 0.727111111111111,
-        "false_positive_rate": 0.3773049645390071,
-        "false_negative_rate": 0.09111111111111111,
+        "tp": 407,
+        "fp": 158,
+        "tn": 2244,
+        "fn": 43,
+        "precision": 0.720353982300885,
+        "recall": 0.9044444444444445,
+        "f1": 0.8019704433497536,
+        "false_positive_rate": 0.06577851790174855,
+        "false_negative_rate": 0.09555555555555556,
         "wilson_fpr_ci": [
-          0.34228101432646846,
-          0.413658769038035
-        ]
+          0.0565419964048199,
+          0.07640170096477962
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 158,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
       "metrics_benign_invalid": {
         "total": 0,
@@ -1686,23 +2148,34 @@
         "rejection_rate": 0.0
       },
       "metrics_any_anomaly": {
-        "tp": 409,
-        "fp": 266,
-        "tn": 439,
-        "fn": 41,
-        "precision": 0.605925925925926,
-        "recall": 0.9088888888888889,
-        "f1": 0.727111111111111,
-        "false_positive_rate": 0.3773049645390071,
-        "false_negative_rate": 0.09111111111111111,
+        "tp": 407,
+        "fp": 158,
+        "tn": 2244,
+        "fn": 43,
+        "precision": 0.720353982300885,
+        "recall": 0.9044444444444445,
+        "f1": 0.8019704433497536,
+        "false_positive_rate": 0.06577851790174855,
+        "false_negative_rate": 0.09555555555555556,
         "wilson_fpr_ci": [
-          0.34228101432646846,
-          0.413658769038035
-        ]
+          0.0565419964048199,
+          0.07640170096477962
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 158,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
-      "fpr_on_legitimate_test": 0.3773049645390071,
-      "review_rate_legitimate": 0.19290780141843972,
-      "average_precision": 0.670227311188187,
+      "fpr_on_legitimate_test": 0.06577851790174855,
+      "review_rate_legitimate": 0.07119067443796837,
+      "average_precision": 0.7295723899853607,
       "per_family": {
         "sqli": {
           "recall": 1.0,
@@ -1710,8 +2183,201 @@
           "support": 84.0
         },
         "evasive": {
-          "recall": 0.646551724137931,
+          "recall": 0.6379310344827587,
+          "review_rate": 0.1810344827586207,
+          "support": 116.0
+        },
+        "xss": {
+          "recall": 1.0,
           "review_rate": 0.0,
+          "support": 84.0
+        },
+        "traversal": {
+          "recall": 0.9880952380952381,
+          "review_rate": 0.011904761904761904,
+          "support": 84.0
+        },
+        "repetitive": {
+          "recall": 1.0,
+          "review_rate": 0.0,
+          "support": 41.0
+        },
+        "oversized": {
+          "recall": 1.0,
+          "review_rate": 0.0,
+          "support": 41.0
+        }
+      },
+      "attack_slices": {
+        "signature_easy": {
+          "recall": 1.0,
+          "support": 126.0
+        },
+        "rule_evasive": {
+          "recall": 0.8223140495867769,
+          "support": 242.0
+        },
+        "size_distribution": {
+          "recall": 1.0,
+          "support": 82.0
+        }
+      },
+      "latency_ms_median": 1.1415605004003737,
+      "latency_ms_p95": 1.569704349549283,
+      "settings": {
+        "alert_threshold_percentile": 66.96219627215594,
+        "review_threshold_percentile": 56.2158732477406,
+        "isolation_alert_threshold": 0.0,
+        "isolation_review_threshold": 0.0,
+        "max_false_positive_rate_target": 0.01,
+        "enable_high_severity_rule_alert": true,
+        "threshold_scale": "percentile",
+        "threshold_population": "ordinary_validation"
+      },
+      "operating_point_1pct": {
+        "budget": 0.01,
+        "selection": "highest_recall_with_test_fpr_at_most_budget",
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        "threshold_percentile": 96.44725847249202,
+        "recall_malicious": 0.17333333333333334,
+        "fpr_legitimate": 0.00041631973355537054,
+        "includes_rule_alerts": false,
+        "comparison": "score > threshold"
+      },
+      "fpr_by_legitimate_group": {
+        "legitimate": {
+          "alerts": 19,
+          "support": 1968,
+          "alert_rate": 0.009654471544715448
+        },
+        "difficult_legitimate": {
+          "alerts": 45,
+          "support": 340,
+          "alert_rate": 0.1323529411764706
+        },
+        "distribution_shift": {
+          "alerts": 94,
+          "support": 94,
+          "alert_rate": 1.0
+        }
+      },
+      "base_rate": {
+        "n_malicious": 450,
+        "n_legitimate_family": 2402,
+        "note": "Precision on this file is not an operational detection rate. Wilson k/n uses legitimate-family test rows (ordinary + difficult + shift) that share the same alert decision. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
+        "rows": [
+          {
+            "name": "file_legitimate_mixture",
+            "prior": 0.15778401122019636,
+            "posterior_at_observed_fpr": 0.720353982300885,
+            "posterior_at_wilson_fpr_upper": 0.6892266924857675
+          },
+          {
+            "name": "prior_1pct",
+            "prior": 0.01,
+            "posterior_at_observed_fpr": 0.12195001468219231,
+            "posterior_at_wilson_fpr_upper": 0.10680464243609757
+          },
+          {
+            "name": "prior_0_1pct",
+            "prior": 0.001,
+            "posterior_at_observed_fpr": 0.013576743904030684,
+            "posterior_at_wilson_fpr_upper": 0.011711089549397523
+          }
+        ]
+      },
+      "fpr_on_ordinary_test": 0.009654471544715448,
+      "average_precision_statistic_component": null,
+      "ordinary_content_slices": {
+        "in_distribution": {
+          "n": 1735,
+          "alerts": 19,
+          "alert_rate": 0.01095100864553314,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "in_distribution"
+        },
+        "unseen_content": {
+          "n": 233,
+          "alerts": 0,
+          "alert_rate": 0.0,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "unseen_content"
+        }
+      }
+    },
+    "rules_plus_stats": {
+      "mode": "rules_plus_stats",
+      "metrics_malicious": {
+        "tp": 391,
+        "fp": 122,
+        "tn": 2280,
+        "fn": 59,
+        "precision": 0.7621832358674464,
+        "recall": 0.8688888888888889,
+        "f1": 0.8120456905503635,
+        "false_positive_rate": 0.0507910074937552,
+        "false_negative_rate": 0.13111111111111112,
+        "wilson_fpr_ci": [
+          0.04270517572080735,
+          0.06031136259347632
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 122,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
+      },
+      "metrics_benign_invalid": {
+        "total": 0,
+        "flagged": 0,
+        "rejection_rate": 0.0
+      },
+      "metrics_any_anomaly": {
+        "tp": 391,
+        "fp": 122,
+        "tn": 2280,
+        "fn": 59,
+        "precision": 0.7621832358674464,
+        "recall": 0.8688888888888889,
+        "f1": 0.8120456905503635,
+        "false_positive_rate": 0.0507910074937552,
+        "false_negative_rate": 0.13111111111111112,
+        "wilson_fpr_ci": [
+          0.04270517572080735,
+          0.06031136259347632
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 122,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
+      },
+      "fpr_on_legitimate_test": 0.0507910074937552,
+      "review_rate_legitimate": 0.03455453788509576,
+      "average_precision": 0.8768482503964221,
+      "per_family": {
+        "sqli": {
+          "recall": 1.0,
+          "review_rate": 0.0,
+          "support": 84.0
+        },
+        "evasive": {
+          "recall": 0.49137931034482757,
+          "review_rate": 0.15517241379310345,
           "support": 116.0
         },
         "xss": {
@@ -1741,7 +2407,7 @@
           "support": 126.0
         },
         "rule_evasive": {
-          "recall": 0.8305785123966942,
+          "recall": 0.756198347107438,
           "support": 242.0
         },
         "size_distribution": {
@@ -1749,11 +2415,11 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.08544099930441,
-      "latency_ms_p95": 1.8498881001505652,
+      "latency_ms_median": 1.1662229999274132,
+      "latency_ms_p95": 1.6429768002581102,
       "settings": {
-        "alert_threshold_percentile": 69.69809157330965,
-        "review_threshold_percentile": 57.033758158496966,
+        "alert_threshold_percentile": 97.03637180062866,
+        "review_threshold_percentile": 95.06061966771442,
         "isolation_alert_threshold": 0.0,
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
@@ -1765,22 +2431,22 @@
         "budget": 0.01,
         "selection": "highest_recall_with_test_fpr_at_most_budget",
         "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
-        "threshold_percentile": 97.12662834008549,
-        "recall_malicious": 0.11555555555555555,
-        "fpr_legitimate": 0.0,
-        "includes_rule_alerts": false,
+        "threshold_percentile": 99.95509654243376,
+        "recall_malicious": 0.6422222222222222,
+        "fpr_legitimate": 0.002497918401332223,
+        "includes_rule_alerts": true,
         "comparison": "score > threshold"
       },
       "fpr_by_legitimate_group": {
         "legitimate": {
-          "alerts": 3,
-          "support": 271,
-          "alert_rate": 0.01107011070110701
+          "alerts": 23,
+          "support": 1968,
+          "alert_rate": 0.011686991869918699
         },
         "difficult_legitimate": {
-          "alerts": 169,
+          "alerts": 5,
           "support": 340,
-          "alert_rate": 0.4970588235294118
+          "alert_rate": 0.014705882352941176
         },
         "distribution_shift": {
           "alerts": 94,
@@ -1790,47 +2456,77 @@
       },
       "base_rate": {
         "n_malicious": 450,
-        "n_legitimate_family": 705,
-        "note": "Precision on this file is not an operational detection rate. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
+        "n_legitimate_family": 2402,
+        "note": "Precision on this file is not an operational detection rate. Wilson k/n uses legitimate-family test rows (ordinary + difficult + shift) that share the same alert decision. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
         "rows": [
           {
             "name": "file_legitimate_mixture",
-            "prior": 0.38961038961038963,
-            "posterior_at_observed_fpr": 0.605925925925926,
-            "posterior_at_wilson_fpr_upper": 0.5837608030998351
+            "prior": 0.15778401122019636,
+            "posterior_at_observed_fpr": 0.7621832358674465,
+            "posterior_at_wilson_fpr_upper": 0.7296574494281667
           },
           {
             "name": "prior_1pct",
             "prior": 0.01,
-            "posterior_at_observed_fpr": 0.02375429877057942,
-            "posterior_at_wilson_fpr_upper": 0.02171201273715254
+            "posterior_at_observed_fpr": 0.14733926111207507,
+            "posterior_at_wilson_fpr_upper": 0.12703585502550374
           },
           {
             "name": "prior_0_1pct",
             "prior": 0.001,
-            "posterior_at_observed_fpr": 0.0024055081293360746,
-            "posterior_at_wilson_fpr_upper": 0.002194567457363602
+            "posterior_at_observed_fpr": 0.01683596106874693,
+            "posterior_at_wilson_fpr_upper": 0.014216127947543776
           }
         ]
       },
-      "fpr_on_ordinary_test": 0.01107011070110701
+      "fpr_on_ordinary_test": 0.011686991869918699,
+      "average_precision_statistic_component": 0.870806309623665,
+      "ordinary_content_slices": {
+        "in_distribution": {
+          "n": 1735,
+          "alerts": 23,
+          "alert_rate": 0.013256484149855908,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "in_distribution"
+        },
+        "unseen_content": {
+          "n": 233,
+          "alerts": 0,
+          "alert_rate": 0.0,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "unseen_content"
+        }
+      }
     },
-    "rules_plus_stats": {
-      "mode": "rules_plus_stats",
+    "rules_plus_full_stats": {
+      "mode": "rules_plus_full_stats",
       "metrics_malicious": {
-        "tp": 298,
-        "fp": 96,
-        "tn": 609,
-        "fn": 152,
-        "precision": 0.7563451776649747,
-        "recall": 0.6622222222222223,
-        "f1": 0.7061611374407584,
-        "false_positive_rate": 0.13617021276595745,
-        "false_negative_rate": 0.3377777777777778,
+        "tp": 407,
+        "fp": 161,
+        "tn": 2241,
+        "fn": 43,
+        "precision": 0.7165492957746479,
+        "recall": 0.9044444444444445,
+        "f1": 0.7996070726915521,
+        "false_positive_rate": 0.06702747710241465,
+        "false_negative_rate": 0.09555555555555556,
         "wilson_fpr_ci": [
-          0.11281696175159012,
-          0.16346690452581036
-        ]
+          0.05770239722338473,
+          0.07773523006749108
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 161,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
       "metrics_benign_invalid": {
         "total": 0,
@@ -1838,23 +2534,227 @@
         "rejection_rate": 0.0
       },
       "metrics_any_anomaly": {
-        "tp": 298,
-        "fp": 96,
-        "tn": 609,
-        "fn": 152,
-        "precision": 0.7563451776649747,
-        "recall": 0.6622222222222223,
-        "f1": 0.7061611374407584,
-        "false_positive_rate": 0.13617021276595745,
-        "false_negative_rate": 0.3377777777777778,
+        "tp": 407,
+        "fp": 161,
+        "tn": 2241,
+        "fn": 43,
+        "precision": 0.7165492957746479,
+        "recall": 0.9044444444444445,
+        "f1": 0.7996070726915521,
+        "false_positive_rate": 0.06702747710241465,
+        "false_negative_rate": 0.09555555555555556,
         "wilson_fpr_ci": [
-          0.11281696175159012,
-          0.16346690452581036
+          0.05770239722338473,
+          0.07773523006749108
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 161,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
+      },
+      "fpr_on_legitimate_test": 0.06702747710241465,
+      "review_rate_legitimate": 0.06994171523730225,
+      "average_precision": 0.8176046918083916,
+      "per_family": {
+        "sqli": {
+          "recall": 1.0,
+          "review_rate": 0.0,
+          "support": 84.0
+        },
+        "evasive": {
+          "recall": 0.6379310344827587,
+          "review_rate": 0.1810344827586207,
+          "support": 116.0
+        },
+        "xss": {
+          "recall": 1.0,
+          "review_rate": 0.0,
+          "support": 84.0
+        },
+        "traversal": {
+          "recall": 0.9880952380952381,
+          "review_rate": 0.011904761904761904,
+          "support": 84.0
+        },
+        "repetitive": {
+          "recall": 1.0,
+          "review_rate": 0.0,
+          "support": 41.0
+        },
+        "oversized": {
+          "recall": 1.0,
+          "review_rate": 0.0,
+          "support": 41.0
+        }
+      },
+      "attack_slices": {
+        "signature_easy": {
+          "recall": 1.0,
+          "support": 126.0
+        },
+        "rule_evasive": {
+          "recall": 0.8223140495867769,
+          "support": 242.0
+        },
+        "size_distribution": {
+          "recall": 1.0,
+          "support": 82.0
+        }
+      },
+      "latency_ms_median": 1.144468500115181,
+      "latency_ms_p95": 1.5594589995998827,
+      "settings": {
+        "alert_threshold_percentile": 66.96219627215594,
+        "review_threshold_percentile": 56.2158732477406,
+        "isolation_alert_threshold": 0.0,
+        "isolation_review_threshold": 0.0,
+        "max_false_positive_rate_target": 0.01,
+        "enable_high_severity_rule_alert": true,
+        "threshold_scale": "percentile",
+        "threshold_population": "ordinary_validation"
+      },
+      "operating_point_1pct": {
+        "budget": 0.01,
+        "selection": "highest_recall_with_test_fpr_at_most_budget",
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        "threshold_percentile": 96.44725847249202,
+        "recall_malicious": 0.40444444444444444,
+        "fpr_legitimate": 0.002497918401332223,
+        "includes_rule_alerts": true,
+        "comparison": "score > threshold"
+      },
+      "fpr_by_legitimate_group": {
+        "legitimate": {
+          "alerts": 19,
+          "support": 1968,
+          "alert_rate": 0.009654471544715448
+        },
+        "difficult_legitimate": {
+          "alerts": 48,
+          "support": 340,
+          "alert_rate": 0.1411764705882353
+        },
+        "distribution_shift": {
+          "alerts": 94,
+          "support": 94,
+          "alert_rate": 1.0
+        }
+      },
+      "base_rate": {
+        "n_malicious": 450,
+        "n_legitimate_family": 2402,
+        "note": "Precision on this file is not an operational detection rate. Wilson k/n uses legitimate-family test rows (ordinary + difficult + shift) that share the same alert decision. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
+        "rows": [
+          {
+            "name": "file_legitimate_mixture",
+            "prior": 0.15778401122019636,
+            "posterior_at_observed_fpr": 0.716549295774648,
+            "posterior_at_wilson_fpr_upper": 0.685508294300939
+          },
+          {
+            "name": "prior_1pct",
+            "prior": 0.01,
+            "posterior_at_observed_fpr": 0.11995022431450462,
+            "posterior_at_wilson_fpr_upper": 0.1051651189397793
+          },
+          {
+            "name": "prior_0_1pct",
+            "prior": 0.001,
+            "posterior_at_observed_fpr": 0.013327132633770679,
+            "posterior_at_wilson_fpr_upper": 0.011512501507879512
+          }
         ]
       },
-      "fpr_on_legitimate_test": 0.13617021276595745,
-      "review_rate_legitimate": 0.06666666666666667,
-      "average_precision": 0.8628253885767988,
+      "fpr_on_ordinary_test": 0.009654471544715448,
+      "average_precision_statistic_component": 0.7295723899853607,
+      "ordinary_content_slices": {
+        "in_distribution": {
+          "n": 1735,
+          "alerts": 19,
+          "alert_rate": 0.01095100864553314,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "in_distribution"
+        },
+        "unseen_content": {
+          "n": 233,
+          "alerts": 0,
+          "alert_rate": 0.0,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "unseen_content"
+        }
+      }
+    },
+    "isolation_forest": {
+      "mode": "isolation_forest",
+      "metrics_malicious": {
+        "tp": 279,
+        "fp": 22,
+        "tn": 2380,
+        "fn": 171,
+        "precision": 0.9269102990033222,
+        "recall": 0.62,
+        "f1": 0.7430093209054595,
+        "false_positive_rate": 0.009159034138218152,
+        "false_negative_rate": 0.38,
+        "wilson_fpr_ci": [
+          0.0060562908432199945,
+          0.013829250095186341
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 22,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
+      },
+      "metrics_benign_invalid": {
+        "total": 0,
+        "flagged": 0,
+        "rejection_rate": 0.0
+      },
+      "metrics_any_anomaly": {
+        "tp": 279,
+        "fp": 22,
+        "tn": 2380,
+        "fn": 171,
+        "precision": 0.9269102990033222,
+        "recall": 0.62,
+        "f1": 0.7430093209054595,
+        "false_positive_rate": 0.009159034138218152,
+        "false_negative_rate": 0.38,
+        "wilson_fpr_ci": [
+          0.0060562908432199945,
+          0.013829250095186341
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 22,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
+      },
+      "fpr_on_legitimate_test": 0.009159034138218152,
+      "review_rate_legitimate": 0.10574521232306411,
+      "average_precision": 0.7588793508326445,
       "per_family": {
         "sqli": {
           "recall": 1.0,
@@ -1863,169 +2763,17 @@
         },
         "evasive": {
           "recall": 0.31896551724137934,
-          "review_rate": 0.3275862068965517,
+          "review_rate": 0.017241379310344827,
           "support": 116.0
         },
         "xss": {
-          "recall": 0.6190476190476191,
-          "review_rate": 0.38095238095238093,
+          "recall": 0.9047619047619048,
+          "review_rate": 0.09523809523809523,
           "support": 84.0
         },
         "traversal": {
-          "recall": 1.0,
-          "review_rate": 0.0,
-          "support": 84.0
-        },
-        "repetitive": {
-          "recall": 1.0,
-          "review_rate": 0.0,
-          "support": 41.0
-        },
-        "oversized": {
           "recall": 0.0,
-          "review_rate": 1.0,
-          "support": 41.0
-        }
-      },
-      "attack_slices": {
-        "signature_easy": {
-          "recall": 1.0,
-          "support": 126.0
-        },
-        "rule_evasive": {
-          "recall": 0.5413223140495868,
-          "support": 242.0
-        },
-        "size_distribution": {
-          "recall": 0.5,
-          "support": 82.0
-        }
-      },
-      "latency_ms_median": 1.0858060013561044,
-      "latency_ms_p95": 1.8265155993503868,
-      "settings": {
-        "alert_threshold_percentile": 97.38292011019284,
-        "review_threshold_percentile": 95.48898071625345,
-        "isolation_alert_threshold": 0.0,
-        "isolation_review_threshold": 0.0,
-        "max_false_positive_rate_target": 0.01,
-        "enable_high_severity_rule_alert": true,
-        "threshold_scale": "percentile",
-        "threshold_population": "ordinary_validation"
-      },
-      "operating_point_1pct": {
-        "budget": 0.01,
-        "selection": "highest_recall_with_test_fpr_at_most_budget",
-        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
-        "threshold_percentile": 99.79338842975206,
-        "recall_malicious": 0.6622222222222223,
-        "fpr_legitimate": 0.0,
-        "includes_rule_alerts": true,
-        "comparison": "score > threshold"
-      },
-      "fpr_by_legitimate_group": {
-        "legitimate": {
-          "alerts": 2,
-          "support": 271,
-          "alert_rate": 0.007380073800738007
-        },
-        "difficult_legitimate": {
-          "alerts": 0,
-          "support": 340,
-          "alert_rate": 0.0
-        },
-        "distribution_shift": {
-          "alerts": 94,
-          "support": 94,
-          "alert_rate": 1.0
-        }
-      },
-      "base_rate": {
-        "n_malicious": 450,
-        "n_legitimate_family": 705,
-        "note": "Precision on this file is not an operational detection rate. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
-        "rows": [
-          {
-            "name": "file_legitimate_mixture",
-            "prior": 0.38961038961038963,
-            "posterior_at_observed_fpr": 0.7563451776649746,
-            "posterior_at_wilson_fpr_upper": 0.7211233050554414
-          },
-          {
-            "name": "prior_1pct",
-            "prior": 0.01,
-            "posterior_at_observed_fpr": 0.046823077900282825,
-            "posterior_at_wilson_fpr_upper": 0.03931164726971279
-          },
-          {
-            "name": "prior_0_1pct",
-            "prior": 0.001,
-            "posterior_at_observed_fpr": 0.004844479279007556,
-            "posterior_at_wilson_fpr_upper": 0.004038786065657071
-          }
-        ]
-      },
-      "fpr_on_ordinary_test": 0.007380073800738007
-    },
-    "rules_plus_full_stats": {
-      "mode": "rules_plus_full_stats",
-      "metrics_malicious": {
-        "tp": 409,
-        "fp": 266,
-        "tn": 439,
-        "fn": 41,
-        "precision": 0.605925925925926,
-        "recall": 0.9088888888888889,
-        "f1": 0.727111111111111,
-        "false_positive_rate": 0.3773049645390071,
-        "false_negative_rate": 0.09111111111111111,
-        "wilson_fpr_ci": [
-          0.34228101432646846,
-          0.413658769038035
-        ]
-      },
-      "metrics_benign_invalid": {
-        "total": 0,
-        "flagged": 0,
-        "rejection_rate": 0.0
-      },
-      "metrics_any_anomaly": {
-        "tp": 409,
-        "fp": 266,
-        "tn": 439,
-        "fn": 41,
-        "precision": 0.605925925925926,
-        "recall": 0.9088888888888889,
-        "f1": 0.727111111111111,
-        "false_positive_rate": 0.3773049645390071,
-        "false_negative_rate": 0.09111111111111111,
-        "wilson_fpr_ci": [
-          0.34228101432646846,
-          0.413658769038035
-        ]
-      },
-      "fpr_on_legitimate_test": 0.3773049645390071,
-      "review_rate_legitimate": 0.19290780141843972,
-      "average_precision": 0.670227311188187,
-      "per_family": {
-        "sqli": {
-          "recall": 1.0,
-          "review_rate": 0.0,
-          "support": 84.0
-        },
-        "evasive": {
-          "recall": 0.646551724137931,
-          "review_rate": 0.0,
-          "support": 116.0
-        },
-        "xss": {
-          "recall": 1.0,
-          "review_rate": 0.0,
-          "support": 84.0
-        },
-        "traversal": {
-          "recall": 1.0,
-          "review_rate": 0.0,
+          "review_rate": 0.03571428571428571,
           "support": 84.0
         },
         "repetitive": {
@@ -2041,11 +2789,11 @@
       },
       "attack_slices": {
         "signature_easy": {
-          "recall": 1.0,
+          "recall": 0.6507936507936508,
           "support": 126.0
         },
         "rule_evasive": {
-          "recall": 0.8305785123966942,
+          "recall": 0.47520661157024796,
           "support": 242.0
         },
         "size_distribution": {
@@ -2053,13 +2801,13 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.175882000097772,
-      "latency_ms_p95": 1.9050408991461154,
+      "latency_ms_median": 5.103641999994579,
+      "latency_ms_p95": 5.86692339993533,
       "settings": {
-        "alert_threshold_percentile": 69.69809157330965,
-        "review_threshold_percentile": 57.033758158496966,
-        "isolation_alert_threshold": 0.0,
-        "isolation_review_threshold": 0.0,
+        "alert_threshold_percentile": 97.57521329142344,
+        "review_threshold_percentile": 96.5424337674001,
+        "isolation_alert_threshold": 0.02123528452510215,
+        "isolation_review_threshold": 0.05170300774881953,
         "max_false_positive_rate_target": 0.01,
         "enable_high_severity_rule_alert": true,
         "threshold_scale": "percentile",
@@ -2069,170 +2817,18 @@
         "budget": 0.01,
         "selection": "highest_recall_with_test_fpr_at_most_budget",
         "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
-        "threshold_percentile": 97.12662834008549,
-        "recall_malicious": 0.3466666666666667,
-        "fpr_legitimate": 0.0,
-        "includes_rule_alerts": true,
-        "comparison": "score > threshold"
-      },
-      "fpr_by_legitimate_group": {
-        "legitimate": {
-          "alerts": 3,
-          "support": 271,
-          "alert_rate": 0.01107011070110701
-        },
-        "difficult_legitimate": {
-          "alerts": 169,
-          "support": 340,
-          "alert_rate": 0.4970588235294118
-        },
-        "distribution_shift": {
-          "alerts": 94,
-          "support": 94,
-          "alert_rate": 1.0
-        }
-      },
-      "base_rate": {
-        "n_malicious": 450,
-        "n_legitimate_family": 705,
-        "note": "Precision on this file is not an operational detection rate. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
-        "rows": [
-          {
-            "name": "file_legitimate_mixture",
-            "prior": 0.38961038961038963,
-            "posterior_at_observed_fpr": 0.605925925925926,
-            "posterior_at_wilson_fpr_upper": 0.5837608030998351
-          },
-          {
-            "name": "prior_1pct",
-            "prior": 0.01,
-            "posterior_at_observed_fpr": 0.02375429877057942,
-            "posterior_at_wilson_fpr_upper": 0.02171201273715254
-          },
-          {
-            "name": "prior_0_1pct",
-            "prior": 0.001,
-            "posterior_at_observed_fpr": 0.0024055081293360746,
-            "posterior_at_wilson_fpr_upper": 0.002194567457363602
-          }
-        ]
-      },
-      "fpr_on_ordinary_test": 0.01107011070110701
-    },
-    "isolation_forest": {
-      "mode": "isolation_forest",
-      "metrics_malicious": {
-        "tp": 41,
-        "fp": 1,
-        "tn": 704,
-        "fn": 409,
-        "precision": 0.9761904761904762,
-        "recall": 0.09111111111111111,
-        "f1": 0.16666666666666669,
-        "false_positive_rate": 0.0014184397163120568,
-        "false_negative_rate": 0.9088888888888889,
-        "wilson_fpr_ci": [
-          0.0002504333367806196,
-          0.00799042045076817
-        ]
-      },
-      "metrics_benign_invalid": {
-        "total": 0,
-        "flagged": 0,
-        "rejection_rate": 0.0
-      },
-      "metrics_any_anomaly": {
-        "tp": 41,
-        "fp": 1,
-        "tn": 704,
-        "fn": 409,
-        "precision": 0.9761904761904762,
-        "recall": 0.09111111111111111,
-        "f1": 0.16666666666666669,
-        "false_positive_rate": 0.0014184397163120568,
-        "false_negative_rate": 0.9088888888888889,
-        "wilson_fpr_ci": [
-          0.0002504333367806196,
-          0.00799042045076817
-        ]
-      },
-      "fpr_on_legitimate_test": 0.0014184397163120568,
-      "review_rate_legitimate": 0.14893617021276595,
-      "average_precision": 0.500573974726979,
-      "per_family": {
-        "sqli": {
-          "recall": 0.0,
-          "review_rate": 0.023809523809523808,
-          "support": 84.0
-        },
-        "evasive": {
-          "recall": 0.0,
-          "review_rate": 0.0,
-          "support": 116.0
-        },
-        "xss": {
-          "recall": 0.0,
-          "review_rate": 0.0,
-          "support": 84.0
-        },
-        "traversal": {
-          "recall": 0.0,
-          "review_rate": 0.0,
-          "support": 84.0
-        },
-        "repetitive": {
-          "recall": 1.0,
-          "review_rate": 0.0,
-          "support": 41.0
-        },
-        "oversized": {
-          "recall": 0.0,
-          "review_rate": 0.0,
-          "support": 41.0
-        }
-      },
-      "attack_slices": {
-        "signature_easy": {
-          "recall": 0.0,
-          "support": 126.0
-        },
-        "rule_evasive": {
-          "recall": 0.0,
-          "support": 242.0
-        },
-        "size_distribution": {
-          "recall": 0.5,
-          "support": 82.0
-        }
-      },
-      "latency_ms_median": 5.132608999701915,
-      "latency_ms_p95": 6.005503500637133,
-      "settings": {
-        "alert_threshold_percentile": 98.7603305785124,
-        "review_threshold_percentile": 96.31542699724518,
-        "isolation_alert_threshold": 0.010939612034866264,
-        "isolation_review_threshold": 0.053347817289548516,
-        "max_false_positive_rate_target": 0.01,
-        "enable_high_severity_rule_alert": true,
-        "threshold_scale": "percentile",
-        "threshold_population": "ordinary_validation"
-      },
-      "operating_point_1pct": {
-        "budget": 0.01,
-        "selection": "highest_recall_with_test_fpr_at_most_budget",
-        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
-        "threshold_percentile": 0.005623017293865162,
-        "recall_malicious": 0.09111111111111111,
-        "fpr_legitimate": 0.0,
+        "threshold_percentile": 0.01363305331968654,
+        "recall_malicious": 0.35555555555555557,
+        "fpr_legitimate": 0.004163197335553705,
         "includes_rule_alerts": false,
         "score": "isolation_decision_function",
         "comparison": "score < threshold"
       },
       "fpr_by_legitimate_group": {
         "legitimate": {
-          "alerts": 0,
-          "support": 271,
-          "alert_rate": 0.0
+          "alerts": 13,
+          "support": 1968,
+          "alert_rate": 0.0066056910569105695
         },
         "difficult_legitimate": {
           "alerts": 0,
@@ -2240,57 +2836,95 @@
           "alert_rate": 0.0
         },
         "distribution_shift": {
-          "alerts": 1,
+          "alerts": 9,
           "support": 94,
-          "alert_rate": 0.010638297872340425
+          "alert_rate": 0.09574468085106383
         }
       },
       "base_rate": {
         "n_malicious": 450,
-        "n_legitimate_family": 705,
-        "note": "Precision on this file is not an operational detection rate. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
+        "n_legitimate_family": 2402,
+        "note": "Precision on this file is not an operational detection rate. Wilson k/n uses legitimate-family test rows (ordinary + difficult + shift) that share the same alert decision. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
         "rows": [
           {
             "name": "file_legitimate_mixture",
-            "prior": 0.38961038961038963,
-            "posterior_at_observed_fpr": 0.9761904761904762,
-            "posterior_at_wilson_fpr_upper": 0.8792010668242398
+            "prior": 0.15778401122019636,
+            "posterior_at_observed_fpr": 0.9269102990033222,
+            "posterior_at_wilson_fpr_upper": 0.8936067947429339
           },
           {
             "name": "prior_1pct",
             "prior": 0.01,
-            "posterior_at_observed_fpr": 0.39350622830304266,
-            "posterior_at_wilson_fpr_upper": 0.10328152326109777
+            "posterior_at_observed_fpr": 0.40609286547921597,
+            "posterior_at_wilson_fpr_upper": 0.3116994227466007
           },
           {
             "name": "prior_0_1pct",
             "prior": 0.001,
-            "posterior_at_observed_fpr": 0.06041320500360536,
-            "posterior_at_wilson_fpr_upper": 0.0112851485506879
+            "posterior_at_observed_fpr": 0.06346038136568254,
+            "posterior_at_wilson_fpr_upper": 0.04294990819133856
           }
         ]
       },
-      "fpr_on_ordinary_test": 0.0
+      "fpr_on_ordinary_test": 0.0066056910569105695,
+      "average_precision_statistic_component": null,
+      "ordinary_content_slices": {
+        "in_distribution": {
+          "n": 1735,
+          "alerts": 13,
+          "alert_rate": 0.007492795389048991,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "in_distribution"
+        },
+        "unseen_content": {
+          "n": 233,
+          "alerts": 0,
+          "alert_rate": 0.0,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "unseen_content"
+        }
+      }
     }
   },
-  "generated_at": 1794512064.020368,
+  "generated_at": 1794562437.6305332,
+  "dataset_quality": {
+    "ordinary_test_count": 1968,
+    "train_ordinary_count": 4027,
+    "exact_content_overlap_count": 0,
+    "exact_content_overlap_rate": 0.0,
+    "in_distribution_ordinary_test_count": 1735,
+    "unseen_content_ordinary_test_count": 233
+  },
   "primary_comparison": {
     "rules_only": {
       "mode": "rules_only",
       "metrics_malicious": {
         "tp": 115,
-        "fp": 0,
-        "tn": 705,
+        "fp": 5,
+        "tn": 2397,
         "fn": 335,
-        "precision": 1.0,
+        "precision": 0.9583333333333334,
         "recall": 0.25555555555555554,
-        "f1": 0.4070796460176991,
-        "false_positive_rate": 0.0,
+        "f1": 0.40350877192982454,
+        "false_positive_rate": 0.0020815986677768525,
         "false_negative_rate": 0.7444444444444445,
         "wilson_fpr_ci": [
-          0.0,
-          0.0054193483929187705
-        ]
+          0.0008894521146159792,
+          0.0048638192698912085
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 5,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
       "metrics_benign_invalid": {
         "total": 0,
@@ -2299,26 +2933,37 @@
       },
       "metrics_any_anomaly": {
         "tp": 115,
-        "fp": 0,
-        "tn": 705,
+        "fp": 5,
+        "tn": 2397,
         "fn": 335,
-        "precision": 1.0,
+        "precision": 0.9583333333333334,
         "recall": 0.25555555555555554,
-        "f1": 0.4070796460176991,
-        "false_positive_rate": 0.0,
+        "f1": 0.40350877192982454,
+        "false_positive_rate": 0.0020815986677768525,
         "false_negative_rate": 0.7444444444444445,
         "wilson_fpr_ci": [
-          0.0,
-          0.0054193483929187705
-        ]
+          0.0008894521146159792,
+          0.0048638192698912085
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 5,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
-      "fpr_on_legitimate_test": 0.0,
+      "fpr_on_legitimate_test": 0.0020815986677768525,
       "review_rate_legitimate": 0.0,
-      "average_precision": 0.6012121212121213,
+      "average_precision": 0.4974574674246816,
       "per_family": {
         "sqli": {
           "recall": 0.36904761904761907,
-          "review_rate": 0.0,
+          "review_rate": 0.21428571428571427,
           "support": 84.0
         },
         "evasive": {
@@ -2343,7 +2988,7 @@
         },
         "oversized": {
           "recall": 0.0,
-          "review_rate": 0.4878048780487805,
+          "review_rate": 0.8536585365853658,
           "support": 41.0
         }
       },
@@ -2361,8 +3006,8 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 0.02394700095464941,
-      "latency_ms_p95": 0.10628779946273423,
+      "latency_ms_median": 0.031862000014371006,
+      "latency_ms_p95": 0.06373124988385814,
       "settings": {
         "alert_threshold_percentile": 99.0,
         "review_threshold_percentile": 95.0,
@@ -2377,13 +3022,13 @@
       "fpr_by_legitimate_group": {
         "legitimate": {
           "alerts": 0,
-          "support": 271,
+          "support": 1968,
           "alert_rate": 0.0
         },
         "difficult_legitimate": {
-          "alerts": 0,
+          "alerts": 5,
           "support": 340,
-          "alert_rate": 0.0
+          "alert_rate": 0.014705882352941176
         },
         "distribution_shift": {
           "alerts": 0,
@@ -2393,47 +3038,77 @@
       },
       "base_rate": {
         "n_malicious": 450,
-        "n_legitimate_family": 705,
-        "note": "Precision on this file is not an operational detection rate. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
+        "n_legitimate_family": 2402,
+        "note": "Precision on this file is not an operational detection rate. Wilson k/n uses legitimate-family test rows (ordinary + difficult + shift) that share the same alert decision. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
         "rows": [
           {
             "name": "file_legitimate_mixture",
-            "prior": 0.38961038961038963,
-            "posterior_at_observed_fpr": 1.0,
-            "posterior_at_wilson_fpr_upper": 0.9678453120840954
+            "prior": 0.15778401122019636,
+            "posterior_at_observed_fpr": 0.9583333333333334,
+            "posterior_at_wilson_fpr_upper": 0.9077784416831665
           },
           {
             "name": "prior_1pct",
             "prior": 0.01,
-            "posterior_at_observed_fpr": 1.0,
-            "posterior_at_wilson_fpr_upper": 0.3226422133462384
+            "posterior_at_observed_fpr": 0.5535893222173233,
+            "posterior_at_wilson_fpr_upper": 0.34671643865300206
           },
           {
             "name": "prior_0_1pct",
             "prior": 0.001,
-            "posterior_at_observed_fpr": 1.0,
-            "posterior_at_wilson_fpr_upper": 0.04507562390272408
+            "posterior_at_observed_fpr": 0.10944223012860639,
+            "posterior_at_wilson_fpr_upper": 0.04996676226660128
           }
         ]
       },
-      "fpr_on_ordinary_test": 0.0
+      "fpr_on_ordinary_test": 0.0,
+      "average_precision_statistic_component": null,
+      "ordinary_content_slices": {
+        "in_distribution": {
+          "n": 1735,
+          "alerts": 0,
+          "alert_rate": 0.0,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "in_distribution"
+        },
+        "unseen_content": {
+          "n": 233,
+          "alerts": 0,
+          "alert_rate": 0.0,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "unseen_content"
+        }
+      }
     },
     "combined_stats": {
       "mode": "combined_stats",
       "metrics_malicious": {
-        "tp": 256,
-        "fp": 96,
-        "tn": 609,
-        "fn": 194,
-        "precision": 0.7272727272727273,
-        "recall": 0.5688888888888889,
-        "f1": 0.6384039900249378,
-        "false_positive_rate": 0.13617021276595745,
-        "false_negative_rate": 0.4311111111111111,
+        "tp": 391,
+        "fp": 117,
+        "tn": 2285,
+        "fn": 59,
+        "precision": 0.7696850393700787,
+        "recall": 0.8688888888888889,
+        "f1": 0.8162839248434238,
+        "false_positive_rate": 0.04870940882597835,
+        "false_negative_rate": 0.13111111111111112,
         "wilson_fpr_ci": [
-          0.11281696175159012,
-          0.16346690452581036
-        ]
+          0.04079829609640716,
+          0.05806169234908265
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 117,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
       "metrics_benign_invalid": {
         "total": 0,
@@ -2441,23 +3116,34 @@
         "rejection_rate": 0.0
       },
       "metrics_any_anomaly": {
-        "tp": 256,
-        "fp": 96,
-        "tn": 609,
-        "fn": 194,
-        "precision": 0.7272727272727273,
-        "recall": 0.5688888888888889,
-        "f1": 0.6384039900249378,
-        "false_positive_rate": 0.13617021276595745,
-        "false_negative_rate": 0.4311111111111111,
+        "tp": 391,
+        "fp": 117,
+        "tn": 2285,
+        "fn": 59,
+        "precision": 0.7696850393700787,
+        "recall": 0.8688888888888889,
+        "f1": 0.8162839248434238,
+        "false_positive_rate": 0.04870940882597835,
+        "false_negative_rate": 0.13111111111111112,
         "wilson_fpr_ci": [
-          0.11281696175159012,
-          0.16346690452581036
-        ]
+          0.04079829609640716,
+          0.05806169234908265
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 117,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
-      "fpr_on_legitimate_test": 0.13617021276595745,
-      "review_rate_legitimate": 0.06666666666666667,
-      "average_precision": 0.8628253885767988,
+      "fpr_on_legitimate_test": 0.04870940882597835,
+      "review_rate_legitimate": 0.03455453788509576,
+      "average_precision": 0.870806309623665,
       "per_family": {
         "sqli": {
           "recall": 1.0,
@@ -2465,13 +3151,13 @@
           "support": 84.0
         },
         "evasive": {
-          "recall": 0.31896551724137934,
-          "review_rate": 0.3275862068965517,
+          "recall": 0.49137931034482757,
+          "review_rate": 0.15517241379310345,
           "support": 116.0
         },
         "xss": {
-          "recall": 0.11904761904761904,
-          "review_rate": 0.38095238095238093,
+          "recall": 1.0,
+          "review_rate": 0.0,
           "support": 84.0
         },
         "traversal": {
@@ -2485,8 +3171,201 @@
           "support": 41.0
         },
         "oversized": {
+          "recall": 1.0,
+          "review_rate": 0.0,
+          "support": 41.0
+        }
+      },
+      "attack_slices": {
+        "signature_easy": {
+          "recall": 1.0,
+          "support": 126.0
+        },
+        "rule_evasive": {
+          "recall": 0.756198347107438,
+          "support": 242.0
+        },
+        "size_distribution": {
+          "recall": 1.0,
+          "support": 82.0
+        }
+      },
+      "latency_ms_median": 1.113404000079754,
+      "latency_ms_p95": 1.4920805003384876,
+      "settings": {
+        "alert_threshold_percentile": 97.03637180062866,
+        "review_threshold_percentile": 95.06061966771442,
+        "isolation_alert_threshold": 0.0,
+        "isolation_review_threshold": 0.0,
+        "max_false_positive_rate_target": 0.01,
+        "enable_high_severity_rule_alert": true,
+        "threshold_scale": "percentile",
+        "threshold_population": "ordinary_validation"
+      },
+      "operating_point_1pct": {
+        "budget": 0.01,
+        "selection": "highest_recall_with_test_fpr_at_most_budget",
+        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
+        "threshold_percentile": 99.95509654243376,
+        "recall_malicious": 0.5488888888888889,
+        "fpr_legitimate": 0.00041631973355537054,
+        "includes_rule_alerts": false,
+        "comparison": "score > threshold"
+      },
+      "fpr_by_legitimate_group": {
+        "legitimate": {
+          "alerts": 23,
+          "support": 1968,
+          "alert_rate": 0.011686991869918699
+        },
+        "difficult_legitimate": {
+          "alerts": 0,
+          "support": 340,
+          "alert_rate": 0.0
+        },
+        "distribution_shift": {
+          "alerts": 94,
+          "support": 94,
+          "alert_rate": 1.0
+        }
+      },
+      "base_rate": {
+        "n_malicious": 450,
+        "n_legitimate_family": 2402,
+        "note": "Precision on this file is not an operational detection rate. Wilson k/n uses legitimate-family test rows (ordinary + difficult + shift) that share the same alert decision. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
+        "rows": [
+          {
+            "name": "file_legitimate_mixture",
+            "prior": 0.15778401122019636,
+            "posterior_at_observed_fpr": 0.7696850393700787,
+            "posterior_at_wilson_fpr_upper": 0.7370902900511899
+          },
+          {
+            "name": "prior_1pct",
+            "prior": 0.01,
+            "posterior_at_observed_fpr": 0.15267448824130314,
+            "posterior_at_wilson_fpr_upper": 0.1313116756054741
+          },
+          {
+            "name": "prior_0_1pct",
+            "prior": 0.001,
+            "posterior_at_observed_fpr": 0.017542824776173402,
+            "posterior_at_wilson_fpr_upper": 0.014758819489890447
+          }
+        ]
+      },
+      "fpr_on_ordinary_test": 0.011686991869918699,
+      "average_precision_statistic_component": null,
+      "ordinary_content_slices": {
+        "in_distribution": {
+          "n": 1735,
+          "alerts": 23,
+          "alert_rate": 0.013256484149855908,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "in_distribution"
+        },
+        "unseen_content": {
+          "n": 233,
+          "alerts": 0,
+          "alert_rate": 0.0,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "unseen_content"
+        }
+      }
+    },
+    "ci_only": {
+      "mode": "ci_only",
+      "metrics_malicious": {
+        "tp": 259,
+        "fp": 119,
+        "tn": 2283,
+        "fn": 191,
+        "precision": 0.6851851851851852,
+        "recall": 0.5755555555555556,
+        "f1": 0.6256038647342995,
+        "false_positive_rate": 0.04954204829308909,
+        "false_negative_rate": 0.42444444444444446,
+        "wilson_fpr_ci": [
+          0.041560547506554635,
+          0.058962060886452713
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 119,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
+      },
+      "metrics_benign_invalid": {
+        "total": 0,
+        "flagged": 0,
+        "rejection_rate": 0.0
+      },
+      "metrics_any_anomaly": {
+        "tp": 259,
+        "fp": 119,
+        "tn": 2283,
+        "fn": 191,
+        "precision": 0.6851851851851852,
+        "recall": 0.5755555555555556,
+        "f1": 0.6256038647342995,
+        "false_positive_rate": 0.04954204829308909,
+        "false_negative_rate": 0.42444444444444446,
+        "wilson_fpr_ci": [
+          0.041560547506554635,
+          0.058962060886452713
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 119,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
+      },
+      "fpr_on_legitimate_test": 0.04954204829308909,
+      "review_rate_legitimate": 0.0395503746877602,
+      "average_precision": 0.7556423982079873,
+      "per_family": {
+        "sqli": {
+          "recall": 0.9523809523809523,
+          "review_rate": 0.047619047619047616,
+          "support": 84.0
+        },
+        "evasive": {
+          "recall": 0.20689655172413793,
+          "review_rate": 0.4396551724137931,
+          "support": 116.0
+        },
+        "xss": {
+          "recall": 0.8690476190476191,
+          "review_rate": 0.13095238095238096,
+          "support": 84.0
+        },
+        "traversal": {
           "recall": 0.0,
           "review_rate": 1.0,
+          "support": 84.0
+        },
+        "repetitive": {
+          "recall": 1.0,
+          "review_rate": 0.0,
+          "support": 41.0
+        },
+        "oversized": {
+          "recall": 1.0,
+          "review_rate": 0.0,
           "support": 41.0
         }
       },
@@ -2496,19 +3375,19 @@
           "support": 126.0
         },
         "rule_evasive": {
-          "recall": 0.5413223140495868,
+          "recall": 0.384297520661157,
           "support": 242.0
         },
         "size_distribution": {
-          "recall": 0.5,
+          "recall": 1.0,
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.1337479991198052,
-      "latency_ms_p95": 1.8578434992377877,
+      "latency_ms_median": 1.1208164996787673,
+      "latency_ms_p95": 1.5873809001277548,
       "settings": {
-        "alert_threshold_percentile": 97.38292011019284,
-        "review_threshold_percentile": 95.48898071625345,
+        "alert_threshold_percentile": 88.26825569483293,
+        "review_threshold_percentile": 45.63492063492063,
         "isolation_alert_threshold": 0.0,
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
@@ -2520,17 +3399,17 @@
         "budget": 0.01,
         "selection": "highest_recall_with_test_fpr_at_most_budget",
         "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
-        "threshold_percentile": 99.79338842975206,
-        "recall_malicious": 0.5688888888888889,
-        "fpr_legitimate": 0.0,
+        "threshold_percentile": 98.2901832475799,
+        "recall_malicious": 0.24888888888888888,
+        "fpr_legitimate": 0.00041631973355537054,
         "includes_rule_alerts": false,
         "comparison": "score > threshold"
       },
       "fpr_by_legitimate_group": {
         "legitimate": {
-          "alerts": 2,
-          "support": 271,
-          "alert_rate": 0.007380073800738007
+          "alerts": 25,
+          "support": 1968,
+          "alert_rate": 0.012703252032520325
         },
         "difficult_legitimate": {
           "alerts": 0,
@@ -2545,199 +3424,77 @@
       },
       "base_rate": {
         "n_malicious": 450,
-        "n_legitimate_family": 705,
-        "note": "Precision on this file is not an operational detection rate. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
+        "n_legitimate_family": 2402,
+        "note": "Precision on this file is not an operational detection rate. Wilson k/n uses legitimate-family test rows (ordinary + difficult + shift) that share the same alert decision. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
         "rows": [
           {
             "name": "file_legitimate_mixture",
-            "prior": 0.38961038961038963,
-            "posterior_at_observed_fpr": 0.7272727272727272,
-            "posterior_at_wilson_fpr_upper": 0.6895731227036744
+            "prior": 0.15778401122019636,
+            "posterior_at_observed_fpr": 0.6851851851851852,
+            "posterior_at_wilson_fpr_upper": 0.6464868415811877
           },
           {
             "name": "prior_1pct",
             "prior": 0.01,
-            "posterior_at_observed_fpr": 0.040491061813482665,
-            "posterior_at_wilson_fpr_upper": 0.033959232964213826
+            "posterior_at_observed_fpr": 0.10502420162982852,
+            "posterior_at_wilson_fpr_upper": 0.08975105928042851
           },
           {
             "name": "prior_0_1pct",
             "prior": 0.001,
-            "posterior_at_observed_fpr": 0.004164543783089294,
-            "posterior_at_wilson_fpr_upper": 0.0034715372693117368
+            "posterior_at_observed_fpr": 0.01149546307285884,
+            "posterior_at_wilson_fpr_upper": 0.009676674120224105
           }
         ]
       },
-      "fpr_on_ordinary_test": 0.007380073800738007
-    },
-    "ci_only": {
-      "mode": "ci_only",
-      "metrics_malicious": {
-        "tp": 213,
-        "fp": 96,
-        "tn": 609,
-        "fn": 237,
-        "precision": 0.6893203883495146,
-        "recall": 0.47333333333333333,
-        "f1": 0.5612648221343874,
-        "false_positive_rate": 0.13617021276595745,
-        "false_negative_rate": 0.5266666666666666,
-        "wilson_fpr_ci": [
-          0.11281696175159012,
-          0.16346690452581036
-        ]
-      },
-      "metrics_benign_invalid": {
-        "total": 0,
-        "flagged": 0,
-        "rejection_rate": 0.0
-      },
-      "metrics_any_anomaly": {
-        "tp": 213,
-        "fp": 96,
-        "tn": 609,
-        "fn": 237,
-        "precision": 0.6893203883495146,
-        "recall": 0.47333333333333333,
-        "f1": 0.5612648221343874,
-        "false_positive_rate": 0.13617021276595745,
-        "false_negative_rate": 0.5266666666666666,
-        "wilson_fpr_ci": [
-          0.11281696175159012,
-          0.16346690452581036
-        ]
-      },
-      "fpr_on_legitimate_test": 0.13617021276595745,
-      "review_rate_legitimate": 0.4326241134751773,
-      "average_precision": 0.6746195631866464,
-      "per_family": {
-        "sqli": {
-          "recall": 1.0,
-          "review_rate": 0.0,
-          "support": 84.0
+      "fpr_on_ordinary_test": 0.012703252032520325,
+      "average_precision_statistic_component": null,
+      "ordinary_content_slices": {
+        "in_distribution": {
+          "n": 1735,
+          "alerts": 25,
+          "alert_rate": 0.01440922190201729,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "in_distribution"
         },
-        "evasive": {
-          "recall": 0.31896551724137934,
-          "review_rate": 0.16379310344827586,
-          "support": 116.0
-        },
-        "xss": {
-          "recall": 0.11904761904761904,
-          "review_rate": 0.6309523809523809,
-          "support": 84.0
-        },
-        "traversal": {
-          "recall": 0.0,
-          "review_rate": 1.0,
-          "support": 84.0
-        },
-        "repetitive": {
-          "recall": 1.0,
-          "review_rate": 0.0,
-          "support": 41.0
-        },
-        "oversized": {
-          "recall": 1.0,
-          "review_rate": 0.0,
-          "support": 41.0
-        }
-      },
-      "attack_slices": {
-        "signature_easy": {
-          "recall": 0.3333333333333333,
-          "support": 126.0
-        },
-        "rule_evasive": {
-          "recall": 0.3677685950413223,
-          "support": 242.0
-        },
-        "size_distribution": {
-          "recall": 1.0,
-          "support": 82.0
-        }
-      },
-      "latency_ms_median": 1.0832290008693235,
-      "latency_ms_p95": 1.8344221989536889,
-      "settings": {
-        "alert_threshold_percentile": 89.98420543766358,
-        "review_threshold_percentile": 41.6085657370518,
-        "isolation_alert_threshold": 0.0,
-        "isolation_review_threshold": 0.0,
-        "max_false_positive_rate_target": 0.01,
-        "enable_high_severity_rule_alert": true,
-        "threshold_scale": "percentile",
-        "threshold_population": "ordinary_validation"
-      },
-      "operating_point_1pct": {
-        "budget": 0.01,
-        "selection": "highest_recall_with_test_fpr_at_most_budget",
-        "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
-        "threshold_percentile": 98.46461434596343,
-        "recall_malicious": 0.15777777777777777,
-        "fpr_legitimate": 0.0,
-        "includes_rule_alerts": false,
-        "comparison": "score > threshold"
-      },
-      "fpr_by_legitimate_group": {
-        "legitimate": {
-          "alerts": 2,
-          "support": 271,
-          "alert_rate": 0.007380073800738007
-        },
-        "difficult_legitimate": {
+        "unseen_content": {
+          "n": 233,
           "alerts": 0,
-          "support": 340,
-          "alert_rate": 0.0
-        },
-        "distribution_shift": {
-          "alerts": 94,
-          "support": 94,
-          "alert_rate": 1.0
+          "alert_rate": 0.0,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "unseen_content"
         }
-      },
-      "base_rate": {
-        "n_malicious": 450,
-        "n_legitimate_family": 705,
-        "note": "Precision on this file is not an operational detection rate. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
-        "rows": [
-          {
-            "name": "file_legitimate_mixture",
-            "prior": 0.38961038961038963,
-            "posterior_at_observed_fpr": 0.6893203883495146,
-            "posterior_at_wilson_fpr_upper": 0.6489071885070306
-          },
-          {
-            "name": "prior_1pct",
-            "prior": 0.01,
-            "posterior_at_observed_fpr": 0.03392053020523089,
-            "posterior_at_wilson_fpr_upper": 0.028417237530177625
-          },
-          {
-            "name": "prior_0_1pct",
-            "prior": 0.001,
-            "posterior_at_observed_fpr": 0.003467456100883542,
-            "posterior_at_wilson_fpr_upper": 0.002890112746602464
-          }
-        ]
-      },
-      "fpr_on_ordinary_test": 0.007380073800738007
+      }
     },
     "full_stats": {
       "mode": "full_stats",
       "metrics_malicious": {
-        "tp": 409,
-        "fp": 266,
-        "tn": 439,
-        "fn": 41,
-        "precision": 0.605925925925926,
-        "recall": 0.9088888888888889,
-        "f1": 0.727111111111111,
-        "false_positive_rate": 0.3773049645390071,
-        "false_negative_rate": 0.09111111111111111,
+        "tp": 407,
+        "fp": 158,
+        "tn": 2244,
+        "fn": 43,
+        "precision": 0.720353982300885,
+        "recall": 0.9044444444444445,
+        "f1": 0.8019704433497536,
+        "false_positive_rate": 0.06577851790174855,
+        "false_negative_rate": 0.09555555555555556,
         "wilson_fpr_ci": [
-          0.34228101432646846,
-          0.413658769038035
-        ]
+          0.0565419964048199,
+          0.07640170096477962
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 158,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
       "metrics_benign_invalid": {
         "total": 0,
@@ -2745,23 +3502,34 @@
         "rejection_rate": 0.0
       },
       "metrics_any_anomaly": {
-        "tp": 409,
-        "fp": 266,
-        "tn": 439,
-        "fn": 41,
-        "precision": 0.605925925925926,
-        "recall": 0.9088888888888889,
-        "f1": 0.727111111111111,
-        "false_positive_rate": 0.3773049645390071,
-        "false_negative_rate": 0.09111111111111111,
+        "tp": 407,
+        "fp": 158,
+        "tn": 2244,
+        "fn": 43,
+        "precision": 0.720353982300885,
+        "recall": 0.9044444444444445,
+        "f1": 0.8019704433497536,
+        "false_positive_rate": 0.06577851790174855,
+        "false_negative_rate": 0.09555555555555556,
         "wilson_fpr_ci": [
-          0.34228101432646846,
-          0.413658769038035
-        ]
+          0.0565419964048199,
+          0.07640170096477962
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 158,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
-      "fpr_on_legitimate_test": 0.3773049645390071,
-      "review_rate_legitimate": 0.19290780141843972,
-      "average_precision": 0.670227311188187,
+      "fpr_on_legitimate_test": 0.06577851790174855,
+      "review_rate_legitimate": 0.07119067443796837,
+      "average_precision": 0.7295723899853607,
       "per_family": {
         "sqli": {
           "recall": 1.0,
@@ -2769,8 +3537,8 @@
           "support": 84.0
         },
         "evasive": {
-          "recall": 0.646551724137931,
-          "review_rate": 0.0,
+          "recall": 0.6379310344827587,
+          "review_rate": 0.1810344827586207,
           "support": 116.0
         },
         "xss": {
@@ -2779,8 +3547,8 @@
           "support": 84.0
         },
         "traversal": {
-          "recall": 1.0,
-          "review_rate": 0.0,
+          "recall": 0.9880952380952381,
+          "review_rate": 0.011904761904761904,
           "support": 84.0
         },
         "repetitive": {
@@ -2800,7 +3568,7 @@
           "support": 126.0
         },
         "rule_evasive": {
-          "recall": 0.8305785123966942,
+          "recall": 0.8223140495867769,
           "support": 242.0
         },
         "size_distribution": {
@@ -2808,11 +3576,11 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.08544099930441,
-      "latency_ms_p95": 1.8498881001505652,
+      "latency_ms_median": 1.1415605004003737,
+      "latency_ms_p95": 1.569704349549283,
       "settings": {
-        "alert_threshold_percentile": 69.69809157330965,
-        "review_threshold_percentile": 57.033758158496966,
+        "alert_threshold_percentile": 66.96219627215594,
+        "review_threshold_percentile": 56.2158732477406,
         "isolation_alert_threshold": 0.0,
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
@@ -2824,22 +3592,22 @@
         "budget": 0.01,
         "selection": "highest_recall_with_test_fpr_at_most_budget",
         "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
-        "threshold_percentile": 97.12662834008549,
-        "recall_malicious": 0.11555555555555555,
-        "fpr_legitimate": 0.0,
+        "threshold_percentile": 96.44725847249202,
+        "recall_malicious": 0.17333333333333334,
+        "fpr_legitimate": 0.00041631973355537054,
         "includes_rule_alerts": false,
         "comparison": "score > threshold"
       },
       "fpr_by_legitimate_group": {
         "legitimate": {
-          "alerts": 3,
-          "support": 271,
-          "alert_rate": 0.01107011070110701
+          "alerts": 19,
+          "support": 1968,
+          "alert_rate": 0.009654471544715448
         },
         "difficult_legitimate": {
-          "alerts": 169,
+          "alerts": 45,
           "support": 340,
-          "alert_rate": 0.4970588235294118
+          "alert_rate": 0.1323529411764706
         },
         "distribution_shift": {
           "alerts": 94,
@@ -2849,47 +3617,77 @@
       },
       "base_rate": {
         "n_malicious": 450,
-        "n_legitimate_family": 705,
-        "note": "Precision on this file is not an operational detection rate. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
+        "n_legitimate_family": 2402,
+        "note": "Precision on this file is not an operational detection rate. Wilson k/n uses legitimate-family test rows (ordinary + difficult + shift) that share the same alert decision. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
         "rows": [
           {
             "name": "file_legitimate_mixture",
-            "prior": 0.38961038961038963,
-            "posterior_at_observed_fpr": 0.605925925925926,
-            "posterior_at_wilson_fpr_upper": 0.5837608030998351
+            "prior": 0.15778401122019636,
+            "posterior_at_observed_fpr": 0.720353982300885,
+            "posterior_at_wilson_fpr_upper": 0.6892266924857675
           },
           {
             "name": "prior_1pct",
             "prior": 0.01,
-            "posterior_at_observed_fpr": 0.02375429877057942,
-            "posterior_at_wilson_fpr_upper": 0.02171201273715254
+            "posterior_at_observed_fpr": 0.12195001468219231,
+            "posterior_at_wilson_fpr_upper": 0.10680464243609757
           },
           {
             "name": "prior_0_1pct",
             "prior": 0.001,
-            "posterior_at_observed_fpr": 0.0024055081293360746,
-            "posterior_at_wilson_fpr_upper": 0.002194567457363602
+            "posterior_at_observed_fpr": 0.013576743904030684,
+            "posterior_at_wilson_fpr_upper": 0.011711089549397523
           }
         ]
       },
-      "fpr_on_ordinary_test": 0.01107011070110701
+      "fpr_on_ordinary_test": 0.009654471544715448,
+      "average_precision_statistic_component": null,
+      "ordinary_content_slices": {
+        "in_distribution": {
+          "n": 1735,
+          "alerts": 19,
+          "alert_rate": 0.01095100864553314,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "in_distribution"
+        },
+        "unseen_content": {
+          "n": 233,
+          "alerts": 0,
+          "alert_rate": 0.0,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "unseen_content"
+        }
+      }
     },
     "rules_plus_stats": {
       "mode": "rules_plus_stats",
       "metrics_malicious": {
-        "tp": 298,
-        "fp": 96,
-        "tn": 609,
-        "fn": 152,
-        "precision": 0.7563451776649747,
-        "recall": 0.6622222222222223,
-        "f1": 0.7061611374407584,
-        "false_positive_rate": 0.13617021276595745,
-        "false_negative_rate": 0.3377777777777778,
+        "tp": 391,
+        "fp": 122,
+        "tn": 2280,
+        "fn": 59,
+        "precision": 0.7621832358674464,
+        "recall": 0.8688888888888889,
+        "f1": 0.8120456905503635,
+        "false_positive_rate": 0.0507910074937552,
+        "false_negative_rate": 0.13111111111111112,
         "wilson_fpr_ci": [
-          0.11281696175159012,
-          0.16346690452581036
-        ]
+          0.04270517572080735,
+          0.06031136259347632
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 122,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
       "metrics_benign_invalid": {
         "total": 0,
@@ -2897,23 +3695,34 @@
         "rejection_rate": 0.0
       },
       "metrics_any_anomaly": {
-        "tp": 298,
-        "fp": 96,
-        "tn": 609,
-        "fn": 152,
-        "precision": 0.7563451776649747,
-        "recall": 0.6622222222222223,
-        "f1": 0.7061611374407584,
-        "false_positive_rate": 0.13617021276595745,
-        "false_negative_rate": 0.3377777777777778,
+        "tp": 391,
+        "fp": 122,
+        "tn": 2280,
+        "fn": 59,
+        "precision": 0.7621832358674464,
+        "recall": 0.8688888888888889,
+        "f1": 0.8120456905503635,
+        "false_positive_rate": 0.0507910074937552,
+        "false_negative_rate": 0.13111111111111112,
         "wilson_fpr_ci": [
-          0.11281696175159012,
-          0.16346690452581036
-        ]
+          0.04270517572080735,
+          0.06031136259347632
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 122,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
-      "fpr_on_legitimate_test": 0.13617021276595745,
-      "review_rate_legitimate": 0.06666666666666667,
-      "average_precision": 0.8628253885767988,
+      "fpr_on_legitimate_test": 0.0507910074937552,
+      "review_rate_legitimate": 0.03455453788509576,
+      "average_precision": 0.8768482503964221,
       "per_family": {
         "sqli": {
           "recall": 1.0,
@@ -2921,13 +3730,13 @@
           "support": 84.0
         },
         "evasive": {
-          "recall": 0.31896551724137934,
-          "review_rate": 0.3275862068965517,
+          "recall": 0.49137931034482757,
+          "review_rate": 0.15517241379310345,
           "support": 116.0
         },
         "xss": {
-          "recall": 0.6190476190476191,
-          "review_rate": 0.38095238095238093,
+          "recall": 1.0,
+          "review_rate": 0.0,
           "support": 84.0
         },
         "traversal": {
@@ -2941,8 +3750,8 @@
           "support": 41.0
         },
         "oversized": {
-          "recall": 0.0,
-          "review_rate": 1.0,
+          "recall": 1.0,
+          "review_rate": 0.0,
           "support": 41.0
         }
       },
@@ -2952,19 +3761,19 @@
           "support": 126.0
         },
         "rule_evasive": {
-          "recall": 0.5413223140495868,
+          "recall": 0.756198347107438,
           "support": 242.0
         },
         "size_distribution": {
-          "recall": 0.5,
+          "recall": 1.0,
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.0858060013561044,
-      "latency_ms_p95": 1.8265155993503868,
+      "latency_ms_median": 1.1662229999274132,
+      "latency_ms_p95": 1.6429768002581102,
       "settings": {
-        "alert_threshold_percentile": 97.38292011019284,
-        "review_threshold_percentile": 95.48898071625345,
+        "alert_threshold_percentile": 97.03637180062866,
+        "review_threshold_percentile": 95.06061966771442,
         "isolation_alert_threshold": 0.0,
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
@@ -2976,22 +3785,22 @@
         "budget": 0.01,
         "selection": "highest_recall_with_test_fpr_at_most_budget",
         "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
-        "threshold_percentile": 99.79338842975206,
-        "recall_malicious": 0.6622222222222223,
-        "fpr_legitimate": 0.0,
+        "threshold_percentile": 99.95509654243376,
+        "recall_malicious": 0.6422222222222222,
+        "fpr_legitimate": 0.002497918401332223,
         "includes_rule_alerts": true,
         "comparison": "score > threshold"
       },
       "fpr_by_legitimate_group": {
         "legitimate": {
-          "alerts": 2,
-          "support": 271,
-          "alert_rate": 0.007380073800738007
+          "alerts": 23,
+          "support": 1968,
+          "alert_rate": 0.011686991869918699
         },
         "difficult_legitimate": {
-          "alerts": 0,
+          "alerts": 5,
           "support": 340,
-          "alert_rate": 0.0
+          "alert_rate": 0.014705882352941176
         },
         "distribution_shift": {
           "alerts": 94,
@@ -3001,47 +3810,77 @@
       },
       "base_rate": {
         "n_malicious": 450,
-        "n_legitimate_family": 705,
-        "note": "Precision on this file is not an operational detection rate. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
+        "n_legitimate_family": 2402,
+        "note": "Precision on this file is not an operational detection rate. Wilson k/n uses legitimate-family test rows (ordinary + difficult + shift) that share the same alert decision. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
         "rows": [
           {
             "name": "file_legitimate_mixture",
-            "prior": 0.38961038961038963,
-            "posterior_at_observed_fpr": 0.7563451776649746,
-            "posterior_at_wilson_fpr_upper": 0.7211233050554414
+            "prior": 0.15778401122019636,
+            "posterior_at_observed_fpr": 0.7621832358674465,
+            "posterior_at_wilson_fpr_upper": 0.7296574494281667
           },
           {
             "name": "prior_1pct",
             "prior": 0.01,
-            "posterior_at_observed_fpr": 0.046823077900282825,
-            "posterior_at_wilson_fpr_upper": 0.03931164726971279
+            "posterior_at_observed_fpr": 0.14733926111207507,
+            "posterior_at_wilson_fpr_upper": 0.12703585502550374
           },
           {
             "name": "prior_0_1pct",
             "prior": 0.001,
-            "posterior_at_observed_fpr": 0.004844479279007556,
-            "posterior_at_wilson_fpr_upper": 0.004038786065657071
+            "posterior_at_observed_fpr": 0.01683596106874693,
+            "posterior_at_wilson_fpr_upper": 0.014216127947543776
           }
         ]
       },
-      "fpr_on_ordinary_test": 0.007380073800738007
+      "fpr_on_ordinary_test": 0.011686991869918699,
+      "average_precision_statistic_component": 0.870806309623665,
+      "ordinary_content_slices": {
+        "in_distribution": {
+          "n": 1735,
+          "alerts": 23,
+          "alert_rate": 0.013256484149855908,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "in_distribution"
+        },
+        "unseen_content": {
+          "n": 233,
+          "alerts": 0,
+          "alert_rate": 0.0,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "unseen_content"
+        }
+      }
     },
     "rules_plus_full_stats": {
       "mode": "rules_plus_full_stats",
       "metrics_malicious": {
-        "tp": 409,
-        "fp": 266,
-        "tn": 439,
-        "fn": 41,
-        "precision": 0.605925925925926,
-        "recall": 0.9088888888888889,
-        "f1": 0.727111111111111,
-        "false_positive_rate": 0.3773049645390071,
-        "false_negative_rate": 0.09111111111111111,
+        "tp": 407,
+        "fp": 161,
+        "tn": 2241,
+        "fn": 43,
+        "precision": 0.7165492957746479,
+        "recall": 0.9044444444444445,
+        "f1": 0.7996070726915521,
+        "false_positive_rate": 0.06702747710241465,
+        "false_negative_rate": 0.09555555555555556,
         "wilson_fpr_ci": [
-          0.34228101432646846,
-          0.413658769038035
-        ]
+          0.05770239722338473,
+          0.07773523006749108
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 161,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
       "metrics_benign_invalid": {
         "total": 0,
@@ -3049,23 +3888,34 @@
         "rejection_rate": 0.0
       },
       "metrics_any_anomaly": {
-        "tp": 409,
-        "fp": 266,
-        "tn": 439,
-        "fn": 41,
-        "precision": 0.605925925925926,
-        "recall": 0.9088888888888889,
-        "f1": 0.727111111111111,
-        "false_positive_rate": 0.3773049645390071,
-        "false_negative_rate": 0.09111111111111111,
+        "tp": 407,
+        "fp": 161,
+        "tn": 2241,
+        "fn": 43,
+        "precision": 0.7165492957746479,
+        "recall": 0.9044444444444445,
+        "f1": 0.7996070726915521,
+        "false_positive_rate": 0.06702747710241465,
+        "false_negative_rate": 0.09555555555555556,
         "wilson_fpr_ci": [
-          0.34228101432646846,
-          0.413658769038035
-        ]
+          0.05770239722338473,
+          0.07773523006749108
+        ],
+        "wilson_fpr_population": {
+          "numerator_alerts": 161,
+          "denominator": 2402,
+          "split": "test",
+          "groups": [
+            "legitimate",
+            "difficult_legitimate",
+            "distribution_shift"
+          ],
+          "comparison": "alert decision on legitimate-family test rows"
+        }
       },
-      "fpr_on_legitimate_test": 0.3773049645390071,
-      "review_rate_legitimate": 0.19290780141843972,
-      "average_precision": 0.670227311188187,
+      "fpr_on_legitimate_test": 0.06702747710241465,
+      "review_rate_legitimate": 0.06994171523730225,
+      "average_precision": 0.8176046918083916,
       "per_family": {
         "sqli": {
           "recall": 1.0,
@@ -3073,8 +3923,8 @@
           "support": 84.0
         },
         "evasive": {
-          "recall": 0.646551724137931,
-          "review_rate": 0.0,
+          "recall": 0.6379310344827587,
+          "review_rate": 0.1810344827586207,
           "support": 116.0
         },
         "xss": {
@@ -3083,8 +3933,8 @@
           "support": 84.0
         },
         "traversal": {
-          "recall": 1.0,
-          "review_rate": 0.0,
+          "recall": 0.9880952380952381,
+          "review_rate": 0.011904761904761904,
           "support": 84.0
         },
         "repetitive": {
@@ -3104,7 +3954,7 @@
           "support": 126.0
         },
         "rule_evasive": {
-          "recall": 0.8305785123966942,
+          "recall": 0.8223140495867769,
           "support": 242.0
         },
         "size_distribution": {
@@ -3112,11 +3962,11 @@
           "support": 82.0
         }
       },
-      "latency_ms_median": 1.175882000097772,
-      "latency_ms_p95": 1.9050408991461154,
+      "latency_ms_median": 1.144468500115181,
+      "latency_ms_p95": 1.5594589995998827,
       "settings": {
-        "alert_threshold_percentile": 69.69809157330965,
-        "review_threshold_percentile": 57.033758158496966,
+        "alert_threshold_percentile": 66.96219627215594,
+        "review_threshold_percentile": 56.2158732477406,
         "isolation_alert_threshold": 0.0,
         "isolation_review_threshold": 0.0,
         "max_false_positive_rate_target": 0.01,
@@ -3128,22 +3978,22 @@
         "budget": 0.01,
         "selection": "highest_recall_with_test_fpr_at_most_budget",
         "note": "Descriptive read of the test sweep. The deployed cutoff is still fit on validation only.",
-        "threshold_percentile": 97.12662834008549,
-        "recall_malicious": 0.3466666666666667,
-        "fpr_legitimate": 0.0,
+        "threshold_percentile": 96.44725847249202,
+        "recall_malicious": 0.40444444444444444,
+        "fpr_legitimate": 0.002497918401332223,
         "includes_rule_alerts": true,
         "comparison": "score > threshold"
       },
       "fpr_by_legitimate_group": {
         "legitimate": {
-          "alerts": 3,
-          "support": 271,
-          "alert_rate": 0.01107011070110701
+          "alerts": 19,
+          "support": 1968,
+          "alert_rate": 0.009654471544715448
         },
         "difficult_legitimate": {
-          "alerts": 169,
+          "alerts": 48,
           "support": 340,
-          "alert_rate": 0.4970588235294118
+          "alert_rate": 0.1411764705882353
         },
         "distribution_shift": {
           "alerts": 94,
@@ -3153,30 +4003,49 @@
       },
       "base_rate": {
         "n_malicious": 450,
-        "n_legitimate_family": 705,
-        "note": "Precision on this file is not an operational detection rate. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
+        "n_legitimate_family": 2402,
+        "note": "Precision on this file is not an operational detection rate. Wilson k/n uses legitimate-family test rows (ordinary + difficult + shift) that share the same alert decision. The Wilson-upper column replaces a zero observed FPR with the interval's upper end.",
         "rows": [
           {
             "name": "file_legitimate_mixture",
-            "prior": 0.38961038961038963,
-            "posterior_at_observed_fpr": 0.605925925925926,
-            "posterior_at_wilson_fpr_upper": 0.5837608030998351
+            "prior": 0.15778401122019636,
+            "posterior_at_observed_fpr": 0.716549295774648,
+            "posterior_at_wilson_fpr_upper": 0.685508294300939
           },
           {
             "name": "prior_1pct",
             "prior": 0.01,
-            "posterior_at_observed_fpr": 0.02375429877057942,
-            "posterior_at_wilson_fpr_upper": 0.02171201273715254
+            "posterior_at_observed_fpr": 0.11995022431450462,
+            "posterior_at_wilson_fpr_upper": 0.1051651189397793
           },
           {
             "name": "prior_0_1pct",
             "prior": 0.001,
-            "posterior_at_observed_fpr": 0.0024055081293360746,
-            "posterior_at_wilson_fpr_upper": 0.002194567457363602
+            "posterior_at_observed_fpr": 0.013327132633770679,
+            "posterior_at_wilson_fpr_upper": 0.011512501507879512
           }
         ]
       },
-      "fpr_on_ordinary_test": 0.01107011070110701
+      "fpr_on_ordinary_test": 0.009654471544715448,
+      "average_precision_statistic_component": 0.7295723899853607,
+      "ordinary_content_slices": {
+        "in_distribution": {
+          "n": 1735,
+          "alerts": 19,
+          "alert_rate": 0.01095100864553314,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "in_distribution"
+        },
+        "unseen_content": {
+          "n": 233,
+          "alerts": 0,
+          "alert_rate": 0.0,
+          "split": "test",
+          "scenario_group": "legitimate",
+          "population": "unseen_content"
+        }
+      }
     }
   },
   "held_out_families": {
@@ -3204,10 +4073,10 @@
             "review_rate": 1.0
           },
           "full_stats": {
-            "alert_recall": 1.0,
-            "alerts": 84,
-            "reviews": 0,
-            "review_rate": 0.0
+            "alert_recall": 0.9880952380952381,
+            "alerts": 83,
+            "reviews": 1,
+            "review_rate": 0.011904761904761904
           },
           "rules_plus_stats": {
             "alert_recall": 1.0,
@@ -3216,10 +4085,10 @@
             "review_rate": 0.0
           },
           "rules_plus_full_stats": {
-            "alert_recall": 1.0,
-            "alerts": 84,
-            "reviews": 0,
-            "review_rate": 0.0
+            "alert_recall": 0.9880952380952381,
+            "alerts": 83,
+            "reviews": 1,
+            "review_rate": 0.011904761904761904
           }
         }
       },
@@ -3234,16 +4103,16 @@
             "review_rate": 0.25
           },
           "combined_stats": {
-            "alert_recall": 0.11904761904761904,
-            "alerts": 10,
-            "reviews": 32,
-            "review_rate": 0.38095238095238093
+            "alert_recall": 1.0,
+            "alerts": 84,
+            "reviews": 0,
+            "review_rate": 0.0
           },
           "ci_only": {
-            "alert_recall": 0.11904761904761904,
-            "alerts": 10,
-            "reviews": 53,
-            "review_rate": 0.6309523809523809
+            "alert_recall": 0.8690476190476191,
+            "alerts": 73,
+            "reviews": 11,
+            "review_rate": 0.13095238095238096
           },
           "full_stats": {
             "alert_recall": 1.0,
@@ -3252,10 +4121,10 @@
             "review_rate": 0.0
           },
           "rules_plus_stats": {
-            "alert_recall": 0.6190476190476191,
-            "alerts": 52,
-            "reviews": 32,
-            "review_rate": 0.38095238095238093
+            "alert_recall": 1.0,
+            "alerts": 84,
+            "reviews": 0,
+            "review_rate": 0.0
           },
           "rules_plus_full_stats": {
             "alert_recall": 1.0,
@@ -3272,14 +4141,14 @@
           "rules_only": {
             "alert_recall": 0.0,
             "alerts": 0,
-            "reviews": 20,
-            "review_rate": 0.4878048780487805
+            "reviews": 35,
+            "review_rate": 0.8536585365853658
           },
           "combined_stats": {
-            "alert_recall": 0.0,
-            "alerts": 0,
-            "reviews": 41,
-            "review_rate": 1.0
+            "alert_recall": 1.0,
+            "alerts": 41,
+            "reviews": 0,
+            "review_rate": 0.0
           },
           "ci_only": {
             "alert_recall": 1.0,
@@ -3294,10 +4163,10 @@
             "review_rate": 0.0
           },
           "rules_plus_stats": {
-            "alert_recall": 0.0,
-            "alerts": 0,
-            "reviews": 41,
-            "review_rate": 1.0
+            "alert_recall": 1.0,
+            "alerts": 41,
+            "reviews": 0,
+            "review_rate": 0.0
           },
           "rules_plus_full_stats": {
             "alert_recall": 1.0,
@@ -3323,15 +4192,15 @@
       "alert": 84
     },
     "median_percentile_by_component": {
-      "composition": 95.49302788844622,
-      "length": 72.4862258953168,
-      "length_ci": 0.0,
-      "length_stratified": 94.59661354581674,
-      "mahalanobis": 83.40530536705737,
-      "ngram": 76.06856634016029,
-      "payl": 94.73140495867769,
-      "proportion_ci": 86.85258964143426,
-      "regression": 65.18595041322314
+      "composition": 96.63705583756345,
+      "length": 97.62011674898967,
+      "length_ci": 93.99092970521542,
+      "length_stratified": 96.63705583756345,
+      "mahalanobis": 78.94736842105263,
+      "ngram": 69.33106575963718,
+      "payl": 95.53210597215985,
+      "proportion_ci": 96.63705583756345,
+      "regression": 95.24023349797935
     },
     "note": "Median per-type percentile of full_stats on test XSS rows. Rules-only can still review a medium-severity handler without alerting. These percentiles describe the row; the mode cutoff decides the label."
   },
@@ -3339,43 +4208,43 @@
     "mode": "combined_stats",
     "fraction": 0.01,
     "seed": 42,
-    "n_train_legitimate": 5376,
-    "n_replaced": 54,
+    "n_train_legitimate": 4027,
+    "n_replaced": 40,
     "n_malicious_train_pool": 1080,
     "clean": {
-      "recall": 0.5688888888888889,
-      "precision": 0.7272727272727273,
-      "false_positive_rate": 0.13617021276595745,
+      "recall": 0.8688888888888889,
+      "precision": 0.7696850393700787,
+      "false_positive_rate": 0.04870940882597835,
       "attack_slices": {
         "signature_easy": {
-          "recall": 0.6666666666666666,
+          "recall": 1.0,
           "support": 126.0
         },
         "rule_evasive": {
-          "recall": 0.5413223140495868,
+          "recall": 0.756198347107438,
           "support": 242.0
         },
         "size_distribution": {
-          "recall": 0.5,
+          "recall": 1.0,
           "support": 82.0
         }
       }
     },
     "contaminated": {
-      "recall": 0.5688888888888889,
-      "precision": 0.7272727272727273,
-      "false_positive_rate": 0.13617021276595745,
+      "recall": 0.8666666666666667,
+      "precision": 0.7692307692307693,
+      "false_positive_rate": 0.04870940882597835,
       "attack_slices": {
         "signature_easy": {
-          "recall": 0.6666666666666666,
+          "recall": 1.0,
           "support": 126.0
         },
         "rule_evasive": {
-          "recall": 0.5413223140495868,
+          "recall": 0.7520661157024794,
           "support": 242.0
         },
         "size_distribution": {
-          "recall": 0.5,
+          "recall": 1.0,
           "support": 82.0
         }
       }
@@ -3389,9 +4258,9 @@
       },
       {
         "field": "GET /search q",
-        "clean_median_length": 38.0,
-        "contaminated_median_length": 38.0,
-        "delta": 0.0
+        "clean_median_length": 68.0,
+        "contaminated_median_length": 68.5,
+        "delta": 0.5
       },
       {
         "field": "POST /comment author",
@@ -3401,20 +4270,20 @@
       },
       {
         "field": "POST /comment text",
-        "clean_median_length": 37.0,
-        "contaminated_median_length": 37.0,
+        "clean_median_length": 112.0,
+        "contaminated_median_length": 112.0,
         "delta": 0.0
       },
       {
         "field": "POST /login password",
-        "clean_median_length": 16.0,
-        "contaminated_median_length": 16.0,
+        "clean_median_length": 17.0,
+        "contaminated_median_length": 17.0,
         "delta": 0.0
       },
       {
         "field": "POST /login username",
-        "clean_median_length": 10.0,
-        "contaminated_median_length": 10.0,
+        "clean_median_length": 14.0,
+        "contaminated_median_length": 14.0,
         "delta": 0.0
       }
     ],

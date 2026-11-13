@@ -8,6 +8,7 @@ from typing import Any
 
 import numpy as np
 
+from anomaly_guard.core.decision import STATISTICS_ONLY_MODES
 from anomaly_guard.core.schema import GroundTruthMeta
 
 
@@ -73,6 +74,13 @@ class BinaryMetrics:
             "false_positive_rate": self.fpr,
             "false_negative_rate": self.fnr,
             "wilson_fpr_ci": [self.wilson_fpr_low, self.wilson_fpr_high],
+            "wilson_fpr_population": {
+                "numerator_alerts": self.fp,
+                "denominator": self.fp + self.tn,
+                "split": "test",
+                "groups": ["legitimate", "difficult_legitimate", "distribution_shift"],
+                "comparison": "alert decision on legitimate-family test rows",
+            },
         }
 
 
@@ -241,7 +249,9 @@ def base_rate_posteriors(
         "n_legitimate_family": n_legitimate,
         "note": (
             "Precision on this file is not an operational detection rate. "
-            "The Wilson-upper column replaces a zero observed FPR with the interval's upper end."
+            "Wilson k/n uses legitimate-family test rows (ordinary + difficult + shift) "
+            "that share the same alert decision. The Wilson-upper column replaces a zero "
+            "observed FPR with the interval's upper end."
         ),
         "rows": rows,
     }
@@ -349,7 +359,7 @@ _HYBRID_RANKING_MODES = frozenset({"rules_plus_stats", "rules_plus_full_stats"})
 
 def _statistic_ranking_score(score_dict: dict[str, Any]) -> float:
     comp = score_dict.get("component_scores") or {}
-    if comp.get("aggregate_percentile") is not None:
+    if "aggregate_percentile" in comp and comp["aggregate_percentile"] is not None:
         return float(comp["aggregate_percentile"])
     if comp.get("isolation_score") is not None:
         return float(-comp["isolation_score"])
@@ -372,13 +382,11 @@ def ranking_score_from_prediction(score_dict: dict[str, Any]) -> float:
         return float(-comp["isolation_score"])
     if mode == "rules_only":
         return _rules_ranking_score(score_dict)
-    stat = _statistic_ranking_score(score_dict)
+    if mode in STATISTICS_ONLY_MODES:
+        return _statistic_ranking_score(score_dict)
     rule = _rules_ranking_score(score_dict)
+    stat = _statistic_ranking_score(score_dict)
     if mode in _HYBRID_RANKING_MODES and rule > 0:
         rule_pct = min(100.0, 85.0 + rule * 5.0)
         return max(stat, rule_pct)
-    if stat > 0:
-        return stat
-    if comp.get("isolation_score") is not None:
-        return float(-comp["isolation_score"])
-    return rule
+    return stat

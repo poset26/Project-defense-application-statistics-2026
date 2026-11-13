@@ -2,43 +2,43 @@
   "mode": "combined_stats",
   "fraction": 0.01,
   "seed": 42,
-  "n_train_legitimate": 5376,
-  "n_replaced": 54,
+  "n_train_legitimate": 4027,
+  "n_replaced": 40,
   "n_malicious_train_pool": 1080,
   "clean": {
-    "recall": 0.5688888888888889,
-    "precision": 0.7272727272727273,
-    "false_positive_rate": 0.13617021276595745,
+    "recall": 0.8688888888888889,
+    "precision": 0.7696850393700787,
+    "false_positive_rate": 0.04870940882597835,
     "attack_slices": {
       "signature_easy": {
-        "recall": 0.6666666666666666,
+        "recall": 1.0,
         "support": 126.0
       },
       "rule_evasive": {
-        "recall": 0.5413223140495868,
+        "recall": 0.756198347107438,
         "support": 242.0
       },
       "size_distribution": {
-        "recall": 0.5,
+        "recall": 1.0,
         "support": 82.0
       }
     }
   },
   "contaminated": {
-    "recall": 0.5688888888888889,
-    "precision": 0.7272727272727273,
-    "false_positive_rate": 0.13617021276595745,
+    "recall": 0.8666666666666667,
+    "precision": 0.7692307692307693,
+    "false_positive_rate": 0.04870940882597835,
     "attack_slices": {
       "signature_easy": {
-        "recall": 0.6666666666666666,
+        "recall": 1.0,
         "support": 126.0
       },
       "rule_evasive": {
-        "recall": 0.5413223140495868,
+        "recall": 0.7520661157024794,
         "support": 242.0
       },
       "size_distribution": {
-        "recall": 0.5,
+        "recall": 1.0,
         "support": 82.0
       }
     }
@@ -52,9 +52,9 @@
     },
     {
       "field": "GET /search q",
-      "clean_median_length": 38.0,
-      "contaminated_median_length": 38.0,
-      "delta": 0.0
+      "clean_median_length": 68.0,
+      "contaminated_median_length": 68.5,
+      "delta": 0.5
     },
     {
       "field": "POST /comment author",
@@ -64,20 +64,20 @@
     },
     {
       "field": "POST /comment text",
-      "clean_median_length": 37.0,
-      "contaminated_median_length": 37.0,
+      "clean_median_length": 112.0,
+      "contaminated_median_length": 112.0,
       "delta": 0.0
     },
     {
       "field": "POST /login password",
-      "clean_median_length": 16.0,
-      "contaminated_median_length": 16.0,
+      "clean_median_length": 17.0,
+      "contaminated_median_length": 17.0,
       "delta": 0.0
     },
     {
       "field": "POST /login username",
-      "clean_median_length": 10.0,
-      "contaminated_median_length": 10.0,
+      "clean_median_length": 14.0,
+      "contaminated_median_length": 14.0,
       "delta": 0.0
     }
   ],

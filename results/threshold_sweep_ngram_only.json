@@ -2,175 +2,175 @@
   {
     "threshold_percentile": 0.0,
     "recall_malicious": 1.0,
-    "fpr_legitimate": 0.8780141843971632,
+    "fpr_legitimate": 0.8751040799333888,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 4.155535767289996,
+    "threshold_percentile": 4.164304610733182,
     "recall_malicious": 1.0,
-    "fpr_legitimate": 0.8780141843971632,
+    "fpr_legitimate": 0.8751040799333888,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 8.311071534579993,
+    "threshold_percentile": 8.328609221466364,
     "recall_malicious": 1.0,
-    "fpr_legitimate": 0.8780141843971632,
+    "fpr_legitimate": 0.8751040799333888,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 12.466607301869988,
+    "threshold_percentile": 12.492913832199545,
     "recall_malicious": 1.0,
-    "fpr_legitimate": 0.8780141843971632,
+    "fpr_legitimate": 0.8751040799333888,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 16.622143069159986,
+    "threshold_percentile": 16.657218442932727,
     "recall_malicious": 1.0,
-    "fpr_legitimate": 0.8780141843971632,
+    "fpr_legitimate": 0.8751040799333888,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 20.777678836449983,
+    "threshold_percentile": 20.82152305366591,
     "recall_malicious": 1.0,
-    "fpr_legitimate": 0.8780141843971632,
+    "fpr_legitimate": 0.8751040799333888,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 24.933214603739977,
+    "threshold_percentile": 24.98582766439909,
     "recall_malicious": 1.0,
-    "fpr_legitimate": 0.8780141843971632,
+    "fpr_legitimate": 0.8751040799333888,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 29.088750371029974,
+    "threshold_percentile": 29.150132275132272,
     "recall_malicious": 1.0,
-    "fpr_legitimate": 0.8780141843971632,
+    "fpr_legitimate": 0.8751040799333888,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 33.24428613831997,
+    "threshold_percentile": 33.314436885865454,
     "recall_malicious": 1.0,
-    "fpr_legitimate": 0.8780141843971632,
+    "fpr_legitimate": 0.8751040799333888,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 37.39982190560997,
-    "recall_malicious": 1.0,
-    "fpr_legitimate": 0.8780141843971632,
+    "threshold_percentile": 37.47874149659864,
+    "recall_malicious": 0.8733333333333333,
+    "fpr_legitimate": 0.43130724396336384,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 41.555357672899966,
-    "recall_malicious": 1.0,
-    "fpr_legitimate": 0.8780141843971632,
+    "threshold_percentile": 41.64304610733182,
+    "recall_malicious": 0.8733333333333333,
+    "fpr_legitimate": 0.43130724396336384,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 45.71089344018996,
-    "recall_malicious": 0.8022222222222222,
-    "fpr_legitimate": 0.6368794326241135,
+    "threshold_percentile": 45.807350718065,
+    "recall_malicious": 0.8733333333333333,
+    "fpr_legitimate": 0.43130724396336384,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 49.86642920747995,
-    "recall_malicious": 0.8022222222222222,
-    "fpr_legitimate": 0.6368794326241135,
+    "threshold_percentile": 49.97165532879818,
+    "recall_malicious": 0.8733333333333333,
+    "fpr_legitimate": 0.43130724396336384,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 54.02196497476995,
-    "recall_malicious": 0.8022222222222222,
-    "fpr_legitimate": 0.6368794326241135,
+    "threshold_percentile": 54.13595993953136,
+    "recall_malicious": 0.8733333333333333,
+    "fpr_legitimate": 0.43130724396336384,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 58.17750074205995,
-    "recall_malicious": 0.8022222222222222,
-    "fpr_legitimate": 0.6368794326241135,
+    "threshold_percentile": 58.300264550264544,
+    "recall_malicious": 0.8733333333333333,
+    "fpr_legitimate": 0.43130724396336384,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 62.333036509349945,
-    "recall_malicious": 0.62,
-    "fpr_legitimate": 0.2723404255319149,
+    "threshold_percentile": 62.464569160997726,
+    "recall_malicious": 0.8733333333333333,
+    "fpr_legitimate": 0.43130724396336384,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 66.48857227663994,
-    "recall_malicious": 0.62,
-    "fpr_legitimate": 0.2723404255319149,
+    "threshold_percentile": 66.62887377173091,
+    "recall_malicious": 0.8733333333333333,
+    "fpr_legitimate": 0.43130724396336384,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 70.64410804392993,
-    "recall_malicious": 0.62,
-    "fpr_legitimate": 0.2723404255319149,
+    "threshold_percentile": 70.79317838246409,
+    "recall_malicious": 0.5977777777777777,
+    "fpr_legitimate": 0.40924229808492923,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 74.79964381121994,
-    "recall_malicious": 0.62,
-    "fpr_legitimate": 0.2723404255319149,
+    "threshold_percentile": 74.95748299319727,
+    "recall_malicious": 0.39555555555555555,
+    "fpr_legitimate": 0.08368026644462948,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 78.95517957850993,
-    "recall_malicious": 0.62,
-    "fpr_legitimate": 0.2723404255319149,
+    "threshold_percentile": 79.12178760393046,
+    "recall_malicious": 0.39555555555555555,
+    "fpr_legitimate": 0.08368026644462948,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 83.11071534579993,
-    "recall_malicious": 0.62,
-    "fpr_legitimate": 0.2723404255319149,
+    "threshold_percentile": 83.28609221466364,
+    "recall_malicious": 0.39555555555555555,
+    "fpr_legitimate": 0.08368026644462948,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 87.26625111308992,
-    "recall_malicious": 0.62,
-    "fpr_legitimate": 0.2723404255319149,
+    "threshold_percentile": 87.45039682539682,
+    "recall_malicious": 0.39555555555555555,
+    "fpr_legitimate": 0.08368026644462948,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 91.42178688037993,
-    "recall_malicious": 0.62,
-    "fpr_legitimate": 0.2723404255319149,
+    "threshold_percentile": 91.61470143613,
+    "recall_malicious": 0.39555555555555555,
+    "fpr_legitimate": 0.08368026644462948,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 95.57732264766992,
-    "recall_malicious": 0.09111111111111111,
-    "fpr_legitimate": 0.14042553191489363,
+    "threshold_percentile": 95.77900604686319,
+    "recall_malicious": 0.0022222222222222222,
+    "fpr_legitimate": 0.03996669442131557,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   },
   {
-    "threshold_percentile": 99.73285841495992,
-    "recall_malicious": 0.09111111111111111,
-    "fpr_legitimate": 0.0,
+    "threshold_percentile": 99.94331065759637,
+    "recall_malicious": 0.0,
+    "fpr_legitimate": 0.00041631973355537054,
     "includes_rule_alerts": false,
     "comparison": "score > threshold"
   }

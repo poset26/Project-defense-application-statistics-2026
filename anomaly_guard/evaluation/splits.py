@@ -6,6 +6,7 @@ import hashlib
 from collections import defaultdict
 
 from anomaly_guard.core.schema import GroundTruthMeta, RequestRecord, ScenarioGroup
+from anomaly_guard.simulation.payload_family import is_holdout_content
 
 TRAIN_GROUPS: set[ScenarioGroup] = {"legitimate"}
 VALIDATION_GROUPS: set[ScenarioGroup] = {"legitimate", "difficult_legitimate", "distribution_shift"}
@@ -92,12 +93,11 @@ def assign_splits(
     for i, m in enumerate(meta):
         if i in family_split:
             split = family_split[i]
+        elif is_holdout_content(m) and m.scenario_group == "legitimate":
+            split = "test"
         elif m.scenario_group in _ROUTE_STRATIFIED_GROUPS and m.request_id in record_by_id:
             rec = record_by_id[m.request_id]
-            group_key = f"{rec.method.upper()} {rec.route}:{m.request_id}"
-            split = _bucket(group_key, train_ratio, val_ratio)
-            if m.scenario_group == "legitimate" and split == "test":
-                split = _bucket(group_key + ":leg", 0.7, 0.15)
+            split = _bucket(f"{rec.method.upper()} {rec.route}:{m.request_id}", train_ratio, val_ratio)
         else:
             group_key = f"{m.scenario_id}:{m.template_id or 'na'}:{m.request_id}"
             split = _bucket(group_key, train_ratio, val_ratio)

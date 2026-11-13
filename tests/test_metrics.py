@@ -49,6 +49,26 @@ def test_rules_only_ranking_is_not_constant_and_forest_ignores_other_scores():
     assert ranking_score_from_prediction(forest) == 0.42
 
 
+def test_statistical_only_ranking_ignores_rules_at_zero_percentile():
+    from anomaly_guard.evaluation.metrics import average_precision, ranking_score_from_prediction
+
+    with_rules = {
+        "mode": "ci_only",
+        "triggered_rules": [{"severity": "high", "rule_id": "SQL"}],
+        "component_scores": {"aggregate_percentile": 0.0},
+    }
+    without_rules = {
+        "mode": "ci_only",
+        "triggered_rules": [],
+        "component_scores": {"aggregate_percentile": 0.0},
+    }
+    assert ranking_score_from_prediction(with_rules) == ranking_score_from_prediction(without_rules) == 0.0
+    y = [False, True, False]
+    scores_with = [ranking_score_from_prediction(with_rules), 10.0, 0.0]
+    scores_without = [ranking_score_from_prediction(without_rules), 10.0, 0.0]
+    assert average_precision(y, scores_with) == average_precision(y, scores_without)
+
+
 def test_hybrid_ranking_boosts_rule_hits_above_stats():
     from anomaly_guard.evaluation.metrics import ranking_score_from_prediction
 

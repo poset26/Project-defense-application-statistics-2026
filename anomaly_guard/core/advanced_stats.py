@@ -2,6 +2,10 @@
 
 from __future__ import annotations
 
+# Near-singular OLS fits can yield ~1e-16 residual std; dividing by that amplifying noise.
+OLS_RESIDUAL_STD_FLOOR = 1e-3
+OLS_ABSOLUTE_RESID_TOLERANCE = 1e-9
+
 import math
 from dataclasses import asdict, dataclass, field
 from typing import Any
@@ -185,14 +189,14 @@ def fit_endpoint_extended(
             fep.ngram_mad[g] = mad if mad > 0 else 0.5
 
         if len(rows_y) >= 8:
-            X = np.array(rows_x, dtype=float)
-            y = np.array(rows_y, dtype=float)
+            paired = list(zip(rows_x, rows_y))
+            X = np.array([row[0] for row in paired], dtype=float)
+            y = np.array([row[1] for row in paired], dtype=float)
             beta, _, _, _ = np.linalg.lstsq(X, y, rcond=None)
             resid = y - X @ beta
             fep.ols_coef = beta.tolist()
-            fep.ols_residual_std = float(np.std(resid)) if len(resid) > 1 else 1.0
-            if fep.ols_residual_std <= 0:
-                fep.ols_residual_std = 1.0
+            std = float(np.std(resid, ddof=1)) if len(resid) > 1 else 1.0
+            fep.ols_residual_std = max(std, OLS_RESIDUAL_STD_FLOOR)
 
         ep.fields[fname] = fep
     return ep
@@ -282,10 +286,18 @@ def score_ols_residual(ff: Any, fep: FieldExtendedProfile) -> tuple[float | None
     beta = np.array(fep.ols_coef)
     y_hat = float(x @ beta)
     y = math.log1p(ff.char_length)
-    resid = abs(y - y_hat) / fep.ols_residual_std
+    raw_resid = abs(y - y_hat)
+    if raw_resid <= OLS_ABSOLUTE_RESID_TOLERANCE:
+        return (
+            0.0,
+            "OLS residual within numerical tolerance; treated as 0",
+        )
+    scale = max(float(fep.ols_residual_std), OLS_RESIDUAL_STD_FLOOR)
+    resid = raw_resid / scale
     return (
         resid,
-        f"OLS standardized residual {resid:.3f} on log1p(length)~entropy+digit+other",
+        f"OLS standardized residual {resid:.3f} on log1p(length)~entropy+digit+other "
+        f"(σ_floor={OLS_RESIDUAL_STD_FLOOR})",
     )
 
 

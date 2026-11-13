@@ -1,7 +1,7 @@
 {
   "mode": "rules_plus_stats",
-  "alert_threshold_percentile": 97.38292011019284,
-  "review_threshold_percentile": 95.48898071625345,
+  "alert_threshold_percentile": 97.03637180062866,
+  "review_threshold_percentile": 95.06061966771442,
   "isolation_alert_threshold": 0.0,
   "isolation_review_threshold": 0.0,
   "max_false_positive_rate_target": 0.01,

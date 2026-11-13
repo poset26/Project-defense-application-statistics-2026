@@ -23,6 +23,35 @@ def _project_root() -> Path:
     return Path(__file__).resolve().parent.parent
 
 
+def _run_metadata() -> dict[str, str]:
+    import subprocess
+
+    meta: dict[str, str] = {}
+    try:
+        meta["git_revision"] = (
+            subprocess.check_output(["git", "rev-parse", "HEAD"], stderr=subprocess.DEVNULL, text=True).strip()
+        )
+    except (OSError, subprocess.CalledProcessError):
+        pass
+    try:
+        import sys
+
+        meta["python"] = sys.version.split()[0]
+    except Exception:  # noqa: BLE001
+        pass
+    try:
+        from importlib.metadata import version
+
+        for package in ("numpy", "scikit-learn", "pandas", "statsmodels"):
+            try:
+                meta[package] = version(package)
+            except Exception:  # noqa: BLE001
+                meta[package] = "unavailable"
+    except Exception:  # noqa: BLE001
+        pass
+    return meta
+
+
 def cmd_generate(args: argparse.Namespace) -> None:
     plan = type(DEFAULT_PLAN)(**{**DEFAULT_PLAN.__dict__, "seed": args.seed})
     if args.small:
@@ -42,7 +71,12 @@ def cmd_generate(args: argparse.Namespace) -> None:
         out,
         records,
         meta,
-        manifest={"seed": plan.seed, "counts": len(records), "plan": plan.__dict__},
+        manifest={
+            "seed": plan.seed,
+            "counts": len(records),
+            "plan": plan.__dict__,
+            **_run_metadata(),
+        },
     )
     print(f"Wrote {len(records)} requests to {out}")
 

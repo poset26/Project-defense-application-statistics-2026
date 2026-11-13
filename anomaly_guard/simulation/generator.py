@@ -26,8 +26,22 @@ class GenerationPlan:
 
 DEFAULT_PLAN = GenerationPlan()
 
-# Weighted distribution within each scenario group (cycles by index % len(templates))
 _GROUP_WEIGHTS: dict[str, list[ScenarioTemplate]] = {}
+
+_DIVERSIFY_WORDS = (
+    "session",
+    "topic",
+    "query",
+    "note",
+    "item",
+    "area",
+    "focus",
+    "region",
+    "channel",
+    "period",
+    "variant",
+    "context",
+)
 
 
 def _init_weights() -> None:
@@ -86,13 +100,9 @@ def _stamp_json_text(body: str, token: str) -> str:
     return body + token
 
 
-def _with_unique_content(rec: RequestRecord, seq: int) -> RequestRecord:
-    """Give every row its own query or body so train and test cannot share a string.
-
-    The token is appended to a field the route already allows. Attack payloads
-    stay in place as a prefix; only a short reference is added.
-    """
-    token = f"ref{seq:05d}"
+def _diversify_record(rec: RequestRecord, rng: random.Random) -> RequestRecord:
+    """Embed seed-driven variation in allowed fields so payloads stay unique without ref blocks."""
+    token = f"{rng.choice(_DIVERSIFY_WORDS)}-{rng.randrange(1_000_000)}"
     headers = dict(rec.headers)
     content_type = ""
     for key, value in headers.items():
@@ -103,16 +113,18 @@ def _with_unique_content(rec: RequestRecord, seq: int) -> RequestRecord:
     body = rec.body
     if rec.method.upper() == "GET":
         query = _stamp_pair(query, "q", token, "+")
+        query = _stamp_pair(query, "ctx", rng.randrange(1_000_000_000), "")
     elif content_type == "application/json":
         body = _stamp_json_text(body, token)
     elif rec.route == "/login":
-        body = _stamp_pair(body, "password", token, "")
+        body = _stamp_pair(body, "username", token, "")
     else:
         body = _stamp_pair(body, "text", token, "+")
+    client_id = f"client-{rng.randrange(1_000_000):06d}"
     return RequestRecord(
         request_id=rec.request_id,
         timestamp=rec.timestamp,
-        client_id=rec.client_id,
+        client_id=client_id,
         method=rec.method,
         route=rec.route,
         raw_query=query,
@@ -148,13 +160,12 @@ def generate_dataset(
         if n <= 0:
             continue
         for i in range(n):
-            tmpl = _pick_template(group, i)
-            # Sequential ids follow the seed's generation order. uuid4() did not.
+            tmpl = _pick_template(group, rng.randrange(10_000_000) + i)
             rid = f"req-{seq:07d}"
             ts = (base + timedelta(milliseconds=t_offset)).isoformat()
             t_offset += rng.randint(1, 50)
-            rec, m = tmpl.builder(rid, ts, seq)
-            rec = _with_unique_content(rec, seq)
+            rec, m = tmpl.builder(rid, ts, rng.randrange(1_000_000))
+            rec = _diversify_record(rec, rng)
             key = _content_key(rec)
             if key in seen:
                 raise RuntimeError(f"Duplicate request content at {rid}")

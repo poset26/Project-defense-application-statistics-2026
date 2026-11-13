@@ -344,9 +344,23 @@ def _rules_ranking_score(score_dict: dict[str, Any]) -> float:
     return best + min(len(rules), 9) * 0.01
 
 
+_HYBRID_RANKING_MODES = frozenset({"rules_plus_stats", "rules_plus_full_stats"})
+
+
+def _statistic_ranking_score(score_dict: dict[str, Any]) -> float:
+    comp = score_dict.get("component_scores") or {}
+    if comp.get("aggregate_percentile") is not None:
+        return float(comp["aggregate_percentile"])
+    if comp.get("isolation_score") is not None:
+        return float(-comp["isolation_score"])
+    return 0.0
+
+
 def ranking_score_from_prediction(score_dict: dict[str, Any]) -> float:
     """Higher means more anomalous.
 
+    Hybrid modes rank by max(statistic percentile, rule severity) so AP reflects
+    rule overrides, not the statistical component alone.
     Isolation Forest must not fall through to another component's percentile.
     Rules-only has no percentile; its rank is the strongest triggered rule.
     """
@@ -358,8 +372,13 @@ def ranking_score_from_prediction(score_dict: dict[str, Any]) -> float:
         return float(-comp["isolation_score"])
     if mode == "rules_only":
         return _rules_ranking_score(score_dict)
-    if comp.get("aggregate_percentile") is not None:
-        return float(comp["aggregate_percentile"])
+    stat = _statistic_ranking_score(score_dict)
+    rule = _rules_ranking_score(score_dict)
+    if mode in _HYBRID_RANKING_MODES and rule > 0:
+        rule_pct = min(100.0, 85.0 + rule * 5.0)
+        return max(stat, rule_pct)
+    if stat > 0:
+        return stat
     if comp.get("isolation_score") is not None:
         return float(-comp["isolation_score"])
-    return _rules_ranking_score(score_dict)
+    return rule

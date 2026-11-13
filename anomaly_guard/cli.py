@@ -24,7 +24,7 @@ def _project_root() -> Path:
 
 
 def cmd_generate(args: argparse.Namespace) -> None:
-    plan = DEFAULT_PLAN
+    plan = type(DEFAULT_PLAN)(**{**DEFAULT_PLAN.__dict__, "seed": args.seed})
     if args.small:
         plan = type(plan)(
             legitimate=400,

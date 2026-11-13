@@ -190,17 +190,21 @@ def page_formulas() -> None:
         \mathrm{WilsonUpper}(k,n) = \frac{\hat{p} + \frac{z^2}{2n} + z\sqrt{\frac{\hat{p}(1-\hat{p})}{n} + \frac{z^2}{4n^2}}}{1 + z^2/n}
         $$
 
-        Used when discussing conservative false-positive rates in evaluation exports.
+        On the evaluation export this is the **upper end of a Wilson score interval** for the
+        **observed alert rate** among **ordinary legitimate validation** rows (same $k$, $n$
+        population as calibration for the 1% budget), not a post-hoc test-set recount.
 
-        ### Posterior odds (reporting only)
+        ### Posterior probability (reporting only)
 
-        With attack prior $\pi$ and alert rate $\mathrm{FPR}$ on legitimate traffic:
+        With attack prior $\pi$, malicious recall $\mathrm{TPR}$, and legitimate false-positive
+        rate $\mathrm{FPR}$ on held-out test traffic:
 
         $$
         P(\mathrm{attack}\mid\mathrm{alert}) \approx \frac{\pi \cdot \mathrm{TPR}}{\pi \cdot \mathrm{TPR} + (1-\pi)\cdot \mathrm{FPR}}
         $$
 
-        (TPR/FPR taken from held-out test metrics; priors are scenario assumptions, not measured live.)
+        This is a **posterior probability**, not posterior odds. TPR/FPR come from held-out test
+        metrics; priors are scenario assumptions, not measured live.
         """
     )
 
@@ -307,7 +311,9 @@ def explain_mode_metrics_columns() -> None:
         - **recall (attack)** — Fraction of attack test rows that received an **alert** (main detection rate).
         - **f1 (attack)** — Harmonic mean of attack precision and recall on **alert**.
         - **fpr (legit)** — Fraction of legitimate-family test rows (ordinary + difficult + shift) that got **alert**.
-        - **AP** — Average precision over alert scores for attack vs non-attack on the test split.
+        - **AP** — Ranking-based average precision on the test split. Hybrid modes use
+          max(statistic percentile, rule severity); see **AP (stat component)** for stats-only.
+        - **AP (stat component)** — Statistic percentile only (hybrid modes). Shown when exported.
         """
     )
 

@@ -86,6 +86,7 @@ class ExperimentResult:
     fpr_by_legitimate_group: dict[str, Any] | None = None
     base_rate: dict[str, Any] | None = None
     fpr_on_ordinary_test: float | None = None
+    average_precision_statistic_component: float | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -152,6 +153,12 @@ def run_mode_experiment(
     y_mal = [is_positive_malicious(m) for m in test_meta_ordered]
     scores = [ranking_score_from_prediction(p["score"]) for p in predictions]
     ap = average_precision(y_mal, scores)
+    ap_stat: float | None = None
+    if mode in ("rules_plus_stats", "rules_plus_full_stats"):
+        from anomaly_guard.evaluation.metrics import _statistic_ranking_score
+
+        stat_scores = [_statistic_ranking_score(p["score"]) for p in predictions]
+        ap_stat = average_precision(y_mal, stat_scores)
     fam_recall = per_family_recall(test_meta, {p["request_id"]: p["decision"] for p in predictions})
 
     slices: dict[str, Any] = {}
@@ -180,6 +187,7 @@ def run_mode_experiment(
         fpr_on_ordinary_test=(group_fpr.get("legitimate") or {}).get("alert_rate"),
         review_rate_legitimate=review_rate_on_legitimate(test_meta_ordered, decisions),
         average_precision=ap,
+        average_precision_statistic_component=ap_stat,
         per_family=fam_recall,
         attack_slices=slices,
         latency_ms_median=float(np.median(lat)),

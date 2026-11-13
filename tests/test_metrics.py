@@ -49,6 +49,22 @@ def test_rules_only_ranking_is_not_constant_and_forest_ignores_other_scores():
     assert ranking_score_from_prediction(forest) == 0.42
 
 
+def test_hybrid_ranking_boosts_rule_hits_above_stats():
+    from anomaly_guard.evaluation.metrics import ranking_score_from_prediction
+
+    low_stat_rule = {
+        "mode": "rules_plus_stats",
+        "triggered_rules": [{"severity": "high", "rule_id": "SQL"}],
+        "component_scores": {"aggregate_percentile": 40.0},
+    }
+    stats_only = {
+        "mode": "combined_stats",
+        "triggered_rules": [],
+        "component_scores": {"aggregate_percentile": 40.0},
+    }
+    assert ranking_score_from_prediction(low_stat_rule) > ranking_score_from_prediction(stats_only)
+
+
 def test_benign_invalid_rejection_rate():
     meta = [_meta("benign_invalid", f"b{i}") for i in range(4)]
     meta.append(_meta("legitimate", "l1"))

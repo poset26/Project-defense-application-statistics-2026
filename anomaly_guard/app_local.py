@@ -330,14 +330,17 @@ def page_evaluation() -> None:
         rows = []
         for mode, m in modes.items():
             mm = m.get("metrics_malicious", {})
-            rows.append({
+            row = {
                 "mode": mode,
                 "precision (attack)": mm.get("precision"),
                 "recall (attack)": mm.get("recall"),
                 "f1 (attack)": mm.get("f1"),
                 "fpr (legit)": mm.get("false_positive_rate"),
                 "AP": m.get("average_precision"),
-            })
+            }
+            if m.get("average_precision_statistic_component") is not None:
+                row["AP (stat component)"] = m["average_precision_statistic_component"]
+            rows.append(row)
         st.dataframe(pd.DataFrame(rows), use_container_width=True)
         explain_mode_metrics_columns()
         st.subheader("Attack slices and the 1% false-positive read")
